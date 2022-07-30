@@ -66,7 +66,7 @@ PROGRAM tico
      IF (error) THEN
         CALL errorMessage("tico", &
              "TRACE BACK (5)", 1)
-        STOP
+        RETURN
      END IF
   ELSE IF (get_cl_option("--utc_in=", .FALSE.)) THEN
      str = get_cl_option("--utc_in=", "")
@@ -74,7 +74,7 @@ PROGRAM tico
      IF (error) THEN
         CALL errorMessage("tico", &
              "TRACE BACK (10)", 1)
-        STOP
+        RETURN
      END IF
   ELSE IF (get_cl_option("--tt_in=", .FALSE.)) THEN
      str = get_cl_option("--tt_in=", "")
@@ -82,12 +82,12 @@ PROGRAM tico
      IF (error) THEN
         CALL errorMessage("tico", &
              "TRACE BACK (15)", 1)
-        STOP
+        RETURN
      END IF
   ELSE
      CALL errorMessage("tico", &
           "Input time/timescale not specified. Use the '--[tai|utc|tt]_in=' option.", 1)     
-     STOP
+     RETURN
   END IF
 
   ! Output
@@ -96,7 +96,7 @@ PROGRAM tico
      IF (error) THEN
         CALL errorMessage("tico", &
              "TRACE BACK (20)", 1)
-        STOP
+        RETURN
      END IF
      WRITE(stdout,'(F15.8)') mjd_out
   ELSE IF (get_cl_option("--tai_out", .FALSE.)) THEN
@@ -104,7 +104,7 @@ PROGRAM tico
      IF (error) THEN
         CALL errorMessage("tico", &
              "TRACE BACK (25)", 1)
-        STOP
+        RETURN
      END IF
      WRITE(stdout,'(F15.8)') mjd_out
   ELSE IF (get_cl_option("--tt_out", .FALSE.)) THEN
@@ -112,7 +112,7 @@ PROGRAM tico
      IF (error) THEN
         CALL errorMessage("tico", &
              "TRACE BACK (30)", 1)
-        STOP
+        RETURN
      END IF
      WRITE(stdout,'(F15.8)') mjd_out
   ELSE

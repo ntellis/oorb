@@ -2476,7 +2476,7 @@ CONTAINS
             tree%root%rchild%lchild%ukey, &
             tree%root%rchild%rchild%lkey, &
             tree%root%rchild%rchild%ukey
-       STOP
+       RETURN
     END IF
 
     ! Deallocate memory 
@@ -2659,7 +2659,7 @@ CONTAINS
             tree%root%rchild%lchild%ukey, &
             tree%root%rchild%rchild%lkey, &
             tree%root%rchild%rchild%ukey
-       STOP
+       RETURN
     END IF
 
     ! Deallocate memory 

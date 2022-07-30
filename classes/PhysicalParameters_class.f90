@@ -2225,7 +2225,7 @@ CONTAINS
                   repetition_arr=NINT(accepted_solutions(8*nstorb+3,1:iorb))) ! repetitions
              IF (LEN_TRIM(errstr) /= 0) THEN
                 WRITE(stderr,"(2A)") "Error: ", TRIM(errstr)
-                STOP
+                RETURN
              END IF
              bounds = (/ HUGE(probability_mass), -HUGE(probability_mass) /)
              DO k=1,iorb

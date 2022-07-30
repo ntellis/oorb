@@ -221,7 +221,7 @@ CONTAINS
        WRITE(0,*) "rstep:       ", rstep
        WRITE(0,*) "total:       ", total
        WRITE(0,*) "total*istep: ", total*istep
-       STOP
+       RETURN
     END IF
 
     ! Integration loop

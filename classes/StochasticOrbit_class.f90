@@ -6309,13 +6309,13 @@ CONTAINS
        IF (error) THEN
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (15)", 1)
-          STOP
+          RETURN
        END IF
        CALL setRangeBounds(storb)
        IF (error) THEN
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (20)", 1)
-          STOP
+          RETURN
        END IF
        !       storb%orb_ml_prm=getNominalOrbit(storb, ml_orbit=.true.)
        ! Optionally, use ML-orbit to start the next chain (TO BE TESTED!)
@@ -6332,7 +6332,7 @@ CONTAINS
        IF (error) THEN
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (10)", 1)
-          STOP
+          RETURN
        END IF
        this%sor_niter_cmp = 1
 
@@ -6341,13 +6341,13 @@ CONTAINS
        !IF (error) THEN
        !   CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
        !        "TRACE BACK (15)", 1)
-       !   STOP
+       !   RETURN
        !END IF
        CALL setRangeBounds(storb)
        IF (error) THEN
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (20)", 1)
-          STOP
+          RETURN
        END IF
        ! Optionally, use ML-orbit to start the next chain (TO BE TESTED!)
        IF (this%sor_iterate_bounds_prm(1)) THEN
@@ -6368,14 +6368,14 @@ CONTAINS
        IF (error) THEN
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (10)", 1)
-          STOP
+          RETURN
        END IF
        this%sor_niter_cmp = 2
        CALL setRangeBounds(storb)
        IF (error) THEN
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (20)", 1)
-          STOP
+          RETURN
        END IF
     END IF
 
@@ -6398,7 +6398,7 @@ CONTAINS
     IF (error) THEN
        CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
             "TRACE BACK (50)", 1)
-       STOP
+       RETURN
     END IF
     this%sor_niter_cmp = 3
 
@@ -6483,13 +6483,13 @@ CONTAINS
        IF (error) THEN
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (15)", 1)
-          STOP
+          RETURN
        END IF
        CALL setRangeBounds(storb)
        IF (error) THEN
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (20)", 1)
-          STOP
+          RETURN
        END IF
        !       storb%orb_ml_prm=getNominalOrbit(storb, ml_orbit=.true.)
        ! Optionally, use ML-orbit to start the next chain (TO BE TESTED!)
@@ -6504,7 +6504,7 @@ CONTAINS
        IF (error) THEN
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (10)", 1)
-          STOP
+          RETURN
        END IF
        this%sor_niter_cmp = 1
 
@@ -6513,13 +6513,13 @@ CONTAINS
        !IF (error) THEN
        !   CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
        !        "TRACE BACK (15)", 1)
-       !   STOP
+       !   RETURN
        !END IF
        CALL setRangeBounds(storb)
        IF (error) THEN
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (20)", 1)
-          STOP
+          RETURN
        END IF
        IF (storb%chi2_min_prm > storb%chi2_min_cmp) storb%chi2_min_prm = storb%chi2_min_cmp
        ! Optionally, use ML-orbit to start the next chain (TO BE TESTED!)
@@ -6538,14 +6538,14 @@ CONTAINS
        IF (error) THEN
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (10)", 1)
-          STOP
+          RETURN
        END IF
        this%sor_niter_cmp = 2
        CALL setRangeBounds(storb)
        IF (error) THEN
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (20)", 1)
-          STOP
+          RETURN
        END IF
 
     ENDIF
@@ -6569,7 +6569,7 @@ CONTAINS
     IF (error) THEN
        CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
             "TRACE BACK (50)", 1)
-       STOP
+       RETURN
     END IF
     this%sor_niter_cmp = 3
 

@@ -44,7 +44,7 @@ PROGRAM test
   CALL oorb_init(error_code=error_code, info_verbosity=1)
   IF (error_code /= 0) THEN
      WRITE(stderr,*) "Error in oorb_init. Code: ", error_code
-     STOP
+     RETURN
   END IF
 
   ! 2009 TL4 on 2009-11-12 (74 obs in 2009) from (Horizons & AstDyS)
@@ -109,7 +109,7 @@ PROGRAM test
        error_code)
   IF (error_code /= 0) THEN
      WRITE(stderr,*) "Error in oorb_ephemeris. Code: ", error_code
-     STOP
+     RETURN
   END IF
   WRITE(stdout,"(14(2X,A12))") "ID", "Delta", "RA", "Dec", &
        "Mag", "MJD", "Timescale", "dRA/dt", "dDec/dt", &
@@ -132,7 +132,7 @@ PROGRAM test
        error_code)
   IF (error_code /= 0) THEN
      WRITE(stderr,*) "Error in oorb_ephemeris. Code: ", error_code
-     STOP
+     RETURN
   END IF
   WRITE(stdout,"(9(2X,A12))") "ID", "Delta", "RA", "Dec", &
        "Mag", "MJD", "Timescale", "dRA/dt", "dDec/dt"

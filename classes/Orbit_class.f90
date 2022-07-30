@@ -1095,7 +1095,7 @@ CONTAINS
     CASE ("2-body amoeba")
 
        !! Minimization of the function func in N dimensions by the
-       !! downhill simplex method of Nelder and Mead. The (N + 1) × N
+       !! downhill simplex method of Nelder and Mead. The (N + 1) ï¿½ N
        !! matrix p is input. Its N + 1 rows are N-dimensional vectors that
        !! are the vertices of the starting simplex. Also input is the
        !! vector y of length N + 1, whose components must be preinitialized
@@ -1190,7 +1190,7 @@ CONTAINS
     CASE ("n-body amoeba")
 
        !! Minimization of the function func in N dimensions by the
-       !! downhill simplex method of Nelder and Mead. The (N + 1) × N
+       !! downhill simplex method of Nelder and Mead. The (N + 1) ï¿½ N
        !! matrix p is input. Its N + 1 rows are N-dimensional vectors that
        !! are the vertices of the starting simplex. Also input is the
        !! vector y of length N + 1, whose components must be preinitialized
@@ -1940,7 +1940,7 @@ CONTAINS
                 WRITE(lu,*) nam(2,:)/rad_deg
                 WRITE(lu,*) nam(3,:)/rad_deg
                 WRITE(lu,*) elements(4:6)/rad_deg
-                STOP
+                RETURN
              END IF
              IF (dist < 10.0E-10_bp) THEN
                 !WRITE(lu,"(A,6(1X,F10.6),1X,F10.4,3(1X,I0))") "NAM ", elements(1:2), elements(3:6)/rad_deg, mjd_tt, j, k, l
@@ -6597,7 +6597,7 @@ CONTAINS
 
   !! *Description*:
   !!
-  !! Returns Poincaré elements calculated from Delaunay's
+  !! Returns Poincarï¿½ elements calculated from Delaunay's
   !! elements. The mass of the target body is assumed to be negligible
   !! compared to the mass of the Sun.
   !  (&radic = square root)

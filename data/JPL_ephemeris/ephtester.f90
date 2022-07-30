@@ -54,7 +54,7 @@ PROGRAM ephtester
   CALL JPL_ephemeris_init(error, "de" // TRIM(eph_type) // ".dat")
   IF (error) THEN
      WRITE(0,*) "***** INITIALIZATION ERROR OCCURRED *****"     
-     STOP
+     RETURN
   END IF
   i = 0
   DO
@@ -65,7 +65,7 @@ PROGRAM ephtester
      ELSE IF (err > 0) THEN
         IF (error) THEN
            WRITE(0,*) "***** READ ERROR OCCURRED *****"     
-           STOP
+           RETURN
         END IF
      END IF
      i = i + 1
@@ -89,7 +89,7 @@ PROGRAM ephtester
      IF (ntarget /= 13 .and. &
           ABS(ephemeris(1,ncoord)-correct_value) > 10.0E-13_rprec8) THEN
         WRITE(0,*) "***** COMPARISON ERROR OCCURRED *****"
-        STOP
+        RETURN
      END IF
 
      IF (ASSOCIATED(ephemeris)) THEN

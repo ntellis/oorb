@@ -785,7 +785,7 @@ CONTAINS
     IF (norb == 0) THEN
        CALL errorMessage("oorb4mops / lsl", &
             "Initial orbit not available.", 1)
-       STOP
+       RETURN
     END IF
 
     IF (.NOT.exist(epoch)) THEN

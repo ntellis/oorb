@@ -585,14 +585,14 @@ CONTAINS
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (50)',1)
-             STOP
+             RETURN
           END IF
           CALL rotateToEquatorial(ccoord)
           obsy_obj = getPosition(ccoord)
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (55)',1)
-             STOP
+             RETURN
           END IF
           CALL NULLIFY(ccoord)
           ephemeris_r2 = DOT_PRODUCT(obsy_obj,obsy_obj)
@@ -601,14 +601,14 @@ CONTAINS
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (60)',1)
-             STOP
+             RETURN
           END IF
           heliocentric_r2 = DOT_PRODUCT(pos,pos)
           obsy_pos = getPosition(observers(j))
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (65)',1)
-             STOP
+             RETURN
           END IF
           geoc_obsy = obsy_pos - pos
           observer_r2 = DOT_PRODUCT(obsy_pos,obsy_pos)
@@ -625,7 +625,7 @@ CONTAINS
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (70)',1)
-             STOP
+             RETURN
           END IF
 
           ! ephem date
@@ -636,14 +636,14 @@ CONTAINS
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (75)',1)
-             STOP
+             RETURN
           END IF
           CALL rotateToEquatorial(obsy_ccoord)
           geoc_obsy = getPosition(obsy_ccoord)
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (80)',1)
-             STOP
+             RETURN
           END IF
 
           CALL NULLIFY(t)
@@ -652,7 +652,7 @@ CONTAINS
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (85)',1)
-             STOP
+             RETURN
           END IF
 
           geoc_obsy = getPosition(obsy_ccoord)
@@ -843,14 +843,14 @@ CONTAINS
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (50)',1)
-             STOP
+             RETURN
           END IF
           CALL rotateToEquatorial(ccoord)
           obsy_obj = getPosition(ccoord)
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (55)',1)
-             STOP
+             RETURN
           END IF
           CALL NULLIFY(ccoord)
           ephemeris_r2 = DOT_PRODUCT(obsy_obj,obsy_obj)
@@ -859,14 +859,14 @@ CONTAINS
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (60)',1)
-             STOP
+             RETURN
           END IF
           heliocentric_r2 = DOT_PRODUCT(pos,pos)
           obsy_pos = getPosition(observers(j))
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (65)',1)
-             STOP
+             RETURN
           END IF
           geoc_obsy = obsy_pos - pos
           observer_r2 = DOT_PRODUCT(obsy_pos,obsy_pos)
@@ -883,7 +883,7 @@ CONTAINS
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (70)',1)
-             STOP
+             RETURN
           END IF
 
           ! ephem date
@@ -894,14 +894,14 @@ CONTAINS
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (75)',1)
-             STOP
+             RETURN
           END IF
           CALL rotateToEquatorial(obsy_ccoord)
           geoc_obsy = getPosition(obsy_ccoord)
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (80)',1)
-             STOP
+             RETURN
           END IF
 
           CALL NULLIFY(t)
@@ -910,7 +910,7 @@ CONTAINS
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (85)',1)
-             STOP
+             RETURN
           END IF
 
           geoc_obsy = getPosition(obsy_ccoord)
@@ -1135,14 +1135,14 @@ CONTAINS
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (50)',1)
-             STOP
+             RETURN
           END IF
           CALL rotateToEquatorial(ccoord)
           obsy_obj = getPosition(ccoord)
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (55)',1)
-             STOP
+             RETURN
           END IF
           CALL NULLIFY(ccoord)
           ephemeris_r2 = DOT_PRODUCT(obsy_obj,obsy_obj)
@@ -1151,14 +1151,14 @@ CONTAINS
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (60)',1)
-             STOP
+             RETURN
           END IF
           heliocentric_r2 = DOT_PRODUCT(pos,pos)
           obsy_pos = getPosition(observers(j))
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (65)',1)
-             STOP
+             RETURN
           END IF
           observer_r2 = DOT_PRODUCT(obsy_pos,obsy_pos)
           cos_phase = 0.5_bp * (heliocentric_r2 + ephemeris_r2 - &
@@ -1171,7 +1171,7 @@ CONTAINS
           IF (error) THEN
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (70)',1)
-             STOP
+             RETURN
           END IF
 
           ! ephem date
