@@ -318,7 +318,7 @@ CONTAINS
 
     this%elements = getCoordinates(ccoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / new",&
             "TRACE BACK 1", 1)
        RETURN
@@ -384,7 +384,7 @@ CONTAINS
     tmp = element_type
     CALL locase(tmp, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / new", &
             "The element type string contains forbidden characters.", 1)
        RETURN
@@ -411,7 +411,7 @@ CONTAINS
        tmp = frame
        CALL locase(tmp, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / new", &
                "The frame string contains forbidden characters (5).", 1)
           RETURN
@@ -424,7 +424,7 @@ CONTAINS
        tmp = frame
        CALL locase(tmp, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / new", &
                "The frame string contains forbidden characters (10).", 1)
           RETURN
@@ -436,7 +436,7 @@ CONTAINS
        CALL NULLIFY(ccoord)
        CALL NULLIFY(scoord)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / new",&
                "TRACE BACK 1", 1)
           RETURN
@@ -819,7 +819,7 @@ CONTAINS
     ! Initialize this object (at least) temporarily:
     CALL NEW(this, ccoord_)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / new", &
             "Could not initialize this object temporarily.", 1)
        RETURN
@@ -865,7 +865,7 @@ CONTAINS
     method_ = method
     CALL locase(method_, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / new", &
             "The method string contains forbidden characters.", 1)
        RETURN
@@ -901,7 +901,7 @@ CONTAINS
           ntmax = INT(smamax/dp)
           cos_df = estimateCosDf(this, ccoord_, p2, y)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / new", &
                   "TRACE BACK 5", 1)
              CALL NULLIFY(this)
@@ -921,7 +921,7 @@ CONTAINS
              p2    = p1 + dp
              cos_df = estimateCosDf(this, ccoord_, p2, y)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / new", &
                      "TRACE BACK 10", 1)
                 CALL NULLIFY(this)
@@ -953,7 +953,7 @@ CONTAINS
              p2    = p1 + dp
              cos_df = estimateCosDf(this, ccoord_, p2, y)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / new", &
                      "TRACE BACK 15", 1)
                 CALL NULLIFY(this)
@@ -972,7 +972,7 @@ CONTAINS
           nsmax = INT(smamax/dp)
           cos_df = estimateCosDf(this, ccoord_, p2, y)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / new", &
                   "TRACE BACK 20", 1)
              CALL NULLIFY(this)
@@ -1000,7 +1000,7 @@ CONTAINS
              p2 = p2 + dp
              cos_df = estimateCosDf(this, ccoord_, p2, y)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / new", &
                      "TRACE BACK 25", 1)
                 CALL NULLIFY(this)
@@ -1137,7 +1137,7 @@ CONTAINS
             integration_step=this%integration_step_prm)
        y_vector(1) = distance_2b(orb_arr(1))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / new", &
                "TRACE BACK (20)", 1)
           RETURN
@@ -1171,7 +1171,7 @@ CONTAINS
                integration_step=this%integration_step_prm)
           y_vector(i) = distance_2b(orb_arr(i))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / new", &
                   "TRACE BACK (20)", 1)
              RETURN
@@ -1182,7 +1182,7 @@ CONTAINS
           iter = iter_
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / new", &
                "TRACE BACK (25)", 1)
           RETURN
@@ -1224,14 +1224,14 @@ CONTAINS
        err_verb = 0
        CALL NEW(orb, ccoord0, ccoord1, "continued fraction", smamax, center=center_)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error = .FALSE.
           CALL NULLIFY(orb)
           CALL NEW(orb, ccoord0, ccoord1, "p-iteration", smamax, center=center_)          
        END IF
        err_verb = err_verb_tmp
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / new", &
                "Could not solve the 2-point boundary value " // & 
                "problem in the 2-body approximation.", 1)
@@ -1251,7 +1251,7 @@ CONTAINS
             integration_step=this%integration_step_prm)
        y_vector(1) = distance(orb_arr(1))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / new", &
                "TRACE BACK (20)", 1)
           RETURN
@@ -1287,7 +1287,7 @@ CONTAINS
                integration_step=this%integration_step_prm)
           y_vector(i) = distance(orb_arr(i))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / new", &
                   "TRACE BACK (20)", 1)
              RETURN
@@ -1298,7 +1298,7 @@ CONTAINS
           iter = iter_
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / new", &
                "TRACE BACK (25)", 1)
           RETURN
@@ -1391,7 +1391,7 @@ CONTAINS
          ! point, i.e., reflect the simplex from the high point.
          ytry = amotry_2b(-1.0_bp) 
          IF (error) THEN
-       error = 0
+       error = .FALSE.
             CALL errorMessage("Orbit / new", &
                  "TRACE BACK (30)", 1)
             RETURN
@@ -1402,7 +1402,7 @@ CONTAINS
             ! additional extrapolation by a factor of 2.  
             ytry = amotry_2b(2.0_bp)
             IF (error) THEN
-       error = 0
+       error = .FALSE.
                CALL errorMessage("Orbit / new", &
                     "TRACE BACK (35)", 1)
                RETURN
@@ -1415,7 +1415,7 @@ CONTAINS
             ysave = y_vector(ihi) 
             ytry = amotry_2b(0.5_bp)
             IF (error) THEN
-       error = 0
+       error = .FALSE.
                CALL errorMessage("Orbit / new", &
                     "TRACE BACK (40)", 1)
                RETURN
@@ -1430,7 +1430,7 @@ CONTAINS
                      elements(4:6) = p_matrix(i,:)
                      CALL NEW(orb, elements, "cartesian", frame, t0, center=center_)
                      IF (error) THEN
-       error = 0
+       error = .FALSE.
                         CALL errorMessage("Orbit / new", &
                              "TRACE BACK (45)", 1)
                         RETURN
@@ -1442,14 +1442,14 @@ CONTAINS
                           integrator=this%integrator_prm, &
                           integration_step=this%integration_step_prm)
                      IF (error) THEN
-       error = 0
+       error = .FALSE.
                         CALL errorMessage("Orbit / new", &
                              "TRACE BACK (45)", 1)
                         RETURN
                      END IF
                      y_vector(i) = distance_2b(orb)
                      IF (error) THEN
-       error = 0
+       error = .FALSE.
                         CALL errorMessage("Orbit / new", &
                              "TRACE BACK (50)", 1)
                         RETURN
@@ -1524,7 +1524,7 @@ CONTAINS
          ! point, i.e., reflect the simplex from the high point.
          ytry = amotry(-1.0_bp) 
          IF (error) THEN
-       error = 0
+       error = .FALSE.
             CALL errorMessage("Orbit / new", &
                  "TRACE BACK (30)", 1)
             RETURN
@@ -1535,7 +1535,7 @@ CONTAINS
             ! additional extrapolation by a factor of 2.  
             ytry = amotry(2.0_bp)
             IF (error) THEN
-       error = 0
+       error = .FALSE.
                CALL errorMessage("Orbit / new", &
                     "TRACE BACK (35)", 1)
                RETURN
@@ -1548,7 +1548,7 @@ CONTAINS
             ysave = y_vector(ihi) 
             ytry = amotry(0.5_bp)
             IF (error) THEN
-       error = 0
+       error = .FALSE.
                CALL errorMessage("Orbit / new", &
                     "TRACE BACK (40)", 1)
                RETURN
@@ -1563,7 +1563,7 @@ CONTAINS
                      elements(4:6) = p_matrix(i,:)
                      CALL NEW(orb, elements, "cartesian", frame, t0, center=center_)
                      IF (error) THEN
-       error = 0
+       error = .FALSE.
                         CALL errorMessage("Orbit / new", &
                              "TRACE BACK (45)", 1)
                         RETURN
@@ -1575,14 +1575,14 @@ CONTAINS
                           integrator=this%integrator_prm, &
                           integration_step=this%integration_step_prm)
                      IF (error) THEN
-       error = 0
+       error = .FALSE.
                         CALL errorMessage("Orbit / new", &
                              "TRACE BACK (45)", 1)
                         RETURN
                      END IF
                      y_vector(i) = distance(orb)
                      IF (error) THEN
-       error = 0
+       error = .FALSE.
                         CALL errorMessage("Orbit / new", &
                              "TRACE BACK (50)", 1)
                         RETURN
@@ -1622,7 +1622,7 @@ CONTAINS
       elements(4:6) = ptry
       CALL NEW(orb, elements, "cartesian", frame, t0, center=center_)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (55)", 1)
          RETURN
@@ -1634,14 +1634,14 @@ CONTAINS
            integrator=this%integrator_prm, &
            integration_step=this%integration_step_prm)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (45)", 1)
          RETURN
       END IF
       ytry = distance_2b(orb)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (60)", 1)
          RETURN
@@ -1682,7 +1682,7 @@ CONTAINS
       elements(4:6) = ptry
       CALL NEW(orb, elements, "cartesian", frame, t0, center=center_)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (55)", 1)
          RETURN
@@ -1694,14 +1694,14 @@ CONTAINS
            integrator=this%integrator_prm, &
            integration_step=this%integration_step_prm)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (45)", 1)
          RETURN
       END IF
       ytry = distance(orb)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (60)", 1)
          RETURN
@@ -1729,14 +1729,14 @@ CONTAINS
 
       CALL propagate(orb, t1)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (65)", 1)
          RETURN
       END IF
       pos_orb = getPosition(orb)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (75)", 1)
          RETURN
@@ -1757,14 +1757,14 @@ CONTAINS
 
       CALL propagate(orb, t1)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (65)", 1)
          RETURN
       END IF
       pos_orb1 = getPosition(orb)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (75)", 1)
          RETURN
@@ -1804,14 +1804,14 @@ CONTAINS
     ! Transform to Cartesian coordinates:
     CALL NEW(ccoord, scoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / new",&
             "TRACE BACK 1", 1)
        RETURN
     END IF
     this%elements = getCoordinates(ccoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / new",&
             "TRACE BACK 2", 1)
        RETURN
@@ -1996,7 +1996,7 @@ CONTAINS
                    CALL NEW(orb_arr(i+1), elements, "keplerian", "ecliptic", t)
                 END IF
                 IF (error) THEN
-       error = 0
+       error = .FALSE.
                    CALL errorMessage("Orbit / new_Orb_aeixyzt", &
                         "TRACE BACK 5",1)
                    RETURN
@@ -2127,19 +2127,19 @@ CONTAINS
     elements = (/ param(1:3), vel /)
     CALL NEW(t, param(7), "TT")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        errstr = "error12"
        RETURN
     END IF
     CALL NEW(orb, elements, "cartesian", "ecliptic", t)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        errstr = "error13"
        RETURN
     END IF
     elements = getCometaryElements(orb, qei_only=.TRUE.)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        errstr = "error14"
        RETURN
     END IF
@@ -2170,7 +2170,7 @@ CONTAINS
     elements = (/ param(1:3), nam /)
     CALL NEW(t, param(7), "TT")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        RETURN
     END IF
     IF (PRESENT(center)) THEN
@@ -2179,12 +2179,12 @@ CONTAINS
        CALL NEW(orb, elements, "keplerian", "ecliptic", t)
     END IF
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        RETURN
     END IF
     elements = getCartesianElements(orb, "ecliptic")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(orb)
@@ -2222,7 +2222,7 @@ CONTAINS
 
     elements = getCartesianElements(this,"equatorial")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / boundOrbit", &
             "TRACE BACK 1",1)
        RETURN
@@ -2367,7 +2367,7 @@ CONTAINS
     t1 = getTime(ccoord)
     CALL propagate(orb, t1)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / estimateCosDf", &
             "TRACE BACK 4", 1)
        RETURN
@@ -2652,7 +2652,7 @@ CONTAINS
     frame_ = frame
     CALL locase(frame_, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getCartesianElements", &
             "The frame string contains forbidden characters.", 1)
        RETURN
@@ -2698,28 +2698,28 @@ CONTAINS
        ! the orbital elements:
        CALL NEW(t, this%elements(6), "TT")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (10)", 1)
           RETURN
        END IF
        CALL NEW(this_, celements, "cartesian", "ecliptic", t)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (15)", 1)
           RETURN
        END IF
        CALL setParameters(this_, dyn_model="2-body")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (20)", 1)
           RETURN
        END IF
        CALL propagate(this_, this%t)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (25)", 1)
           RETURN
@@ -2728,7 +2728,7 @@ CONTAINS
        ! Return the Cartesian elements:
        getCartesianElements = getElements(this_, "cartesian", frame_)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (30)", 1)
           RETURN
@@ -2740,21 +2740,21 @@ CONTAINS
 
        this_ = copy(this)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (35)", 1)
           RETURN
        END IF
        CALL toCometary(this_)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (40)", 1)
           RETURN
        END IF
        getCartesianElements = getElements(this_, "cartesian", frame_)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (45)", 1)
           RETURN
@@ -2766,7 +2766,7 @@ CONTAINS
        ! Compute needed quantities:
        CALL solveKeplerEquation(this, this%t, ea)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -2838,7 +2838,7 @@ CONTAINS
        frame_ = frame
        CALL locase(frame_, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getCCoord", &
                "The frame string contains forbidden characters.", 1)
           RETURN
@@ -2854,7 +2854,7 @@ CONTAINS
 
     celements(1:6) = getCartesianElements(this, frame=frame_)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getCCoord", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -2862,7 +2862,7 @@ CONTAINS
 
     CALL NEW(getCCoord_Orb, celements, frame_, copy(this%t))
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getCCoord", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -3143,7 +3143,7 @@ CONTAINS
           x = s**2.0_bp * alpha
           CALL getStumpffFunctions(x, stumpff_c)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / getCometaryElements", &
                   "TRACE BACK (10)", 1)
              RETURN
@@ -3262,7 +3262,7 @@ CONTAINS
 
     kep = getElements(this, "keplerian")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getDelaunayElements", &
             "TRACE BACK", 1)
        RETURN
@@ -3309,7 +3309,7 @@ CONTAINS
     element_type_ = element_type
     CALL locase(element_type_, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getElements", &
             "The element type string ('" // TRIM(element_type_) &
             // "') contains forbidden characters.", 1)
@@ -3354,7 +3354,7 @@ CONTAINS
        RETURN       
     END SELECT
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getElements", &
             "TRACE BACK", 1)
        RETURN       
@@ -3442,7 +3442,7 @@ CONTAINS
                lt_corr=lt_corr_, partials_arr=partials_arr_)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getEphemerides (single)", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(partials_arr_, stat=err)
@@ -3482,7 +3482,7 @@ CONTAINS
                lt_corr=lt_corr_)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getEphemerides (single)", &
                "TRACE BACK (10)", 1)
           DEALLOCATE(ephemerides_arr, stat=err)
@@ -3816,7 +3816,7 @@ CONTAINS
                   this_lt_corr_arr=this_lt_corr_arr_, &
                   this_prop_arr=this_prop_arr_next)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / getEphemerides (multiple)", &
                      "TRACE BACK (5)", 1)
                 DEALLOCATE(this_prop_arr_current, stat=err)
@@ -3866,7 +3866,7 @@ CONTAINS
                   jacobian_prop_arr=jacobian_prop_arr, &
                   this_prop_arr=this_prop_arr_next)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / getEphemerides (multiple)", &
                      "TRACE BACK (10)", 1)
                 DEALLOCATE(this_prop_arr_current, stat=err)
@@ -3921,7 +3921,7 @@ CONTAINS
                   this_lt_corr_arr=this_lt_corr_arr_, &
                   this_prop_arr=this_prop_arr_next)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / getEphemerides (multiple)", &
                      "TRACE BACK (15)", 1)
                 DEALLOCATE(this_prop_arr_current, stat=err)
@@ -3965,7 +3965,7 @@ CONTAINS
                   lt_corr=lt_corr_, &
                   this_prop_arr=this_prop_arr_next)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / getEphemerides (multiple)", &
                      "TRACE BACK (20)", 1)
                 DEALLOCATE(this_prop_arr_current, stat=err)
@@ -4376,7 +4376,7 @@ CONTAINS
     END IF
     CALL NULLIFY(this_arr(1))
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getEphemeris (single)", &
             "TRACE BACK (5)", 1)
        DEALLOCATE(partials_arr, stat=err)
@@ -4658,7 +4658,7 @@ CONTAINS
        CALL propagate(this_arr_, t_observer)
     END IF
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getEphemeris (multiple)", &
             "TRACE BACK (5)", 1)
        DEALLOCATE(this_arr_, stat=err)
@@ -4726,7 +4726,7 @@ CONTAINS
           ! Light-time correction:
           t_emit = getLightTimeCorrectedTime(this_1, observer_)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / getEphemeris (multiple)", &
                   "TRACE BACK 10", 1)
              DEALLOCATE(this_arr_, stat=err)
@@ -4765,7 +4765,7 @@ CONTAINS
              CALL propagate(this_1, t_emit)
           END IF
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / getEphemeris (multiple)", &
                   "TRACE BACK 15", 1)
              DEALLOCATE(this_arr_, stat=err)
@@ -4806,7 +4806,7 @@ CONTAINS
        IF (PRESENT(this_lt_corr_arr)) THEN
           this_lt_corr_arr(i) = copy(this_1)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / getEphemeris (multiple)", &
                   "TRACE BACK 20", 1)
              DEALLOCATE(this_arr_, stat=err)
@@ -4866,7 +4866,7 @@ CONTAINS
             observer_coordinates(1:6) + solar_motion_correction
        ephemeris(i) = getSCoord(this_1, frame="equatorial")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getEphemeris (multiple)", &
                "TRACE BACK 25", 1)
           DEALLOCATE(this_arr_, stat=err)
@@ -4935,7 +4935,7 @@ CONTAINS
              CALL partialsSCoordWrtCartesian_d(this_1, scoord_partials)
 
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / getEphemeris (multiple)", &
                      "TRACE BACK 30", 1)
                 DEALLOCATE(this_arr_, stat=err)
@@ -4969,7 +4969,7 @@ CONTAINS
              ! Topocentric equatorial coordinates wrt cometary orbital elements.
              CALL partialsSCoordWrtCometary(this_2, observer_, scoord_partials)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / getEphemeris (multiple)", &
                      "TRACE BACK 35", 1)
                 DEALLOCATE(this_arr_, stat=err)
@@ -5003,7 +5003,7 @@ CONTAINS
              ! Topocentric equatorial coordinates wrt Keplerian orbital elements.
              CALL partialsSCoordWrtKeplerian(this_2, observer_, scoord_partials)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / getEphemeris (multiple)", &
                      "TRACE BACK 35", 1)
                 DEALLOCATE(this_arr_, stat=err)
@@ -5346,21 +5346,21 @@ CONTAINS
 
        this_ = copy(this)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getKeplerianElements", &
                "TRACE BACK (5)", 1)
           RETURN
        END IF
        CALL toCometary(this_)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getKeplerianElements", &
                "TRACE BACK (10)", 1)
           RETURN
        END IF
        getKeplerianElements = getElements(this_, "keplerian")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getKeplerianElements", &
                "TRACE BACK (15)", 1)
           RETURN
@@ -5405,7 +5405,7 @@ CONTAINS
 
     elements = getElements(this, "cartesian", "ecliptic")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getKVector", &
             "TRACE BACK", 1)
        RETURN
@@ -5477,7 +5477,7 @@ CONTAINS
     CALL NULLIFY(observer_)
     CALL NEW(getLightTimeCorrectedTime, mjd_tt-lt, "TT")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getLightTimeCorrectedTime", &
             "TRACE BACK 1", 1)
        RETURN
@@ -5501,7 +5501,7 @@ CONTAINS
 !!$       CALL NULLIFY(getLightTimeCorrectedTime)
 !!$       CALL NEW(getLightTimeCorrectedTime, mjd_tt-lt, "TT")
 !!$       IF (error) THEN
-       error = 0
+       error = .FALSE.
 !!$          CALL errorMessage("Orbit / getLightTimeCorrectedTime", &
 !!$               "TRACE BACK 1", 1)
 !!$          RETURN
@@ -5566,7 +5566,7 @@ CONTAINS
        t = getTime(this_)
        CALL propagate(that_, t)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getMOID", &
                "TRACE TRACK (5).", 1)
           RETURN
@@ -5577,7 +5577,7 @@ CONTAINS
     CALL toKeplerian(this_)
     CALL toKeplerian(that_)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getMOID", &
             "TRACE TRACK (10).", 1)
        RETURN
@@ -5596,14 +5596,14 @@ CONTAINS
     ! Orbital parameters:
     elem1 = getElements(this_, "keplerian")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getMOID", &
             "TRACE TRACK (15).", 1)
        RETURN
     END IF
     elem2 = getElements(that_, "keplerian")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getMOID", &
             "TRACE TRACK (20).", 1)
        RETURN
@@ -6252,7 +6252,7 @@ CONTAINS
 
     elements = getElements(this,"keplerian")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getPeriapsisTime", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -6260,7 +6260,7 @@ CONTAINS
     t_ = copy(this%t)
     tt_mjd = getMJD(t_, "TT")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getPeriapsisTime", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -6279,7 +6279,7 @@ CONTAINS
        t_ = copy(t)
        tt_mjd = getMJD(t_, "TT")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getPeriapsisTime", &
                "TRACE BACK (15)", 1)
           RETURN
@@ -6309,7 +6309,7 @@ CONTAINS
 
     CALL NEW(getPeriapsisTime, tt_mjd_periapsis, "TT")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getPeriapsisTime", &
             "TRACE BACK (20)", 1)
        RETURN
@@ -6371,14 +6371,14 @@ CONTAINS
             this_lt_corr=this_lt_corr)
     END IF
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getPhaseAngle", &
             "TRACE BACK 5", 1)
        RETURN
     END IF
     CALL NEW(ephemeris_ccoord, ephemeris_scoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getPhaseAngle", &
             "TRACE BACK 10", 1)
        RETURN
@@ -6506,7 +6506,7 @@ CONTAINS
          this_lt_corr_arr=this_lt_corr_arr)
 !!$    END IF
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getPhaseAngles", &
             "TRACE BACK 5", 1)
        RETURN
@@ -6516,7 +6516,7 @@ CONTAINS
 
        CALL NEW(ephemeris_ccoord, ephemerides(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getPhaseAngles", &
                "TRACE BACK 10", 1)
           RETURN
@@ -6632,7 +6632,7 @@ CONTAINS
 
     elements = getElements(this,"keplerian")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getPlaneCrossingTime", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -6641,7 +6641,7 @@ CONTAINS
     t_ = copy(this%t)
     tt_mjd = getMJD(t_, "TT")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getPlaneCrossingTime", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -6660,7 +6660,7 @@ CONTAINS
        t_ = copy(t)
        tt_mjd = getMJD(t_, "TT")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getPlaneCrossingTime", &
                "TRACE BACK (15)", 1)
           RETURN
@@ -6690,7 +6690,7 @@ CONTAINS
 
     CALL NEW(getPlaneCrossingTime, tt_mjd_planecrossing, "TT")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getPlaneCrossingTime", &
             "TRACE BACK (20)", 1)
        RETURN
@@ -6734,7 +6734,7 @@ CONTAINS
 
     de = getDelaunayElements(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getPoincareElements", &
             "TRACE BACK", 1)
        RETURN
@@ -6777,7 +6777,7 @@ CONTAINS
 
     celements(1:6) = getCartesianElements(this, this%frame)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getPosition", &
             "TRACE BACK", 1)
        RETURN
@@ -6816,7 +6816,7 @@ CONTAINS
        frame_ = frame
        CALL locase(frame_, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getSCoord", &
                "The frame string contains forbidden characters.", 1)
           RETURN
@@ -6834,7 +6834,7 @@ CONTAINS
     ! orbit -> cartesian coordinates
     ccoord = getCCoord(this, frame_) 
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getSCoord", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -6843,7 +6843,7 @@ CONTAINS
     CALL NULLIFY(getSCoord_Orb)
     getSCoord_Orb = getSCoord(ccoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getSCoord", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -6892,7 +6892,7 @@ CONTAINS
     asteroid2sun = asteroidelems(1:3)
 
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getSolarElongation", &
             "TRACE BACK (5)", 1)
        RETURN       
@@ -6903,7 +6903,7 @@ CONTAINS
     CALL rotateToEcliptic(observer_)
     asteroid2observer = asteroid2sun + getPosition(observer_)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getSolarElongation", &
             "TRACE BACK (10)", 1)
        RETURN       
@@ -7089,7 +7089,7 @@ CONTAINS
     DO i=1,SIZE(planeph,dim=1)
        CALL NEW(orb, planeph(i,1:6), "cartesian", "equatorial", t) 
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           RETURN
        END IF
        !elements_ = getElements(orb, "keplerian")
@@ -7162,7 +7162,7 @@ CONTAINS
        CALL getTopocentricSCoord(this, topocenters(i), scoords_tc(i))
        !       end if
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getTopocentricSCoords", &
                "TRACE BACK 10", 1)
           DEALLOCATE(scoords_tc, stat=err)
@@ -7231,7 +7231,7 @@ CONTAINS
        CALL propagate(this_, t_topocenter)
     END IF
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getTopocentricSCoord", &
             "TRACE BACK 1", 1)
        RETURN
@@ -7246,7 +7246,7 @@ CONTAINS
          topocenter_coordinates(1:6)
     scoord_tc = getSCoord(this_)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getTopocentricSCoord", &
             "TRACE BACK 6", 1)
        RETURN
@@ -7266,7 +7266,7 @@ CONTAINS
           ! Topocentric equatorial (ra,dec) wrt topocentric equatorial Cartesian. 
           CALL partialsSCoordWrtCartesian_d(this_, scoord_partials)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / getTopocentricSCoord", &
                   "TRACE BACK 8", 1)
              RETURN
@@ -7277,7 +7277,7 @@ CONTAINS
           ! Topocentric equatorial (ra,dec) wrt Keplerian orbital elements.
           CALL partialsSCoordWrtKeplerian(this_, topocenter_, scoord_partials)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / getTopocentricSCoord", &
                   "TRACE BACK 10", 1)
              RETURN
@@ -7382,7 +7382,7 @@ CONTAINS
 
     celements(1:6) = getCartesianElements(this, this%frame)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getVelocity", &
             "TRACE BACK", 1)
        RETURN
@@ -7453,7 +7453,7 @@ CONTAINS
        CALL partialsCometaryWrtCartesian(this, partials)
     END IF
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsCartesianWrtCometary", &
             "TRACE BACK 5", 1)
        RETURN
@@ -7518,7 +7518,7 @@ CONTAINS
 
     kep_elements = getElements(this, "keplerian")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsCartesianWrtKeplerian", &
             "TRACE BACK 1", 1)
        RETURN
@@ -7541,7 +7541,7 @@ CONTAINS
 
     CALL partialsPolarCoordWrtKeplerian(this, ppolar, polar_coord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsCartesianWrtKeplerian", &
             "TRACE BACK 10", 1)
        RETURN
@@ -7552,7 +7552,7 @@ CONTAINS
        vector3(:) = 0.0_bp
        RM = getTransformationMatrix(this)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / partialsCartesianWrtKeplerian", &
                "TRACE BACK 20", 1)
           RETURN
@@ -7617,7 +7617,7 @@ CONTAINS
        frame_ = frame
        CALL locase(frame_, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / partialsCartesianWrtKeplerian", &
                "The frame string contains forbidden characters.", 1)
           RETURN
@@ -7680,7 +7680,7 @@ CONTAINS
     ! Keplerian elements:
     elements = getElements(this, "keplerian")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsCometaryWrtKeplerian", &
             "TRACE BACK 5", 1)
        RETURN
@@ -7734,7 +7734,7 @@ CONTAINS
        frame_ = frame
        CALL locase(frame_, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / partialsCometaryWrtCartesian", &
                "The frame string contains forbidden characters.", 1)
           RETURN
@@ -7756,14 +7756,14 @@ CONTAINS
 
     CALL partialsKeplerianWrtCartesian(this, kep_car, frame_)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsCometaryWrtCartesian", &
             "TRACE BACK (5)", 1)
        RETURN
     END IF
     CALL partialsCometaryWrtKeplerian(this, com_kep)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsCometaryWrtCartesian", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -7815,7 +7815,7 @@ CONTAINS
        frame_ = frame
        CALL locase(frame_, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / partialsKeplerianWrtCartesian", &
                "The frame string contains forbidden characters.", 1)
           RETURN
@@ -7838,7 +7838,7 @@ CONTAINS
     ! (Ecliptic heliocentric) Keplerian elements:
     kep_elements = getElements(this, "keplerian")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsKeplerianWrtCartesian", &
             "TRACE BACK 5", 1)
        RETURN
@@ -7847,7 +7847,7 @@ CONTAINS
     ! Ecliptic heliocentric Cartesian elements:
     car_elements = getElements(this, "cartesian", frame="ecliptic")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsKeplerianWrtCartesian", &
             "TRACE BACK 10", 1)
        RETURN
@@ -7868,7 +7868,7 @@ CONTAINS
     ! Sine and cosine of eccentric anomaly:
     CALL solveKeplerEquation(this, this%t, ea)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsKeplerianWrtCartesian", &
             "TRACE BACK 15", 1)
        RETURN
@@ -7986,7 +7986,7 @@ CONTAINS
     ! Cometary wrt Keplerian:
     CALL partialsCometaryWrtKeplerian(this, partials)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsKeplerianWrtCometary", &
             "TRACE BACK 5", 1)
        RETURN
@@ -8047,7 +8047,7 @@ CONTAINS
 
     kep_elements = getElements(this, "keplerian")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsPolarCoordWrtKeplerian", &
             "TRACE BACK 5", 1)
        RETURN
@@ -8060,7 +8060,7 @@ CONTAINS
 
     CALL solveKeplerEquation(this, this%t, ea)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsPolarCoordWrtKeplerian", &
             "TRACE BACK 15", 1)
        RETURN
@@ -8168,7 +8168,7 @@ CONTAINS
 
     CALL partialsSCoordWrtKeplerian(this, observer, scoord_kep)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsSCoordWrtCartesian", &
             "TRACE BACK (5).", 1)
        RETURN
@@ -8177,7 +8177,7 @@ CONTAINS
     ! Partials between Keplerian and cometary elements
     CALL partialsKeplerianWrtCartesian(this, kep_car, this%frame)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsSCoordWrtCartesian", &
             "TRACE BACK (10).", 1)
        RETURN
@@ -8343,7 +8343,7 @@ CONTAINS
 
     CALL partialsSCoordWrtKeplerian(this, observer, scoord_kep)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsSCoordWrtCometary", &
             "TRACE BACK (5).", 1)
        RETURN
@@ -8352,7 +8352,7 @@ CONTAINS
     ! Partials between Keplerian and cometary elements
     CALL partialsKeplerianWrtCometary(this, kep_com)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsSCoordWrtCometary", &
             "TRACE BACK (10).", 1)
        RETURN
@@ -8416,7 +8416,7 @@ CONTAINS
 
     frame = getFrame(observer)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        error = .TRUE.
        CALL errorMessage("Orbit / partialsSCoordWrtKeplerian", &
             "TRACE BACK (30).", 1)
@@ -8425,7 +8425,7 @@ CONTAINS
 
     elements = getElements(this, "cartesian", frame)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsSCoordWrtKeplerian", &
             "TRACE BACK (20).", 1)
        RETURN
@@ -8435,7 +8435,7 @@ CONTAINS
     ! Partials for Cartesian equatorial coordinates
     CALL partialsCartesianWrtKeplerian(this, pcar_equ, frame=frame)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / partialsSCoordWrtKeplerian", &
             "TRACE BACK (25).", 1)
        RETURN
@@ -8603,7 +8603,7 @@ CONTAINS
        END IF
     END IF
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / propagate (single)", &
             "TRACE BACK (single orbit)", 1)
        IF (PRESENT(jacobian)) THEN
@@ -8744,7 +8744,7 @@ CONTAINS
           multiple_t0 = .TRUE.
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / propagate (multiple)",&
                "TRACE BACK (5)", 1)
           RETURN
@@ -8784,7 +8784,7 @@ CONTAINS
 
     dyn_model = this_arr(1)%dyn_model_prm
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / propagate (multiple)",&
             "TRACE BACK (10)", 1)
        IF (PRESENT(jacobian)) THEN
@@ -8806,7 +8806,7 @@ CONTAINS
 
     mjd_tt0 = getMJD(this_arr(1)%t, "TT")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / propagate (multiple)",&
             "TRACE BACK (15)", 1)
        IF (PRESENT(jacobian)) THEN
@@ -8816,7 +8816,7 @@ CONTAINS
     END IF
     mjd_tt = getMJD(t_, "TT")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / propagate (multiple)",&
             "TRACE BACK (20)", 1)
        IF (PRESENT(jacobian)) THEN
@@ -8883,7 +8883,7 @@ CONTAINS
                 CALL solveKeplerEquation(r0, u, alpha, dt, stumpff_cs, ffs, s, &
                      this_arr(i)%center)
                 IF (error) THEN
-       error = 0
+       error = .FALSE.
                    CALL errorMessage("Orbit / propagate (multiple)", &
                         "2-body propagation using Stumpff-functions was unsuccessful.", 1)
                    IF (PRESENT(jacobian)) THEN
@@ -8901,7 +8901,7 @@ CONTAINS
                 CALL GaussfgJacobian(this_arr(i), r0, u, alpha, stumpff_cs, s, &
                      f, g, df, dg, pos, ffs(1), jacobian(i,:,:))
                 IF (error) THEN
-       error = 0
+       error = .FALSE.
                    CALL errorMessage("Orbit / propagate (multiple)",&
                         "TRACE BACK (25)", 1)
                    DEALLOCATE(jacobian, stat=err)
@@ -9136,7 +9136,7 @@ CONTAINS
              this_copy%elements = elm_arr(:,i)
              elm_arr(:,i) = getElements(this_copy, "cartesian", frame="equatorial")
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / propagate (multiple)", &
                      "TRACE BACK (30)", 1)
                 IF (PRESENT(jacobian)) THEN
@@ -9152,7 +9152,7 @@ CONTAINS
                    this_copy%elements = elm_arr(:,nthis+naddit+(i-1)*12+j)
                    elm_arr(:,nthis+naddit+(i-1)*12+j) = getElements(this_copy, "cartesian", frame="equatorial")
                    IF (error) THEN
-       error = 0
+       error = .FALSE.
                       CALL errorMessage("Orbit / propagate (multiple)", &
                            "TRACE BACK (35)", 1)
                       DEALLOCATE(jacobian, stat=err)
@@ -9185,7 +9185,7 @@ CONTAINS
                    CALL partialsCartesianWrtCometary(this_arr(i), partials0(i,:,:), frame="equatorial")                   
                 END IF
                 IF (error) THEN
-       error = 0
+       error = .FALSE.
                    CALL errorMessage("Orbit / propagate (multiple)", &
                         "TRACE BACK (40)", 1)
                    DEALLOCATE(jacobian, stat=err)
@@ -9438,7 +9438,7 @@ CONTAINS
                 elm_arr(:,nthis+1:nthis+naddit) = elm_arr_copy(:,nsim+1:nsim+naddit)
              END IF
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / propagate (multiple)", &
                      "Bulirsch-Stoer integration was unsuccessful.", 1)
                 IF (PRESENT(jacobian)) THEN
@@ -9556,7 +9556,7 @@ CONTAINS
              END IF
           END IF
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / propagate (multiple)", &
                   "Gauss-Radau integration was unsuccessful.", 1)
              IF (PRESENT(jacobian)) THEN
@@ -9613,7 +9613,7 @@ CONTAINS
           ELSE IF (element_type_arr(i) == "keplerian") THEN
              CALL NEW(this_copy, elm_arr(1:6,i), "cartesian", "equatorial", copy(t_))
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / propagate (multiple)", &
                      "TRACE BACK (45)", 1)
                 IF (PRESENT(jacobian)) THEN
@@ -9628,7 +9628,7 @@ CONTAINS
              END IF
              CALL toKeplerian(this_copy)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / propagate (multiple)", &
                      "TRACE BACK (50)", 1)
                 IF (PRESENT(jacobian)) THEN
@@ -9647,7 +9647,7 @@ CONTAINS
                 DO j=1,12
                    CALL NEW(this_copy, elm_arr(1:6,nthis+naddit+(i-1)*12+j), "cartesian", "equatorial", copy(t_))
                    IF (error) THEN
-       error = 0
+       error = .FALSE.
                       CALL errorMessage("Orbit / propagate (multiple)", &
                            "TRACE BACK (55)", 1)
                       DEALLOCATE(jacobian, stat=err)
@@ -9660,7 +9660,7 @@ CONTAINS
                    END IF
                    elm_arr(1:6,nthis+naddit+(i-1)*12+j) = getElements(this_copy, "keplerian")
                    IF (error) THEN
-       error = 0
+       error = .FALSE.
                       CALL errorMessage("Orbit / propagate (multiple)", &
                            "TRACE BACK (60)", 1)
                       DEALLOCATE(jacobian, stat=err)
@@ -9677,7 +9677,7 @@ CONTAINS
           ELSE IF (element_type_arr(i) == "cometary") THEN
              CALL NEW(this_copy, elm_arr(1:6,i), "cartesian", "equatorial", copy(t_))
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / propagate (multiple)", &
                      "TRACE BACK (45)", 1)
                 IF (PRESENT(jacobian)) THEN
@@ -9692,7 +9692,7 @@ CONTAINS
              END IF
              CALL toCometary(this_copy)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("Orbit / propagate (multiple)", &
                      "TRACE BACK (50)", 1)
                 IF (PRESENT(jacobian)) THEN
@@ -9711,7 +9711,7 @@ CONTAINS
                 DO j=1,12
                    CALL NEW(this_copy, elm_arr(1:6,nthis+naddit+(i-1)*12+j), "cartesian", "equatorial", copy(t_))
                    IF (error) THEN
-       error = 0
+       error = .FALSE.
                       CALL errorMessage("Orbit / propagate (multiple)", &
                            "TRACE BACK (55)", 1)
                       DEALLOCATE(jacobian, stat=err)
@@ -9724,7 +9724,7 @@ CONTAINS
                    END IF
                    elm_arr(1:6,nthis+naddit+(i-1)*12+j) = getElements(this_copy, "cometary")
                    IF (error) THEN
-       error = 0
+       error = .FALSE.
                       CALL errorMessage("Orbit / propagate (multiple)", &
                            "TRACE BACK (60)", 1)
                       DEALLOCATE(jacobian, stat=err)
@@ -9775,7 +9775,7 @@ CONTAINS
                         partials1, frame="equatorial")                   
                 END IF
                 IF (error) THEN
-       error = 0
+       error = .FALSE.
                    CALL errorMessage("Orbit / propagate (multiple)", &
                         "TRACE BACK (65)", 1)
                    DEALLOCATE(jacobian, stat=err)
@@ -10149,7 +10149,7 @@ CONTAINS
        str = dyn_model
        CALL locase(str, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / setParameters", &
                "The dynamical model string contains forbidden characters.", 1)
           RETURN
@@ -10170,7 +10170,7 @@ CONTAINS
        str = integrator
        CALL locase(str, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / setParameters", &
                "The integrator string contains forbidden characters.", 1)
           RETURN
@@ -10261,7 +10261,7 @@ CONTAINS
     ELSE
        elements = getElements(this, "keplerian")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error = .TRUE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "TRACE BACK 5", 1)
@@ -10271,7 +10271,7 @@ CONTAINS
     t_ = copy(this%t)
     mjd_tt0 = getMJD(t_, "TT")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        error = .TRUE.
        CALL errorMessage("Orbit / solveKeplerEquation", &
             "TRACE BACK 10", 1)
@@ -10281,7 +10281,7 @@ CONTAINS
     t_ = copy(t)
     mjd_tt = getMJD(t_, "TT")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        error = .TRUE.
        CALL errorMessage("Orbit / solveKeplerEquation", &
             "TRACE BACK 15", 1)
@@ -10445,7 +10445,7 @@ CONTAINS
        x             = s**2.0_bp * alpha
        CALL getStumpffFunctions(x, stumpff_c)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "TRACE BACK 5", 1)
           RETURN
@@ -10502,7 +10502,7 @@ CONTAINS
        x = s**2.0_bp * alpha
        CALL getStumpffFunctions(x, stumpff_c)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "TRACE BACK 10", 1)
           RETURN
@@ -10711,7 +10711,7 @@ CONTAINS
     frame_ = frame
     CALL locase(frame_, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / toCartesian", &
             "The frame string contains forbidden characters.", 1)
        RETURN
@@ -10743,7 +10743,7 @@ CONTAINS
     IF (this%element_type /= "cartesian") THEN
        elements = getElements(this, "cartesian", frame_)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / toCartesian", &
                "TRACE BACK (5).", 1)
           RETURN
@@ -10788,7 +10788,7 @@ CONTAINS
 
     elements = getElements(this, "cometary")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / toCometary", &
             "TRACE BACK (5).", 1)
        RETURN
@@ -10818,7 +10818,7 @@ CONTAINS
 
     elements = getElements(this, "keplerian")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / toKeplerian", &
             "TRACE BACK (5).", 1)
        RETURN

@@ -252,7 +252,7 @@ CONTAINS
 
     position = getPosition(scoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("CartesianCoordinates / new",&
             "TRACE BACK 1", 1)
        RETURN
@@ -263,7 +263,7 @@ CONTAINS
 
     velocity = getVelocity(scoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("CartesianCoordinates / new",&
             "TRACE BACK 2", 1)
        RETURN
@@ -279,7 +279,7 @@ CONTAINS
 
     this%frame = getFrame(scoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("CartesianCoordinates / new",&
             "TRACE BACK 3", 1)
        RETURN
@@ -287,7 +287,7 @@ CONTAINS
 
     this%t = getTime(scoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("CartesianCoordinates / new",&
             "TRACE BACK 4", 1)
        RETURN
@@ -486,7 +486,7 @@ CONTAINS
 
     tdt = getMJD(this%t, "tdt")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("CartesianCoordinates / estimateLightTime", &
             "TRACE BACK 1", 1)
        RETURN
@@ -497,7 +497,7 @@ CONTAINS
     ! to the observer:
     CALL NEW(this%t, tdt - distance/sol, "tdt")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("CartesianCoordinates / estimateLightTime", &
             "TRACE BACK 2", 1)
        RETURN
@@ -581,7 +581,7 @@ CONTAINS
     ! Common terms.
     pos  = getPosition(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("CartesianCoordinates / " // &
             "partialsSCoordWrtCCoord", &
             "TRACE BACK", 1)
@@ -740,7 +740,7 @@ CONTAINS
 
     CALL NEW(getSCoord_CC, position, velocity, this%frame, copy(this%t))
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("CartesianCoordinates / getSCoord", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -871,7 +871,7 @@ CONTAINS
              j = j + 1
              reallocate_CC(j) = copy(array(i))
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 DEALLOCATE(array)
                 CALL errorMessage("CartesianCoordinates / reallocate", &
                      "TRACE BACK", 1)
@@ -925,7 +925,7 @@ CONTAINS
     DO i=1, MIN(n,nold)
        reallocate_CC_1(i) = copy(array(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("CartesianCoordinates / reallocate", &
                "TRACE BACK", 1)
           RETURN          

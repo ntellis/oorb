@@ -451,7 +451,7 @@ CONTAINS
 
     id = getID(obs_in)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in getID()
        errorCode = 2
        RETURN
@@ -459,7 +459,7 @@ CONTAINS
 
     dt = getObservationalTimespan(obs_in)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in getObservationalTimeInterval()
        errorCode = 3
        RETURN
@@ -492,7 +492,7 @@ CONTAINS
     END IF
     CALL NEW(outOrbit, obs_in)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in new(outOrbit)
        errorCode = 8
        RETURN
@@ -519,7 +519,7 @@ CONTAINS
          generat_multiplier=sor_genwin_multiplier, &
          sor_generat_offset=sor_genwin_offset)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in setParameters()
        errorCode = 9
        RETURN
@@ -566,7 +566,7 @@ CONTAINS
     CASE (2)
        CALL setParameters(outOrbit, sor_niter=sor_niter)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in setParameters()
           errorCode = 10
           RETURN
@@ -578,7 +578,7 @@ CONTAINS
             sor_ntrial_sw=sor_ntrial_sw, &
             sor_niter=sor_niter)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in setParameters()
           errorCode = 11
           RETURN
@@ -592,7 +592,7 @@ CONTAINS
 
     ! Did we get any error?
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error
        errorCode = 13
        error  = .FALSE.
@@ -760,7 +760,7 @@ CONTAINS
     ! Make sure that we have at least 4 observations!
     nobs = getNrOfObservations(obs_in)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in getNrOfObservations()
        errorCode = 22
        RETURN
@@ -775,7 +775,7 @@ CONTAINS
     IF (containsDiscretePDF(inStochOrbit)) THEN
        orb_arr => getSampleOrbits(inStochOrbit)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in getSampleOrbits()
           errorCode = 16
           RETURN
@@ -785,7 +785,7 @@ CONTAINS
        ALLOCATE(orb_arr(1))
        orb_arr(1) = getNominalOrbit(inStochOrbit)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in getNominalOrbit()
           errorCode = 24
           RETURN
@@ -829,7 +829,7 @@ CONTAINS
     ! Create the output Stochastic Orbit.
     CALL NEW(outStochOrbit, obs_in)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in createing a new Stochasic Orbit
        errorCode = 8
        RETURN
@@ -850,7 +850,7 @@ CONTAINS
          ls_niter_major_min=lsNIterMajorMin, &
          ls_niter_minor=lsNiterMinor)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in setParameters()
        errorCode = 9
        RETURN
@@ -863,7 +863,7 @@ CONTAINS
             integrator=integratorInit, &
             integration_step=integration_step_init)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in setParameters()
           errorCode = 9
           RETURN
@@ -871,7 +871,7 @@ CONTAINS
 
        CALL propagate(orb_arr(j), t)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in propagate()
           errorCode = 25
           RETURN
@@ -882,7 +882,7 @@ CONTAINS
             integrator=integrator, &
             integration_step=integration_step)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in setParameters()
           errorCode = 9
           RETURN
@@ -896,7 +896,7 @@ CONTAINS
        END IF
     END DO
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error: least squares fit failed.
        errorCode = 26
        RETURN
@@ -945,7 +945,7 @@ CONTAINS
     IF (epoch_mjd > 0.0_bp) THEN
        CALL NEW(epoch, epoch_mjd, internal_timescale)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in creating a new epoch
           errorCode = 39
           RETURN
@@ -973,7 +973,7 @@ CONTAINS
          integrator=integrator, &
          integration_step=integration_step)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in setParameters()
        errorCode = 37
        RETURN
@@ -982,7 +982,7 @@ CONTAINS
     ! Compute topocentric ephemerides
     CALL propagate(storb, epoch)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in propagate()
        errorCode = 41
        RETURN
@@ -1081,7 +1081,7 @@ CONTAINS
     DO j=1,nstep
        CALL NEW(t, mjd_tai+(j-1)*step, internal_timescale)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in creating a new Time object.
           errorCode = 35
           RETURN
@@ -1089,7 +1089,7 @@ CONTAINS
        ! Compute heliocentric observatory coordinates
        observers(j) = getObservatoryCCoord(obsies, obsy_code, t)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in getObservatoryCCoord()
           errorCode = 36
           RETURN
@@ -1110,7 +1110,7 @@ CONTAINS
             dyn_model=dynModel)
     END IF
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in setParameters()
        errorCode = 37
        RETURN
@@ -1123,7 +1123,7 @@ CONTAINS
          cov_arr=cov_arr, &
          pdf_arr=pdfs_arr)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in getEphemerides()
        errorCode = 38
        RETURN
@@ -1204,7 +1204,7 @@ CONTAINS
     ! MOID between Earth and asteroid orbits:
     moid = getMOID(orb, ref_orb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in getMOID()
        moid = -1.0_bp
        error = .FALSE.
@@ -1238,21 +1238,21 @@ CONTAINS
     CALL NULLIFY(obs)
     dt = getObservationalTimespan(obs_in)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in getObservationalTimeInterval()
        errorCode = 3
        RETURN
     END IF
     obs = getObservation(obs_in,1)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in getObservation()
        errorCode = 4
        RETURN
     END IF
     t = getTime(obs)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in getTime()
        errorCode = 5
        RETURN
@@ -1260,7 +1260,7 @@ CONTAINS
     CALL NULLIFY(obs)
     mjd = getMJD(t, internal_timescale)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in getMJD()
        errorCode = 6
        RETURN
@@ -1269,7 +1269,7 @@ CONTAINS
     mjd = REAL(NINT(mjd+dt/2.0_bp),bp)
     CALL NEW(t, mjd, internal_timescale)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in new(t)
        errorCode = 7
        RETURN
@@ -1314,7 +1314,7 @@ CONTAINS
 
     CALL getResults(storb, sor_rho_cmp=sor_rho_cmp)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        WRITE(*, *) "Error in getResults()"
        errorCode = 15
        RETURN
@@ -1322,21 +1322,21 @@ CONTAINS
     ! Get ORBITAL-ELEMENT PDF
     orb_arr_cmp => getSampleOrbits(storb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        WRITE(*, *) "Error in getSampleOrbits()"
        errorCode = 16
        RETURN
     END IF
     pdf_arr_cmp => getDiscretePDF(storb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        WRITE(*, *) "Error in getDiscretePDF()"
        errorCode = 17
        RETURN
     END IF
     rchi2_arr_cmp => getReducedChi2Distribution(storb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        WRITE(*, *) "Error in getReducedChi2Distribution()"
        errorCode = 17
        RETURN
@@ -1345,7 +1345,7 @@ CONTAINS
          reg_apr_arr=reg_apr_arr_cmp, &
          jac_arr=jac_arr_cmp)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        WRITE(*, *) "Error in getResults()"
        numOutOrbits = 0
        errorCode = 18
@@ -1359,7 +1359,7 @@ CONTAINS
             elementType, &
             frame="ecliptic")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           WRITE(*, *) "Error in fetching the orbit"
           errorCode = 19
           RETURN
@@ -1379,7 +1379,7 @@ CONTAINS
        orbMjd = getMjd(t0, internal_timescale)
        CALL NULLIFY(t0)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           WRITE(*, *) "Error in getTime/getMjd"
           errorCode = 5
           RETURN
@@ -1449,7 +1449,7 @@ CONTAINS
     ! Get the nominal orbit out.
     orb = getNominalOrbit(storb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        WRITE(*, *) "Error in getNominalOrbit()"
        errorCode = 28
        RETURN
@@ -1458,7 +1458,7 @@ CONTAINS
     ! Get the orbital elements.
     elements = getElements(orb, elementType, frame="ecliptic")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        WRITE(*, *) "Error in fetching the orbit"
        errorCode = 19
        RETURN
@@ -1478,7 +1478,7 @@ CONTAINS
     orbMjd = getMjd(t0, internal_timescale)
     CALL NULLIFY(t0)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        WRITE(*, *) "Error in getTime/getMjd"
        errorCode = 5
        RETURN
@@ -1487,7 +1487,7 @@ CONTAINS
     ! Covariance matrix.
     cov = getCovarianceMatrix(storb, elementType, "ecliptic")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        WRITE(*, *) "Error in getCovarianceMatrix"
        errorCode = 29
        RETURN
@@ -1622,7 +1622,7 @@ CONTAINS
 
     CALL NEW(orb_in_file, fileName)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in creating input file instance
        errorCode = 30
        RETURN
@@ -1630,7 +1630,7 @@ CONTAINS
     CALL setStatusOld(orb_in_file)
     CALL OPEN(orb_in_file)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in opeining input file.
        errorCode = 31
        RETURN
@@ -1638,7 +1638,7 @@ CONTAINS
     ! 4 header lines are not taken into account.
     norb = getNrOfLines(orb_in_file) - 4
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in getNrOfLines()
        errorCode = 32
        RETURN
@@ -1674,7 +1674,7 @@ CONTAINS
             jac_car_kep=jac_arr_in(j,2), &
             jac_equ_kep=jac_arr_in(j,3))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in readOpenOrbOrbitFile()
           errorCode = 34
           RETURN
@@ -2045,7 +2045,7 @@ CONTAINS
     CALL setStatusOld(obs_file)
     CALL OPEN(obs_file)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! Error in opening observation file.
        errorCode = 46
        RETURN
@@ -2145,7 +2145,7 @@ CONTAINS
        ! Create SphericalCoordinates object containing R.A. Dec. epoch.
        CALL NEW(obs_scoord, ra, dec, t)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in creating a neSphericalCoordinates instance.
           errorCode = 52
           RETURN
@@ -2161,7 +2161,7 @@ CONTAINS
        ! Compute the heliocentric position of the observer at epoch t:
        obsy = getObservatory(obsies, TRIM(obscodes(i)))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in deriving the observatory location!
           errorCode = 48
           RETURN
@@ -2188,7 +2188,7 @@ CONTAINS
             obsy=obsy, &
             obsy_ccoord=obsy_ccoord)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in creating a new Observation instance.
           errorCode = 49
           RETURN
@@ -2262,7 +2262,7 @@ CONTAINS
 
     CALL getResults(storb, sor_rho_cmp=sor_rho_cmp)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! write(*, *) "Error in getResults()"
        errorCode = 15
        RETURN
@@ -2270,21 +2270,21 @@ CONTAINS
     ! Get ORBITAL-ELEMENT PDF
     orb_arr_cmp => getSampleOrbits(storb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! write(*, *) "Error in getSampleOrbits()"
        errorCode = 16
        RETURN
     END IF
     pdf_arr_cmp => getDiscretePDF(storb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! write(*, *) "Error in getDiscretePDF()"
        errorCode = 17
        RETURN
     END IF
     rchi2_arr_cmp => getReducedChi2Distribution(storb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! write(*, *) "Error in getReducedChi2Distribution()"
        errorCode = 17
        RETURN
@@ -2293,7 +2293,7 @@ CONTAINS
          reg_apr_arr=reg_apr_arr_cmp, &
          jac_arr=jac_arr_cmp)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! write(*, *) "Error in getResults()"
        numOutOrbits = 0
        errorCode = 18
@@ -2315,7 +2315,7 @@ CONTAINS
             elementType, &
             frame="ecliptic")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! write(*, *) "Error in fetching the orbit"
           errorCode = 19
           RETURN
@@ -2334,7 +2334,7 @@ CONTAINS
        orbMjd = getMjd(t0, internal_timescale)
        CALL NULLIFY(t0)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! write(*, *) "Error in getTime/getMjd"
           errorCode = 5
           RETURN
@@ -2424,7 +2424,7 @@ CONTAINS
     ! Get the nominal orbit out.
     orb = getNominalOrbit(storb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! write(*, *) "Error in getNominalOrbit()"
        errorCode = 28
        RETURN
@@ -2433,7 +2433,7 @@ CONTAINS
     ! Get the orbital elements.
     elements = getElements(orb, elementType, frame="ecliptic")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! write(*, *) "Error in fetching the orbit"
        errorCode = 19
        RETURN
@@ -2453,7 +2453,7 @@ CONTAINS
     orbMjd = getMjd(t0, internal_timescale)
     CALL NULLIFY(t0)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! write(*, *) "Error in getTime/getMjd"
        errorCode = 5
        RETURN
@@ -2470,7 +2470,7 @@ CONTAINS
     ! Covariance matrix.
     outCovariance = getCovarianceMatrix(storb, elementType, "ecliptic")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        ! write(*, *) "Error in getCovarianceMatrix"
        errorCode = 29
        RETURN

@@ -583,7 +583,7 @@ CONTAINS
     error = .FALSE.
     CALL toString(ndim-1, str, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        errstr = " -> estimators : simplex : Could not convert integer to character string." // &
             TRIM(errstr)
        RETURN       

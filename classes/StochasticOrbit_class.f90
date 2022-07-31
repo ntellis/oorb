@@ -475,7 +475,7 @@ CONTAINS
     CALL setObservationPair(this)
     err_verb = err_verb_
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL warningMessage("StochasticOrbit / new", &
             "Observation pair could not be selected. Possibly " // &
             "because only one observation has been provided.", 1)
@@ -547,7 +547,7 @@ CONTAINS
        CALL setObservationPair(this)
        err_verb = err_verb_
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL warningMessage("StochasticOrbit / new", &
                "Observation pair could not be selected. Possibly " // &
                "because only one observation has been provided.", 1)
@@ -677,7 +677,7 @@ CONTAINS
        CALL setObservationPair(this)
        err_verb = err_verb_
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL warningMessage("StochasticOrbit / new", &
                "Observation pair could not be selected. Possibly " // &
                "because only one observation has been provided.", 1)
@@ -878,7 +878,7 @@ CONTAINS
        copy_SO%obss = copy(this%obss)
        nobs = getNrOfObservations(this%obss)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / copy", &
                "TRACE BACK (5).", 1)
           RETURN
@@ -1224,14 +1224,14 @@ CONTAINS
     IF (ASSOCIATED(this%orb_arr_cmp)) THEN
        CALL constrainRangeDistributions(this, this%obss)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoStatisticalRanging", &
                "TRACE BACK (5)", 1)
           RETURN
        END IF
        CALL setRangeBounds(this)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoStatisticalRanging", &
                "TRACE BACK (10)", 1)
           RETURN
@@ -1385,7 +1385,7 @@ CONTAINS
          integrator=storb_integrator, &
          finite_diff=storb_finite_diff)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / comparePropagationParameters", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -1396,7 +1396,7 @@ CONTAINS
          integrator=orb_integrator, &
          finite_diff=orb_finite_diff)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / comparePropagationParameters", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -1551,28 +1551,28 @@ CONTAINS
     END DO
     orb_nominal = getNominalOrbit(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (5)", 1)
        RETURN
     END IF
     frame = getFrame(orb_nominal)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (10)", 1)
        RETURN
     END IF
     elements_nominal = getElements(orb_nominal, this%element_type_prm, frame)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (15)", 1)
        RETURN
     END IF
     cov = getCovarianceMatrix(this, this%element_type_prm, frame)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (20)", 1)
        RETURN
@@ -1582,7 +1582,7 @@ CONTAINS
     END DO
     t0 = getTime(orb_nominal)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (25)", 1)
        RETURN
@@ -1591,21 +1591,21 @@ CONTAINS
     ! Observations
     information_matrix_obs => getBlockDiagInformationMatrix(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (30)", 1)
        RETURN
     END IF
     stdev_arr_measur => getStandardDeviations(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (31)", 1)
        RETURN
     END IF
     obs_scoords => getObservationSCoords(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (35)", 1)
        RETURN
@@ -1620,7 +1620,7 @@ CONTAINS
     DO i=1,nobs
        obs_coords(i,:) = getCoordinates(obs_scoords(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "TRACE BACK (40)",1)
           RETURN
@@ -1629,7 +1629,7 @@ CONTAINS
     END DO
     obsy_ccoords => getObservatoryCCoords(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (45)",1)
        RETURN
@@ -1640,7 +1640,7 @@ CONTAINS
     CALL getEphemerides(orb_nominal, obsy_ccoords, comp_scoords, &
          partials_arr=partials_arr)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (50)",1)
        RETURN
@@ -1653,7 +1653,7 @@ CONTAINS
     DO i=1,nobs
        comp_coord = getCoordinates(comp_scoords(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "TRACE BACK (55)",1)
           RETURN
@@ -1896,7 +1896,7 @@ CONTAINS
           CALL NULLIFY(orb)
           CALL NEW(orb, elements, this%element_type_prm, frame, t0)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / covarianceSampling", &
                   "TRACE BACK (70)", 1)
              RETURN
@@ -1918,7 +1918,7 @@ CONTAINS
        IF (this%informative_apriori_prm) THEN
           elements = getElements(orb,"cometary")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / covarianceSampling", &
                   "TRACE BACK (71)", 1)
              RETURN
@@ -2022,7 +2022,7 @@ CONTAINS
             perturbers=this%perturbers_prm, &
             asteroid_perturbers=this%ast_perturbers_prm)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "TRACE BACK (75)",1)
           RETURN
@@ -2039,7 +2039,7 @@ CONTAINS
        CALL getEphemerides(orb, obsy_ccoords, comp_scoords, &
             partials_arr=partials_arr)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "TRACE BACK (80)",1)
           RETURN
@@ -2058,7 +2058,7 @@ CONTAINS
        DO i=1,nobs
           comp_coord = getCoordinates(comp_scoords(i))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / covarianceSampling", &
                   "TRACE BACK (85)",1)
              RETURN
@@ -2540,7 +2540,7 @@ CONTAINS
 
        pdf_arr => getDiscretePDF(this, "keplerian")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getApoapsisDistance", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(pdf_arr, stat=err)
@@ -2560,7 +2560,7 @@ CONTAINS
           CALL getApoapsisDistance(this%orb_arr_cmp(i), &
                Q(i,1), partials=partials(1,1:6))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / getApoapsisDistance", &
                   "TRACE BACK (5)", 1)
              DEALLOCATE(pdf_arr, stat=err)
@@ -2603,7 +2603,7 @@ CONTAINS
             Q(1,1), &
             partials=partials(1,1:6))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getApoapsisDistance", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -2658,7 +2658,7 @@ CONTAINS
     DO i=1,norb
        elements = getElements(this%orb_arr_cmp(i), "keplerian")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getAPrioriWeights", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -2706,7 +2706,7 @@ CONTAINS
 
     norb = getNrOfSampleOrbits(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getBestFittingSampleOrbit", &
             "TRACE BACK (5).", 1)
        RETURN
@@ -2717,7 +2717,7 @@ CONTAINS
     IF (PRESENT(apriori)) THEN
        CALL getAPrioriWeights(this, apriori, apriori_pdf)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getBestFittingSampleOrbit", &
                "TRACE BACK (10).", 1)
           DEALLOCATE(pdf, stat=err)
@@ -2794,7 +2794,7 @@ CONTAINS
     END IF
     residuals => getResiduals(this, orb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getChi2", &
             "TRACE BACK (5)", 1)
        DEALLOCATE(residuals, stat=err)
@@ -2802,7 +2802,7 @@ CONTAINS
     END IF
     information_matrix => getBlockDiagInformationMatrix(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getChi2", &
             "TRACE BACK (10)", 1)
        DEALLOCATE(residuals, stat=err)
@@ -2993,7 +2993,7 @@ CONTAINS
     END IF
     CALL locase(cov_type_, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
             "The element type string contains forbidden characters.", 1)
        RETURN
@@ -3019,7 +3019,7 @@ CONTAINS
          cov_type_ == "cometary") THEN
        CALL partialsCometaryWrtCartesian(this%orb_ml_cmp, partials)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -3028,7 +3028,7 @@ CONTAINS
          cov_type_ == "keplerian") THEN
        CALL partialsKeplerianWrtCartesian(this%orb_ml_cmp, partials)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -3037,7 +3037,7 @@ CONTAINS
          cov_type_ == "cartesian") THEN
        CALL partialsCartesianWrtCometary(this%orb_ml_cmp, partials, frame_)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -3046,7 +3046,7 @@ CONTAINS
          cov_type_ == "keplerian") THEN
        CALL partialsKeplerianWrtCometary(this%orb_ml_cmp, partials)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -3129,7 +3129,7 @@ CONTAINS
        ! Discrete orbital-element pdf
        pdf_arr_1 => getDiscretePDF(this)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getEphemerides", &
                "TRACE BACK (3)", 1)
           DEALLOCATE(pdf_arr_1, stat=err)
@@ -3146,7 +3146,7 @@ CONTAINS
                partials_arr=partials_arr4)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getEphemerides", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(pdf_arr_1, stat=err)
@@ -3276,7 +3276,7 @@ CONTAINS
                lt_corr=lt_corr_, partials_arr=partials_arr3)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getEphemerides", &
                "TRACE BACK (10)", 1)
           DEALLOCATE(ephemerides_arr_, stat=err)
@@ -3390,7 +3390,7 @@ CONTAINS
        ! Sampled p.d.f.:
        pdf_arr_ => getDiscretePDF(this)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getEphemeris", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(pdf_arr_, stat=err)
@@ -3412,7 +3412,7 @@ CONTAINS
           RETURN          
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getEphemeris", &
                "TRACE BACK (10)", 1)
           DEALLOCATE(pdf_arr_, stat=err)
@@ -3559,7 +3559,7 @@ CONTAINS
                lt_corr=lt_corr_, partials=partials)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getEphemeris", &
                "TRACE BACK", 1)
           DEALLOCATE(ephemeris_arr, stat=err)
@@ -3630,7 +3630,7 @@ CONTAINS
     mask_array_tot = .TRUE. ! which are left?
     pdf => getDiscretePDF(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getGroupWeights", &
             "TRACE BACK", 1)          
        RETURN
@@ -3639,7 +3639,7 @@ CONTAINS
     DO i=1,norb
        elements(i,:) = getElements(this%orb_arr_cmp(i), "cometary")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getGroupWeights", &
                "TRACE BACK", 1)          
           RETURN
@@ -3955,7 +3955,7 @@ CONTAINS
 
        pdf_arr => getDiscretePDF(this, "keplerian")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getPeriapsisDistance", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(pdf_arr, stat=err)
@@ -3975,7 +3975,7 @@ CONTAINS
           CALL getPeriapsisDistance(this%orb_arr_cmp(i), &
                q(i,1), partials=partials(1,1:6))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / getPeriapsisDistance", &
                   "TRACE BACK (5)", 1)
              DEALLOCATE(pdf_arr, stat=err)
@@ -4018,7 +4018,7 @@ CONTAINS
             q(1,1), &
             partials=partials(1,1:6))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getPeriapsisDistance", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -4071,21 +4071,21 @@ CONTAINS
 
     t = getTime(this%orb_arr_cmp(1))
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "TRACE BACK (5)", 1)
        RETURN
     END IF
     mjd_tdt = getMJD(t, "tdt")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "TRACE BACK (10)", 1)
        RETURN
     END IF
     elem => JPL_ephemeris(mjd_tdt, 3, 11, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "TRACE BACK (15)", 1)
        RETURN
@@ -4093,7 +4093,7 @@ CONTAINS
     CALL NULLIFY(orbit_earth)
     CALL NEW(orbit_earth, elem(1,:), "cartesian", "equatorial", t)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "TRACE BACK (20)", 1)
        RETURN
@@ -4107,7 +4107,7 @@ CONTAINS
     END IF
     CALL toKeplerian(orbit_earth)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "TRACE BACK (25)", 1)
        RETURN
@@ -4123,7 +4123,7 @@ CONTAINS
     END IF
     pdf => getDiscretePDF(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "TRACE BACK (30)", 1)
        RETURN
@@ -4134,7 +4134,7 @@ CONTAINS
     DO i=1,norb
        moid(i) = getMOID(orbit_earth, this%orb_arr_cmp(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getPHAProbability", &
                "TRACE BACK (35)", 1)
           RETURN
@@ -4195,7 +4195,7 @@ CONTAINS
     ELSE IF (ml_orbit_ .AND. containsDiscretePDF(this)) THEN
        pdf => getDiscretePDF(this)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getNominalOrbit", &
                "TRACE BACK", 1)
           RETURN
@@ -4884,7 +4884,7 @@ CONTAINS
 
     pdf_arr => getDiscretePDF(this, "cartesian")
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Orbit / getPhaseAngle", &
             "TRACE BACK (5)", 1)
        DEALLOCATE(pdf_arr, stat=err)
@@ -4904,7 +4904,7 @@ CONTAINS
        CALL getPhaseAngle(this%orb_arr_cmp(i), observer, &
             phase_angle_pdf(i,1), partials(1,1:6))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getPhaseAngle", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(pdf_arr, stat=err)
@@ -4980,7 +4980,7 @@ CONTAINS
        DO i=1,SIZE(this%orb_arr_cmp)
           CALL getPhaseAngles(this%orb_arr_cmp(i), observers, phase_angles_)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / getPhaseAngles", &
                   "TRACE BACK (5).", 1)
              RETURN
@@ -4997,7 +4997,7 @@ CONTAINS
     ELSE
        CALL getPhaseAngles(this%orb_ml_cmp, observers, phase_angles_)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getPhaseAngles", &
                "TRACE BACK (10).", 1)
           RETURN
@@ -5065,7 +5065,7 @@ CONTAINS
        CALL getPhaseAngle(this%orb_ml_cmp, observer, phase_angle, &
             partials(1,:))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Orbit / getPhaseAngle", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -5076,7 +5076,7 @@ CONTAINS
                getElementType(this%orb_ml_cmp), &
                getFrame(this%orb_ml_cmp))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Orbit / getPhaseAngle", &
                   "TRACE BACK (10)", 1)
              RETURN
@@ -5137,7 +5137,7 @@ CONTAINS
     DO i=1, SIZE(this%orb_arr_cmp)
        getPositionDistribution(i,:) = getPosition(this%orb_arr_cmp(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getPositionDistribution", &
                "TRACE BACK", 1)
           RETURN
@@ -5299,7 +5299,7 @@ CONTAINS
 
     nobs = getNrOfObservations(obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -5316,7 +5316,7 @@ CONTAINS
 
     observed_scoords => getObservationSCoords(obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -5324,7 +5324,7 @@ CONTAINS
 
     obsy_ccoords => getObservatoryCCoords(obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (15)", 1)
        RETURN
@@ -5332,7 +5332,7 @@ CONTAINS
 
     CALL getEphemerides(this%orb_arr_cmp, obsy_ccoords, computed_scoords)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (20)", 1)
        RETURN
@@ -5344,7 +5344,7 @@ CONTAINS
        CALL rotateToEquatorial(observed_scoords(i))
        observed_coords(i,:) = getCoordinates(observed_scoords(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getResiduals", &
                "TRACE BACK (25)", 1)
           RETURN
@@ -5353,7 +5353,7 @@ CONTAINS
           CALL rotateToEquatorial(computed_scoords(j,i))
           computed_coords(i,j,:) = getCoordinates(computed_scoords(j,i))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / getResiduals", &
                   "TRACE BACK (30)", 1)
              RETURN
@@ -5440,7 +5440,7 @@ CONTAINS
 
     nobs = getNrOfObservations(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -5457,7 +5457,7 @@ CONTAINS
 
     observed_scoords => getObservationSCoords(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -5465,7 +5465,7 @@ CONTAINS
 
     obsy_ccoords => getObservatoryCCoords(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (15)", 1)
        RETURN
@@ -5473,7 +5473,7 @@ CONTAINS
 
     CALL getEphemerides(orb, obsy_ccoords, computed_scoords)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (20)", 1)
        RETURN
@@ -5484,14 +5484,14 @@ CONTAINS
     DO i=1,nobs
        observed_coords(i,:) = getCoordinates(observed_scoords(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getResiduals", &
                "TRACE BACK (25)", 1)
           RETURN
        END IF
        computed_coords(i,:) = getCoordinates(computed_scoords(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getResiduals", &
                "TRACE BACK (30)", 1)
           RETURN
@@ -5874,7 +5874,7 @@ CONTAINS
 
     residuals => getResiduals(this, orb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / getRMS", &
             "TRACE BACK", 1)
        RETURN       
@@ -6047,7 +6047,7 @@ CONTAINS
     IF (PRESENT(probability_mass)) THEN
        pdf_arr => getDiscretePDF(this)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getSampleOrbits", &
                "TRACE BACK", 1)
           RETURN
@@ -6156,7 +6156,7 @@ CONTAINS
        !       END IF
        element_arr(i,1:6) = getElements(this%orb_arr_cmp(i), element_type_)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / getStandardDeviations", &
                "TRACE BACK (10)", 1)
           RETURN
@@ -6304,7 +6304,7 @@ CONTAINS
     ! Initialize other variables needed in the computation
     CALL setObservationPair(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / includeObservations", &
             "TRACE BACK", 1)
        RETURN
@@ -6387,14 +6387,14 @@ CONTAINS
        ! - needed because for mcmc, orbital p.d.f = 1
        CALL constrainRangeDistributions2(storb, storb%obss)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (15)", 1)
           STOP
        END IF
        CALL setRangeBounds(storb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (20)", 1)
           STOP
@@ -6412,7 +6412,7 @@ CONTAINS
        END IF
        CALL MCMCRanging(storb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (10)", 1)
           STOP
@@ -6422,14 +6422,14 @@ CONTAINS
        ! Is this needed, since burn in in MCMC discards orbits based on their rms-values? 
        !CALL constrainRangeDistributions(storb, storb%obss)
        !IF (error) THEN
-       error = 0
+       error = .FALSE.
        !   CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
        !        "TRACE BACK (15)", 1)
        !   STOP
        !END IF
        CALL setRangeBounds(storb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (20)", 1)
           STOP
@@ -6451,7 +6451,7 @@ CONTAINS
        END IF
        CALL MCMCRanging(storb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (10)", 1)
           STOP
@@ -6459,7 +6459,7 @@ CONTAINS
        this%sor_niter_cmp = 2
        CALL setRangeBounds(storb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (20)", 1)
           STOP
@@ -6483,7 +6483,7 @@ CONTAINS
     END IF
     CALL MCMCRanging(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
             "TRACE BACK (50)", 1)
        STOP
@@ -6569,14 +6569,14 @@ CONTAINS
        ! Compute range distribution from orbit distribution
        CALL constrainRangeDistributions2(storb, storb%obss)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (15)", 1)
           STOP
        END IF
        CALL setRangeBounds(storb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (20)", 1)
           STOP
@@ -6592,7 +6592,7 @@ CONTAINS
        END IF
        CALL randomWalkRanging(storb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (10)", 1)
           STOP
@@ -6602,14 +6602,14 @@ CONTAINS
        ! Is this needed, since burn in in MCMC discards orbits based on their rms-values? 
        !CALL constrainRangeDistributions(storb, storb%obss)
        !IF (error) THEN
-       error = 0
+       error = .FALSE.
        !   CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
        !        "TRACE BACK (15)", 1)
        !   STOP
        !END IF
        CALL setRangeBounds(storb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (20)", 1)
           STOP
@@ -6629,7 +6629,7 @@ CONTAINS
        END IF
        CALL randomWalkRanging(storb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (10)", 1)
           STOP
@@ -6637,7 +6637,7 @@ CONTAINS
        this%sor_niter_cmp = 2
        CALL setRangeBounds(storb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (20)", 1)
           STOP
@@ -6662,7 +6662,7 @@ CONTAINS
     END IF
     CALL randomWalkRanging(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
             "TRACE BACK (50)", 1)
        STOP
@@ -6791,7 +6791,7 @@ CONTAINS
     ! Get observed sky positions (original observational data) 
     obs_scoords => getObservationSCoords(this%obss) 
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -6801,7 +6801,7 @@ CONTAINS
        CALL rotateToEquatorial(obs_scoords(i))
        obs_coords(i,:) = getCoordinates(obs_scoords(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (10)", 1)
           CALL NULLIFY(obs_scoords(i))
@@ -6813,7 +6813,7 @@ CONTAINS
 
     obs_masks => getObservationMasks(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "TRACE BACK (15)", 1)
        RETURN
@@ -6827,7 +6827,7 @@ CONTAINS
 
     information_matrix_obs => getBlockDiagInformationMatrix(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "TRACE BACK (20)", 1)
        DEALLOCATE(obsy_ccoords, stat=err)
@@ -6840,7 +6840,7 @@ CONTAINS
 
     obsy_ccoords => getObservatoryCCoords(this%obss) 
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "TRACE BACK (25)", 1)
        RETURN
@@ -6859,7 +6859,7 @@ CONTAINS
     obs_scoord1 = copy(obs_scoords(obs_pair(1)))
     obs_scoord2 = copy(obs_scoords(obs_pair(2)))
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "TRACE BACK (30)", 1)
        RETURN
@@ -6887,7 +6887,7 @@ CONTAINS
     state_(1:3) = getPosition(obs_scoord1)
     state_(4:6) = getPosition(obs_scoord2)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "TRACE BACK (50)", 1)
        DEALLOCATE(obs_masks, stat=err)
@@ -6953,7 +6953,7 @@ CONTAINS
        CALL NEW(obs_scoord1, state(1), state(2), state(3), getTime(obsy_ccoords(obs_pair(1))))
        CALL NEW(obs_scoord2, state(4), state(5), state(6), getTime(obsy_ccoords(obs_pair(2))))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (65)", 1)
           RETURN
@@ -6965,7 +6965,7 @@ CONTAINS
        CALL NEW(obs_ccoord_topo1, obs_scoord1) 
        CALL NEW(obs_ccoord_topo2, obs_scoord2) 
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (70)", 1)
           RETURN
@@ -6977,7 +6977,7 @@ CONTAINS
        CALL rotateToEcliptic(obsy_ccoords(obs_pair(1)))
        CALL rotateToEcliptic(obsy_ccoords(obs_pair(2)))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (75)", 1)
           RETURN
@@ -6989,7 +6989,7 @@ CONTAINS
        obs_ccoord_helio1 = copy(obsy_ccoords(obs_pair(1)) + obs_ccoord_topo1)
        obs_ccoord_helio2 = copy(obsy_ccoords(obs_pair(2)) + obs_ccoord_topo2)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (80)", 1)
           RETURN
@@ -6998,7 +6998,7 @@ CONTAINS
        CALL estimateLightTime(obs_ccoord_helio1, state(1))! changed from 3 and 6
        CALL estimateLightTime(obs_ccoord_helio2, state(1)+state(4))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (85)", 1)
           RETURN
@@ -7016,7 +7016,7 @@ CONTAINS
             integrator=this%integrator_prm, &
             integration_step=this%integration_step_prm)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (86)", 1)
           error = .FALSE.
@@ -7049,7 +7049,7 @@ CONTAINS
              END IF
           END IF
           IF (error) THEN
-       error = 0 
+       error = .FALSE. 
              CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                   "TRACE BACK (xx)", 1)
              error = .FALSE.
@@ -7064,7 +7064,7 @@ CONTAINS
                 CALL getPeriapsisDistance(orb, q)
              END IF
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 error = .FALSE.
                 CYCLE
              END IF
@@ -7127,7 +7127,7 @@ CONTAINS
        IF (.NOT. equal(this%t_inv_prm,getTime(orb))) THEN
           CALL propagate(orb, this%t_inv_prm)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                   "TRACE BACK (90)", 1)
              error = .FALSE.
@@ -7147,7 +7147,7 @@ CONTAINS
        ! get computed sky positions - spherical coordinates
        CALL getEphemerides(orb, obsy_ccoords, comp_scoords, partials_arr=partials_arr)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (45)", 1)
           DEALLOCATE(comp_scoords, stat=err)
@@ -7169,7 +7169,7 @@ CONTAINS
           CALL rotateToEquatorial(comp_scoords(i))
           comp_coords(i,:) = getCoordinates(comp_scoords(i))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                   "TRACE BACK (55)", 1)
              DEALLOCATE(obsy_ccoords, stat=err)
@@ -7508,7 +7508,7 @@ CONTAINS
     ! Get observed sky positions (original observational data) 
     obs_scoords => getObservationSCoords(this%obss) 
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -7518,7 +7518,7 @@ CONTAINS
        CALL rotateToEquatorial(obs_scoords(i))
        obs_coords(i,:) = getCoordinates(obs_scoords(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (10)", 1)
           CALL NULLIFY(obs_scoords(i))
@@ -7530,7 +7530,7 @@ CONTAINS
 
     obs_masks => getObservationMasks(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "TRACE BACK (15)", 1)
        RETURN
@@ -7544,7 +7544,7 @@ CONTAINS
 
     information_matrix_obs => getBlockDiagInformationMatrix(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "TRACE BACK (20)", 1)
        DEALLOCATE(obsy_ccoords, stat=err)
@@ -7557,7 +7557,7 @@ CONTAINS
 
     obsy_ccoords => getObservatoryCCoords(this%obss) 
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "TRACE BACK (25)", 1)
        RETURN
@@ -7576,7 +7576,7 @@ CONTAINS
     obs_scoord1 = copy(obs_scoords(obs_pair(1)))
     obs_scoord2 = copy(obs_scoords(obs_pair(2)))
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "TRACE BACK (30)", 1)
        RETURN
@@ -7604,7 +7604,7 @@ CONTAINS
     state_(1:3) = getPosition(obs_scoord1)
     state_(4:6) = getPosition(obs_scoord2)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "TRACE BACK (50)", 1)
        DEALLOCATE(obs_masks, stat=err)
@@ -7671,7 +7671,7 @@ CONTAINS
        CALL NEW(obs_scoord1, state(1), state(2), state(3), getTime(obsy_ccoords(obs_pair(1))))
        CALL NEW(obs_scoord2, state(4), state(5), state(6), getTime(obsy_ccoords(obs_pair(2))))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (65)", 1)
           RETURN
@@ -7683,7 +7683,7 @@ CONTAINS
        CALL NEW(obs_ccoord_topo1, obs_scoord1) 
        CALL NEW(obs_ccoord_topo2, obs_scoord2) 
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (70)", 1)
           RETURN
@@ -7695,7 +7695,7 @@ CONTAINS
        CALL rotateToEcliptic(obsy_ccoords(obs_pair(1)))
        CALL rotateToEcliptic(obsy_ccoords(obs_pair(2)))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (75)", 1)
           RETURN
@@ -7707,7 +7707,7 @@ CONTAINS
        obs_ccoord_helio1 = copy(obsy_ccoords(obs_pair(1)) + obs_ccoord_topo1)
        obs_ccoord_helio2 = copy(obsy_ccoords(obs_pair(2)) + obs_ccoord_topo2)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (80)", 1)
           RETURN
@@ -7716,7 +7716,7 @@ CONTAINS
        CALL estimateLightTime(obs_ccoord_helio1, state(1))! changed from 3 and 6
        CALL estimateLightTime(obs_ccoord_helio2, state(1)+state(4))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (85)", 1)
           RETURN
@@ -7734,7 +7734,7 @@ CONTAINS
             integrator=this%integrator_prm, &
             integration_step=this%integration_step_prm)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (86)", 1)
           error = .FALSE.
@@ -7775,7 +7775,7 @@ CONTAINS
                 CALL getPeriapsisDistance(orb, q)
              END IF
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 error = .FALSE.
                 CYCLE
              END IF
@@ -7838,7 +7838,7 @@ CONTAINS
        IF (.NOT. equal(this%t_inv_prm,getTime(orb))) THEN
           CALL propagate(orb, this%t_inv_prm)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / MCMCRanging", &
                   "TRACE BACK (90)", 1)
              error = .FALSE.
@@ -7858,7 +7858,7 @@ CONTAINS
        ! get computed sky positions - spherical coordinates
        CALL getEphemerides(orb, obsy_ccoords, comp_scoords, partials_arr=partials_arr)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (45)", 1)
           DEALLOCATE(comp_scoords, stat=err)
@@ -7880,7 +7880,7 @@ CONTAINS
           CALL rotateToEquatorial(comp_scoords(i))
           comp_coords(i,:) = getCoordinates(comp_scoords(i))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / MCMCRanging", &
                   "TRACE BACK (55)", 1)
              DEALLOCATE(obsy_ccoords, stat=err)
@@ -8202,7 +8202,7 @@ CONTAINS
     ! Observational information
     nobs = getNrOfObservations(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "observationSampling", &
             "TRACE BACK (5)", 1)
@@ -8211,7 +8211,7 @@ CONTAINS
     IF (this%generat_gaussian_deviates_prm) THEN
        cov_mat_obs => getCovarianceMatrices(this%obss)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "observationSampling", &
                "TRACE BACK (10)", 1)
@@ -8223,7 +8223,7 @@ CONTAINS
     ELSE
        stddev_arr => getStandardDeviations(this%obss)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "observationSampling", &
                "TRACE BACK (15)", 1)
@@ -8242,7 +8242,7 @@ CONTAINS
     IF (info_verb >= 3 .OR. this%os_sampling_type_prm == 2) THEN
        scoord_arr => getObservationSCoords(this%obss)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "observationSampling", &
                "TRACE BACK (20)", 1)
@@ -8261,7 +8261,7 @@ CONTAINS
     ! Inversion epoch is equal to epoch of first preliminary orbit:
     t = getTime(orb_arr(1))
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "observationSampling", &
             "TRACE BACK (25)", 1)
@@ -8269,7 +8269,7 @@ CONTAINS
     END IF
     CALL getParameters(orb_arr(1), dyn_model=dyn_model)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "observationSampling", &
             "TRACE BACK (30)", 1)
@@ -8288,7 +8288,7 @@ CONTAINS
     ! Initialize elements:
     frame = getFrame(orb_arr(1))
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "observationSampling", &
             "TRACE BACK (35)", 1)
@@ -8297,7 +8297,7 @@ CONTAINS
     element_type = this%element_type_prm
     CALL locase(element_type, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / observationSampling", &
             "The element type string contains forbidden characters.", 1)
        RETURN
@@ -8310,7 +8310,7 @@ CONTAINS
     ELSE
        elements = getElements(orb_arr(1), element_type, frame=frame)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "observationSampling", &
                "TRACE BACK (45)", 1)
@@ -8323,7 +8323,7 @@ CONTAINS
           elements_(i) = 1.01_bp*elements_(i)
           CALL NEW(orb_arr_init(i+1), elements_, element_type, frame, t)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / " // &
                   "observationSampling", &
                   "TRACE BACK (50)", 1)
@@ -8339,7 +8339,7 @@ CONTAINS
                integration_step=this%integration_step_prm, &
                integrator=this%integrator_prm)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / " // &
                   "observationSampling", &
                   "TRACE BACK (55)", 1)
@@ -8362,7 +8362,7 @@ CONTAINS
           RETURN
        END SELECT
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "observationSampling", &
                "TRACE BACK (40)", 1)
@@ -8405,7 +8405,7 @@ CONTAINS
        ! configuration for orbit inversion:
        storb = copy(this)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "observationSampling", &
                "TRACE BACK (65)", 1)
@@ -8422,7 +8422,7 @@ CONTAINS
              CALL addUniformDeviates(storb%obss, center_and_absbound_arr)
           END IF
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / " // &
                   "observationSampling", &
                   "TRACE BACK (70)", 1)
@@ -8447,7 +8447,7 @@ CONTAINS
        CALL simplexOrbits(storb, orb_arr_tmp)
        info_verb = info_verb_
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "observationSampling", &
                "WARNING: Error message from simplexOrbits", 1)
@@ -8462,7 +8462,7 @@ CONTAINS
        ! the original observations
        chi2 = getChi2(this, storb%orb_ml_cmp)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "observationSampling", &
                "TRACE BACK (80)", 1)
@@ -8524,7 +8524,7 @@ CONTAINS
        IF (info_verb >= 3) THEN
           elements = getElements(storb%orb_ml_cmp, "cometary")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / " // &
                   "observationSampling", &
                   "TRACE BACK (85)", 1)
@@ -8549,7 +8549,7 @@ CONTAINS
        IF (info_verb >= 3 .OR. (accept .AND. this%os_sampling_type_prm == 2)) THEN
           scoord_arr => getObservationSCoords(storb%obss)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / " // &
                   "observationSampling", &
                   "TRACE BACK (90)", 1)
@@ -8560,7 +8560,7 @@ CONTAINS
           DO j=1,nobs
              coordinates = getCoordinates(scoord_arr(j))
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / " // &
                      "observationSampling", &
                      "TRACE BACK (95)", 1)
@@ -8666,7 +8666,7 @@ CONTAINS
 
     orb = copy(preliminary_orbit)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -8678,7 +8678,7 @@ CONTAINS
          vov_norb=this%vov_norb_iter_prm, &
          vov_ntrial=this%vov_ntrial_iter_prm)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -8708,7 +8708,7 @@ CONTAINS
                vov_norb=norb_final, &
                vov_ntrial=ntrial_final)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                   "TRACE BACK (15)", 1)
              RETURN
@@ -8740,7 +8740,7 @@ CONTAINS
           this%chi2_min_prm = MIN(this%chi2_min_prm,this%chi2_min_cmp)
           orb = copy(this%orb_arr_cmp(max_indx))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                   "TRACE BACK (20)", 1)
              RETURN
@@ -8759,7 +8759,7 @@ CONTAINS
 
        CALL volumeOfVariation(this, orb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                "TRACE BACK (25)", 1)
           RETURN       
@@ -8786,7 +8786,7 @@ CONTAINS
        DO i=1,norb
           element_arr(i,1:6) = getElements(this%orb_arr_cmp(i), this%element_type_prm)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                   "TRACE BACK (30)", 1)
              RETURN       
@@ -9037,7 +9037,7 @@ CONTAINS
        elements_2 = getElements(this%orb_arr_cmp(indx), element_type)
        elements_2(3:6) = elements_2(3:6)/rad_deg
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                "TRACE BACK (50)", 1)
           error = .FALSE.
@@ -9045,7 +9045,7 @@ CONTAINS
           elements_1 = getElements(this%orb_ml_cmp, element_type)
           elements_2 = getElements(this%orb_arr_cmp(indx), element_type)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                   "TRACE BACK (55)", 1)
              RETURN
@@ -9220,7 +9220,7 @@ CONTAINS
 
     nobs = getNrOfObservations(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -9322,7 +9322,7 @@ CONTAINS
 
     obs_scoords => getObservationSCoords(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (45)", 1)
        DEALLOCATE(principal_axes, stat=err)
@@ -9345,7 +9345,7 @@ CONTAINS
     DO i=1,nobs
        obs_coords(i,:) = getCoordinates(obs_scoords(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (50)",1)
           DEALLOCATE(principal_axes, stat=err)
@@ -9369,7 +9369,7 @@ CONTAINS
     END DO
     obsy_ccoords => getObservatoryCCoords(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (55)", 1)
        DEALLOCATE(principal_axes, stat=err)
@@ -9404,7 +9404,7 @@ CONTAINS
     orb = copy(preliminary_orbit)
     frame = getFrame(orb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (70)", 1)
        DEALLOCATE(principal_axes, stat=err)
@@ -9454,7 +9454,7 @@ CONTAINS
        RETURN       
     END IF
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (60)", 1)
        DEALLOCATE(principal_axes, stat=err)
@@ -9479,7 +9479,7 @@ CONTAINS
     ! Epoch is bound to the epoch of the preliminary orbit
     t0 = getTime(orb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (65)", 1)
        DEALLOCATE(principal_axes, stat=err)
@@ -9549,7 +9549,7 @@ CONTAINS
        END IF
        CALL levenbergMarquardt(this, orb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "Global least-squares solution not found.", 1)
           DEALLOCATE(principal_axes, stat=err)
@@ -9578,7 +9578,7 @@ CONTAINS
           CALL NULLIFY(t)
           elements = getElements(this%orb_ml_cmp, "keplerian")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              error = .FALSE.
              elements = getElements(orb, "cartesian", frame="ecliptic")
              WRITE(stdout,"(2X,A)") "Cartesian ecliptic elements resulting " // &
@@ -9596,7 +9596,7 @@ CONTAINS
     END IF
     CALL NULLIFY(orb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (90)", 1)
        DEALLOCATE(principal_axes, stat=err)
@@ -9621,7 +9621,7 @@ CONTAINS
     ! LS orbit
     orb_global = getNominalOrbit(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (95)", 1)
        DEALLOCATE(principal_axes, stat=err)
@@ -9647,7 +9647,7 @@ CONTAINS
     ! Orbital elements at the specified epoch:
     elements_global = getElements(orb_global, element_type)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (100)", 1)
        DEALLOCATE(principal_axes, stat=err)
@@ -9673,7 +9673,7 @@ CONTAINS
     ! Correlation/Standard deviation matrix:
     covariance_global = getCovarianceMatrix(this, element_type, frame)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (105)", 1)
        DEALLOCATE(principal_axes, stat=err)
@@ -9758,7 +9758,7 @@ CONTAINS
     ! Residuals for the global fit:
     residuals2 => getResiduals(this, orb_global)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (130)", 1)
        DEALLOCATE(principal_axes, stat=err)
@@ -9784,7 +9784,7 @@ CONTAINS
     END IF
     information_matrix_obs => getBlockDiagInformationMatrix(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (135)", 1)
        DEALLOCATE(principal_axes, stat=err)
@@ -10076,7 +10076,7 @@ CONTAINS
     ! Elements used for local least squares solutions:
     CALL setParameters(this, ls_element_mask=.NOT.this%vov_mapping_mask_prm)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (230)", 1)
        DEALLOCATE(principal_axes, stat=err)
@@ -10115,7 +10115,7 @@ CONTAINS
             this%vov_scaling_prm(indx,1)*stdev_global(indx)
        CALL NEW(orb_local, elements_local, element_type, frame, t0)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (235)", 1)
           DEALLOCATE(principal_axes, stat=err)
@@ -10150,7 +10150,7 @@ CONTAINS
        !, &
        !finite_diff=this%finite_diff_prm)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (245)", 1)
           DEALLOCATE(principal_axes, stat=err)
@@ -10184,7 +10184,7 @@ CONTAINS
        CALL levenbergMarquardt(this, orb_local)
        info_verb = info_verb_
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (250)", 1)
           DEALLOCATE(principal_axes, stat=err)
@@ -10213,7 +10213,7 @@ CONTAINS
        CALL NULLIFY(orb_local)
        orb_local = copy(this%orb_ml_cmp)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (255)", 1)
           DEALLOCATE(principal_axes, stat=err)
@@ -10241,7 +10241,7 @@ CONTAINS
        END IF
        elements_local_arr(imap,1:6) = getElements(orb_local, element_type)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (260)", 1)
           DEALLOCATE(principal_axes, stat=err)
@@ -10272,7 +10272,7 @@ CONTAINS
        ! diagonal element is 1:
        covariance_local = getCovarianceMatrix(this, element_type, frame)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (265)", 1)
           DEALLOCATE(principal_axes, stat=err)
@@ -10369,7 +10369,7 @@ CONTAINS
             this%vov_scaling_prm(indx,2)*stdev_global(indx)
        CALL NEW(orb_local, elements_local, element_type, frame, t0)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (235)", 1)
           DEALLOCATE(principal_axes, stat=err)
@@ -10404,7 +10404,7 @@ CONTAINS
        !, &
        !finite_diff=this%finite_diff_prm)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (245)", 1)
           DEALLOCATE(principal_axes, stat=err)
@@ -10438,7 +10438,7 @@ CONTAINS
        CALL levenbergMarquardt(this, orb_local)
        info_verb = info_verb_
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (250)", 1)
           DEALLOCATE(principal_axes, stat=err)
@@ -10467,7 +10467,7 @@ CONTAINS
        CALL NULLIFY(orb_local)
        orb_local = copy(this%orb_ml_cmp)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (255)", 1)
           DEALLOCATE(principal_axes, stat=err)
@@ -10495,7 +10495,7 @@ CONTAINS
        END IF
        elements_local_arr(imap,1:6) = getElements(orb_local, element_type)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (260)", 1)
           DEALLOCATE(principal_axes, stat=err)
@@ -10526,7 +10526,7 @@ CONTAINS
        ! diagonal element is 1:
        covariance_local = getCovarianceMatrix(this, element_type, frame)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (265)", 1)
           DEALLOCATE(principal_axes, stat=err)
@@ -10723,7 +10723,7 @@ CONTAINS
           CALL NULLIFY(orb_arr(i))
           CALL NEW(orb_arr(i), elements, element_type, frame, t0)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                   "TRACE BACK (315)", 1)
              error = .FALSE.
@@ -10741,7 +10741,7 @@ CONTAINS
           !, &
           !finite_diff=this%finite_diff_prm)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                   "TRACE BACK (325)", 1)
              DO i=1,SIZE(orb_arr)
@@ -10793,7 +10793,7 @@ CONTAINS
        CALL getEphemerides(orb_arr, obsy_ccoords, comp_scoords, &
             partials_arr=partials4)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (330)",1)
           DO i=1,SIZE(orb_arr)
@@ -10840,7 +10840,7 @@ CONTAINS
              ! Sky-plane residuals and chi-squares:
              comp_coord = getCoordinates(comp_scoords(i,iobs))
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                      "TRACE BACK (335)",1)
                 DO j=1,SIZE(orb_arr)
@@ -11031,7 +11031,7 @@ CONTAINS
           ! Jaocobians between different elements
           CALL partialsCartesianWrtKeplerian(orb_arr(i), jacobian_matrix, "equatorial")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                   "TRACE BACK (356) ",4)
              RETURN
@@ -11075,7 +11075,7 @@ CONTAINS
           END IF
           elements = getElements(orb_arr(i), "keplerian")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                   "TRACE BACK (357) ",4)
              !error = .FALSE.
@@ -11090,7 +11090,7 @@ CONTAINS
           iorb = iorb + 1
           orb_accepted(iorb) = copy(orb_arr(i))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                   "TRACE BACK (355)", 1)
              DO j=1,SIZE(orb_arr)
@@ -11363,7 +11363,7 @@ CONTAINS
     DO i=1,iorb
        this%orb_arr_cmp(i) = copy(orb_accepted(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                "TRACE BACK (365)", 1)
           IF (ASSOCIATED(orb_arr)) THEN
@@ -11401,7 +11401,7 @@ CONTAINS
     END DO
     CALL propagate(this%orb_arr_cmp, t0)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (370)", 1)
        IF (ASSOCIATED(orb_arr)) THEN
@@ -11440,7 +11440,7 @@ CONTAINS
     CALL NULLIFY(this%orb_ml_cmp)
     this%orb_ml_cmp = copy(orb_global)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (375)", 1)
        IF (ASSOCIATED(orb_arr)) THEN
@@ -11678,7 +11678,7 @@ CONTAINS
 
     frame = getFrame(orb_arr_in(1))
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
             "TRACE BACK (70)", 1)
        RETURN
@@ -11686,7 +11686,7 @@ CONTAINS
     ! Inversion epoch is bound to the epoch of the first input orbit:
     t0 = getTime(orb_arr_in(1))
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
             "TRACE BACK (65)", 1)
        RETURN
@@ -11703,7 +11703,7 @@ CONTAINS
     IF (.FALSE.) THEN
        CALL observationSampling(this, orb_arr_in)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
                "TRACE BACK (66)", 1)       
           RETURN
@@ -11803,7 +11803,7 @@ CONTAINS
        CALL NULLIFY(orb)
        CALL NEW(orb, elements, this%element_type_prm, frame, t0)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
                "TRACE BACK (315)", 1)
           RETURN
@@ -11815,7 +11815,7 @@ CONTAINS
             integration_step=this%integration_step_prm, &
             integrator=this%integrator_prm)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
                "TRACE BACK (325)", 1)
           RETURN
@@ -11861,7 +11861,7 @@ CONTAINS
                 CALL getPeriapsisDistance(orb, q)
              END IF
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 error = .FALSE.
                 CYCLE
              END IF
@@ -11916,7 +11916,7 @@ CONTAINS
        ! Compute "reduced" chi2:
        rchi2 = getChi2(this, orb) - COUNT(obs_masks_)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
                "TRACE BACK (330)", 1)
           RETURN
@@ -11960,7 +11960,7 @@ CONTAINS
              this%rchi2_arr_cmp(this%vomcmc_norb_cmp) = rchi2
              this%pdf_arr_cmp(this%vomcmc_norb_cmp) = pdf
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
                      "TRACE BACK (355)", 1)
                 RETURN
@@ -12162,7 +12162,7 @@ CONTAINS
     ! Allocate memory:
     nobs = getNrOfObservations(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (5)", 1)
@@ -12196,7 +12196,7 @@ CONTAINS
     ! Inversion epoch is equal to epoch of initial orbit:
     t = getTime(orb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (10)", 1)
@@ -12219,7 +12219,7 @@ CONTAINS
     ! Find parameters of the peliminary orbit:
     CALL getParameters(orb, dyn_model=dyn_model)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (10)", 1)
@@ -12265,7 +12265,7 @@ CONTAINS
     ! Initialize elements:
     frame = getFrame(orb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (15)", 1)
@@ -12287,7 +12287,7 @@ CONTAINS
     element_type = this%element_type_prm
     CALL locase(element_type, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / leastSquares", &
             "The element type string contains forbidden characters.", 1)
        RETURN
@@ -12317,7 +12317,7 @@ CONTAINS
        RETURN
     END SELECT
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (25)", 1)
@@ -12342,7 +12342,7 @@ CONTAINS
     END DO
     element_type_ls = element_type
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (27)", 1)
@@ -12369,7 +12369,7 @@ CONTAINS
     ! Observations and observers:
     obs_scoords => getObservationSCoords(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (30)", 1)
@@ -12415,7 +12415,7 @@ CONTAINS
     END DO
     obsy_codes => getObservatoryCodes(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (45)", 1)
@@ -12437,7 +12437,7 @@ CONTAINS
     END IF
     obsy_ccoords => getObservatoryCCoords(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (45)", 1)
@@ -12460,7 +12460,7 @@ CONTAINS
     DO i=1,nobs
        observed(i,:) = getCoordinates(obs_scoords(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "leastSquares", &
                "TRACE BACK (50)", 1)
@@ -12508,7 +12508,7 @@ CONTAINS
     ! Covariance matrix for observations:
     stdev_arr_obs => getStandardDeviations(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (51)", 1)
@@ -12533,7 +12533,7 @@ CONTAINS
 
     inform_mat_obs_bd => getBlockDiagInformationMatrix(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (53)", 1)
@@ -12559,7 +12559,7 @@ CONTAINS
     CALL getEphemerides(orb, obsy_ccoords, ephemerides, &
          partials_arr=partials_arr)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (55)", 1)
@@ -12582,7 +12582,7 @@ CONTAINS
     END IF
     CALL propagate(orb, t)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (56)", 1)
@@ -12610,7 +12610,7 @@ CONTAINS
        computed(j,:) = getCoordinates(ephemerides(j))
        computed(j,2) = computed(j,2)*COS(observed(j,3))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "leastSquares", &
                "TRACE BACK (60)", 1)
@@ -12676,7 +12676,7 @@ CONTAINS
                elements(1:6),TRIM(str)
        END SELECT
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "leastSquares", &
                "TRACE BACK (65)", 1)
@@ -12785,7 +12785,7 @@ CONTAINS
                finite_diff=orb_finite_diff, &
                additional_perturbers=orb_additional_perturbers)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / " // &
                   "leastSquares", &
                   "TRACE BACK (69)", 1)
@@ -12813,7 +12813,7 @@ CONTAINS
           CALL NEW(orb, elements_iter_arr(iiter,1:6), &
                TRIM(element_type_ls), TRIM(frame), copy(t))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / " // &
                   "leastSquares", &
                   "TRACE BACK (70)", 1)
@@ -12836,7 +12836,7 @@ CONTAINS
                finite_diff=orb_finite_diff, &
                additional_perturbers=orb_additional_perturbers)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / " // &
                   "leastSquares", &
                   "TRACE BACK (75)", 1)
@@ -12862,7 +12862,7 @@ CONTAINS
           CALL getEphemerides(orb, obsy_ccoords, ephemerides, &
                partials_arr=partials_arr)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / " // &
                   "leastSquares", &
                   "TRACE BACK (80)", 1)
@@ -12880,7 +12880,7 @@ CONTAINS
              computed(k,:) = getCoordinates(ephemerides(k))
              computed(k,2) = computed(k,2)*COS(observed(k,3))
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / " // &
                      "leastSquares", &
                      "TRACE BACK (85)", 1)
@@ -12947,7 +12947,7 @@ CONTAINS
                      getCalendarDateString(t_, "tdt")
              END SELECT
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / " // &
                      "leastSquares", &
                      "TRACE BACK (90)", 1)
@@ -13283,7 +13283,7 @@ CONTAINS
                 elements_iter_arr(iiter,1:6) = getElements(orb, element_type_ls, frame=frame)
              END IF
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / " // &
                      "leastSquares", &
                      "TRACE BACK (105)", 1)
@@ -13394,7 +13394,7 @@ CONTAINS
     IF (info_verb >= 2) THEN
        t_ = getTime(orb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "leastSquares", &
                "TRACE BACK (130)", 1)
@@ -13421,7 +13421,7 @@ CONTAINS
        elements = getElements(orb, "keplerian")
        err_verb = err_verb_
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error = .FALSE.
        ELSE
           str = getCalendarDateString(t_, "TT")
@@ -13431,7 +13431,7 @@ CONTAINS
        END IF
        elements = getElements(orb, "cartesian", frame="ecliptic")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error = .FALSE.
        ELSE
           str = getCalendarDateString(t_, "TT")
@@ -13632,7 +13632,7 @@ CONTAINS
     ! Inversion epoch is equal to epoch of initial orbit:
     t = getTime(orb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "TRACE BACK (5)", 1)
@@ -13647,7 +13647,7 @@ CONTAINS
     ! Find parameters of the peliminary orbit:
     CALL getParameters(orb, dyn_model=dyn_model_)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "TRACE BACK (10)", 1)
@@ -13677,7 +13677,7 @@ CONTAINS
          integrator=integrator_, &
          finite_diff=finite_diff_)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "TRACE BACK (15)", 1)
@@ -13692,7 +13692,7 @@ CONTAINS
     ! Initialize elements:
     frame_ = getFrame(orb)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "TRACE BACK (20)", 1)
@@ -13706,7 +13706,7 @@ CONTAINS
     element_type_ = this%element_type_prm
     CALL locase(element_type_, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / levenbergMarquardt", &
             "The element type string contains forbidden characters.", 1)
        DEALLOCATE(measur, stat=err)
@@ -13735,7 +13735,7 @@ CONTAINS
        RETURN
     END SELECT
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "TRACE BACK (25)", 1)
@@ -13751,7 +13751,7 @@ CONTAINS
        elements_iter_arr(i,1:6) = params(1:6)
     END DO
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "TRACE BACK (30)", 1)
@@ -13770,7 +13770,7 @@ CONTAINS
     ! Observations and observers:
     obs_scoords => getObservationSCoords(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "TRACE BACK (35)", 1)
@@ -13785,7 +13785,7 @@ CONTAINS
     mask_measur = this%obs_masks_prm
     obsy_codes => getObservatoryCodes(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "TRACE BACK (40)", 1)
@@ -13800,7 +13800,7 @@ CONTAINS
     END IF
     obsy_ccoords => getObservatoryCCoords(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "TRACE BACK (45)", 1)
@@ -13817,7 +13817,7 @@ CONTAINS
     DO i=1,ndata
        measur(i,:) = getCoordinates(obs_scoords(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "levenbergMarquardt", &
                "TRACE BACK (50)", 1)
@@ -13850,7 +13850,7 @@ CONTAINS
     END IF
     information_matrix_measur => getBlockDiagInformationMatrix(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "TRACE BACK (55)", 1)
@@ -13866,7 +13866,7 @@ CONTAINS
     END IF
     stdev_arr_measur => getStandardDeviations(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "TRACE BACK (60)", 1)
@@ -13896,7 +13896,7 @@ CONTAINS
           END IF
           CALL LevenbergMarquardt_private
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / " // &
                   "levenbergMarquardt", &
                   "Could not find a least-squares solution (1).", 1)
@@ -13940,7 +13940,7 @@ CONTAINS
     END IF
     CALL levenbergMarquardt_private
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "Could not find a least-squares solution (2).", 1)
@@ -13989,7 +13989,7 @@ CONTAINS
     CALL NULLIFY(this%orb_ml_cmp)
     CALL NEW(this%orb_ml_cmp, params, TRIM(element_type_), TRIM(frame_), copy(t))
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "TRACE BACK (65)", 1)
@@ -14004,7 +14004,7 @@ CONTAINS
          integrator=integrator_, &
          finite_diff=finite_diff_)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "TRACE BACK (70)", 1)
@@ -14064,7 +14064,7 @@ CONTAINS
          END IF
          CALL coefficients(params_, alpha, beta)
          IF (error) THEN
-       error = 0
+       error = .FALSE.
             CALL errorMessage("StochasticOrbit / " // &
                  "levenbergMarquardt / levenbergMarquardt_private", &
                  "TRACE BACK (5)", 1)
@@ -14109,7 +14109,7 @@ CONTAINS
       END IF
       CALL coefficients(params_, cov_mat_param, param_corrections(:,1))
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("StochasticOrbit / " // &
               "levenbergMarquardt / levenbergMarquardt_private", &
               "TRACE BACK (10)", 1)
@@ -14151,7 +14151,7 @@ CONTAINS
       END IF
       CALL ephemeris_lsl(params, residuals, jacobians, rchi2)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("StochasticOrbit / " // &
               "levenbergMarquardt / coefficients", &
               "TRACE BACK (5)", 1)
@@ -14211,7 +14211,7 @@ CONTAINS
       END IF
       CALL NEW(orb, elements, TRIM(element_type_), TRIM(frame_), copy(t))
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("StochasticOrbit / " // &
               "levenbergMarquardt / ephemeris_lsl", &
               "TRACE BACK (5)", 1)
@@ -14225,7 +14225,7 @@ CONTAINS
            integrator=integrator_, &
            finite_diff=finite_diff_)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("StochasticOrbit / " // &
               "levenbergMarquardt / ephemeris_lsl", &
               "TRACE BACK (10)", 1)
@@ -14236,7 +14236,7 @@ CONTAINS
       CALL getEphemerides(orb, obsy_ccoords, ephemerides, &
            partials_arr=partials_arr)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("StochasticOrbit / " // &
               "levenbergMarquardt / ephemeris_lsl", &
               "TRACE BACK (15)", 1)
@@ -14249,7 +14249,7 @@ CONTAINS
          computed(j,:) = getCoordinates(ephemerides(j))
          computed(j,2) = computed(j,2)*COS(measur(j,3))
          IF (error) THEN
-       error = 0
+       error = .FALSE.
             CALL errorMessage("StochasticOrbit / " // &
                  "levenbergMarquardt / ephemeris_lsl", &
                  "TRACE BACK (20)", 1)
@@ -14283,7 +14283,7 @@ CONTAINS
                  elements(1:6),TRIM(str)
          END SELECT
          IF (error) THEN
-       error = 0
+       error = .FALSE.
             CALL errorMessage("StochasticOrbit / " // &
                  "levenbergMarquardt / ephemeris_lsl", &
                  "TRACE BACK (25)", 1)
@@ -14372,7 +14372,7 @@ CONTAINS
     nomit = 0
     nobs_orig = getNrOfObservations(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / makePairsOfObservations", &
             "TRACE BACK (1", 1)
        RETURN
@@ -14471,7 +14471,7 @@ CONTAINS
           CALL propagate(this%orb_arr_cmp, t, jacobian=jacobians)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / propagate", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(jacobians, stat=err)
@@ -14480,7 +14480,7 @@ CONTAINS
        ! Propagation of pdf
        pdf_arr => getDiscretePDF(this)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / propagate", &
                "TRACE BACK (10)", 1)
           DEALLOCATE(jacobians, stat=err)
@@ -14515,7 +14515,7 @@ CONTAINS
             getElementType(this%orb_ml_cmp), & 
             getFrame(this%orb_ml_cmp))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / propagate", &
                "Missing covariances.", 1)
           RETURN
@@ -14526,7 +14526,7 @@ CONTAINS
           CALL propagate(this%orb_ml_cmp, t, jacobian=jacobian)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / propagate", &
                "TRACE BACK (20)", 1)
           RETURN
@@ -14586,7 +14586,7 @@ CONTAINS
 
     nobs = getNrOfObservations(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / setAcceptanceWindow", &
             "TRACE BACK 5", 1)
        RETURN       
@@ -14613,7 +14613,7 @@ CONTAINS
     END IF
     stdevs => getStandardDeviations(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / setAcceptanceWindow", &
             "TRACE BACK 10", 1)
        RETURN
@@ -14886,7 +14886,7 @@ CONTAINS
        str = dyn_model
        CALL locase(str, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "The dynamical model string contains forbidden characters.", 1)
           RETURN
@@ -14953,7 +14953,7 @@ CONTAINS
        str = integrator
        CALL locase(str, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "The integrator string contains forbidden characters.", 1)
           RETURN
@@ -15002,14 +15002,14 @@ CONTAINS
           END IF
        END DO
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "The element type string contains forbidden characters.", 1)
           RETURN
        END IF
        CALL locase(this%element_type_prm, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "The element type string contains forbidden characters.", 1)
           RETURN
@@ -15691,7 +15691,7 @@ CONTAINS
        END IF
        CALL histogram(this%sor_rho_arr_cmp(:,1), histo)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / setRangeBounds", &
                "TRACE BACK", 1)
           RETURN
@@ -15870,7 +15870,7 @@ CONTAINS
     CALL setParameters(this, sor_norb=2000, sor_ntrial=1000000)
     CALL setAcceptanceWindow(this, 4.0_bp)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / setTNORanging", &
             "TRACE BACK (1", 1)
        RETURN
@@ -15974,14 +15974,14 @@ CONTAINS
 
     frame = getFrame(orb_arr(1))
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / simplexOrbits", &
             "TRACE BACK (5)", 1)
        RETURN
     END IF
     CALL propagate(orb_arr, this%t_inv_prm)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / simplexOrbits", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -15990,7 +15990,7 @@ CONTAINS
        p(i,1:6) = getElements(orb_arr(i), this%element_type_prm, &
             frame=frame)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / simplexOrbits", &
                "TRACE BACK (15)", 1)
           RETURN
@@ -16001,7 +16001,7 @@ CONTAINS
        y(i) = getChi2(this, orb_arr(i))
        info_verb = info_verb_
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / simplexOrbits", &
                "TRACE BACK (20)", 1)
           RETURN
@@ -16011,7 +16011,7 @@ CONTAINS
     y_best = MINVAL(y)
     CALL simplex_private
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / simplexOrbits", &
             "TRACE BACK (25)", 1)
        RETURN
@@ -16043,7 +16043,7 @@ CONTAINS
        CALL NEW(this%orb_arr_cmp(i), p(i,:), this%element_type_prm, &
             frame, this%t_inv_prm)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / simplexOrbits", &
                "TRACE BACK (45)", 1)
           RETURN
@@ -16055,7 +16055,7 @@ CONTAINS
             integrator=this%integrator_prm, &
             integration_step=this%integration_step_prm)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / simplexOrbits", &
                "TRACE BACK (45)", 1)
           RETURN
@@ -16122,7 +16122,7 @@ CONTAINS
                   info_verb = info_verb_
                END DO
                IF (error) THEN
-       error = 0
+       error = .FALSE.
                   CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                        "TRACE BACK (20)", 1)
                   RETURN
@@ -16176,7 +16176,7 @@ CONTAINS
          ! point, i.e., reflect the simplex from the high point.
          CALL simtry(this, 1.0_bp, ptry_ref, ytry_ref) ! Reflect
          IF (error) THEN
-       error = 0
+       error = .FALSE.
             CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                  "TRACE BACK (30)", 1)
             RETURN
@@ -16193,7 +16193,7 @@ CONTAINS
             ! additional extrapolation by a factor of 2.  
             CALL simtry(this, 2.0_bp, ptry_exp, ytry_exp) ! Expand
             IF (error) THEN
-       error = 0
+       error = .FALSE.
                CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                     "TRACE BACK (35)", 1)
                RETURN
@@ -16216,7 +16216,7 @@ CONTAINS
             IF (ytry_ref >= y(inhi) .AND. ytry_ref < y(ihi)) THEN
                CALL simtry(this, 0.5_bp, ptry_co, ytry_co) ! Outside contraction
                IF (error) THEN
-       error = 0
+       error = .FALSE.
                   CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                        "TRACE BACK (40)", 1)
                   RETURN
@@ -16230,7 +16230,7 @@ CONTAINS
             ELSE ! ytry_ref >= y(ihi) 
                CALL simtry(this, -0.5_bp, ptry_co, ytry_co) ! Inside contraction
                IF (error) THEN
-       error = 0
+       error = .FALSE.
                   CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                        "TRACE BACK (40)", 1)
                   RETURN
@@ -16267,7 +16267,7 @@ CONTAINS
                      CALL NEW(orb, p(i,:), this%element_type_prm, &
                           frame, this%t_inv_prm)
                      IF (error) THEN
-       error = 0
+       error = .FALSE.
                         CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                              "TRACE BACK (45)", 1)
                         RETURN
@@ -16279,7 +16279,7 @@ CONTAINS
                           integrator=this%integrator_prm, &
                           integration_step=this%integration_step_prm)
                      IF (error) THEN
-       error = 0
+       error = .FALSE.
                         CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                              "TRACE BACK (45)", 1)
                         RETURN
@@ -16289,7 +16289,7 @@ CONTAINS
                      y(i) = getChi2(this, orb)
                      info_verb = info_verb_
                      IF (error) THEN
-       error = 0
+       error = .FALSE.
                         CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                              "TRACE BACK (50)", 1)
                         RETURN
@@ -16350,7 +16350,7 @@ CONTAINS
       CALL NEW(orb, ptry, this%element_type_prm, &
            frame, this%t_inv_prm)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("StochasticOrbit / simplexOrbits / simtry", &
               "TRACE BACK (55)", 1)
          RETURN
@@ -16362,7 +16362,7 @@ CONTAINS
            integrator=this%integrator_prm, &
            integration_step=this%integration_step_prm)
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("StochasticOrbit / simplexOrbits / simtry", &
               "TRACE BACK (45)", 1)
          RETURN
@@ -16380,7 +16380,7 @@ CONTAINS
       ytry = getChi2(this, orb)
       info_verb = info_verb_
       IF (error) THEN
-       error = 0
+       error = .FALSE.
          CALL errorMessage("StochasticOrbit / simplexOrbits / simtry", &
               "TRACE BACK (60)", 1)
          RETURN
@@ -16479,7 +16479,7 @@ CONTAINS
 
     nobs = getNrOfObservations(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -16544,7 +16544,7 @@ CONTAINS
          integrator=integrator)!, &
     !         finite_diff=finite_diff)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "TRACE BACK (15)", 1)
        RETURN
@@ -16606,7 +16606,7 @@ CONTAINS
     ! Spherical toposentric observation coordinates:
     obs_scoords => getObservationSCoords(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "TRACE BACK (20)", 1)
        DO i=1,SIZE(orb_arr_)
@@ -16630,7 +16630,7 @@ CONTAINS
 
     information_matrix_obs => getBlockDiagInformationMatrix(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "TRACE BACK (30)", 1)
        DO i=1,SIZE(orb_arr_)
@@ -16655,7 +16655,7 @@ CONTAINS
 
     cov_matrices => getCovarianceMatrices(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "TRACE BACK (35)", 1)
        DO i=1,SIZE(orb_arr_)
@@ -16689,7 +16689,7 @@ CONTAINS
        CALL rotateToEquatorial(obs_scoords(i))
        r_ra_dec = getPosition(obs_scoords(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / statisticalRanging", &
                "TRACE BACK (40)", 1) 
           DO j=1,SIZE(orb_arr_)
@@ -16723,7 +16723,7 @@ CONTAINS
 !!$obsies_ccoords(2)%position = 0.0_bp
 !!$obsies_ccoords(2)%velocity = 0.0_bp
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "TRACE BACK (45)", 1)
        DO i=1,SIZE(orb_arr_)
@@ -16953,7 +16953,7 @@ CONTAINS
           bounds(2:3,1:2) = this%sor_deviates_prm(obs_pair_arr(i+1,1),2:3,1:2)
           CALL addUniformDeviate(obs_scoord1, bounds)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / statisticalRanging", &
                   "TRACE BACK (50)", 1)
              DO i=1,SIZE(orb_arr_)
@@ -17003,7 +17003,7 @@ CONTAINS
           sphdev(i+1,1,2) = sphdev(i+1,1,2)*cosdec0_arr(obs_pair_arr(i+1,1))
           rho1(i+1) = getDistance(obs_scoord1)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / statisticalRanging", &
                   "TRACE BACK (55)", 1)
              DO i=1,SIZE(orb_arr_)
@@ -17085,7 +17085,7 @@ CONTAINS
              sphdev(i+1,2,:) = getPosition(obs_scoord2)
              CALL addUniformDeviate(obs_scoord2, bounds)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / statisticalRanging", &
                      "TRACE BACK (60)", 1)
                 DO i=1,SIZE(orb_arr_)
@@ -17132,7 +17132,7 @@ CONTAINS
 
              rho2(i+1) = getDistance(obs_scoord2)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / statisticalRanging", &
                      "TRACE BACK (65)", 1)
                 DO i=1,SIZE(orb_arr_)
@@ -17197,7 +17197,7 @@ CONTAINS
 
           CALL NEW(obs_ccoord_topo1, obs_scoord1)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / statisticalRanging", &
                   "TRACE BACK (70)",1)
              DO i=1,SIZE(orb_arr_)
@@ -17239,7 +17239,7 @@ CONTAINS
              position1 = getPosition(obs_scoord1)
              position2 = getPosition(obs_scoords(obs_pair_arr(i+1,1)))
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / statisticalRanging", &
                      "TRACE BACK (75)",1)
                 DO i=1,SIZE(orb_arr_)
@@ -17283,7 +17283,7 @@ CONTAINS
 
           CALL NEW(obs_ccoord_topo2, obs_scoord2)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / statisticalRanging", &
                   "TRACE BACK (80)",1)
              DO i=1,SIZE(orb_arr_)
@@ -17332,7 +17332,7 @@ CONTAINS
              WRITE(stdout,"(2X,A,1X,3(F15.10,1X))") &
                   "Cartesian coordinates, topocentric ecliptic 2:", position1
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / statisticalRanging", &
                      "TRACE BACK (85)",1)
                 DO i=1,SIZE(orb_arr_)
@@ -17411,7 +17411,7 @@ CONTAINS
           CALL estimateLightTime(obs_ccoord_focus1, rho1(i+1))
           CALL estimateLightTime(obs_ccoord_focus2, rho2(i+1))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / statisticalRanging", &
                   "TRACE BACK (90)",1)
              DO i=1,SIZE(orb_arr_)
@@ -17490,7 +17490,7 @@ CONTAINS
                center=this%center_prm)
           err_verb = err_verb_
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              IF (info_verb >= 5) THEN
                 WRITE(stdout,"(2X,A)") "Failed solving 2-point boundary value problem."
              END IF
@@ -17535,7 +17535,7 @@ CONTAINS
                    CALL getPeriapsisDistance(orb_arr(i+1), q)
                 END IF
                 IF (error) THEN
-       error = 0
+       error = .FALSE.
                    error = .FALSE.
                    CYCLE sor_orb_gen
                 END IF
@@ -17599,7 +17599,7 @@ CONTAINS
                integration_step=integration_step, &
                integrator=integrator)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / statisticalRanging", &
                   "TRACE BACK (101)",1)
              DO i=1,SIZE(orb_arr_)
@@ -17640,7 +17640,7 @@ CONTAINS
           END IF
           CALL propagate(orb_arr(i+1), t1)
           IF (error) THEN
-       error = 0 
+       error = .FALSE. 
              CALL errorMessage("StochasticOrbit / statisticalRanging", &
                   "TRACE BACK (95)",1)
              error = .FALSE.
@@ -17651,7 +17651,7 @@ CONTAINS
           IF (TRIM(this%element_type_prm) == "keplerian") THEN
              CALL toKeplerian(orb_arr(i+1))
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / statisticalRanging", &
                      "Failed to change to Keplerian elements.",1)
                 DO i=1,SIZE(orb_arr_)
@@ -17720,7 +17720,7 @@ CONTAINS
        ! DO THE MAIN PROPAGATION TO THE DESIRED EPOCH HERE
        CALL propagate(orb_arr, this%t_inv_prm)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / statisticalRanging", &
                "TRACE BACK (105)",1)
           DO i=1,SIZE(orb_arr_)
@@ -17774,7 +17774,7 @@ CONTAINS
           CALL getEphemerides(orb_arr, obsies_ccoords, scoords)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / statisticalRanging", &
                "TRACE BACK (110)", 1)
           DO i=1,SIZE(orb_arr_)
@@ -17815,7 +17815,7 @@ CONTAINS
           DO j=1,nobs
              observed_coord = getCoordinates(obs_scoords(j))
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / statisticalRanging", &
                      "TRACE BACK (115)",1)
                 DO k=1,SIZE(orb_arr_)
@@ -17852,7 +17852,7 @@ CONTAINS
              END IF
              computed_coord = getCoordinates(scoords(i,j))
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / statisticalRanging", &
                      "TRACE BACK (120)",1)
                 DO k=1,SIZE(orb_arr_)
@@ -18052,7 +18052,7 @@ CONTAINS
                 error = .FALSE.
                 jac_car_kep = -1.0_bp
              ELSE IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / statisticalRanging", &
                      "Unsuccessful computation of jacobian matrix " // &
                      "between Cartesian and Keplerian elements.", 1)
@@ -18615,14 +18615,14 @@ CONTAINS
     IF (ASSOCIATED(this%orb_arr_cmp)) THEN
        CALL constrainRangeDistributions(this, this%obss)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                "TRACE BACK (5)", 1)
           RETURN
        END IF
        CALL setRangeBounds(this)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                "TRACE BACK (10)", 1)
           RETURN
@@ -18631,7 +18631,7 @@ CONTAINS
 
     obs_arr => getObservations(this%obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / stepwiseRanging", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -18651,7 +18651,7 @@ CONTAINS
     END IF
     CALL NEW(obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / stepwiseRanging", &
             "TRACE BACK (10)", 1)
        DEALLOCATE(obs_arr, stat=err)
@@ -18660,7 +18660,7 @@ CONTAINS
     END IF
     CALL addObservation(obss, obs_arr(1))
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / stepwiseRanging", &
             "TRACE BACK (15)", 1)
        DEALLOCATE(obs_arr, stat=err)
@@ -18691,7 +18691,7 @@ CONTAINS
           k = k - 1
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                "TRACE BACK (20)", 1)
           DEALLOCATE(obs_arr, stat=err)
@@ -18701,7 +18701,7 @@ CONTAINS
        CALL NULLIFY(storb)
        CALL NEW(storb, obss)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                "TRACE BACK (22)", 1)
           DEALLOCATE(obs_arr, stat=err)
@@ -18745,7 +18745,7 @@ CONTAINS
             sor_2point_method=this%sor_2point_method_sw_prm, &
             sor_iterate_bounds=this%sor_iterate_bounds_prm)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                "TRACE BACK (27)", 1)
           DEALLOCATE(obs_arr, stat=err)
@@ -18763,7 +18763,7 @@ CONTAINS
           CALL statisticalRanging(storb)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                "TRACE BACK (30)", 1)
           DEALLOCATE(obs_arr, stat=err)
@@ -18791,7 +18791,7 @@ CONTAINS
           END IF
           CALL setRangeBounds(storb)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                   "TRACE BACK (33", 1)
              DEALLOCATE(obs_arr, stat=err)
@@ -18801,7 +18801,7 @@ CONTAINS
           END IF
           rho(1:4) = getRangeBounds(storb)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                   "TRACE BACK (35)", 1)
              DEALLOCATE(obs_arr, stat=err)
@@ -18837,7 +18837,7 @@ CONTAINS
                sor_rho2_l=rho(3), &
                sor_rho2_u=rho(4))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                   "TRACE BACK (40)", 1)
              CALL NULLIFY(storb)
@@ -18849,7 +18849,7 @@ CONTAINS
           this%chi2_min_prm = chi2_min_
           CALL statisticalRanging(this)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                   "Subsequent iteration failed.", 1)
              CALL NULLIFY(storb)
@@ -18868,7 +18868,7 @@ CONTAINS
           END IF
           CALL setRangeBounds(this)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                   "TRACE BACK (45)", 1)
              CALL NULLIFY(storb)
@@ -18876,7 +18876,7 @@ CONTAINS
           END IF
           rho(1:4) = getRangeBounds(this)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                   "TRACE BACK (50)", 1)
              CALL NULLIFY(storb)
@@ -18941,7 +18941,7 @@ CONTAINS
     ! observations:
     residuals => getResiduals(this, obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / constrainRangeDistributions2", &
             "TRACE BACK (5)", 1)
        DEALLOCATE(residuals, stat=err)
@@ -18951,7 +18951,7 @@ CONTAINS
     ! Get astrometric uncertainty for additional observations:
     stdevs => getStandardDeviations(obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / constrainRangeDistributions2", &
             "TRACE BACK (10)", 1)
        DEALLOCATE(residuals, stat=err)
@@ -19006,7 +19006,7 @@ CONTAINS
     ! Always compute chi2 
     information_matrix_obs => getBlockDiagInformationMatrix(obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / constrainRangeDistributions2", &
             "TRACE BACK (15)", 1)
        DEALLOCATE(residuals, stat=err)
@@ -19085,7 +19085,7 @@ CONTAINS
     IF (exist(this%obss)) THEN
        dates_orig => getDates(this%obss)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / constrainRangeDistributions2", &
                "TRACE BACK (20)", 1)
           DEALLOCATE(residuals, stat=err)
@@ -19095,7 +19095,7 @@ CONTAINS
        END IF
        dates_add => getDates(obss)       
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / constrainRangeDistributions2", &
                "TRACE BACK (25)", 1)
           DEALLOCATE(residuals, stat=err)
@@ -19153,7 +19153,7 @@ CONTAINS
           CALL NULLIFY(obss_)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / constrainRangeDistributions2", &
                "TRACE BACK (30)", 1)
           DEALLOCATE(residuals, stat=err)
@@ -19164,7 +19164,7 @@ CONTAINS
        END IF
        orb_arr => getSampleOrbits(this)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / constrainRangeDistributions2", &
                "TRACE BACK (35)", 1)
           DEALLOCATE(residuals, stat=err)
@@ -19180,7 +19180,7 @@ CONTAINS
 
        CALL getEphemerides(orb_arr, observers, ephemerides)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / constrainRangeDistributions2", &
                "TRACE BACK (40)", 1)
           DEALLOCATE(residuals, stat=err)
@@ -19226,7 +19226,7 @@ CONTAINS
           CALL NULLIFY(ephemerides(i,2))
           CALL NULLIFY(orb_arr(i))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / constrainRangeDistributions2", &
                   "TRACE BACK (45)", 1)
              DEALLOCATE(residuals, stat=err)
@@ -19378,7 +19378,7 @@ CONTAINS
     ! observations:
     residuals => getResiduals(this, obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / constrainRangeDistributions", &
             "TRACE BACK (5)", 1)
        DEALLOCATE(residuals, stat=err)
@@ -19388,7 +19388,7 @@ CONTAINS
     ! Get astrometric uncertainty for additional observations:
     stdevs => getStandardDeviations(obss)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / constrainRangeDistributions", &
             "TRACE BACK (10)", 1)
        DEALLOCATE(residuals, stat=err)
@@ -19446,7 +19446,7 @@ CONTAINS
     IF (COUNT(mask) < 10) THEN
        information_matrix_obs => getBlockDiagInformationMatrix(obss)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / constrainRangeDistributions", &
                "TRACE BACK (15)", 1)
           DEALLOCATE(residuals, stat=err)
@@ -19518,7 +19518,7 @@ CONTAINS
     IF (exist(this%obss)) THEN
        dates_orig => getDates(this%obss)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / constrainRangeDistributions", &
                "TRACE BACK (20)", 1)
           DEALLOCATE(residuals, stat=err)
@@ -19528,7 +19528,7 @@ CONTAINS
        END IF
        dates_add => getDates(obss)       
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / constrainRangeDistributions", &
                "TRACE BACK (25)", 1)
           DEALLOCATE(residuals, stat=err)
@@ -19586,7 +19586,7 @@ CONTAINS
           CALL NULLIFY(obss_)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / constrainRangeDistributions", &
                "TRACE BACK (30)", 1)
           DEALLOCATE(residuals, stat=err)
@@ -19597,7 +19597,7 @@ CONTAINS
        END IF
        orb_arr => getSampleOrbits(this)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / constrainRangeDistributions", &
                "TRACE BACK (35)", 1)
           DEALLOCATE(residuals, stat=err)
@@ -19608,7 +19608,7 @@ CONTAINS
        END IF
        CALL getEphemerides(orb_arr, observers, ephemerides)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / constrainRangeDistributions", &
                "TRACE BACK (40)", 1)
           DEALLOCATE(residuals, stat=err)
@@ -19654,7 +19654,7 @@ CONTAINS
           CALL NULLIFY(ephemerides(i,2))
           CALL NULLIFY(orb_arr(i))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / constrainRangeDistributions", &
                   "TRACE BACK (45)", 1)
              DEALLOCATE(residuals, stat=err)
@@ -19783,7 +19783,7 @@ CONTAINS
     frame_ = TRIM(frame)
     CALL locase(frame_, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("StochasticOrbit / toCartesian", &
             "The frame string contains forbidden characters.", 1)
        RETURN
@@ -19807,7 +19807,7 @@ CONTAINS
        IF (exist(this%orb_ml_cmp) .AND. containsDiscretePDF(this)) THEN
           pdf_arr => getDiscretePDF(this)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCartesian", &
                   "TRACE BACK (5)", 1)
              RETURN
@@ -19819,7 +19819,7 @@ CONTAINS
        ELSE IF (exist(this%orb_ml_cmp) .AND. .NOT.containsDiscretePDF(this)) THEN
           CALL toCartesian(this%orb_ml_cmp, frame_)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCartesian", &
                   "TRACE BACK (10)", 1)
              RETURN
@@ -19833,7 +19833,7 @@ CONTAINS
           DO i=1,SIZE(this%orb_arr_cmp)
              CALL toCartesian(this%orb_arr_cmp(i), frame_)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / toCartesian", &
                      "TRACE BACK (15)", 1)
                 RETURN
@@ -19842,7 +19842,7 @@ CONTAINS
           END DO
           pdf_arr => getDiscretePDF(this, "cartesian")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCartesian", &
                   "TRACE BACK (20)", 1)
              RETURN
@@ -19853,7 +19853,7 @@ CONTAINS
        IF (ASSOCIATED(this%cov_ml_cmp)) THEN
           this%cov_ml_cmp = getCovarianceMatrix(this, "cartesian", frame_)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCartesian", &
                   "TRACE BACK (25)", 1)
              RETURN
@@ -19863,7 +19863,7 @@ CONTAINS
        IF (exist(this%orb_ml_cmp) .AND. ASSOCIATED(this%pdf_arr_cmp)) THEN
           pdf_arr => getDiscretePDF(this)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCartesian", &
                   "TRACE BACK (30)", 1)
              RETURN
@@ -19875,7 +19875,7 @@ CONTAINS
        ELSE IF (exist(this%orb_ml_cmp) .AND. .NOT.ASSOCIATED(this%pdf_arr_cmp)) THEN
           CALL toCartesian(this%orb_ml_cmp, frame_)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCartesian", &
                   "TRACE BACK (35)", 1)
              RETURN
@@ -19926,7 +19926,7 @@ CONTAINS
           END DO
           pdf_arr => getDiscretePDF(this, "cometary")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCometary", &
                   "TRACE BACK (5)", 1)
              RETURN
@@ -19941,7 +19941,7 @@ CONTAINS
        IF (exist(this%orb_ml_cmp) .AND. ASSOCIATED(this%pdf_arr_cmp)) THEN
           pdf_arr => getDiscretePDF(this)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCometary", &
                   "TRACE BACK (10)", 1)
              RETURN
@@ -19995,7 +19995,7 @@ CONTAINS
           DO i=1,SIZE(this%orb_arr_cmp)
              CALL toKeplerian(this%orb_arr_cmp(i))
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 CALL errorMessage("StochasticOrbit / toKeplerian", &
                      "TRACE BACK (5)", 1)
                 RETURN
@@ -20004,7 +20004,7 @@ CONTAINS
           END DO
           pdf_arr => getDiscretePDF(this, "keplerian")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / toKeplerian", &
                   "TRACE BACK (10)", 1)
              RETURN
@@ -20015,7 +20015,7 @@ CONTAINS
        IF (ASSOCIATED(this%cov_ml_cmp)) THEN
           this%cov_ml_cmp = getCovarianceMatrix(this, "keplerian")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / toKeplerian", &
                   "TRACE BACK (15)", 1)
              RETURN
@@ -20025,7 +20025,7 @@ CONTAINS
        IF (exist(this%orb_ml_cmp) .AND. ASSOCIATED(this%pdf_arr_cmp)) THEN
           pdf_arr => getDiscretePDF(this)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / toKeplerian", &
                   "TRACE BACK (20)", 1)
              RETURN
@@ -20037,7 +20037,7 @@ CONTAINS
        ELSE IF (exist(this%orb_ml_cmp) .AND. .NOT.ASSOCIATED(this%pdf_arr_cmp)) THEN
           CALL toKeplerian(this%orb_ml_cmp)          
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("StochasticOrbit / toKeplerian", &
                   "TRACE BACK (25)", 1)
              RETURN
@@ -20170,7 +20170,7 @@ CONTAINS
        obs_masks => getObservationMasks(this%obss, use_notes=.TRUE.)
        stdevs => getStandardDeviations(this%obss)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("StochasticOrbit / updateRanging", &
                "TRACE BACK ()", 1)
           RETURN
@@ -20198,7 +20198,7 @@ CONTAINS
                 str = " "
                 CALL toString(nr_of_omitted-1, str, error)
                 IF (error) THEN
-       error = 0
+       error = .FALSE.
                    CALL errorMessage("StochasticOrbit / updateRanging", &
                         "Error in conversion from integer to character.", 1)
                    RETURN

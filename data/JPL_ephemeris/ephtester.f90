@@ -53,7 +53,7 @@ PROGRAM ephtester
   END DO
   CALL JPL_ephemeris_init(error, "de" // TRIM(eph_type) // ".dat")
   IF (error) THEN
-       error = 0
+       error = .FALSE.
      WRITE(0,*) "***** INITIALIZATION ERROR OCCURRED *****"     
      STOP
   END IF
@@ -65,7 +65,7 @@ PROGRAM ephtester
         EXIT
      ELSE IF (err > 0) THEN
         IF (error) THEN
-       error = 0
+       error = .FALSE.
            WRITE(0,*) "***** READ ERROR OCCURRED *****"     
            STOP
         END IF

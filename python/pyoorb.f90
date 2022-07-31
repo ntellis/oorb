@@ -74,7 +74,7 @@ CONTAINS
     ! Read OBSCODE.dat
     CALL NEW(obsies)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        error_code = 1
        error = .FALSE.
        RETURN       
@@ -83,7 +83,7 @@ CONTAINS
     ! Read TAI-UTC.dat and ET-UT.dat
     CALL NEW(t)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        error_code = 2
        error = .FALSE.
        RETURN       
@@ -93,7 +93,7 @@ CONTAINS
     IF (PRESENT(ephemeris_fname) .AND. LEN_TRIM(ephemeris_fname) /= 0) THEN
        CALL JPL_ephemeris_init(error, ephemeris_fname)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error_code = 3
           error = .FALSE.
           RETURN
@@ -102,7 +102,7 @@ CONTAINS
        CALL JPL_ephemeris_init(error, &
             filename=TRIM(OORB_DATA_DIR) // "/" // TRIM(EPH_FNAME)) 
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error_code = 4
           error = .FALSE.
           RETURN
@@ -194,7 +194,7 @@ CONTAINS
        ! create a Time instance:
        CALL NEW(t, in_orbits(i,9), timescales(NINT(in_orbits(i,10))))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in creating a Time instance.
           error_code = 57
           RETURN
@@ -212,7 +212,7 @@ CONTAINS
        out_orbits(i,2:7) = getElements(orb, element_types(in_element_type), &
             "ecliptic")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in transformation
           error_code = 58
           RETURN
@@ -323,14 +323,14 @@ CONTAINS
             integrator=integrator, &
             integration_step=integration_step)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error_code = 37
           RETURN
        END IF
        ! Create a Time instance based on the requested output epoch
        CALL NEW(t1, in_epoch(1), timescales(NINT(in_epoch(2))))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in transformation
           error_code = 58
           RETURN
@@ -339,7 +339,7 @@ CONTAINS
        CALL propagate(orb, &
             t1)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in getEphemerides()
           error_code = 40
           RETURN
@@ -348,7 +348,7 @@ CONTAINS
        out_orbits(i,2:7) = getElements(orb, element_types(NINT(in_orbits(i,8))), &
             "ecliptic")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in transformation
           error_code = 58
           RETURN
@@ -413,7 +413,7 @@ CONTAINS
     DO i=1,SIZE(in_date_ephems,dim=1)
        CALL NEW(t, in_date_ephems(i,1), timescales(NINT(in_date_ephems(i,2))))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in creating a new Time object.
           error_code = 35
           RETURN
@@ -421,7 +421,7 @@ CONTAINS
        ! Compute heliocentric observatory coordinates
        observers(i) = getObservatoryCCoord(obsies, in_obscode, t)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in getObservatoryCCoord()
           error_code = 36
           RETURN
@@ -437,7 +437,7 @@ CONTAINS
        CALL rotateToEcliptic(observers(i))
        h_ecl_car_coord_obsy = getCoordinates(observers(i))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage('oorb / ephemeris', &
                'TRACE BACK (95)',1)
           STOP
@@ -610,7 +610,7 @@ CONTAINS
     DO i=1,SIZE(in_date_ephems,dim=1)
        CALL NEW(t, in_date_ephems(i,1), timescales(NINT(in_date_ephems(i,2))))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in creating a new Time object.
           error_code = 35
           RETURN
@@ -618,7 +618,7 @@ CONTAINS
        ! Compute heliocentric observatory coordinates
        observers(i) = getObservatoryCCoord(obsies, in_obscode, t)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in getObservatoryCCoord()
           error_code = 36
           RETURN
@@ -661,7 +661,7 @@ CONTAINS
             integrator=integrator, &
             integration_step=integration_step)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error_code = 37
           RETURN
        END IF
@@ -669,7 +669,7 @@ CONTAINS
        CALL toCartesian(orb_arr(1), "equatorial")
        !CALL toCometary(orb_arr(1))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in setParameters()
           error_code = 39
           RETURN
@@ -680,7 +680,7 @@ CONTAINS
             ephemerides, &
             this_lt_corr_arr=orb_lt_corr_arr)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in getEphemerides()
           error_code = 40
           RETURN
@@ -710,7 +710,7 @@ CONTAINS
           CALL rotateToEcliptic(ephemerides(1,j))        
           comp_coord = getCoordinates(ephemerides(1, j))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (40)',1)
              STOP
@@ -741,7 +741,7 @@ CONTAINS
           scoord = getSCoord(ccoord)
           comp_coord = getCoordinates(scoord)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (45)',1)
              STOP
@@ -763,7 +763,7 @@ CONTAINS
           ! r, Delta, phase angle
           CALL NEW(ccoord, ephemerides(1,j))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (50)',1)
              STOP
@@ -771,7 +771,7 @@ CONTAINS
           CALL rotateToEquatorial(ccoord)
           obsy_obj = getPosition(ccoord)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (55)',1)
              STOP
@@ -781,7 +781,7 @@ CONTAINS
           CALL toCartesian(orb_lt_corr_arr(1,j), frame='equatorial')
           pos = getPosition(orb_lt_corr_arr(1,j))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (60)',1)
              STOP
@@ -789,7 +789,7 @@ CONTAINS
           heliocentric_r2 = DOT_PRODUCT(pos,pos)
           obsy_pos = getPosition(observers(j))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (65)',1)
              STOP
@@ -806,7 +806,7 @@ CONTAINS
                Delta=coordinates(1), phase_angle=phase)
 
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (70)',1)
              STOP
@@ -821,7 +821,7 @@ CONTAINS
 
           obsy_ccoord = getGeocentricObservatoryCCoord(obsies, in_obscode, t)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (75)',1)
              STOP
@@ -831,7 +831,7 @@ CONTAINS
           geoc_obsy = getPosition(obsy_ccoord)
 
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (80)',1)
              STOP
@@ -846,7 +846,7 @@ CONTAINS
           ! Position of the geocenter as seen from the Sun:
           planeph => JPL_ephemeris(mjd_tt, 3, 11, error)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (85)',1)
              STOP
@@ -865,7 +865,7 @@ CONTAINS
           ! Position of the Moon as seen from the Sun:
           planeph => JPL_ephemeris(mjd_tt, 10, 11, error)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (95)',1)
              STOP
@@ -890,7 +890,7 @@ CONTAINS
           ! Extract heliocentric ecliptic cartesian coordinates for the object
           h_ecl_car_coord_obj = getElements(orb_lt_corr_arr(1,j), "cartesian", "ecliptic")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (90)',1)
              STOP
@@ -900,7 +900,7 @@ CONTAINS
           CALL rotateToEcliptic(observers(j))
           h_ecl_car_coord_obsy = getCoordinates(observers(j))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (95)',1)
              STOP
@@ -1083,7 +1083,7 @@ CONTAINS
     DO i=1,SIZE(in_date_ephems,dim=1)
        CALL NEW(t, in_date_ephems(i,1), timescales(NINT(in_date_ephems(i,2))))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in creating a new Time object.
           error_code = 35
           RETURN
@@ -1091,7 +1091,7 @@ CONTAINS
        ! Compute heliocentric observatory coordinates
        observers(i) = getObservatoryCCoord(obsies, in_obscode, t)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in getObservatoryCCoord()
           error_code = 36
           RETURN
@@ -1134,7 +1134,7 @@ CONTAINS
             integrator=integrator, &
             integration_step=integration_step)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error_code = 37
           RETURN
        END IF
@@ -1142,7 +1142,7 @@ CONTAINS
        CALL toCartesian(orb_arr(1), "equatorial")
        !CALL toCometary(orb_arr(1))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in setParameters()
           error_code = 39
           RETURN
@@ -1153,7 +1153,7 @@ CONTAINS
             ephemerides, &
             this_lt_corr_arr=orb_lt_corr_arr)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in getEphemerides()
           error_code = 40
           RETURN
@@ -1182,7 +1182,7 @@ CONTAINS
           ! r, Delta, phase angle
           CALL NEW(ccoord, ephemerides(1,j))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (50)',1)
              STOP
@@ -1190,7 +1190,7 @@ CONTAINS
           CALL rotateToEquatorial(ccoord)
           obsy_obj = getPosition(ccoord)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (55)',1)
              STOP
@@ -1200,7 +1200,7 @@ CONTAINS
           CALL toCartesian(orb_lt_corr_arr(1,j), frame='equatorial')
           pos = getPosition(orb_lt_corr_arr(1,j))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (60)',1)
              STOP
@@ -1208,7 +1208,7 @@ CONTAINS
           heliocentric_r2 = DOT_PRODUCT(pos,pos)
           obsy_pos = getPosition(observers(j))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (65)',1)
              STOP
@@ -1225,7 +1225,7 @@ CONTAINS
                Delta=coordinates(1), phase_angle=phase)
 
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (70)',1)
              STOP
@@ -1235,7 +1235,7 @@ CONTAINS
           ! Position of the geocenter as seen from the Sun:
           planeph => JPL_ephemeris(mjd_tt, 3, 11, error)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (85)',1)
              STOP
@@ -1407,7 +1407,7 @@ CONTAINS
     DO i=1,SIZE(in_date_ephems,dim=1)
        CALL NEW(t, in_date_ephems(i,1), timescales(NINT(in_date_ephems(i,2))))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in creating a new Time object.
           error_code = 35
           RETURN
@@ -1415,7 +1415,7 @@ CONTAINS
        ! Compute heliocentric observatory coordinates
        observers(i) = getObservatoryCCoord(obsies, in_obscode, t)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in getObservatoryCCoord()
           error_code = 36
           RETURN
@@ -1458,7 +1458,7 @@ CONTAINS
             integrator=integrator, &
             integration_step=integration_step)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error_code = 37
           RETURN
        END IF
@@ -1466,7 +1466,7 @@ CONTAINS
             cov_type=element_types(NINT(in_orbits(i,8))), &
             element_type=element_types(NINT(in_orbits(i,8))))
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error_code = 34
           RETURN
        END IF
@@ -1474,7 +1474,7 @@ CONTAINS
        CALL toCartesian(storb, "equatorial")
        !CALL toCometary(storb)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in setParameters()
           error_code = 36
           RETURN
@@ -1487,7 +1487,7 @@ CONTAINS
             integrator=integrator, &
             integration_step=integration_step)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in setParameters()
           error_code = 37
           RETURN
@@ -1500,7 +1500,7 @@ CONTAINS
             cov_arr=cov_arr, &
             this_lt_corr_arr=orb_lt_corr_arr)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           ! Error in getEphemerides()
           error_code = 38
           RETURN
@@ -1519,7 +1519,7 @@ CONTAINS
           ! Calculate apparent brightness
           CALL NEW(ccoord, ephemerides(1,j))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (50)',1)
              STOP
@@ -1527,7 +1527,7 @@ CONTAINS
           CALL rotateToEquatorial(ccoord)
           obsy_obj = getPosition(ccoord)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (55)',1)
              STOP
@@ -1537,7 +1537,7 @@ CONTAINS
           CALL toCartesian(orb_lt_corr_arr(1,j), frame='equatorial')
           pos = getPosition(orb_lt_corr_arr(1,j))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (60)',1)
              STOP
@@ -1545,7 +1545,7 @@ CONTAINS
           heliocentric_r2 = DOT_PRODUCT(pos,pos)
           obsy_pos = getPosition(observers(j))
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (65)',1)
              STOP
@@ -1559,7 +1559,7 @@ CONTAINS
                G=in_orbits(i,12), r=SQRT(heliocentric_r2), &
                Delta=coordinates(1), phase_angle=phase)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (70)',1)
              STOP

@@ -209,7 +209,7 @@ CONTAINS
     frame_ = frame
     CALL locase(frame_, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("SphericalCoordinates / new", &
             "The frame string contains forbidden characters.", 1)
        RETURN
@@ -309,7 +309,7 @@ CONTAINS
 
     CALL NEW(this, h, min, sec, deg, arcmin, arcsec, t)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("SphericalCoordinates / new", &
             "TRACE BACK", 1)
        RETURN
@@ -500,7 +500,7 @@ CONTAINS
     copy_SC%frame          = this%frame
     copy_SC%t              = copy(this%t)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("SphericalCoordinates / copy", &
             "TRACE BACK (5)", 1)
        RETURN

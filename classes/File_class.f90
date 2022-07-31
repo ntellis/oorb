@@ -229,7 +229,7 @@ CONTAINS
 
     CALL NEW(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("File / new", &
             "TRACE BACK", 1)
        RETURN
@@ -277,7 +277,7 @@ CONTAINS
     IF (this%opened) THEN
        CALL NULLIFY(this%lu)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("File / nullify", &
                "TRACE BACK", 1)
           RETURN
@@ -774,7 +774,7 @@ CONTAINS
     IF (.NOT. this%opened) THEN
        CALL NEW(this%lu)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("File / open", &
                "TRACE BACK", 1)
           RETURN

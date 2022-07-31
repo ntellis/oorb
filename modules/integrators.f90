@@ -256,7 +256,7 @@ CONTAINS
                   ws, error, pws, pws, masses=masses, radial_acceleration=radial_acceleration)
           END IF
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              DEALLOCATE(ws, pws, stat=err)
              WRITE(0,"(A)") "bulirsch_full_jpl: TRACE BACK (5)"
              RETURN
@@ -333,7 +333,7 @@ CONTAINS
                   ws, error, masses=masses, radial_acceleration=radial_acceleration)
           END IF
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              DEALLOCATE(ws, stat=err)
              WRITE(0,"(A)") "bulirsch_full_jpl: TRACE BACK (10)"
              RETURN
@@ -545,7 +545,7 @@ CONTAINS
           END DO
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           WRITE(0,"(A)") "step_bulirsch_full_jpl: TRACE BACK (5)."
           DEALLOCATE(hseq, wa0, wa1, pwa0, pwa1, ddif, pddif, wst, &
                pwst, ws_converged, pws_converged, ws_index, pws_index, &
@@ -558,7 +558,7 @@ CONTAINS
           CALL polf_extrapolation(i, hseq, wa0, wa1, ddif, ws_converged, error)
           !          CALL ratf_extrapolation(i, hseq, wa0, wa1, ddif, ws_converged, error)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              WRITE(0,"(A)") "step_bulirsch_full_jpl: TRACE BACK (10)."
              DEALLOCATE(hseq, wa0, wa1, pwa0, pwa1, ddif, pddif, wst, &
                   pwst, ws_converged, pws_converged, ws_index, pws_index, &
@@ -577,7 +577,7 @@ CONTAINS
              CALL polf_extrapolation(i, hseq, pwa0, pwa1, pddif, pws_converged, error)
              !             CALL ratf_extrapolation(i, hseq, pwa0, pwa1, pddif, pws_converged, error)
              IF (error) THEN
-       error = 0
+       error = .FALSE.
                 WRITE(0,"(A)") "step_bulirsch_full_jpl: TRACE BACK (15)."
                 DEALLOCATE(hseq, wa0, wa1, pwa0, pwa1, ddif, pddif, wst, &
                      pwst, ws_converged, pws_converged, ws_index, pws_index, &
@@ -750,7 +750,7 @@ CONTAINS
                qd, error, pqd, masses=masses, radial_acceleration=radial_acceleration)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           RETURN
        END IF
        q(:,:,sw(2)) = q(:,:,sw(1)) + dt * qd
@@ -778,7 +778,7 @@ CONTAINS
                   perturbers, asteroid_perturbers, qd, error, pqd, masses=masses, radial_acceleration=radial_acceleration)
           END IF
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              RETURN
           END IF
           q(:,:,sw(1)) = q(:,:,sw(1)) + 2.0_prec * dt * qd
@@ -807,7 +807,7 @@ CONTAINS
                qd, error, pqd, masses=masses, radial_acceleration=radial_acceleration)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           RETURN
        END IF
        q(:,:,sw(1)) = q(:,:,sw(1)) + dt * qd
@@ -831,7 +831,7 @@ CONTAINS
                qd, error, masses=masses, radial_acceleration=radial_acceleration)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           RETURN
        END IF
        q(:,:,sw(2)) = q(:,:,sw(1)) + dt * qd
@@ -855,7 +855,7 @@ CONTAINS
                   perturbers, asteroid_perturbers, qd, error, masses=masses, radial_acceleration=radial_acceleration)
           END IF
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              RETURN
           END IF
           q(:,:,sw(1)) = q(:,:,sw(1)) + 2.0_prec * dt * qd
@@ -880,7 +880,7 @@ CONTAINS
                qd, error, masses=masses, radial_acceleration=radial_acceleration)
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           RETURN
        END IF
        q(:,:,sw(1)) = q(:,:,sw(1)) + dt * qd
@@ -1123,7 +1123,7 @@ CONTAINS
        CALL ratf_extrapolation_vec(z, h, w0(:,:,i), w1(:,:,i), &
             ddif(:,:,:,i), column_ok(i), error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           DEALLOCATE(column_ok, stat=err)
           RETURN
        END IF
@@ -1181,7 +1181,7 @@ CONTAINS
        CALL polf_extrapolation_vec(z, h, w0(:,:,i), w1(:,:,i), &
             ddif(:,:,:,i), column_ok(i), error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           DEALLOCATE(column_ok, stat=err)
           RETURN
        END IF
@@ -1233,7 +1233,7 @@ CONTAINS
        CALL ratf_extrapolation_vec(z, h, w0(:,:,i), w1(:,:,i), &
             ddif(:,:,:,i), converged(i), error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           RETURN
        END IF
     END DO
@@ -1272,7 +1272,7 @@ CONTAINS
        CALL polf_extrapolation_vec(z, h, w0(:,:,i), w1(:,:,i), &
             ddif(:,:,:,i), converged(i), error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           RETURN
        END IF
     END DO
@@ -1324,7 +1324,7 @@ CONTAINS
           CALL ratf_extrapolation_vec(z, h, w0(:,:,j,i), w1(:,:,j,i), &
                ddif(:,:,:,j,i), column_ok(j), error)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              DEALLOCATE(column_ok, stat=err)
              RETURN
           END IF
@@ -1383,7 +1383,7 @@ CONTAINS
           CALL polf_extrapolation_vec(z, h, w0(:,:,j,i), w1(:,:,j,i), &
                ddif(:,:,:,j,i), column_ok(j), error)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              DEALLOCATE(column_ok, stat=err)
              RETURN
           END IF
@@ -1699,7 +1699,7 @@ CONTAINS
           END IF
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           DEALLOCATE(w_massless1, w_massless2, wd_massless1, &
                wd_massless2, pwd_massless, b, g, e, bd, encounters_, &
                stat=err)
@@ -1823,7 +1823,7 @@ CONTAINS
                    END IF
                 END IF
                 IF (error) THEN
-       error = 0
+       error = .FALSE.
                    DEALLOCATE(w_massless1, w_massless2, wd_massless1, &
                         wd_massless2, pwd_massless, b, g, e, bd, encounters_, stat=err)
                    WRITE(0,"(A)") "gauss_radau_15_full_jpl: TRACE BACK (20)."
@@ -2019,7 +2019,7 @@ CONTAINS
              END IF
           END IF
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              DEALLOCATE(w_massless1, w_massless2, wd_massless1, &
                   wd_massless2, pwd_massless, b, g, e, bd, &
                   encounters_, stat=err)
@@ -2194,7 +2194,7 @@ CONTAINS
        ! Get positions of massive bodies (-10 = 9 planets + Moon).
        wc1 => JPL_ephemeris(mjd_tdt, -10, 11, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           DEALLOCATE(wc, stat=err)
           RETURN
        END IF
@@ -2567,7 +2567,7 @@ CONTAINS
     ! Get heliocentric positions of massive bodies (-10 = 9 planets + Moon).
     wc_sun => JPL_ephemeris(mjd_tdt, -10, 11, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        DEALLOCATE(wc_sun, stat=err)
        RETURN
     END IF
@@ -3302,7 +3302,7 @@ CONTAINS
 
     CALL kepler_step_depth(dt, beta, b, s0, s, 0, r0, v2, eta, zeta, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        WRITE(0,"(A)") "kepler_step: Failed 2-body propagation using universal Kepler solver."
        RETURN
     END IF
@@ -3338,7 +3338,7 @@ CONTAINS
     CALL kepler_step_internal(dt, beta, b, s0, s, r0, v2, eta, zeta, error)
 
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        error = .FALSE.
 
        CALL kepler_step_depth(dt/4.0, beta, b, s0, ss, depth+1, r0, v2, eta, zeta, error)
@@ -3429,7 +3429,7 @@ CONTAINS
        CALL solve_universal_hyperb_newton(r0, -beta, b, eta, zeta, dt, x, s2, c2, error)
 
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error = .FALSE.
           x = x0
           CALL solve_universal_hyperb_laguerre(r0, -beta, b, eta, zeta, dt, x, s2, c2, error)
@@ -3441,7 +3441,7 @@ CONTAINS
        !  flag = solve_universal_hyperb_bisect(r0, -beta, b, eta, zeta, dt, x, s2, c2, error)
        !}
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           RETURN
        END IF
 
@@ -3463,7 +3463,7 @@ CONTAINS
        x = x0
        CALL solve_universal_newton(r0, beta, b, eta, zeta, dt, x, s2, c2, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error = .FALSE.
           x = x0
           CALL solve_universal_laguerre(r0, beta, b, eta, zeta, dt, x, s2, c2, error)
@@ -3474,7 +3474,7 @@ CONTAINS
        !}
 
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           RETURN
        END IF
 
@@ -3492,7 +3492,7 @@ CONTAINS
 
        CALL solve_universal_parabolic(r0, beta, b, eta, zeta, dt, x, s2, c2)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           RETURN
        END IF
 

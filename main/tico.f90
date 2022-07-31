@@ -64,7 +64,7 @@ PROGRAM tico
      str = get_cl_option("--tai_in=", "")
      CALL readDate(str, "TAI", t)
      IF (error) THEN
-       error = 0
+       error = .FALSE.
         CALL errorMessage("tico", &
              "TRACE BACK (5)", 1)
         STOP
@@ -73,7 +73,7 @@ PROGRAM tico
      str = get_cl_option("--utc_in=", "")
      CALL readDate(str, "UTC", t)
      IF (error) THEN
-       error = 0
+       error = .FALSE.
         CALL errorMessage("tico", &
              "TRACE BACK (10)", 1)
         STOP
@@ -82,7 +82,7 @@ PROGRAM tico
      str = get_cl_option("--tt_in=", "")
      CALL readDate(str, "TT", t)
      IF (error) THEN
-       error = 0
+       error = .FALSE.
         CALL errorMessage("tico", &
              "TRACE BACK (15)", 1)
         STOP
@@ -97,7 +97,7 @@ PROGRAM tico
   IF (get_cl_option("--utc_out", .FALSE.)) THEN
      mjd_out = getMJD(t, "UTC")
      IF (error) THEN
-       error = 0
+       error = .FALSE.
         CALL errorMessage("tico", &
              "TRACE BACK (20)", 1)
         STOP
@@ -106,7 +106,7 @@ PROGRAM tico
   ELSE IF (get_cl_option("--tai_out", .FALSE.)) THEN
      mjd_out = getMJD(t, "TAI")
      IF (error) THEN
-       error = 0
+       error = .FALSE.
         CALL errorMessage("tico", &
              "TRACE BACK (25)", 1)
         STOP
@@ -115,7 +115,7 @@ PROGRAM tico
   ELSE IF (get_cl_option("--tt_out", .FALSE.)) THEN
      mjd_out = getMJD(t, "TT")
      IF (error) THEN
-       error = 0
+       error = .FALSE.
         CALL errorMessage("tico", &
              "TRACE BACK (30)", 1)
         STOP
@@ -159,7 +159,7 @@ CONTAINS
        CALL NEW(t, mjd_in, TRIM(timescale))
     END IF
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("tico / readDate", &
             "TRACE BACK", 1)
        RETURN

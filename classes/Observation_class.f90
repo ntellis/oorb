@@ -330,7 +330,7 @@ CONTAINS
     copy_Obs%note2             = this%note2
     copy_Obs%obs_scoord        = copy(this%obs_scoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observation / copy", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -343,21 +343,21 @@ CONTAINS
     copy_Obs%s2n               = this%s2n
     copy_Obs%obsy              = copy(this%obsy)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observation / copy", &
             "TRACE BACK (10)", 1)
        RETURN
     END IF
     copy_Obs%obsy_ccoord       = copy(this%obsy_ccoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observation / copy", &
             "TRACE BACK (15)", 1)
        RETURN
     END IF
     copy_Obs%satellite_ccoord  = copy(this%satellite_ccoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observation / copy", &
             "TRACE BACK (20)", 1)
        RETURN
@@ -570,7 +570,7 @@ CONTAINS
 
     CALL addMultinormalDeviate(this%obs_scoord, mean, covariance)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observation / addMultinormalDeviate", &
             "TRACE BACK", 1)
        RETURN
@@ -620,7 +620,7 @@ CONTAINS
 
     CALL addUniformDeviate(this%obs_scoord, center_and_absbound)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observation / addUniformDeviate", &
             "TRACE BACK", 1)
        RETURN
@@ -750,7 +750,7 @@ CONTAINS
 
     getDec_Obs = getLatitude(this%obs_scoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observation / getDec", &
             "TRACE BACK", 1)
        RETURN
@@ -966,28 +966,28 @@ CONTAINS
 
     t = getTime(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observation / getObservationRecords", &
             "TRACE BACK (1)", 1)
        RETURN       
     END IF
     ra = getRA(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observation / getObservationRecords", &
             "TRACE BACK (2)", 1)
        RETURN       
     END IF
     dec = getDec(this)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observation / getObservationRecords", &
             "TRACE BACK (3)", 1)
        RETURN       
     END IF
     obsy_code = getCode(this%obsy)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observation / getObservationRecords", &
             "TRACE BACK (4)", 1)
        RETURN       
@@ -1010,7 +1010,7 @@ CONTAINS
        ! UTC is 0.9 seconds.
        CALL getCalendarDate(t, "TT", year, month, day)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "TRACE BACK (5)", 1)
           RETURN       
@@ -1018,7 +1018,7 @@ CONTAINS
        IF (year >= 1972) THEN
           CALL getCalendarDate(t, "UTC", year, month, day)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "TRACE BACK (10)", 1)
              RETURN
@@ -1026,7 +1026,7 @@ CONTAINS
        ELSE
           CALL getCalendarDate(t, "UT1", year, month, day)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "TRACE BACK (15)", 1)
              RETURN       
@@ -1034,7 +1034,7 @@ CONTAINS
        END IF
        CALL toString(month, month_str, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Could not convert month to string.", 1)
           WRITE(stderr,*) year, month, day, getMJD(t,"utc")
@@ -1071,7 +1071,7 @@ CONTAINS
        END IF
        CALL toString(h, h_str, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (5).", 1)
           RETURN       
@@ -1079,7 +1079,7 @@ CONTAINS
        IF (h < 10) h_str = "0" // TRIM(h_str)
        CALL toString(m, m_str, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (10).", 1)
           RETURN       
@@ -1087,7 +1087,7 @@ CONTAINS
        IF (m < 10) m_str = "0" // TRIM(m_str)
        CALL toString(s, s_str, error, frmt="(F6.3)")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (15).", 1)
           RETURN       
@@ -1095,7 +1095,7 @@ CONTAINS
        IF (s < 10.0_bp) s_str = "0" // TRIM(s_str)
        CALL toString(deg, deg_str, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (20).", 1)
           RETURN       
@@ -1103,7 +1103,7 @@ CONTAINS
        IF (deg < 10) deg_str = "0" // TRIM(deg_str)
        CALL toString(am, am_str, error)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (25).", 1)
           RETURN       
@@ -1111,14 +1111,14 @@ CONTAINS
        IF (am < 10) am_str = "0" // TRIM(am_str)
        CALL toString(as, as_str, error, frmt="(F5.2)")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (30).", 1)
           RETURN       
        END IF
        IF (as < 10.0_bp) as_str = "0" // TRIM(as_str)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (35).", 1)
           RETURN       
@@ -1126,7 +1126,7 @@ CONTAINS
        IF (this%mag < 99.0_bp) THEN
           CALL toString(this%mag, mag_str, error, frmt="(F6.3)")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "Conversion error (40).", 1)
              RETURN
@@ -1147,7 +1147,7 @@ CONTAINS
        IF (LEN_TRIM(number_) > 5) THEN
           CALL encodeMPCNumber(number_, 5)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "TRACE BACK (18)", 1)
              DEALLOCATE(records, stat=err)
@@ -1168,7 +1168,7 @@ CONTAINS
           designation = this%designation
           CALL MPC3DesToMPCDes(designation)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "TRACE BACK (20)", 1)
              DEALLOCATE(records, stat=err)
@@ -1180,7 +1180,7 @@ CONTAINS
        CALL toString(day, day_str, error, frmt="(F12.9)")
        IF (day < 10.0_bp) day_str = "0" // TRIM(day_str)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Could not convert day to string.", 1)
           DEALLOCATE(records, stat=err)
@@ -1263,7 +1263,7 @@ CONTAINS
        IF (LEN_TRIM(number_) > 7) THEN
           CALL encodeMPCNumber(number_, 7)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "TRACE BACK (22)", 1)
              DEALLOCATE(records, stat=err)
@@ -1288,7 +1288,7 @@ CONTAINS
        CALL toString(day, day_str, error, frmt="(F12.9)")
        IF (day < 10.0_bp) day_str = "0" // TRIM(day_str)
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Could not convert day to string (10).", 1)
           DEALLOCATE(records, stat=err)
@@ -1329,7 +1329,7 @@ CONTAINS
                " ", "    ", obsy_code
           CALL toString(SQRT(this%covariance(2,2))*10000000, ra_unc, error, frmt="(F9.7)")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "Could not convert RA uncertainty to string.", 1)
              DEALLOCATE(records, stat=err)
@@ -1350,7 +1350,7 @@ CONTAINS
           END IF
           CALL toString(SQRT(this%covariance(3,3))*10000000, dec_unc, error, frmt="(F9.7)")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "Could not convert Dec uncertainty to string.", 1)
              DEALLOCATE(records, stat=err)
@@ -1423,7 +1423,7 @@ CONTAINS
        IF (LEN_TRIM(number_) > 7) THEN
           CALL encodeMPCNumber(number_, 7)
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "TRACE BACK (22)", 1)
              DEALLOCATE(records, stat=err)
@@ -1458,7 +1458,7 @@ CONTAINS
        day = day_integer/10.0_bp**9.0_bp
        CALL toString(day, day_str, error, frmt="(F12.9)")
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Could not convert day to string (10).", 1)
           DEALLOCATE(records, stat=err)
@@ -1503,7 +1503,7 @@ CONTAINS
                "            ", " ", "    ", obsy_code
           CALL toString(SQRT(this%covariance(2,2))*10000000, ra_unc, error, frmt="(F9.7)")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "Could not convert RA uncertainty to string.", 1)
              DEALLOCATE(records, stat=err)
@@ -1524,7 +1524,7 @@ CONTAINS
           END IF
           CALL toString(SQRT(this%covariance(3,3))*10000000, dec_unc, error, frmt="(F9.7)")
           IF (error) THEN
-       error = 0
+       error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "Could not convert Dec uncertainty to string.", 1)
              DEALLOCATE(records, stat=err)
@@ -1633,12 +1633,12 @@ CONTAINS
        mjd = getMJD(t, "UTC")
        err_verb = err_verb_
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           error = .FALSE.
           mjd = getMJD(t, "UT1")
        END IF
        IF (error) THEN
-       error = 0
+       error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords / des", &
                "Couldn't convert observation date to UTC or UT1.", 1)
           DEALLOCATE(records, stat=err)          
@@ -1844,7 +1844,7 @@ CONTAINS
 
     getRA_Obs = getLongitude(this%obs_scoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observation / getRA", &
             "TRACE BACK", 1)
        RETURN
@@ -1944,7 +1944,7 @@ CONTAINS
 
     getTime_Obs = getTime(this%obs_scoord)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observation / getTime", &
             "TRACE BACK", 1)
        RETURN
@@ -2054,7 +2054,7 @@ CONTAINS
 
     CALL toString(number, this%number, error)
     IF (error) THEN
-       error = 0
+       error = .FALSE.
        CALL errorMessage("Observations / setDesignation", &
             "Conversion of number to string failed.", 1)
        RETURN
