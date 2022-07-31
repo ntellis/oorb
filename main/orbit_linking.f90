@@ -266,6 +266,7 @@ PROGRAM orbit_linking
   pid = getpid()
   CALL toString(pid, pidstr, error)
   IF (error) THEN
+       error = 0
      CALL errorMessage("orbit_linking", &
           "TRACE BACK (1)", 1)
      STOP
@@ -282,6 +283,7 @@ PROGRAM orbit_linking
   ELSE
      CALL NEW(logfile, TRIM(fname))
      IF (error) THEN
+       error = 0
         CALL errorMessage("orbit_linking", &
              "TRACE BACK (5)", 1)
         CALL NULLIFY(logfile)
@@ -289,6 +291,7 @@ PROGRAM orbit_linking
      END IF
      CALL setPositionAppend(logfile)
      IF (error) THEN
+       error = 0
         CALL errorMessage("orbit_linking", &
              "TRACE BACK (10)", 1)
         CALL NULLIFY(logfile)
@@ -296,6 +299,7 @@ PROGRAM orbit_linking
      END IF
      CALL OPEN(logfile)
      IF (error) THEN
+       error = 0
         CALL errorMessage("orbit_linking", &
              "TRACE BACK (10)", 1)
         CALL NULLIFY(logfile)
@@ -303,6 +307,7 @@ PROGRAM orbit_linking
      END IF
      lu = getUnit(logfile)
      IF (error) THEN
+       error = 0
         CALL errorMessage("orbit_linking", &
              "TRACE BACK (15)", 1)
         CALL NULLIFY(logfile)
@@ -331,6 +336,7 @@ PROGRAM orbit_linking
   err_verb = 1
   CALL NEW(epoch, 2000, 1, 1.0_bp, "TT")
   IF (error) THEN
+       error = 0
      CALL errorMessage("orbit_linking", &
           "TRACE BACK (20)", 1)
      CALL NULLIFY(logfile)
@@ -417,6 +423,7 @@ PROGRAM orbit_linking
            WRITE(lu,"(1X,A,A)") " - common epoch        : ", getCalendarDateString(epoch, "TT")
         END IF
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (1005)", 1)
            CALL NULLIFY(logfile)
@@ -445,6 +452,7 @@ PROGRAM orbit_linking
         END IF
         CALL NEW(orbidfile, TRIM(fname))
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (1010)", 1)
            CALL NULLIFY(logfile)
@@ -452,6 +460,7 @@ PROGRAM orbit_linking
         END IF
         CALL setStatusOld(orbidfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (1015)", 1)
            CALL NULLIFY(logfile)
@@ -459,6 +468,7 @@ PROGRAM orbit_linking
         END IF
         CALL OPEN(orbidfile)  
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (1020)", 1)
            CALL NULLIFY(logfile)
@@ -466,6 +476,7 @@ PROGRAM orbit_linking
         END IF
         nset_max = getNrOfLines(orbidfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (1025)", 1)
            CALL NULLIFY(logfile)
@@ -489,6 +500,7 @@ PROGRAM orbit_linking
            ret = system("gunzip -c " // TRIM(orbid) // ".orb.gz > " // TRIM(orbid) // ".orb")
            CALL NEW(orbfile,TRIM(orbid) // ".orb")
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (1035)", 1)
               CALL NULLIFY(logfile)
@@ -496,6 +508,7 @@ PROGRAM orbit_linking
            END IF
            CALL setStatusOld(orbfile)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (1040)", 1)
               CALL NULLIFY(logfile)
@@ -503,6 +516,7 @@ PROGRAM orbit_linking
            END IF
            CALL OPEN(orbfile)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (1045)", 1)
               CALL NULLIFY(logfile)
@@ -513,6 +527,7 @@ PROGRAM orbit_linking
            END IF
            norb = getNrOfLines(orbfile) - 4 ! 4 header lines are not taken into count
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (1050)", 1)
               CALL NULLIFY(logfile)
@@ -538,6 +553,7 @@ PROGRAM orbit_linking
                    id=id_arr_prm(i), &
                    orb=orb_arr(i))
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "Could not read orbit file.", 1)
                  WRITE(lu,*) i
@@ -550,6 +566,7 @@ PROGRAM orbit_linking
                    integrator=integrator, &
                    integration_step=integration_step)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (1055)", 1)
                  CALL NULLIFY(logfile)
@@ -565,6 +582,7 @@ PROGRAM orbit_linking
            ! Propagate to the comparison epoch if necessary
            t = getTime(orb_arr(1))
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (1060)", 1)
               CALL NULLIFY(logfile)
@@ -574,6 +592,7 @@ PROGRAM orbit_linking
               WRITE(lu,*) "[" // TRIM(orbid) // "] " // " Propagation needed."
               CALL propagate(orb_arr, epoch)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (1065)", 1)
                  CALL NULLIFY(logfile)
@@ -644,6 +663,7 @@ PROGRAM orbit_linking
                  CALL NULLIFY(t)
                  elements(6) = tt_mjd
                  IF (error) THEN
+       error = 0
                     error = .FALSE.
                     CYCLE orbloop
                  END IF
@@ -658,6 +678,7 @@ PROGRAM orbit_linking
                  CALL setParameters(orb, &
                       dyn_model="2-body")
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (1070)", 1)
                     CALL NULLIFY(logfile)
@@ -666,6 +687,7 @@ PROGRAM orbit_linking
                  DO i=1,3
                     CALL propagate(orb, t_arr(i))
                     IF (error) THEN
+       error = 0
                        error = .FALSE.
                        CYCLE orbloop
                     END IF
@@ -681,6 +703,7 @@ PROGRAM orbit_linking
                  err_verb = 1
               END SELECT
               IF (error) THEN
+       error = 0
                  SELECT CASE (comparison_variable_type)
                  CASE ("modified keplerian", "keplerian", "delaunay", &
                       "poincare", "equinoctial")
@@ -695,6 +718,7 @@ PROGRAM orbit_linking
               indx = arrayToInteger(elements, elm, width, box_nrs, &
                    bounds, error)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       'Could not transform array to integer.', 1)
                  CALL NULLIFY(logfile)
@@ -733,6 +757,7 @@ PROGRAM orbit_linking
         addressfname = get_cl_option("--addressfile=","address.out")
         CALL NEW(addressfile, TRIM(addressfname))
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (1080)", 1)
            CALL NULLIFY(logfile)
@@ -740,6 +765,7 @@ PROGRAM orbit_linking
         END IF
         CALL OPEN(addressfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (1085)", 1)
            CALL NULLIFY(logfile)
@@ -814,6 +840,7 @@ PROGRAM orbit_linking
            IF (LEN_TRIM(obsfname) /= 0) THEN
               CALL NEW(obsfile, TRIM(obsfname))
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (1090)", 1)
                  CALL NULLIFY(logfile)
@@ -821,6 +848,7 @@ PROGRAM orbit_linking
               END IF
               CALL setStatusOld(obsfile)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (1095)", 1)
                  CALL NULLIFY(logfile)
@@ -829,6 +857,7 @@ PROGRAM orbit_linking
               WRITE(lu,"(A,A)") "Open observation file ", TRIM(obsfname)
               CALL OPEN(obsfile)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (1100)", 1)
                  CALL NULLIFY(logfile)
@@ -841,6 +870,7 @@ PROGRAM orbit_linking
                  CALL NEW(obss, obsfile, stdev=stdevs)
               END IF
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (1105)", 1)
                  CALL NULLIFY(logfile)
@@ -855,6 +885,7 @@ PROGRAM orbit_linking
            WRITE(lu,"(A)") "Observation file read."
            obss_sep_arr => getSeparatedSets(obss)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (1110)", 1)
               CALL NULLIFY(logfile)
@@ -870,6 +901,7 @@ PROGRAM orbit_linking
            DO i=1,nset-2
               des1 = getDesignation(obss_sep_arr(i))
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (1115)", 1)
                  CALL NULLIFY(logfile)
@@ -877,6 +909,7 @@ PROGRAM orbit_linking
               END IF
               id1 = getID(obss_sep_arr(i))
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (1120)", 1)
                  CALL NULLIFY(logfile)
@@ -885,6 +918,7 @@ PROGRAM orbit_linking
               DO j=i+1,nset-1
                  IF (des1 == getDesignation(obss_sep_arr(j))) THEN
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (1125)", 1)
                        CALL NULLIFY(logfile)
@@ -892,6 +926,7 @@ PROGRAM orbit_linking
                     END IF
                     id2 = getID(obss_sep_arr(j))
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (1130)", 1)
                        CALL NULLIFY(logfile)
@@ -900,6 +935,7 @@ PROGRAM orbit_linking
                     DO k=j+1,nset
                        IF (des1 == getDesignation(obss_sep_arr(k))) THEN
                           IF (error) THEN
+       error = 0
                              CALL errorMessage("orbit_linking", &
                                   "TRACE BACK (1135)", 1)
                              CALL NULLIFY(logfile)
@@ -907,6 +943,7 @@ PROGRAM orbit_linking
                           END IF
                           id3 = getID(obss_sep_arr(k))
                           IF (error) THEN
+       error = 0
                              CALL errorMessage("orbit_linking", &
                                   "TRACE BACK (1140)", 1)
                              CALL NULLIFY(logfile)
@@ -1015,6 +1052,7 @@ PROGRAM orbit_linking
         END IF
         CALL NEW(addressfile, TRIM(addressfname))
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (2005)", 1)
            CALL NULLIFY(logfile)
@@ -1022,6 +1060,7 @@ PROGRAM orbit_linking
         END IF
         CALL setStatusOld(addressfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (2010)", 1)
            CALL NULLIFY(logfile)
@@ -1029,6 +1068,7 @@ PROGRAM orbit_linking
         END IF
         CALL OPEN(addressfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (2015)", 1)
            CALL NULLIFY(logfile)
@@ -1052,6 +1092,7 @@ PROGRAM orbit_linking
            END IF
            CALL NEW(tmpfile, TRIM(fname))
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2020)", 1)
               CALL NULLIFY(logfile)
@@ -1059,6 +1100,7 @@ PROGRAM orbit_linking
            END IF
            CALL OPEN(tmpfile)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2025)", 1)
               CALL NULLIFY(logfile)
@@ -1066,6 +1108,7 @@ PROGRAM orbit_linking
            END IF
            nlinks = getNrOfLines(tmpfile)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2030)", 1)
               CALL NULLIFY(logfile)
@@ -1093,6 +1136,7 @@ PROGRAM orbit_linking
            END IF
            CALL NEW(tmpfile, TRIM(fname))
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2035)", 1)
               CALL NULLIFY(logfile)
@@ -1100,6 +1144,7 @@ PROGRAM orbit_linking
            END IF
            CALL OPEN(tmpfile)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2040)", 1)
               CALL NULLIFY(logfile)
@@ -1107,6 +1152,7 @@ PROGRAM orbit_linking
            END IF
            nlinks_ = getNrOfLines(tmpfile)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2045)", 1)
               CALL NULLIFY(logfile)
@@ -1130,6 +1176,7 @@ PROGRAM orbit_linking
         fname = get_cl_option("--2borb=", "2b_rms_acc.orb")
         CALL NEW(tmpfile,TRIM(fname))
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (2050)", 1)
            CALL NULLIFY(logfile)
@@ -1137,6 +1184,7 @@ PROGRAM orbit_linking
         END IF
         CALL setPositionAppend(tmpfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (2060)", 1)
            CALL NULLIFY(logfile)
@@ -1144,6 +1192,7 @@ PROGRAM orbit_linking
         END IF
         CALL OPEN(tmpfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (2055)", 1)
            CALL NULLIFY(logfile)
@@ -1151,6 +1200,7 @@ PROGRAM orbit_linking
         END IF
         i = getNrOfLines(tmpfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (2065)", 1)
            CALL NULLIFY(logfile)
@@ -1213,6 +1263,7 @@ PROGRAM orbit_linking
            END IF
            CALL toString(nset, str, error)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2020)", 1)
               CALL NULLIFY(logfile)
@@ -1305,6 +1356,7 @@ PROGRAM orbit_linking
            CALL NEW(obsfile, "orbit_linking_tmp" // &
                 TRIM(pidstr) // "." // TRIM(obs_type))
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2025)", 1)
               CALL NULLIFY(logfile)
@@ -1312,6 +1364,7 @@ PROGRAM orbit_linking
            END IF
            CALL setStatusOld(obsfile)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2030)", 1)
               CALL NULLIFY(logfile)
@@ -1319,6 +1372,7 @@ PROGRAM orbit_linking
            END IF
            CALL OPEN(obsfile)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2035)", 1)
               CALL NULLIFY(logfile)
@@ -1330,6 +1384,7 @@ PROGRAM orbit_linking
               CALL NEW(obss_all, obsfile, stdev=stdevs)
            END IF
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2040)", 1)
               CALL NULLIFY(logfile)
@@ -1349,6 +1404,7 @@ PROGRAM orbit_linking
            ! and the epoch of each set:
            obss_sep_arr => getSeparatedSets(obss_all)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2045)", 1)
               CALL NULLIFY(logfile)
@@ -1356,6 +1412,7 @@ PROGRAM orbit_linking
            END IF
            CALL NEW(obss_selected)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2050)", 1)
               CALL NULLIFY(logfile)
@@ -1366,6 +1423,7 @@ PROGRAM orbit_linking
               obs = getObservation(obss_sep_arr(i),1)
               CALL addObservation(obss_selected, obs)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2055)", 1)
                  CALL NULLIFY(logfile)
@@ -1407,6 +1465,7 @@ PROGRAM orbit_linking
 
            obs = getObservation(obss_all,1)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2075)", 1)
               CALL NULLIFY(logfile)
@@ -1416,6 +1475,7 @@ PROGRAM orbit_linking
            ! Compute orbital-element epoch:
            t = getTime(obs)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2080)", 1)
               CALL NULLIFY(logfile)
@@ -1423,6 +1483,7 @@ PROGRAM orbit_linking
            END IF
            mjd0 = getMJD(t, "TT")
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2085)", 1)
               CALL NULLIFY(logfile)
@@ -1432,6 +1493,7 @@ PROGRAM orbit_linking
            CALL NULLIFY(obs)
            mjd0 = mjd0 + 0.5_bp*getObservationalTimespan(obss_all)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2090)", 1)
               CALL NULLIFY(logfile)
@@ -1439,6 +1501,7 @@ PROGRAM orbit_linking
            END IF
            CALL NEW(t0, mjd0, "TT")
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2095)", 1)
               CALL NULLIFY(logfile)
@@ -1450,6 +1513,7 @@ PROGRAM orbit_linking
            ! Compute orbital-elements and their bounds
            elements = integerToArray(indx, elm, width, box_nrs, bounds, error)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (2070)", 1)
               CALL NULLIFY(logfile)
@@ -1493,6 +1557,7 @@ PROGRAM orbit_linking
               END IF
               CALL NEW(orb_mc, elements_, "keplerian", "ecliptic", t0)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2105)", 1)
                  CALL NULLIFY(logfile)
@@ -1504,6 +1569,7 @@ PROGRAM orbit_linking
               ! the MC orbit:
               CALL NEW(storb, obss_selected)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2100)", 1)
                  CALL NULLIFY(logfile)
@@ -1511,6 +1577,7 @@ PROGRAM orbit_linking
               END IF
               residuals => getResiduals(storb, orb_mc)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2110)", 1)
                  error = .FALSE.
@@ -1570,6 +1637,7 @@ PROGRAM orbit_linking
                        id_arr3(2) = TRIM(getID(obss_sep_arr(sets(jj))))
                        id_arr3(3) = TRIM(getID(obss_sep_arr(sets(kk))))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (2120)", 1)
                           CALL NULLIFY(logfile)
@@ -1591,6 +1659,7 @@ PROGRAM orbit_linking
                                getDesignation(obss_sep_arr(sets(ii))) == &
                                getDesignation(obss_sep_arr(sets(kk)))) THEN
                              IF (error) THEN
+       error = 0
                                 CALL errorMessage("orbit_linking", &
                                      "TRACE BACK (2125)", 1)
                                 CALL NULLIFY(logfile)
@@ -1665,6 +1734,7 @@ PROGRAM orbit_linking
                    obss_sep_arr(tree_node_ch32_8r8_1%i4arr(2))
               obss = obss_ + obss_sep_arr(tree_node_ch32_8r8_1%i4arr(3))
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2130)", 1)
                  CALL NULLIFY(logfile)
@@ -1674,6 +1744,7 @@ PROGRAM orbit_linking
               IF (info_verb >= 3) THEN
                  CALL writeObservationFile(obss, lu, TRIM(obs_type))
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (2135)", 1)
                     CALL NULLIFY(logfile)
@@ -1682,6 +1753,7 @@ PROGRAM orbit_linking
               END IF
               obs = getObservation(obss,1)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2140)", 1)
                  CALL NULLIFY(logfile)
@@ -1689,6 +1761,7 @@ PROGRAM orbit_linking
               END IF
               t = getTime(obs)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2145)", 1)
                  CALL NULLIFY(logfile)
@@ -1696,6 +1769,7 @@ PROGRAM orbit_linking
               END IF
               mjd0 = getMJD(t, "TT")
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2150)", 1)
                  CALL NULLIFY(logfile)
@@ -1705,6 +1779,7 @@ PROGRAM orbit_linking
               CALL NULLIFY(obs)
               mjd0 = mjd0 + 0.5_bp*getObservationalTimespan(obss)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2155)", 1)
                  CALL NULLIFY(logfile)
@@ -1712,6 +1787,7 @@ PROGRAM orbit_linking
               END IF
               CALL NEW(t_inv, mjd0, "TT")
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2160)", 1)
                  CALL NULLIFY(logfile)
@@ -1719,6 +1795,7 @@ PROGRAM orbit_linking
               END IF
               CALL NEW(storb, obss)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2165)", 1)
                  CALL NULLIFY(logfile)
@@ -1740,6 +1817,7 @@ PROGRAM orbit_linking
                    ls_niter_major_min=2, &
                    ls_niter_minor=50)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2170)", 1)
                  CALL NULLIFY(logfile)
@@ -1747,6 +1825,7 @@ PROGRAM orbit_linking
               END IF
               CALL NEW(t0, tree_node_ch32_8r8_1%r8arr(7), "TT")
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2095)", 1)
                  CALL NULLIFY(logfile)
@@ -1754,6 +1833,7 @@ PROGRAM orbit_linking
               END IF
               CALL NEW(orb, tree_node_ch32_8r8_1%r8arr(1:6), "keplerian", "ecliptic", t0)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2175)", 1)
                  CALL NULLIFY(logfile)
@@ -1766,6 +1846,7 @@ PROGRAM orbit_linking
                    integrator=integrator, &
                    integration_step=integration_step)                 
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (2180)", 1)
                  CALL NULLIFY(logfile)
@@ -1773,6 +1854,7 @@ PROGRAM orbit_linking
               END IF
               CALL propagate(orb, t_inv)
               IF (error) THEN
+       error = 0
                  error = .FALSE.
                  CALL NULLIFY(storb)
                  CALL NULLIFY(orb)
@@ -1812,6 +1894,7 @@ PROGRAM orbit_linking
                     CALL NULLIFY(orb)
                     orb = getNominalOrbit(storb)
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (2182)", 1)
                        CALL NULLIFY(logfile)
@@ -1819,6 +1902,7 @@ PROGRAM orbit_linking
                     END IF
                     rms = getRMS(storb, orb)
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (2183)", 1)
                        CALL NULLIFY(logfile)
@@ -1831,10 +1915,12 @@ PROGRAM orbit_linking
               END DO
               CALL NULLIFY(orb)
               IF (error) THEN
+       error = 0
                  error = .FALSE.
               ELSE
                  orb = getNominalOrbit(storb)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (2185)", 1)
                     CALL NULLIFY(logfile)
@@ -1842,6 +1928,7 @@ PROGRAM orbit_linking
                  END IF
                  rms = getRMS(storb, orb)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (2190)", 1)
                     CALL NULLIFY(logfile)
@@ -1855,6 +1942,7 @@ PROGRAM orbit_linking
                     nlinks = nlinks + 1
                     CALL toString(nlinks, id1, error)
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (2195)", 1)
                        CALL NULLIFY(logfile)
@@ -1879,6 +1967,7 @@ PROGRAM orbit_linking
                           END IF
                        END IF
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (2200)", 1)
                           CALL NULLIFY(logfile)
@@ -1893,6 +1982,7 @@ PROGRAM orbit_linking
                     fname = get_cl_option("--2blnks=", "2blsl.lnks")
                     CALL NEW(tmpfile, TRIM(fname))
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (3005)", 1)
                        CALL NULLIFY(logfile)
@@ -1900,6 +1990,7 @@ PROGRAM orbit_linking
                     END IF
                     CALL setPositionAppend(tmpfile)
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (3015)", 1)
                        CALL NULLIFY(logfile)
@@ -1907,6 +1998,7 @@ PROGRAM orbit_linking
                     END IF
                     CALL OPEN(tmpfile)
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (3015)", 1)
                        CALL NULLIFY(logfile)
@@ -1920,6 +2012,7 @@ PROGRAM orbit_linking
                     fname = get_cl_option("--2borb=", "2b_rms_acc.orb")
                     CALL NEW(tmpfile,TRIM(fname))
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (2225)", 1)
                        CALL NULLIFY(logfile)
@@ -1927,6 +2020,7 @@ PROGRAM orbit_linking
                     END IF
                     CALL setPositionAppend(tmpfile)
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (2230)", 1)
                        CALL NULLIFY(logfile)
@@ -1934,6 +2028,7 @@ PROGRAM orbit_linking
                     END IF
                     CALL OPEN(tmpfile)
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (2235)", 1)
                        CALL NULLIFY(logfile)
@@ -1943,6 +2038,7 @@ PROGRAM orbit_linking
                          "keplerian", TRIM(id1), orb, "keplerian", &
                          getCovarianceMatrix(storb, "keplerian"))
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (2240)", 1)
                        CALL NULLIFY(logfile)
@@ -1955,6 +2051,7 @@ PROGRAM orbit_linking
                     IF (info_verb >= 2) THEN
                        obss = getObservations(storb)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (2245)", 1)
                           CALL NULLIFY(logfile)
@@ -1962,6 +2059,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL toString(nlinks, str, error)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (2246)", 1)
                           CALL NULLIFY(logfile)
@@ -1969,6 +2067,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL writeObservationFile(obss, lu, TRIM(obs_type), number=TRIM(str))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (2247)", 1)
                           CALL NULLIFY(logfile)
@@ -2139,6 +2238,7 @@ PROGRAM orbit_linking
         END IF
         CALL NEW(orbfile, TRIM(fname))
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (3005)", 1)
            CALL NULLIFY(logfile)
@@ -2146,6 +2246,7 @@ PROGRAM orbit_linking
         END IF
         CALL setStatusOld(orbfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (3010)", 1)
            CALL NULLIFY(logfile)
@@ -2153,6 +2254,7 @@ PROGRAM orbit_linking
         END IF
         CALL OPEN(orbfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (3015)", 1)
            CALL NULLIFY(logfile)
@@ -2160,6 +2262,7 @@ PROGRAM orbit_linking
         END IF
         norb = getNrOfLines(orbfile) - 4 ! 4 header lines are not taken into count
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (3020)", 1)
            CALL NULLIFY(logfile)
@@ -2179,6 +2282,7 @@ PROGRAM orbit_linking
                 element_type_in=element_type_in_prm, &
                 id=id_arr_prm(i), orb=orb_arr(i))
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "Could not read orbit file.", 1)
               IF (id_arr_prm(i)(1:1) == "#") THEN
@@ -2191,6 +2295,7 @@ PROGRAM orbit_linking
            IF (element_type_nblsl == "keplerian") THEN
               CALL toKeplerian(orb_arr(i))
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (3025)", 1)
                  CALL NULLIFY(logfile)
@@ -2203,6 +2308,7 @@ PROGRAM orbit_linking
         fname = get_cl_option("--nborb=", "nb_rms_acc.orb")
         CALL NEW(orbfile, TRIM(fname))
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (3030)", 1)
            CALL NULLIFY(logfile)
@@ -2210,6 +2316,7 @@ PROGRAM orbit_linking
         END IF
         CALL OPEN(orbfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (3035)", 1)
            CALL NULLIFY(logfile)
@@ -2217,6 +2324,7 @@ PROGRAM orbit_linking
         END IF
         nlinks = getNrOfLines(orbfile) - 4 ! 4 header lines are not taken into count
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (3040)", 1)
            CALL NULLIFY(logfile)
@@ -2235,6 +2343,7 @@ PROGRAM orbit_linking
         END IF
         CALL NEW(lnksfile, TRIM(lnksfname))
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (3045)", 1)
            CALL NULLIFY(logfile)
@@ -2242,6 +2351,7 @@ PROGRAM orbit_linking
         END IF
         CALL setStatusOld(lnksfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (3050)", 1)
            CALL NULLIFY(logfile)
@@ -2249,6 +2359,7 @@ PROGRAM orbit_linking
         END IF
         CALL OPEN(lnksfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (3055)", 1)
            CALL NULLIFY(logfile)
@@ -2299,6 +2410,7 @@ PROGRAM orbit_linking
            CALL NEW(obsfile, "orbit_linking_tmp" // &
                 TRIM(pidstr) // "." // TRIM(obs_type))
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (3060)", 1)
               CALL NULLIFY(logfile)
@@ -2306,6 +2418,7 @@ PROGRAM orbit_linking
            END IF
            CALL setStatusOld(obsfile)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (3065)", 1)
               CALL NULLIFY(logfile)
@@ -2313,6 +2426,7 @@ PROGRAM orbit_linking
            END IF
            CALL OPEN(obsfile)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (3070)", 1)
               CALL NULLIFY(logfile)
@@ -2324,6 +2438,7 @@ PROGRAM orbit_linking
               CALL NEW(obss, obsfile, stdev=stdevs)
            END IF
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (3075)", 1)
               CALL NULLIFY(logfile)
@@ -2333,6 +2448,7 @@ PROGRAM orbit_linking
            IF (simulated_observations) THEN
               CALL setNumber(obss, 0)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (3080)", 1)
                  CALL NULLIFY(logfile)
@@ -2340,6 +2456,7 @@ PROGRAM orbit_linking
               END IF
               obs_set_ids => getObjects(obss)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (3085)", 1)
                  CALL NULLIFY(logfile)
@@ -2356,6 +2473,7 @@ PROGRAM orbit_linking
            END IF
            CALL toInt(TRIM(id_arr_prm(i)), nr, error)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (3090)", 1)
               CALL NULLIFY(logfile)
@@ -2363,6 +2481,7 @@ PROGRAM orbit_linking
            END IF
            CALL setNumber(obss, nr)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (3095)", 1)
               CALL NULLIFY(logfile)
@@ -2375,6 +2494,7 @@ PROGRAM orbit_linking
                 TRIM(id_arr3(3))
            CALL NEW(storb, obss)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (3100)", 1)
               CALL NULLIFY(logfile)
@@ -2394,6 +2514,7 @@ PROGRAM orbit_linking
                 ls_niter_major_min=2, &
                 ls_niter_minor=20)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (3105)", 1)
               CALL NULLIFY(logfile)
@@ -2401,6 +2522,7 @@ PROGRAM orbit_linking
            END IF
            orb = copy(orb_arr(i))
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (3110)", 1)
               CALL NULLIFY(logfile)
@@ -2412,6 +2534,7 @@ PROGRAM orbit_linking
                 integrator=integrator, &
                 integration_step=integration_step)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (3115)", 1)
               CALL NULLIFY(logfile)
@@ -2464,9 +2587,11 @@ PROGRAM orbit_linking
            END DO
            CALL NULLIFY(orb)
            IF (error) THEN
+       error = 0
               error = .FALSE.
               CALL NEW(tmpfile,"nb_inv_failed.lnks")
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (3120)", 1)
                  CALL NULLIFY(logfile)
@@ -2474,6 +2599,7 @@ PROGRAM orbit_linking
               END IF
               CALL setPositionAppend(tmpfile)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (3125)", 1)
                  CALL NULLIFY(logfile)
@@ -2481,6 +2607,7 @@ PROGRAM orbit_linking
               END IF
               CALL OPEN(tmpfile)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (3130)", 1)
                  CALL NULLIFY(logfile)
@@ -2497,6 +2624,7 @@ PROGRAM orbit_linking
            ELSE
               orb = getNominalOrbit(storb)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (3140)", 1)
                  CALL NULLIFY(logfile)
@@ -2504,6 +2632,7 @@ PROGRAM orbit_linking
               END IF
               rms = getRMS(storb, orb)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (3145)", 1)
                  CALL NULLIFY(logfile)
@@ -2526,6 +2655,7 @@ PROGRAM orbit_linking
                  fname = get_cl_option("--nbobs=", "nb_rms_acc." // TRIM(obs_type))
                  CALL NEW(tmpfile,TRIM(fname))
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3150)", 1)
                     CALL NULLIFY(logfile)
@@ -2533,6 +2663,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL setPositionAppend(tmpfile)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3155)", 1)
                     CALL NULLIFY(logfile)
@@ -2540,6 +2671,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL OPEN(tmpfile)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3160)", 1)
                     CALL NULLIFY(logfile)
@@ -2547,6 +2679,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL writeObservationFile(obss, getUnit(tmpfile), TRIM(obs_type))
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3165)", 1)
                     CALL NULLIFY(logfile)
@@ -2559,6 +2692,7 @@ PROGRAM orbit_linking
                  fname = get_cl_option("--nborb=", "nb_rms_acc.orb")
                  CALL NEW(tmpfile,TRIM(fname))
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3170)", 1)
                     CALL NULLIFY(logfile)
@@ -2566,6 +2700,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL setPositionAppend(tmpfile)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3175)", 1)
                     CALL NULLIFY(logfile)
@@ -2573,6 +2708,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL OPEN(tmpfile)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3180)", 1)
                     CALL NULLIFY(logfile)
@@ -2582,6 +2718,7 @@ PROGRAM orbit_linking
                       "keplerian", TRIM(id1), orb, "keplerian", &
                       getCovarianceMatrix(storb, "keplerian"))
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3185)", 1)
                     CALL NULLIFY(logfile)
@@ -2594,6 +2731,7 @@ PROGRAM orbit_linking
                  fname = get_cl_option("--nblsl=", "nb_rms_acc.lsl")
                  CALL NEW(tmpfile,TRIM(fname))
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3190)", 1)
                     CALL NULLIFY(logfile)
@@ -2601,6 +2739,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL setPositionAppend(tmpfile)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3195)", 1)
                     CALL NULLIFY(logfile)
@@ -2608,6 +2747,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL OPEN(tmpfile)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3200)", 1)
                     CALL NULLIFY(logfile)
@@ -2616,6 +2756,7 @@ PROGRAM orbit_linking
                  CALL writeObservationFile(obss, getUnit(tmpfile), &
                       TRIM(obs_type)) 
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3205)", 1)
                     WRITE(getUnit(tmpfile),"(A)") &
@@ -2625,6 +2766,7 @@ PROGRAM orbit_linking
                  WRITE(getUnit(tmpfile),"(A)") "#"
                  CALL writeNominalSolution(storb, obss, "keplerian", getUnit(tmpfile))
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3210)", 1)
                     CALL NULLIFY(logfile)
@@ -2637,6 +2779,7 @@ PROGRAM orbit_linking
                  nnolinks = nnolinks + 1
                  CALL NEW(tmpfile,"nb_rms_failed.lnks")
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3215)", 1)
                     CALL NULLIFY(logfile)
@@ -2644,6 +2787,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL setPositionAppend(tmpfile)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3220)", 1)
                     CALL NULLIFY(logfile)
@@ -2651,6 +2795,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL OPEN(tmpfile)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3225)", 1)
                     CALL NULLIFY(logfile)
@@ -2666,6 +2811,7 @@ PROGRAM orbit_linking
                  CALL NULLIFY(tmpfile)
                  CALL NEW(tmpfile,"nb_rms_failed.orb")
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3235)", 1)
                     CALL NULLIFY(logfile)
@@ -2673,6 +2819,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL setPositionAppend(tmpfile)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3240)", 1)
                     CALL NULLIFY(logfile)
@@ -2680,6 +2827,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL OPEN(tmpfile)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3245)", 1)
                     CALL NULLIFY(logfile)
@@ -2689,6 +2837,7 @@ PROGRAM orbit_linking
                       "keplerian", TRIM(id1), orb, "keplerian", &
                       getCovarianceMatrix(storb, "keplerian"))
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (3250)", 1)
                     CALL NULLIFY(logfile)
@@ -2732,6 +2881,7 @@ PROGRAM orbit_linking
         END IF
         CALL NEW(obsfile, TRIM(obsfname))
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (4005)", 1)
            CALL NULLIFY(logfile)
@@ -2739,6 +2889,7 @@ PROGRAM orbit_linking
         END IF
         CALL setStatusOld(obsfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (4010)", 1)
            CALL NULLIFY(logfile)
@@ -2746,6 +2897,7 @@ PROGRAM orbit_linking
         END IF
         CALL OPEN(obsfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (4015)", 1)
            CALL NULLIFY(logfile)
@@ -2753,6 +2905,7 @@ PROGRAM orbit_linking
         END IF
         CALL NEW(obss_nb, obsfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (4020)", 1)
            CALL NULLIFY(logfile)
@@ -2761,6 +2914,7 @@ PROGRAM orbit_linking
         CALL NULLIFY(obsfile)
         obss_sep_arr => getSeparatedSets(obss_nb)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (4025)", 1)
            CALL NULLIFY(logfile)
@@ -2777,6 +2931,7 @@ PROGRAM orbit_linking
         END IF
         CALL NEW(orbfile, TRIM(fname))
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (4030)", 1)
            CALL NULLIFY(logfile)
@@ -2784,6 +2939,7 @@ PROGRAM orbit_linking
         END IF
         CALL setStatusOld(orbfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (4035)", 1)
            CALL NULLIFY(logfile)
@@ -2791,6 +2947,7 @@ PROGRAM orbit_linking
         END IF
         CALL OPEN(orbfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (4040)", 1)
            CALL NULLIFY(logfile)
@@ -2798,6 +2955,7 @@ PROGRAM orbit_linking
         END IF
         norb = getNrOfLines(orbfile) - 4 ! 4 header lines are not taken into count
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (4045)", 1)
            CALL NULLIFY(logfile)
@@ -2817,6 +2975,7 @@ PROGRAM orbit_linking
                 element_type_in=element_type_in_prm, &
                 id=id_arr_prm(i), orb=orb_arr(i))
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "Could not read orbit file.", 1)
               CALL NULLIFY(logfile)
@@ -2825,6 +2984,7 @@ PROGRAM orbit_linking
            IF (element_type_nblsl == "keplerian") THEN
               CALL toKeplerian(orb_arr(i))
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (4050)", 1)
                  CALL NULLIFY(logfile)
@@ -2845,6 +3005,7 @@ PROGRAM orbit_linking
            CALL CPU_TIME(dt1)
            CALL NEW(obsfile, TRIM(fname))
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (4055)", 1)
               CALL NULLIFY(logfile)
@@ -2852,6 +3013,7 @@ PROGRAM orbit_linking
            END IF
            CALL setStatusOld(obsfile)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (4060)", 1)
               CALL NULLIFY(logfile)
@@ -2860,6 +3022,7 @@ PROGRAM orbit_linking
            WRITE(lu,"(1X,2A)") "Open observation file ", TRIM(fname)
            CALL OPEN(obsfile)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (4065)", 1)
               CALL NULLIFY(logfile)
@@ -2872,6 +3035,7 @@ PROGRAM orbit_linking
               CALL NEW(obss_all_first, obsfile, stdev=stdevs)
            END IF
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (4070)", 1)
               CALL NULLIFY(logfile)
@@ -2889,6 +3053,7 @@ PROGRAM orbit_linking
         END IF
         obs_arr_all_first => getObservations(obss_all_first)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (4075)", 1)
            CALL NULLIFY(logfile)
@@ -2898,6 +3063,7 @@ PROGRAM orbit_linking
            CALL NULLIFY(orb_init)
            id1 = getID(obss_sep_arr(i))
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (4080)", 1)
               CALL NULLIFY(logfile)
@@ -2920,6 +3086,7 @@ PROGRAM orbit_linking
                 integrator=integrator, &
                 integration_step=integration_step)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (4085)", 1)
               CALL NULLIFY(logfile)
@@ -2927,6 +3094,7 @@ PROGRAM orbit_linking
            END IF
            CALL NEW(storb, obss_all_first)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (4090)", 1)
               CALL NULLIFY(logfile)
@@ -2938,6 +3106,7 @@ PROGRAM orbit_linking
                 integrator=integrator, &
                 integration_step=integration_step)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (4095)", 1)
               CALL NULLIFY(logfile)
@@ -2947,6 +3116,7 @@ PROGRAM orbit_linking
            orb = copy(orb_init)
            residuals => getResiduals(storb, orb)
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (4100)", 1)
               CALL NULLIFY(logfile)
@@ -2955,6 +3125,7 @@ PROGRAM orbit_linking
            IF (info_verb >= 3) THEN
               CALL writeObservationFile(obss_all_first, lu, TRIM(obs_type))
               IF (error) THEN
+       error = 0
                  CALL errorMessage("orbit_linking", &
                       "TRACE BACK (4105)", 1)
                  CALL NULLIFY(logfile)
@@ -2965,6 +3136,7 @@ PROGRAM orbit_linking
            CALL NULLIFY(orb)
            id_arr => getDesignations(obss_sep_arr(i))
            IF (error) THEN
+       error = 0
               CALL errorMessage("orbit_linking", &
                    "TRACE BACK (4110)", 1)
               CALL NULLIFY(logfile)
@@ -2974,6 +3146,7 @@ PROGRAM orbit_linking
               IF (ALL(ABS(residuals(j,2:3)) < res_max_addlink)) THEN
                  id2 = getID(obs_arr_all_first(j))
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (4115)", 1)
                     CALL NULLIFY(logfile)
@@ -2995,6 +3168,7 @@ PROGRAM orbit_linking
                  CALL NEW(obsfile, "orbit_linking_tmp" // &
                       TRIM(pidstr) // "." // TRIM(obs_type))
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (4120)", 1)
                     CALL NULLIFY(logfile)
@@ -3002,6 +3176,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL setStatusOld(obsfile)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (4125)", 1)
                     CALL NULLIFY(logfile)
@@ -3009,6 +3184,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL OPEN(obsfile)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (4130)", 1)
                     CALL NULLIFY(logfile)
@@ -3020,6 +3196,7 @@ PROGRAM orbit_linking
                     CALL NEW(obss_2, obsfile, stdev=stdevs)
                  END IF
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (4135)", 1)
                     CALL NULLIFY(logfile)
@@ -3035,6 +3212,7 @@ PROGRAM orbit_linking
                  END IF
                  obss_1 = obss_sep_arr(i) + obss_2
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (4140)", 1)
                     CALL NULLIFY(logfile)
@@ -3043,6 +3221,7 @@ PROGRAM orbit_linking
                  IF (info_verb >= 1) THEN
                     CALL writeObservationFile(obss_1, lu, TRIM(obs_type))
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (4145)", 1)
                        CALL NULLIFY(logfile)
@@ -3051,6 +3230,7 @@ PROGRAM orbit_linking
                  END IF
                  CALL NEW(storb, obss_1)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (4150)", 1)
                     CALL NULLIFY(logfile)
@@ -3072,6 +3252,7 @@ PROGRAM orbit_linking
                       ls_niter_major_min=2, &
                       ls_niter_minor=10)
                  IF (error) THEN
+       error = 0
                     CALL errorMessage("orbit_linking", &
                          "TRACE BACK (4155)", 1)
                     CALL NULLIFY(logfile)
@@ -3086,9 +3267,11 @@ PROGRAM orbit_linking
                  info_verb = info_verb_
                  CALL NULLIFY(orb)
                  IF (error) THEN
+       error = 0
                     error = .FALSE.
                     CALL NEW(tmpfile,"add_nb_inv_failed." // TRIM(obs_type))
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (4160)", 1)
                        CALL NULLIFY(logfile)
@@ -3096,6 +3279,7 @@ PROGRAM orbit_linking
                     END IF
                     CALL setPositionAppend(tmpfile)
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (4165)", 1)
                        CALL NULLIFY(logfile)
@@ -3103,6 +3287,7 @@ PROGRAM orbit_linking
                     END IF
                     CALL OPEN(tmpfile)
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (4170)", 1)
                        CALL NULLIFY(logfile)
@@ -3110,6 +3295,7 @@ PROGRAM orbit_linking
                     END IF
                     CALL writeObservationFile(obss_1, getUnit(tmpfile), TRIM(obs_type))
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (4175)", 1)
                        CALL NULLIFY(logfile)
@@ -3120,6 +3306,7 @@ PROGRAM orbit_linking
                  ELSE
                     orb = getNominalOrbit(storb)
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (4180)", 1)
                        CALL NULLIFY(logfile)
@@ -3127,6 +3314,7 @@ PROGRAM orbit_linking
                     END IF
                     rms = getRMS(storb, orb)
                     IF (error) THEN
+       error = 0
                        CALL errorMessage("orbit_linking", &
                             "TRACE BACK (4185)", 1)
                        CALL NULLIFY(logfile)
@@ -3137,6 +3325,7 @@ PROGRAM orbit_linking
                        nlinks = nlinks + 1
                        CALL setNumber(obss_1, nlinks)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4188)", 1)
                           CALL NULLIFY(logfile)
@@ -3144,6 +3333,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL toString(nlinks, id1, error)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4190)", 1)
                           CALL NULLIFY(logfile)
@@ -3162,6 +3352,7 @@ PROGRAM orbit_linking
                        fname = get_cl_option("--addnbobs=", "add_nb_rms_acc." // TRIM(obs_type))
                        CALL NEW(tmpfile,TRIM(fname))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4195)", 1)
                           CALL NULLIFY(logfile)
@@ -3169,6 +3360,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL setPositionAppend(tmpfile)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4200)", 1)
                           CALL NULLIFY(logfile)
@@ -3176,6 +3368,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL OPEN(tmpfile)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4205)", 1)
                           CALL NULLIFY(logfile)
@@ -3184,6 +3377,7 @@ PROGRAM orbit_linking
                        CALL writeObservationFile(obss_1, &
                             getUnit(tmpfile), TRIM(obs_type))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4210)", 1)
                           CALL NULLIFY(logfile)
@@ -3196,6 +3390,7 @@ PROGRAM orbit_linking
                        fname = get_cl_option("--addnborb=", "add_nb_rms_acc.orb")
                        CALL NEW(tmpfile,TRIM(fname))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4215)", 1)
                           CALL NULLIFY(logfile)
@@ -3203,6 +3398,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL setPositionAppend(tmpfile)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4220)", 1)
                           CALL NULLIFY(logfile)
@@ -3210,6 +3406,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL OPEN(tmpfile)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4225)", 1)
                           CALL NULLIFY(logfile)
@@ -3219,6 +3416,7 @@ PROGRAM orbit_linking
                             "keplerian", TRIM(id1), orb, "keplerian", &
                             getCovarianceMatrix(storb, "keplerian"))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4230)", 1)
                           CALL NULLIFY(logfile)
@@ -3231,6 +3429,7 @@ PROGRAM orbit_linking
                        fname = get_cl_option("--addnblsl=", "add_nb_rms_acc.lsl")
                        CALL NEW(tmpfile,TRIM(fname))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4235)", 1)
                           CALL NULLIFY(logfile)
@@ -3238,6 +3437,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL setPositionAppend(tmpfile)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4240)", 1)
                           CALL NULLIFY(logfile)
@@ -3245,6 +3445,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL OPEN(tmpfile)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4245)", 1)
                           CALL NULLIFY(logfile)
@@ -3253,6 +3454,7 @@ PROGRAM orbit_linking
                        CALL writeObservationFile(obss_1, getUnit(tmpfile), &
                             TRIM(obs_type))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4250)", 1)
                           WRITE(getUnit(tmpfile),"(A)") &
@@ -3262,6 +3464,7 @@ PROGRAM orbit_linking
                        WRITE(getUnit(tmpfile),"(A)") "#"
                        CALL writeNominalSolution(storb, obss_1, "cartesian", getUnit(tmpfile))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4255)", 1)
                           CALL NULLIFY(logfile)
@@ -3274,6 +3477,7 @@ PROGRAM orbit_linking
                        nelink = nelink + 1
                        CALL setNumber(obss_1, getNumber(obss_sep_arr(i)))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4193)", 1)
                           CALL NULLIFY(logfile)
@@ -3284,6 +3488,7 @@ PROGRAM orbit_linking
                        fname = get_cl_option("--faddnbobs=", "add_nb_rms_failed." // TRIM(obs_type))
                        CALL NEW(tmpfile,TRIM(fname))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4195)", 1)
                           CALL NULLIFY(logfile)
@@ -3291,6 +3496,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL setPositionAppend(tmpfile)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4200)", 1)
                           CALL NULLIFY(logfile)
@@ -3298,6 +3504,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL OPEN(tmpfile)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4205)", 1)
                           CALL NULLIFY(logfile)
@@ -3306,6 +3513,7 @@ PROGRAM orbit_linking
                        CALL writeObservationFile(obss_1, &
                             getUnit(tmpfile), TRIM(obs_type))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4210)", 1)
                           CALL NULLIFY(logfile)
@@ -3318,6 +3526,7 @@ PROGRAM orbit_linking
                        fname = get_cl_option("--faddnborb=", "add_nb_rms_failed.orb")
                        CALL NEW(tmpfile,TRIM(fname))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4215)", 1)
                           CALL NULLIFY(logfile)
@@ -3325,6 +3534,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL setPositionAppend(tmpfile)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4220)", 1)
                           CALL NULLIFY(logfile)
@@ -3332,6 +3542,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL OPEN(tmpfile)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4225)", 1)
                           CALL NULLIFY(logfile)
@@ -3341,6 +3552,7 @@ PROGRAM orbit_linking
                             "keplerian", TRIM(id1), orb, "keplerian", &
                             getCovarianceMatrix(storb, "keplerian"))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4230)", 1)
                           CALL NULLIFY(logfile)
@@ -3353,6 +3565,7 @@ PROGRAM orbit_linking
                        fname = get_cl_option("--faddnblsl=", "add_nb_rms_failed.lsl")
                        CALL NEW(tmpfile,TRIM(fname))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4235)", 1)
                           CALL NULLIFY(logfile)
@@ -3360,6 +3573,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL setPositionAppend(tmpfile)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4240)", 1)
                           CALL NULLIFY(logfile)
@@ -3367,6 +3581,7 @@ PROGRAM orbit_linking
                        END IF
                        CALL OPEN(tmpfile)
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4245)", 1)
                           CALL NULLIFY(logfile)
@@ -3375,6 +3590,7 @@ PROGRAM orbit_linking
                        CALL writeObservationFile(obss_1, getUnit(tmpfile), &
                             TRIM(obs_type)) 
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4250)", 1)
                           WRITE(getUnit(tmpfile),"(A)") &
@@ -3384,6 +3600,7 @@ PROGRAM orbit_linking
                        WRITE(getUnit(tmpfile),"(A)") "#"
                        CALL writeNominalSolution(storb, obss_1, "cartesian", getUnit(tmpfile))
                        IF (error) THEN
+       error = 0
                           CALL errorMessage("orbit_linking", &
                                "TRACE BACK (4255)", 1)
                           CALL NULLIFY(logfile)
@@ -3431,6 +3648,7 @@ PROGRAM orbit_linking
         END IF
         CALL NEW(obsfile, TRIM(obsfname))
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (5005)", 1)
            CALL NULLIFY(logfile)
@@ -3438,6 +3656,7 @@ PROGRAM orbit_linking
         END IF
         CALL setStatusOld(obsfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (5010)", 1)
            CALL NULLIFY(logfile)
@@ -3445,6 +3664,7 @@ PROGRAM orbit_linking
         END IF
         CALL OPEN(obsfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (5015)", 1)
            CALL NULLIFY(logfile)
@@ -3452,6 +3672,7 @@ PROGRAM orbit_linking
         END IF
         CALL NEW(obss_nb, obsfile)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (5020)", 1)
            CALL NULLIFY(logfile)
@@ -3460,6 +3681,7 @@ PROGRAM orbit_linking
         CALL NULLIFY(obsfile)
         obss_sep_arr => getSeparatedSets(obss_nb)
         IF (error) THEN
+       error = 0
            CALL errorMessage("orbit_linking", &
                 "TRACE BACK (5025)", 1)
            CALL NULLIFY(logfile)

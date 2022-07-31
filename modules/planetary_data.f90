@@ -570,6 +570,7 @@ CONTAINS
     IF (first) THEN
        CALL JPL_ephemeris_init(error)
        IF (error) THEN
+       error = 0
           WRITE(0,*) "JPL_ephemeris_r8(): Error when calling JPL_ephemeris_init()."
           RETURN
        END IF
@@ -607,6 +608,7 @@ CONTAINS
           list(12) = 2
           celements(1:12,1:6) = states(tt2, list, error)
           IF (error) THEN
+       error = 0
              WRITE(0,*) 'JPL_ephemeris_r8(): Target object and center object are the same.'
              RETURN
           ELSE
@@ -652,6 +654,7 @@ CONTAINS
     !  make call to state
     celements(1:12,1:6) = states(tt2, list, error)
     IF (error) THEN
+       error = 0
        WRITE(0,*) 'JPL_ephemeris_r8(): Error when calling states() (1).'
        RETURN
     END IF
@@ -774,6 +777,7 @@ CONTAINS
        tmp => JPL_ephemeris(REAL(mjd_tt,rprec8), ntarget, ncenter, error)
     END IF
     IF (error) THEN
+       error = 0
        WRITE(0,*) "JPL_ephemeris_r16(): Error when calling JPL_ephemeris_r8()."
        RETURN
     END IF
@@ -864,6 +868,7 @@ CONTAINS
     IF (first) THEN
        CALL JPL_ephemeris_init(error)
        IF (error) THEN
+       error = 0
           WRITE(0,*) "JPL_ephemeris_perturbers_r8(): Could not initialize ephemerides."
           RETURN
        END IF
@@ -894,6 +899,7 @@ CONTAINS
     !  make call to state
     celements(1:12,1:6) = states(tt2, list, error)
     IF (error) THEN
+       error = 0
        WRITE(0,*) "JPL_ephemeris_perturbers_r8(): Error when calling states() (1)."
        RETURN
     END IF
@@ -968,6 +974,7 @@ CONTAINS
        tmp => JPL_ephemeris(REAL(mjd_tt,rprec8), ntargets, ncenter, error)
     END IF
     IF (error) THEN
+       error = 0
        WRITE(0,*) "JPL_ephemeris_perturbers_r16(): Error when calling JPL_ephemeris_perturbers_r8()."
        RETURN
     END IF
@@ -1043,6 +1050,7 @@ CONTAINS
     IF (first) THEN
        CALL JPL_ephemeris_init(error)
        IF (error) THEN
+       error = 0
           WRITE(0,*) "nutations(): Could not initialize ephemerides."
           RETURN
        END IF
@@ -1104,6 +1112,7 @@ CONTAINS
           CALL interpolate(buf(:,record_nr), ipt(1,12), tt, &
                ipt(2,12), 2, ipt(3,12), tmp, error)
           IF (error) THEN
+       error = 0
              RETURN
           END IF
           nutations = tmp(1:4)
@@ -1111,6 +1120,7 @@ CONTAINS
           nutations = 0.0_rprec8
        END IF
        IF (error) THEN
+       error = 0
           WRITE(0,*) 'nutations(): No nutations on the ephemeris file.'
           RETURN
        END IF
@@ -1285,6 +1295,7 @@ CONTAINS
     CALL interpolate(buf(:,record_nr), ipt(1,11), t, ipt(2,11), &
          3, ipt(3,11), states(12,1:6), error)
     IF (error) THEN
+       error = 0
        WRITE(0,*) "states(): Error when calling interpolate() (1)."
        RETURN
     END IF
@@ -1295,6 +1306,7 @@ CONTAINS
        CALL interpolate(buf(:,record_nr), ipt(1,i), t, ipt(2,i), &
             3, ipt(3,i), states(i,:), error)
        IF (error) THEN
+       error = 0
           WRITE(0,*) "states(): Error when calling interpolate() (2)."
           RETURN
        END IF
@@ -1309,6 +1321,7 @@ CONTAINS
        CALL interpolate(buf(:,record_nr), ipt(1,13), t, ipt(2,13), &
             3, ipt(3,13), states(11,:), error)
        IF (error) THEN
+       error = 0
           WRITE(0,*) "states(): Error when calling interpolate() (3)."
           RETURN
        END IF
@@ -1703,6 +1716,7 @@ CONTAINS
     IF (first_bc) THEN
        CALL BC_ephemeris_init(nastpert,error)
        IF (error) THEN
+       error = 0
           WRITE(0,*) "BC_ephemeris_r8(): Error when calling BC_ephemeris_init()."
           RETURN
        END IF

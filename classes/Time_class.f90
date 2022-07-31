@@ -195,6 +195,7 @@ CONTAINS
     mjd = getMJD(year, month, tmp)
     CALL NEW(this, mjd, timescale)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Time / new", &
             "TRACE BACK", 1)
        RETURN
@@ -233,6 +234,7 @@ CONTAINS
     mjd = getMJD(year, month, day)
     CALL NEW(this, mjd, timescale)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Time / new", &
             "TRACE BACK", 1)
        RETURN
@@ -275,6 +277,7 @@ CONTAINS
     tmp = INDEX(coding, packed_date(1:1))
     CALL toInt(packed_date(2:3), year, error)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Time / new", &
             "Could not transform string to integer (1).", 1)
        RETURN
@@ -286,6 +289,7 @@ CONTAINS
     IF (n > 5) THEN
        CALL toInt(packed_date(6:n), tmp, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Time / new", &
                "Could not transform string to integer (2).", 1)
           RETURN
@@ -295,6 +299,7 @@ CONTAINS
 
     CALL NEW(this, year, month, day, timescale)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Time / new", &
             "TRACE BACK", 1)
        RETURN
@@ -343,6 +348,7 @@ CONTAINS
        CALL setStatusOld(datafile)
        CALL OPEN(datafile)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Time / new", &
                "TRACE BACK 3", 1)
           RETURN
@@ -398,6 +404,7 @@ CONTAINS
        jp = 2
        CALL NULLIFY(datafile)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Time / new", &
                "TRACE BACK 4", 1)
           RETURN
@@ -417,6 +424,7 @@ CONTAINS
        CALL setStatusOld(datafile)
        CALL OPEN(datafile)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Time / new", &
                "TRACE BACK 7", 1)
           RETURN
@@ -509,6 +517,7 @@ CONTAINS
        RETURN
     END SELECT
     IF (error) THEN
+       error = 0
        CALL errorMessage("Time / new", &
             "TRACE BACK 10", 1)
        RETURN
@@ -781,6 +790,7 @@ CONTAINS
 
     mjd = getMJD(this, timescale)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Time / getCalendarDate", &
             "TRACE BACK", 1)
        RETURN
@@ -849,6 +859,7 @@ CONTAINS
 
     CALL getCalendarDate(this, timescale, year, month, day, hour, min, sec)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Time / getCalendarDateString", &
             "TRACE BACK", 1)
        RETURN
@@ -904,6 +915,7 @@ CONTAINS
 
     mjd = getMJD(this, timescale)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Time / getCalendarDate", &
             "TRACE BACK", 1)
        RETURN
@@ -955,6 +967,7 @@ CONTAINS
 
     CALL getCalendarDate(this, timescale, year, month, day_, hour, min, sec)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Time / getCalendarDateString", &
             "TRACE BACK", 1)
        RETURN
@@ -1036,12 +1049,14 @@ CONTAINS
     mjd = getMJD(date_time(1), date_time(2), day) + timezone/24.0_bp
     CALL NEW(t, mjd, "utc")
     IF (error) THEN
+       error = 0
        CALL errorMessage("Time / getCurrentTime", "TRACE BACK (5)", 1)
        RETURN
     END IF
     CALL getCalendarDate(t, "utc", date_time(1), date_time(2), &
          date_time(3), date_time(5), date_time(6), s)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Time / getCurrentTime", "TRACE BACK (10)", 1)
        RETURN
     END IF
@@ -1054,12 +1069,14 @@ CONTAINS
        mjd = mjd + 0.5d0/86400.0d0
        CALL NEW(t, mjd, "utc")
        IF (error) THEN
+       error = 0
           CALL errorMessage("Time / getCurrentTime", "TRACE BACK (15)", 1)
           RETURN
        END IF
        CALL getCalendarDate(t, "utc", date_time(1), date_time(2), &
             date_time(3), date_time(5), date_time(6), s)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Time / getCurrentTime", "TRACE BACK (20)", 1)
           RETURN
        END IF
@@ -1158,6 +1175,7 @@ CONTAINS
 
     mjd = getMJD(this, timescale)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Time / getJD", &
             "TRACE BACK", 1)
        RETURN
@@ -1203,6 +1221,7 @@ CONTAINS
        IF (this%ut1 < 0.0_bp) THEN
           CALL timescaleConversion(this%tdt, "TDT", mjd, "UT1")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Time / getMJD", &
                   "TRACE BACK (5)", 1)
              RETURN
@@ -1215,6 +1234,7 @@ CONTAINS
        IF (this%tai < 0.0_bp) THEN
           CALL timescaleConversion(this%tdt, "TDT", mjd, "TAI")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Time / getMJD", &
                   "TRACE BACK (10)", 1)
              RETURN
@@ -1227,6 +1247,7 @@ CONTAINS
        IF (this%utc < 0.0_bp) THEN
           CALL timescaleConversion(this%tdt, "TDT", mjd, "UTC")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Time / getMJD", &
                   "TRACE BACK (15)", 1)
              RETURN
@@ -1390,6 +1411,7 @@ CONTAINS
     DO
        CALL toNormalForm(mjd2_int, sec2, eqsc)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Time / timescaleConversion", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -1433,6 +1455,7 @@ CONTAINS
              DO
                 CALL toNormalForm(mjdt_int, sect, "UT1")
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Time / timescaleConversion", &
                         "TRACE BACK (10)", 1)
                    RETURN
@@ -1452,6 +1475,7 @@ CONTAINS
                 sec2r = sect + dt
                 CALL toNormalForm(mjd2_real, sec2r, "TDT")
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Time / timescaleConversion", &
                         "TRACE BACK (15)", 1)
                    RETURN
@@ -1481,6 +1505,7 @@ CONTAINS
              sect = sec2
              dat = deltaAT(mjdt_int)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Time / timescaleConversion", &
                      "TRACE BACK (20)", 1)
                 RETURN
@@ -1493,6 +1518,7 @@ CONTAINS
              DO
                 CALL toNormalForm(mjdt_int, sect, "UTC")
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Time / timescaleConversion", &
                         "TRACE BACK (25)", 1)
                    RETURN
@@ -1509,12 +1535,14 @@ CONTAINS
                 mjd2_real = mjdt_int
                 sec2r = sect + deltaAT(mjdt_int)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Time / timescaleConversion", &
                         "TRACE BACK (30)", 1)
                    RETURN
                 END IF
                 CALL toNormalForm(mjd2_real, sec2r, "TAI")
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Time / timescaleConversion", &
                         "TRACE BACK (35)", 1)
                    RETURN
@@ -1523,6 +1551,7 @@ CONTAINS
                 diff = (mjd2_real-mjd2_int)*86400.0_bp + sec2r - sec2 + &
                      deltaAT(mjd2_real) - deltaAT(mjd2_int)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Time / timescaleConversion", &
                         "TRACE BACK (40)", 1)
                    RETURN
@@ -1545,6 +1574,7 @@ CONTAINS
           ! Conversione UTC --> TAI
           sec2 = sec2 + deltaAT(mjd2_int)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Time / timescaleConversion", &
                   "TRACE BACK (45)", 1)
              RETURN
@@ -1608,6 +1638,7 @@ CONTAINS
              ! Duration in seconds of the previous day
              idur = 86400 + deltaAT(mjd) - deltaAT(mjd-1)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Time / toNormalForm", &
                      "TRACE BACK (5)", 1)
                 RETURN
@@ -1626,6 +1657,7 @@ CONTAINS
        DO
           idur = 86400 + deltaAT(mjd+1) - deltaAT(mjd)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Time / toNormalForm", &
                   "TRACE BACK (10)", 1)
              RETURN

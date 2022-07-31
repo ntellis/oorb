@@ -159,6 +159,7 @@ CONTAINS
 
     CALL NEW(code_file, TRIM(this%code_fname))
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / new", &
             "TRACE BACK 1", 1)
        RETURN
@@ -168,6 +169,7 @@ CONTAINS
     CALL setStatusOld(code_file)
     CALL OPEN(code_file)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / new", &
             "TRACE BACK 4", 1)
        RETURN
@@ -203,6 +205,7 @@ CONTAINS
 
        CALL NEW(this%observatory_arr(i), code, name, position)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observatories / new", &
                "TRACE BACK 6", 1)
           RETURN
@@ -212,6 +215,7 @@ CONTAINS
 
     CALL NULLIFY(code_file)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / new", &
             "TRACE BACK 7", 1)
        RETURN
@@ -339,6 +343,7 @@ CONTAINS
     oblm = meanObliquity(mjd_tt)
     CALL getNutationAngles(t, dpsi, deps)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / equationOfEquinoxes", &
             "TRACE BACK", 1)
        RETURN
@@ -423,6 +428,7 @@ CONTAINS
        DO i=1, this%no_of_observatories
           trial_code = getCode(this%observatory_arr(i))
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observatories / getObservatory", &
                   "TRACE BACK (5)", 1)
              RETURN
@@ -432,6 +438,7 @@ CONTAINS
           IF (TRIM(code) == TRIM(trial_code)) THEN
              getObservatory_Obsies = copy(this%observatory_arr(i))
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observatories / getObservatory", &
                      "TRACE BACK (10)", 1)
                 CALL NULLIFY(getObservatory_Obsies)
@@ -443,6 +450,7 @@ CONTAINS
     ELSE
        CALL toInt(code(indx+1:), i, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observatories / getObservatory", &
                "TRACE BACK (15)", 1)
           CALL NULLIFY(getObservatory_Obsies)
@@ -451,6 +459,7 @@ CONTAINS
        position = 0.0_bp
        CALL NEW(getObservatory_Obsies, code, planetary_locations(i), position)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observatories / getObservatory", &
                "TRACE BACK (20)", 1)
           CALL NULLIFY(getObservatory_Obsies)
@@ -517,18 +526,21 @@ CONTAINS
        ! Equatorial Cartesian coordinates for the Earth (geocenter):
        mjd_tt = getMJD(t_, "TT")
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "TRACE BACK (5)", 1)
           RETURN
        END IF
        coordinates => JPL_ephemeris(mjd_tt, 3, 11, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "Could not get planetary ephemeris (5).", 1)
           RETURN
        END IF
        CALL NEW(geocenter_ccoord, coordinates(1,:), "equatorial", copy(t_))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "TRACE BACK (10)", 1)
           RETURN
@@ -543,6 +555,7 @@ CONTAINS
        ! Equatorial geocentric Cartesian state for the observatory
        geocentric_obs_ccoord = getGeocentricObservatoryCCoord(this, code, t_)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "TRACE BACK (15)", 1)
           RETURN
@@ -550,6 +563,7 @@ CONTAINS
        ! Equatorial heliocentric Cartesian state for the observatory
        getObservatoryCCoord_code = copy(geocenter_ccoord + geocentric_obs_ccoord)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "TRACE BACK (20)", 1)
           RETURN
@@ -565,12 +579,14 @@ CONTAINS
        ! Equatorial Cartesian planetocentric coordinates:
        mjd_tt = getMJD(t_, "TT")
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "TRACE BACK (25)", 1)
           RETURN
        END IF
        CALL toInt(TRIM(code(indx+1:)), i, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "Could not convert string to integer.", 1)
           RETURN
@@ -583,12 +599,14 @@ CONTAINS
        END IF
        coordinates => JPL_ephemeris(mjd_tt, i, 11, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "Could not get planetary ephemeris (10).", 1)
           RETURN
        END IF
        CALL NEW(getObservatoryCCoord_code, coordinates(1,:), "equatorial", copy(t_))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "TRACE BACK (30)", 1)
           RETURN
@@ -650,6 +668,7 @@ CONTAINS
 
     code = getCode(obsy)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / getObservatoryCCoord", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -657,6 +676,7 @@ CONTAINS
 
     getObservatoryCCoord_obsy = getObservatoryCCoord(this, code, t)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / getObservatoryCCoord", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -717,6 +737,7 @@ CONTAINS
     epoch_obs = 51544.5_bp ! J2000.0
     CALL NEW(t_obs, epoch_obs, "TT")
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / getGeocentricObservatoryCCoord", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -734,6 +755,7 @@ CONTAINS
     ! Equation of the Equinoxes
     gast = getGMST(t) + equationOfEquinoxes(t)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / getGeocentricObservatoryCCoord", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -746,6 +768,7 @@ CONTAINS
     ! Coordinates of the observatory in the body-fixed frame
     bf_position = getPosition(this, code)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / getGeocentricObservatoryCCoord", &
             "TRACE BACK (15)", 1)
        RETURN
@@ -765,6 +788,7 @@ CONTAINS
     pn_matrix = precessionAndNutationMatrix(frame_true, refsys_true, &
          t, frame_obs, refsys_obs, t_obs)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / getGeocentricObservatoryCCoord", &
             "TRACE BACK (20)", 1)
        RETURN
@@ -777,6 +801,7 @@ CONTAINS
     CALL NEW(getGeocentricObservatoryCCoord, position, velocity, &
          frame_true, t)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / getGeocentricObservatoryCCoord", &
             "TRACE BACK (25)", 1)
        RETURN
@@ -873,6 +898,7 @@ CONTAINS
 
     mjd_tt = getMJD(t0, "TT")
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / getNutationAngles", &
             "TRACE BACK", 1)
        RETURN
@@ -1082,6 +1108,7 @@ CONTAINS
 
     mjd_tt = getMJD(t, "TT")
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / getNutationMatrix", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -1090,6 +1117,7 @@ CONTAINS
     epsm = meanObliquity(mjd_tt)
     CALL getNutationAngles(t, dpsi, deps)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / getNutationMatrix", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -1157,6 +1185,7 @@ CONTAINS
 
     mjd_tt = getMJD(t, "TT")
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / getPrecessionMatrix", &
             "TRACE BACK", 1)
        RETURN
@@ -1263,6 +1292,7 @@ CONTAINS
 
     tt1 = getMJD(t1, "TT")
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / " // &
             "precessionAndNutationMatrix", &
             "TRACE BACK (5)", 1)
@@ -1270,6 +1300,7 @@ CONTAINS
     END IF
     tt2 = getMJD(t2, "TT")
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observatories / " // &
             "precessionAndNutationMatrix", &
             "TRACE BACK (10)", 1)
@@ -1300,6 +1331,7 @@ CONTAINS
              rot = MATMUL(r,rot)
              frame = "equatorial"
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observatories / " // &
                      "precessionAndNutationMatrix", &
                      "TRACE BACK (15)", 1)
@@ -1312,6 +1344,7 @@ CONTAINS
                 END IF
                 r = getNutationMatrix(t_)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observatories / " // &
                         "precessionAndNutationMatrix", &
                         "TRACE BACK (20)", 1)
@@ -1330,6 +1363,7 @@ CONTAINS
                 tt_ = tt2
                 t_ = copy(t2)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observatories / " // &
                         "precessionAndNutationMatrix", &
                         "TRACE BACK (25)", 1)
@@ -1348,6 +1382,7 @@ CONTAINS
              END IF
              r = getNutationMatrix(t_)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observatories / " // &
                      "precessionAndNutationMatrix", &
                      "TRACE BACK (30)", 1)
@@ -1362,6 +1397,7 @@ CONTAINS
              IF (TRIM(rsys2) == "true-of-date") THEN
                 r = getNutationMatrix(t_)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observatories / " // &
                         "precessionAndNutationMatrix", &
                         "TRACE BACK (35)", 1)

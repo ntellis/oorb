@@ -543,6 +543,7 @@ CONTAINS
        orb_arr(1) = getNominalOrbit(this%storb)
     END IF
     IF (error) THEN
+       error = 0
        CALL errorMessage("PhysicalParameters / crudeHEstimate", &
             "TRACE BACK (10).", 1)
        RETURN
@@ -550,6 +551,7 @@ CONTAINS
     CALL getEphemerides(orb_arr, obsy_ccoord_arr, &
          ephemerides_arr, this_lt_corr_arr=orb_lt_corr_arr)
     IF (error) THEN
+       error = 0
        CALL errorMessage("PhysicalParameters / crudeHEstimate", &
             "TRACE BACK (15).", 1)
        RETURN
@@ -712,6 +714,7 @@ CONTAINS
     obs_mag_unc_arr => getMagnitudeUncertainties(obss)
     filter_arr => getFilters(obss)
     IF (error) THEN
+       error = 0
        CALL errorMessage("PhysicalParameters / estimateHAndG", &
             "TRACE BACK (5).", 1)
        RETURN
@@ -762,6 +765,7 @@ CONTAINS
             ephemerides_arr, cov_arr=cov_arr, this_lt_corr_arr=orb_lt_corr_arr)       
     END IF
     IF (error) THEN
+       error = 0
        CALL errorMessage("PhysicalParameters / estimateHAndG", &
             "TRACE BACK (10).", 1)
        RETURN
@@ -778,6 +782,7 @@ CONTAINS
           coordinates = getCoordinates(ephemerides_arr(j,i))
           topo_dist_arr(j,i) = coordinates(1)
           IF (error) THEN
+       error = 0
              CALL errorMessage("PhysicalParameters / estimateHAndG", &
                   "TRACE BACK (15).", 1)
              RETURN
@@ -790,6 +795,7 @@ CONTAINS
     CALL getPhaseAngles(this%storb, obsy_ccoord_arr, &
          phase_angle_arr)
     IF (error) THEN
+       error = 0
        CALL errorMessage("PhysicalParameters / estimateHAndG", &
             "TRACE BACK (20).", 1)
        RETURN
@@ -814,6 +820,7 @@ CONTAINS
                   this%G_arr(i,2))
           END IF
           IF (error) THEN
+       error = 0
              CALL errorMessage("PhysicalParameters / estimateHAndG", &
                   "TRACE BACK (25).", 1)
              RETURN
@@ -842,6 +849,7 @@ CONTAINS
                this%G_unc)
        END IF
        IF (error) THEN
+       error = 0
           CALL errorMessage("PhysicalParameters / estimateHAndG", &
                "TRACE BACK (30).", 1)
           RETURN

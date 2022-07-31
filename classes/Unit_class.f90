@@ -119,6 +119,7 @@ CONTAINS
     lu = next_lu
     CALL safeLogicalUnit(lu)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Unit / new", &
             "TRACE BACK", 1)
        RETURN

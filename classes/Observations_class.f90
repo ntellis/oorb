@@ -328,6 +328,7 @@ CONTAINS
        END IF
     END IF
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / new", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -336,6 +337,7 @@ CONTAINS
     ! Update number and names of different objects:
     CALL sortObservations(this)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / new", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -399,6 +401,7 @@ CONTAINS
     END IF
     this%obs_arr(1) = copy(obs)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / new", &
             "TRACE BACK (5)", 1)
        CALL NULLIFY(this)
@@ -414,6 +417,7 @@ CONTAINS
     ELSE
        this%objects(this%nobjects) = getDesignation(obs)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / new", &
                "TRACE BACK (20)", 1)
           CALL NULLIFY(this)
@@ -422,6 +426,7 @@ CONTAINS
     END IF
     t = getTime(obs)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / new", &
             "TRACE BACK (25)", 1)
        CALL NULLIFY(this)
@@ -429,6 +434,7 @@ CONTAINS
     END IF
     this%criteria(1) = getMJD(t, "tdt")
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / new", &
             "TRACE BACK (30)", 1)
        CALL NULLIFY(this)
@@ -493,6 +499,7 @@ CONTAINS
     DO i=1,this%nobs
        this%obs_arr(i) = copy(obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / new", &
                "TRACE BACK (5)", 1)
           CALL NULLIFY(this)
@@ -503,6 +510,7 @@ CONTAINS
     ! Update number and names of different objects:
     CALL sortObservations(this, force_full=.TRUE.)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / new", &
             "TRACE BACK (10)", 1)
        CALL NULLIFY(this)
@@ -612,6 +620,7 @@ CONTAINS
        DO i=1,SIZE(this%obs_arr)
           copy_Obss%obs_arr(i) = copy(this%obs_arr(i))
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / Observations", &
                   "TRACE BACK", 1)
              CALL NULLIFY(copy_Obss)
@@ -725,6 +734,7 @@ CONTAINS
        IF (mask_arr_(i)) THEN
           CALL addMultinormalDeviate(this%obs_arr(this%ind(i)), mean_arr(i,:), covariance_arr(i,:,:))
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / addMultinormalDeviate", &
                   "TRACE BACK", 1)
              DEALLOCATE(mask_arr_, stat=err)
@@ -805,6 +815,7 @@ CONTAINS
        IF (mask_arr_(i)) THEN
           CALL addUniformDeviate(this%obs_arr(this%ind(i)), center_and_absbound_arr(i,:,:))
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / addUniformDeviates", &
                   "TRACE BACK", 1)
              DEALLOCATE(mask_arr_, stat=err)
@@ -868,6 +879,7 @@ CONTAINS
     DO i=1, this%nobs
        addition_Obss%obs_arr(i) = copy(this%obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / addition", &
                "TRACE BACK (5)", 1)
           CALL NULLIFY(addition_Obss)
@@ -877,6 +889,7 @@ CONTAINS
     DO i=1, that%nobs
        addition_Obss%obs_arr(this%nobs+i) = copy(that%obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / addition", &
                "TRACE BACK (10)", 1)
           CALL NULLIFY(addition_Obss)
@@ -932,6 +945,7 @@ CONTAINS
     ! of different objects corresponding to "that":
     CALL sortObservations(addition_Obss)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / addition", &
             "TRACE BACK", 1)
        CALL NULLIFY(addition_Obss)
@@ -1000,6 +1014,7 @@ CONTAINS
     IF (sort_) THEN
        CALL sortObservations(this)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / addObservation", &
                "TRACE BACK", 1)
           RETURN
@@ -1038,6 +1053,7 @@ CONTAINS
     DO i=1, SIZE(this%obs_arr)
        CALL setDesignation(this%obs_arr(i), TRIM(designation))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / setDesignation", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -1048,6 +1064,7 @@ CONTAINS
     this%nobjects = 0
     CALL sortObservations(this)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / setDesignation", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -1087,6 +1104,7 @@ CONTAINS
              CALL NULLIFY(this%obs_arr(this%ind(j)))
           END IF
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / clean", &
                   "TRACE BACK (5)", 1)
              RETURN
@@ -1099,6 +1117,7 @@ CONTAINS
     this%nobjects = 0
     CALL sortObservations(this,primary_sort="designation")
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / clean", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -1141,6 +1160,7 @@ CONTAINS
     DO i=1,nobs
        scoord_arr(i) = getObservationSCoord(this%obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / containsInconsistencies", &
                "TTRACE BACK (5)", 1)
           DEALLOCATE(scoord_arr, stat=err)
@@ -1150,6 +1170,7 @@ CONTAINS
        END IF
        t_arr(i) = getTime(scoord_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / containsInconsistencies", &
                "TTRACE BACK (10)", 1)
           DEALLOCATE(scoord_arr, stat=err)
@@ -1159,6 +1180,7 @@ CONTAINS
        END IF
        obsy_arr(i) = getObservatory(this%obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / containsInconsistencies", &
                "TTRACE BACK (15)", 1)
           DEALLOCATE(scoord_arr, stat=err)
@@ -1178,6 +1200,7 @@ CONTAINS
              EXIT ci
           END IF
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / containsInconsistencies", &
                   "TTRACE BACK (20)", 1)
              DEALLOCATE(scoord_arr, stat=err)
@@ -1250,6 +1273,7 @@ CONTAINS
 
     covariance_matrices => getCovarianceMatrices(this)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / getBlockDiagInformationMatrix", &
             "TRACE BACK (5)", 1)
        DEALLOCATE(covariance_matrices, stat=err)
@@ -1264,6 +1288,7 @@ CONTAINS
        ! matrices:
        obs_mask = getObservationMask(this%obs_arr(this%ind(i)))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getBlockDiagInformationMatrix", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(covariance_matrices, stat=err)
@@ -1351,6 +1376,7 @@ CONTAINS
     DO i=1, this%nobs
        getCovarianceMatrices(i,:,:) = getCovarianceMatrix(this%obs_arr(this%ind(i)))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getCovarianceMatrices", &
                "TRACE BACK", 1)
           DEALLOCATE(getCovarianceMatrices, stat=err)
@@ -1405,6 +1431,7 @@ CONTAINS
        t = getTime(this%obs_arr(i))
        getDates_Obss(i) = getMJD(t, "UTC")
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getDates", &
                "TRACE BACK", 1)
           DEALLOCATE(getDates_Obss, stat=err)
@@ -1458,6 +1485,7 @@ CONTAINS
     DO i=1,this%nobs
        getDeclinations_Obss(i) = getDec(this%obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getDeclinations", &
                "TRACE BACK", 1)
           DEALLOCATE(getDeclinations_Obss, stat=err)
@@ -1510,6 +1538,7 @@ CONTAINS
     DO i=1,this%nobs
        getDesignations(i) = getDesignation(this%obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getDesignations", &
                "TRACE BACK", 1)
           DEALLOCATE(getDesignations, stat=err)
@@ -1556,6 +1585,7 @@ CONTAINS
 
     designations => getDesignations(this)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / getDesignation", &
             "TRACE BACK", 1)
        RETURN
@@ -1622,6 +1652,7 @@ CONTAINS
     DO i=1, this%nobs
        getFilters(i) = getFilter(this%obs_arr(this%ind(i))) 
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getFilters", &
                "TRACE BACK", 1)
           DEALLOCATE(getFilters, stat=err)
@@ -1721,6 +1752,7 @@ CONTAINS
 
     covariance_matrices => getCovarianceMatrices(this)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / getInformationMatrix", &
             "TRACE BACK (5)", 1)
        DEALLOCATE(getInformationMatrix, stat=err)
@@ -1735,6 +1767,7 @@ CONTAINS
        j = (i-1)*6
        obs_mask = getObservationMask(this%obs_arr(this%ind(i)))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getInformationMatrix", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(getInformationMatrix, stat=err)
@@ -1822,6 +1855,7 @@ CONTAINS
     DO i=1, this%nobs
        getMagnitudes(i) = getMagnitude(this%obs_arr(this%ind(i))) 
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getMagnitudes", &
                "TRACE BACK", 1)
           DEALLOCATE(getMagnitudes, stat=err)
@@ -1878,6 +1912,7 @@ CONTAINS
     DO i=1, this%nobs
        getMagnitudeUncertainties(i) = getMagnitudeUncertainty(this%obs_arr(this%ind(i))) 
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getMagnitudeUncertainties", &
                "TRACE BACK", 1)
           DEALLOCATE(getMagnitudeUncertainties, stat=err)
@@ -1962,6 +1997,7 @@ CONTAINS
        ! Observation date MJD (UTC):
        t = getTime(this%obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getMinAndMaxValues", &
                "TRACE BACK 1", 1)
           DEALLOCATE(getMinAndMaxValues_Obss, stat=err)
@@ -1971,6 +2007,7 @@ CONTAINS
        END IF
        obs_arr(i,1) = getMJD(t, "utc")
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getMinAndMaxValues", &
                "TRACE BACK 2", 1)
           DEALLOCATE(getMinAndMaxValues_Obss, stat=err)
@@ -1982,6 +2019,7 @@ CONTAINS
        ! Right Ascension (rad):
        obs_arr(i,2) = getRA(this%obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getMinAndMaxValues", &
                "TRACE BACK 3", 1)
           DEALLOCATE(getMinAndMaxValues_Obss, stat=err)
@@ -1993,6 +2031,7 @@ CONTAINS
        ! Declination (rad):
        obs_arr(i,3) = getDec(this%obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getMinAndMaxValues", &
                "TRACE BACK 4", 1)
           DEALLOCATE(getMinAndMaxValues_Obss, stat=err)
@@ -2008,6 +2047,7 @@ CONTAINS
        CALL NULLIFY(ccoord)
        CALL NULLIFY(t)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getMinAndMaxValues", &
                "TRACE BACK 5", 1)
           DEALLOCATE(getMinAndMaxValues_Obss, stat=err)
@@ -2347,6 +2387,7 @@ CONTAINS
 
     getObservation = copy(this%obs_arr(this%ind(i)))
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / getObservations", &
             "TRACE BACK", 1)
        CALL NULLIFY(getObservation)
@@ -2491,6 +2532,7 @@ CONTAINS
        ELSE
           getObservationMasks_Obss(i,1:6) = getObservationMask(this%obs_arr(this%ind(i)))
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / getObservationMasks", &
                   "TRACE BACK", 1)
              DEALLOCATE(getObservationMasks_Obss, stat=err)
@@ -2664,6 +2706,7 @@ CONTAINS
 
     getObservationWeights => getStandardDeviations(this)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / getObservationWeights", &
             "TRACE BACK", 1)
        DEALLOCATE(getObservationWeights, stat=err)
@@ -2729,6 +2772,7 @@ CONTAINS
     DO i=1, this%nobs
        getObservationSCoords(i) = getObservationSCoord(this%obs_arr(this%ind(i)))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getObservationSCoords", &
                "TRACE BACK", 1)
           DEALLOCATE(getObservationSCoords, stat=err)
@@ -2788,6 +2832,7 @@ CONTAINS
     DO i=1, this%nobs
        getObservatoryCCoords(i) = getObservatoryCCoord(this%obs_arr(this%ind(i))) 
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getObservatoryCCoords", &
                "TRACE BACK", 1)
           DEALLOCATE(getObservatoryCCoords, stat=err)
@@ -2844,6 +2889,7 @@ CONTAINS
     DO i=1, this%nobs
        getObservatoryCodes_Obss(i) = getObservatoryCode(this%obs_arr(this%ind(i))) 
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getObservatoryCodes", &
                "TRACE BACK", 1)
           DEALLOCATE(getObservatoryCodes_Obss, stat=err)
@@ -2912,6 +2958,7 @@ CONTAINS
        CALL NULLIFY(getSeparatedSets(i))
        CALL NEW(getSeparatedSets(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getSeparatedSets", &
                "TRACE BACK 2", 1)
           DEALLOCATE(getSeparatedSets, stat=err)
@@ -2924,6 +2971,7 @@ CONTAINS
        ! (1) number or (2) designation: 
        number = getNumber(this%obs_arr(this%ind(i)))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getSeparatedSets", &
                "TRACE BACK 3", 1)
           DEALLOCATE(getSeparatedSets, stat=err)
@@ -2934,6 +2982,7 @@ CONTAINS
        ELSE
           id = getDesignation(this%obs_arr(this%ind(i)))
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / getSeparatedSets", &
                   "TRACE BACK 5", 1)
              DEALLOCATE(getSeparatedSets, stat=err)
@@ -2947,6 +2996,7 @@ CONTAINS
             this%obs_arr(this%ind(i)), &
             note=this%obs_note_arr(this%ind(i)))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getSeparatedSets", &
                "TRACE BACK 6", 1)
           DEALLOCATE(getSeparatedSets, stat=err)
@@ -2999,6 +3049,7 @@ CONTAINS
     DO i=1,this%nobs
        getStandardDeviations_Obss(i,1:6) = getStandardDeviations(this%obs_arr(this%ind(i)))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / getStandardDeviations", &
                "TRACE BACK", 1)
           DEALLOCATE(getStandardDeviations_Obss, stat=err)
@@ -3065,6 +3116,7 @@ CONTAINS
        CALL NULLIFY(obss_arr(i))
        CALL NEW(obss_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / groupObservations", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(tdt_arr, stat=err)
@@ -3086,6 +3138,7 @@ CONTAINS
              tdt_sum = tdt_sum + this%criteria(this%ind(j))
              CALL addObservation(obss_arr(i), this%obs_arr(this%ind(j)))
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / groupObservations", &
                      "TRACE BACK (5)", 1)
                 DEALLOCATE(tdt_arr, stat=err)
@@ -3186,6 +3239,7 @@ CONTAINS
     suffix = fname(indx+1:LEN_TRIM(fname))
     CALL locase(suffix, error)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / new", &
             "The suffix string contains forbidden characters.", 1)
        RETURN
@@ -3197,6 +3251,7 @@ CONTAINS
          nlines = getNrOfLines(obsf)
     END IF
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / readObservationFile", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -3213,6 +3268,7 @@ CONTAINS
 
     CALL NEW(obsies)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / readObservationFile", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -3270,16 +3326,19 @@ CONTAINS
           CALL NEW(t, mjd, "UTC")
           err_verb = err_verb_
           IF (error) THEN
+       error = 0
              error = .FALSE.
              CALL NEW(t, mjd, "UT1")
           END IF
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (15)", 1)
              RETURN
           END IF
           CALL NEW(obs_scoord, ra*rad_deg, dec*rad_deg, t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (20)", 1)
              RETURN
@@ -3297,12 +3356,14 @@ CONTAINS
           END IF
           obsy = getObservatory(obsies, obsy_code)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (25)", 1)
              RETURN
           END IF
           obsy_ccoord = getObservatoryCCoord(obsies, obsy_code, t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (30)", 1)
              RETURN
@@ -3388,54 +3449,63 @@ CONTAINS
           END IF
           CALL toInt(line1(16:19), year, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (5).", 1)
              RETURN
           END IF
           CALL toInt(line1(21:22), month, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (10).", 1)
              RETURN
           END IF
           CALL toReal(line1(24:32), day, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (15).", 1)
              RETURN
           END IF
           CALL toInt(line1(33:34), hour, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (20).", 1)
              RETURN
           END IF
           CALL toInt(line1(36:37), min, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (25).", 1)
              RETURN
           END IF
           CALL toReal(line1(39:44), sec, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (30).", 1)
              RETURN
           END IF
           CALL toInt(line1(46:47), deg, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (35).", 1)
              RETURN
           END IF
           CALL toInt(line1(49:50), arcmin, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (40).", 1)
              RETURN
           END IF
           CALL toReal(line1(52:56), arcsec, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (45).", 1)
              RETURN
@@ -3443,6 +3513,7 @@ CONTAINS
           IF (LEN_TRIM(line1(66:70)) /= 0) THEN
              CALL toReal(line1(66:70), mag, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (50).", 1)
                 RETURN
@@ -3463,6 +3534,7 @@ CONTAINS
           ! Create epoch object:
           CALL NEW(t, year, month, day, timescale)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (35)", 1)
              RETURN
@@ -3477,6 +3549,7 @@ CONTAINS
           ! Create observation object containing R.A. and Dec. + epoch:
           CALL NEW(obs_scoord, hour, min, sec, deg, arcmin, arcsec, t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (40)", 1)
              RETURN
@@ -3502,6 +3575,7 @@ CONTAINS
           END SELECT
           obsy = getObservatory(obsies, TRIM(obsy_code))
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (45)", 1)
              RETURN
@@ -3526,6 +3600,7 @@ CONTAINS
              END IF
              CALL toReal(line2(36:46), position(1), error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (55).", 1)
                 RETURN
@@ -3535,6 +3610,7 @@ CONTAINS
              END IF
              CALL toReal(line2(48:58), position(2), error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (60).", 1)
                 RETURN
@@ -3544,6 +3620,7 @@ CONTAINS
              END IF
              CALL toReal(line2(60:70), position(3), error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (50).", 1)
                 RETURN
@@ -3602,6 +3679,7 @@ CONTAINS
                   obsy=obsy, obsy_ccoord=obsy_ccoord)
           END SELECT
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (55)", 1)
              RETURN
@@ -3677,18 +3755,21 @@ CONTAINS
           END IF
           CALL toInt(records(1)(20:23), year, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (5).", 1)
              RETURN
           END IF
           CALL toInt(records(1)(25:26), month, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (10).", 1)
              RETURN
           END IF
           CALL toReal(records(1)(28:40), day, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (15).", 1)
              RETURN
@@ -3703,6 +3784,7 @@ CONTAINS
           END IF
           CALL NEW(t, year, month, day, timescale)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (60)", 1)
              RETURN
@@ -3710,36 +3792,42 @@ CONTAINS
           IF (records(1)(43:43) == " ") THEN
              CALL toInt(records(1)(41:42), hour, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (20).", 1)
                 RETURN
              END IF
              CALL toInt(records(1)(44:45), min, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (25).", 1)
                 RETURN
              END IF
              CALL toReal(records(1)(47:52), sec, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (30).", 1)
                 RETURN
              END IF
              CALL toInt(records(1)(57:58), deg, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (35).", 1)
                 RETURN
              END IF
              CALL toInt(records(1)(60:61), arcmin, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (40).", 1)
                 RETURN
              END IF
              CALL toReal(records(1)(63:67), arcsec, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (45).", 1)
                 RETURN
@@ -3754,6 +3842,7 @@ CONTAINS
              ! Create observation object containing R.A. and Dec. + epoch:
              CALL NEW(obs_scoord, hour, min, sec, deg, arcmin, arcsec, t)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "TRACE BACK (65)", 1)
                 RETURN
@@ -3761,12 +3850,14 @@ CONTAINS
           ELSE
              CALL toReal(records(1)(41:55), ra, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (50).", 1)
                 RETURN
              END IF
              CALL toReal(records(1)(56:71), dec, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (55).", 1)
                 RETURN
@@ -3774,6 +3865,7 @@ CONTAINS
              ! Create observation object containing R.A. and Dec. + epoch:
              CALL NEW(obs_scoord, longitude=ra, latitude=dec, t=t)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "TRACE BACK (70)", 1)
                 RETURN
@@ -3794,12 +3886,14 @@ CONTAINS
              IF (records(2)(43:43) == ".") THEN
                 CALL toReal(records(2)(41:46), stdev_(2), error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (60).", 1)
                    RETURN
                 END IF
                 CALL toReal(records(2)(48:53), stdev_(3), error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (65).", 1)
                    RETURN
@@ -3809,6 +3903,7 @@ CONTAINS
                 CALL toReal(records(2)(41:41) // "." // &
                      records(2)(42:48), stdev_(2), error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (70).", 1)
                    RETURN
@@ -3816,6 +3911,7 @@ CONTAINS
                 CALL toReal(records(2)(49:49) // "." // &
                      records(2)(50:56), stdev_(3), error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (75).", 1)
                    RETURN
@@ -3825,6 +3921,7 @@ CONTAINS
              END IF
              CALL toReal(records(2)(57:64), correlation, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (77).", 1)
                 RETURN
@@ -3844,6 +3941,7 @@ CONTAINS
           END IF
           obsy = getObservatory(obsies, obsy_code)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (80)", 1)
              RETURN
@@ -3869,18 +3967,21 @@ CONTAINS
              END IF
              CALL toReal(records(3)(42:59), position(1), error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (80).", 1)
                 RETURN
              END IF
              CALL toReal(records(3)(60:77), position(2), error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (85).", 1)
                 RETURN
              END IF
              CALL toReal(records(3)(78:95), position(3), error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (90).", 1)
                 RETURN
@@ -3923,6 +4024,7 @@ CONTAINS
              RETURN
           END SELECT
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (85)", 1)
              RETURN
@@ -4015,6 +4117,7 @@ CONTAINS
           END IF
           CALL toInt(records(1)(22:25), year, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string (" // records(1)(22:25) &
                   // ") to number.", 1)
@@ -4022,12 +4125,14 @@ CONTAINS
           END IF
           CALL toInt(records(1)(26:27), month, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (10).", 1)
              RETURN
           END IF
           CALL toReal(records(1)(28:39), day, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (15).", 1)
              RETURN
@@ -4042,6 +4147,7 @@ CONTAINS
           END IF
           CALL NEW(t, year, month, day, timescale)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (90)", 1)
              RETURN
@@ -4049,6 +4155,7 @@ CONTAINS
           IF (records(1)(43:43) == " ") THEN
              CALL toInt(records(1)(41:42), hour, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (20).", 1)
                 RETURN
@@ -4056,6 +4163,7 @@ CONTAINS
              IF (LEN_TRIM(records(1)(47:52)) == 0 .OR. records(1)(46:46) == ".") THEN
                 CALL toReal(records(1)(44:52), rmin, error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (22).", 1)
                    RETURN
@@ -4065,12 +4173,14 @@ CONTAINS
              ELSE
                 CALL toInt(records(1)(44:45), min, error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (25).", 1)
                    RETURN
                 END IF
                 CALL toReal(records(1)(47:53), sec, error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (30).", 1)
                    RETURN
@@ -4078,6 +4188,7 @@ CONTAINS
              END IF
              CALL toInt(records(1)(57:58), deg, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (35).", 1)
                 RETURN
@@ -4085,6 +4196,7 @@ CONTAINS
              IF (LEN_TRIM(records(1)(63:67)) == 0 .OR. records(1)(62:62) == ".") THEN
                 CALL toReal(records(1)(60:67), rarcmin, error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (32).", 1)
                    RETURN
@@ -4094,6 +4206,7 @@ CONTAINS
              ELSE
                 CALL toInt(records(1)(60:61), arcmin, error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (40).", 1)
                    RETURN
@@ -4101,6 +4214,7 @@ CONTAINS
                 ! This has been changed from (63:67) to (63:68) to allow milliarcsec accuracy
                 CALL toReal(records(1)(63:68), arcsec, error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (45).", 1)
                    RETURN
@@ -4116,6 +4230,7 @@ CONTAINS
              ! Create observation object containing R.A. and Dec. + epoch:
              CALL NEW(obs_scoord, hour, min, sec, deg, arcmin, arcsec, t)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "TRACE BACK (95)", 1)
                 RETURN
@@ -4123,12 +4238,14 @@ CONTAINS
           ELSE
              CALL toReal(records(1)(41:55), ra, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (50).", 1)
                 RETURN
              END IF
              CALL toReal(records(1)(56:71), dec, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (55).", 1)
                 RETURN
@@ -4136,6 +4253,7 @@ CONTAINS
              ! Create observation object containing R.A. and Dec. + epoch:
              CALL NEW(obs_scoord, longitude=ra, latitude=dec, t=t)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "TRACE BACK (100)", 1)
                 RETURN
@@ -4147,6 +4265,7 @@ CONTAINS
              mag = 99.9_bp
           END IF
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "Could not convert string to number (57).", 1)
              RETURN
@@ -4162,12 +4281,14 @@ CONTAINS
                 ! 
                 CALL toReal(records(2)(41:46), stdev_(2), error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (60).", 1)
                    RETURN
                 END IF
                 CALL toReal(records(2)(48:53), stdev_(3), error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (65).", 1)
                    RETURN
@@ -4177,6 +4298,7 @@ CONTAINS
                 CALL toReal(records(2)(41:41) // "." // &
                      records(2)(42:48), stdev_(2), error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (70).", 1)
                    RETURN
@@ -4184,6 +4306,7 @@ CONTAINS
                 CALL toReal(records(2)(49:49) // "." // &
                      records(2)(50:56), stdev_(3), error)
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("Observations / readObservationFile", &
                         "Could not convert string to number (75).", 1)
                    RETURN
@@ -4193,6 +4316,7 @@ CONTAINS
              END IF
              CALL toReal(records(2)(57:64), correlation, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (77).", 1)
                 RETURN
@@ -4212,6 +4336,7 @@ CONTAINS
           END IF
           obsy = getObservatory(obsies, obsy_code)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (105)", 1)
              RETURN
@@ -4237,18 +4362,21 @@ CONTAINS
              END IF
              CALL toReal(records(3)(42:59), position(1), error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (80).", 1)
                 RETURN
              END IF
              CALL toReal(records(3)(60:77), position(2), error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (85).", 1)
                 RETURN
              END IF
              CALL toReal(records(3)(78:95), position(3), error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "Could not convert string to number (90).", 1)
                 RETURN
@@ -4293,6 +4421,7 @@ CONTAINS
              RETURN
           END SELECT
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (110)", 1)
              RETURN
@@ -4353,12 +4482,14 @@ CONTAINS
 
           CALL NEW(t, mjd_tcb + dt, "TCB")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (115)", 1)
              RETURN
           END IF
           obsy = getObservatory(obsies, "247")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (120)", 1)
              RETURN
@@ -4367,18 +4498,21 @@ CONTAINS
           ! heliocentric spacecraft coordinates
           mjd_tt = getMJD(t, "TT")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (121)", 1)
              RETURN
           END IF
           planeph => JPL_ephemeris(mjd_tt, 12, 11, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (122)", 1)
              RETURN
           END IF
           CALL NEW(obsy_ccoord, coordinates + planeph(1,:), "equatorial", t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (125)", 1)
              RETURN
@@ -4386,6 +4520,7 @@ CONTAINS
           DEALLOCATE(planeph, stat=err)
           CALL NEW(obs_scoord, position, velocity, "equatorial", t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (130)", 1)
              RETURN
@@ -4405,6 +4540,7 @@ CONTAINS
                satellite_ccoord=satellite_ccoord, &
                coord_unit=2)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (135)", 1)
              RETURN
@@ -4538,6 +4674,7 @@ CONTAINS
         
              CALL collapseTransit(inratrs, indectrs, intimetrs, covRandomTrs, trsResult, error)
              IF (error) THEN
+       error = 0
                  CALL errorMessage("Observations / readObservationFile", &
                       "TRACE BACK (999)", 1)
                  RETURN
@@ -4576,12 +4713,14 @@ CONTAINS
               
               CALL NEW(t, mjd_tcb + dt, "TCB")
               IF (error) THEN
+       error = 0
                  CALL errorMessage("Observations / readObservationFile", &
                       "TRACE BACK (115)", 1)
                  RETURN
               END IF
               obsy = getObservatory(obsies, "247")
               IF (error) THEN
+       error = 0
                  CALL errorMessage("Observations / readObservationFile", &
                       "TRACE BACK (120)", 1)
                  RETURN
@@ -4590,18 +4729,21 @@ CONTAINS
               ! heliocentric spacecraft coordinates
               mjd_tt = getMJD(t, "TT")
               IF (error) THEN
+       error = 0
                  CALL errorMessage("Observations / readObservationFile", &
                       "TRACE BACK (121)", 1)
                  RETURN
               END IF
               planeph => JPL_ephemeris(mjd_tt, 12, 11, error)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("Observations / readObservationFile", &
                       "TRACE BACK (122)", 1)
                  RETURN
               END IF
               CALL NEW(obsy_ccoord, coordinates + planeph(1,:), "equatorial", t)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("Observations / readObservationFile", &
                       "TRACE BACK (125)", 1)
                  RETURN
@@ -4609,6 +4751,7 @@ CONTAINS
               DEALLOCATE(planeph, stat=err)
               CALL NEW(obs_scoord, position, velocity, "equatorial", t)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("Observations / readObservationFile", &
                       "TRACE BACK (130)", 1)
                  RETURN
@@ -4631,6 +4774,7 @@ CONTAINS
                    satellite_ccoord=satellite_ccoord, &
                    coord_unit=2)
               IF (error) THEN
+       error = 0
                  CALL errorMessage("Observations / readObservationFile", &
                       "TRACE BACK (135)", 1)
                  RETURN
@@ -4791,12 +4935,14 @@ CONTAINS
 
           CALL NEW(t, mjd_tcb + epoch_utc, "UTC")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (115)", 1)
              RETURN
           END IF
           obsy = getObservatory(obsies, "247")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (120)", 1)
              RETURN
@@ -4805,12 +4951,14 @@ CONTAINS
           ! heliocentric spacecraft coordinates
           mjd_tt = getMJD(t, "TT")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (121)", 1)
              RETURN
           END IF
           planeph => JPL_ephemeris(mjd_tt, 12, 11, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (122)", 1)
              RETURN
@@ -4819,6 +4967,7 @@ CONTAINS
           CALL GaiaRelativityCorrection(position, coordinates, mjd_tt)
           CALL NEW(obsy_ccoord, coordinates + planeph(1,:), "equatorial", t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (125)", 1)
              RETURN
@@ -4826,6 +4975,7 @@ CONTAINS
           DEALLOCATE(planeph, stat=err)
           CALL NEW(obs_scoord, position, velocity, "equatorial", t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (130)", 1)
              RETURN
@@ -4845,6 +4995,7 @@ CONTAINS
                satellite_ccoord=satellite_ccoord, &
                coord_unit=2)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (135)", 1)
              RETURN
@@ -5069,6 +5220,7 @@ CONTAINS
              CALL collapseTransit(inratrs(1:transitCounter), indectrs(1:transitCounter), intimetrs(1:transitCounter), &
                   covRandomTrs(1:2,1:2,1:transitCounter), trsResult, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "TRACE BACK (999)", 1)
                 RETURN
@@ -5104,12 +5256,14 @@ CONTAINS
 
              CALL NEW(t, mjd_tcb + dt, "UTC")
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "TRACE BACK (115)", 1)
                 RETURN
              END IF
              obsy = getObservatory(obsies, "247")
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "TRACE BACK (120)", 1)
                 RETURN
@@ -5118,18 +5272,21 @@ CONTAINS
              ! heliocentric spacecraft coordinates
              mjd_tt = getMJD(t, "TT")
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "TRACE BACK (121)", 1)
                 RETURN
              END IF
              planeph => JPL_ephemeris(mjd_tt, 12, 11, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "TRACE BACK (122)", 1)
                 RETURN
              END IF
              CALL NEW(obsy_ccoord, coordinates_final + planeph(1,:), "equatorial", t)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "TRACE BACK (125)", 1)
                 RETURN
@@ -5137,6 +5294,7 @@ CONTAINS
              DEALLOCATE(planeph, stat=err)
              CALL NEW(obs_scoord, position_final, velocity, "equatorial", t)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "TRACE BACK (130)", 1)
                 RETURN
@@ -5159,6 +5317,7 @@ CONTAINS
                   satellite_ccoord=satellite_ccoord, &
                   coord_unit=2)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("Observations / readObservationFile", &
                      "TRACE BACK (135)", 1)
                 RETURN
@@ -5231,12 +5390,14 @@ CONTAINS
 
           CALL NEW(t, mjd, "UTC")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (115)", 1)
              RETURN
           END IF
           obsy = getObservatory(obsies, "247")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (120)", 1)
              RETURN
@@ -5245,18 +5406,21 @@ CONTAINS
           ! heliocentric spacecraft coordinates
           mjd_tt = getMJD(t, "TT")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (121)", 1)
              RETURN
           END IF
           planeph => JPL_ephemeris(mjd_tt, 3, 11, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (122)", 1)
              RETURN
           END IF
           CALL NEW(obsy_ccoord, coordinates + planeph(1,:), "equatorial", t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (125)", 1)
              RETURN
@@ -5264,6 +5428,7 @@ CONTAINS
           DEALLOCATE(planeph, stat=err)
           CALL NEW(obs_scoord, position, velocity, "equatorial", t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (130)", 1)
              RETURN
@@ -5283,6 +5448,7 @@ CONTAINS
                satellite_ccoord=satellite_ccoord, &
                coord_unit=2)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (135)", 1)
              RETURN
@@ -5363,12 +5529,14 @@ CONTAINS
           discovery = .FALSE.
           CALL NEW(t, mjd-dt/2.0_bp, "UTC")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (115)", 1)
              RETURN
           END IF
           CALL NEW(obs_scoord, pos1, velocity, "equatorial", t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (130)", 1)
              RETURN
@@ -5382,6 +5550,7 @@ CONTAINS
                obs_mask=obs_mask, mag=mag, filter=" ", &
                obsy=obsy, obsy_ccoord=obsy_ccoord)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (135)", 1)
              RETURN
@@ -5396,12 +5565,14 @@ CONTAINS
           discovery = .FALSE.
           CALL NEW(t, mjd+dt/2.0_bp, "UTC")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (115)", 1)
              RETURN
           END IF
           CALL NEW(obs_scoord, pos2, velocity, "equatorial", t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (130)", 1)
              RETURN
@@ -5415,6 +5586,7 @@ CONTAINS
                obs_mask=obs_mask, mag=mag, filter=" ", &
                obsy=obsy, obsy_ccoord=obsy_ccoord)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (135)", 1)
              RETURN
@@ -5472,24 +5644,28 @@ CONTAINS
 
           CALL NEW(t, mjd + dt, "utc")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (115)", 1)
              RETURN
           END IF
           obsy = getObservatory(obsies, "247")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (120)", 1)
              RETURN
           END IF
           CALL NEW(obsy_ccoord, coordinates, "equatorial", t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (125)", 1)
              RETURN
           END IF
           CALL NEW(obs_scoord, position, velocity, "equatorial", t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (130)", 1)
              RETURN
@@ -5509,6 +5685,7 @@ CONTAINS
                satellite_ccoord=satellite_ccoord, &
                coord_unit=2)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readObservationFile", &
                   "TRACE BACK (135)", 1)
              RETURN
@@ -5537,6 +5714,7 @@ CONTAINS
 
     CALL NULLIFY(obsies)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / readObservationFile", &
             "TRACE BACK (140)", 1)
        RETURN
@@ -5592,6 +5770,7 @@ CONTAINS
 
     nlines = getNrOfLines(elgb_file)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / readELGBFile", &
             "TRACE BACK 4", 1)
        RETURN
@@ -5607,6 +5786,7 @@ CONTAINS
 
     CALL NEW(obsies)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / readELGBFile", &
             "TRACE BACK 5", 1)
        RETURN
@@ -5667,6 +5847,7 @@ CONTAINS
           mag = 99.9_bp
        END IF
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / readELGBFile", &
                "Could not convert string to number.", 1)
           RETURN
@@ -5684,6 +5865,7 @@ CONTAINS
        ! Create epoch object:
        CALL NEW(t, year, month, day, timescale)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / readELGBFile", &
                "TRACE BACK 17", 1)
           RETURN
@@ -5698,6 +5880,7 @@ CONTAINS
        ! Create observation object containing R.A. and Dec. + epoch:
        CALL NEW(obs_scoord, hour, min, sec, deg, arcmin, arcsec, t)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / readELGBFile", &
                "TRACE BACK 18", 1)
           RETURN
@@ -5714,6 +5897,7 @@ CONTAINS
        END SELECT
        obsy = getObservatory(obsies, obsy_code)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / readELGBFile", &
                "Could not convert observatory code string to integer.", 1)
           RETURN
@@ -5730,6 +5914,7 @@ CONTAINS
             filter=line1(52:52), obsy=obsy, obsy_ccoord=obsy_ccoord)
 
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / readELGBFile", &
                "TRACE BACK 20", 1)
           RETURN
@@ -5746,6 +5931,7 @@ CONTAINS
 
     CALL NULLIFY(obsies)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / readELGBFile", &
             "TRACE BACK 21", 1)
        RETURN
@@ -5802,6 +5988,7 @@ CONTAINS
 
     nlines = getNrOfLines(gaia_file)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / readGAIAFile", &
             "TRACE BACK 2", 1)
        RETURN
@@ -5816,6 +6003,7 @@ CONTAINS
 
     CALL NEW(obsies)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / readGAIAFile", &
             "TRACE BACK 5", 1)
        RETURN
@@ -5837,6 +6025,7 @@ CONTAINS
        ! Maximum number of observations is assumed to be 9999
        CALL toInt(frst_line(33:36), nobs_, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / readGAIAFile", &
                "Could not convert character string to integer (1).", 1)
           RETURN       
@@ -5866,6 +6055,7 @@ CONTAINS
        len = 10*nobs_+1
        CALL toString(len, form_, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / readGAIAFile", &
                "Could not convert integer to character string.", 1)
           RETURN       
@@ -6046,18 +6236,21 @@ CONTAINS
           mjd_utc = 55199.5_bp
           CALL NEW(t, mjd_utc+dates(i), "utc")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readGAIAFile", &
                   "TRACE BACK 90", 1)
              RETURN
           END IF
           obsy = getObservatory(obsies, "500")
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readGaiaFile", &
                   "TRACE BACK 95", 1)
              RETURN
           END IF
           obsy_ccoord = getObservatoryCCoord(obsies, "500", t)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readGaiaFile", &
                   "TRACE BACK 100", 1)
              RETURN
@@ -6068,6 +6261,7 @@ CONTAINS
           CALL NEW(obs_scoord, position, velocity, "ecliptic", t)
           CALL rotateToEquatorial(obs_scoord)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readGAIAFile", &
                   "TRACE BACK 105", 1)
              RETURN
@@ -6091,6 +6285,7 @@ CONTAINS
                mag=magnitudes(i), filter=" ", obsy=obsy, &
                obsy_ccoord=obsy_ccoord)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / readGAIAFile", &
                   "TRACE BACK 110", 1)
              RETURN
@@ -6111,6 +6306,7 @@ CONTAINS
     this%obs_arr => reallocate(this%obs_arr,nobs)
     CALL NULLIFY(obsies)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / readGaiaFile", &
             "TRACE BACK 115", 1)
        RETURN
@@ -6195,6 +6391,7 @@ CONTAINS
     DO i=1,this%nobs
        CALL setCovarianceMatrix(this%obs_arr(i), covariance)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / setCovarianceMatrices", &
                "TRACE BACK", 1)
           RETURN
@@ -6230,6 +6427,7 @@ CONTAINS
     DO i=1,SIZE(this%obs_arr,dim=1)
        CALL setNumber(this%obs_arr(i), number)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / setNumber", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -6239,6 +6437,7 @@ CONTAINS
     this%nobjects = 0
     CALL sortObservations(this)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / setNumber", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -6273,6 +6472,7 @@ CONTAINS
     DO i=1,SIZE(this%obs_arr,dim=1)
        CALL setNumber(this%obs_arr(i), number)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / setNumber", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -6282,6 +6482,7 @@ CONTAINS
     this%nobjects = 0
     CALL sortObservations(this)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Observations / setNumber", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -6334,6 +6535,7 @@ CONTAINS
        primarysort = primary_sort
        CALL locase(primarysort, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / sortObservations", &
                "The primary sort string contains forbidden characters.", 1)
           RETURN
@@ -6355,6 +6557,7 @@ CONTAINS
 
        number = getNumber(this%obs_arr(iobs))
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / sortObservations", &
                "TRACE BACK 1", 1)
           RETURN
@@ -6369,6 +6572,7 @@ CONTAINS
        ELSE
           id = getDesignation(this%obs_arr(iobs))
           IF (error) THEN
+       error = 0
              CALL errorMessage("Observations / sortObservations", &
                   "TRACE BACK 2", 1)
              RETURN
@@ -6412,6 +6616,7 @@ CONTAINS
        t = getTime(this%obs_arr(i))
        mjd_tdt = getMJD(t, "tdt")
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / sortObservations", &
                "TRACE BACK 4", 1)
           RETURN
@@ -6479,6 +6684,7 @@ CONTAINS
           records => getObservationRecords(this%obs_arr(this%ind(i)), TRIM(frmt))
        END IF
        IF (error) THEN
+       error = 0
           CALL errorMessage("Observations / writeObservationFile", &
                "TRACE BACK 5", 1)
           DEALLOCATE(records, stat=err)

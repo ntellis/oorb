@@ -541,7 +541,7 @@ CONTAINS
   !! *Description*:
   !!
   !! Minimization of the function func in N dimensions by the
-  !! downhill simplex method of Nelder and Mead. The (N + 1) × N
+  !! downhill simplex method of Nelder and Mead. The (N + 1) ï¿½ N
   !! matrix p is input. Its N + 1 rows are N-dimensional vectors that
   !! are the vertices of the starting simplex. Also input is the
   !! vector y of length N + 1, whose components must be preinitialized
@@ -583,6 +583,7 @@ CONTAINS
     error = .FALSE.
     CALL toString(ndim-1, str, error)
     IF (error) THEN
+       error = 0
        errstr = " -> estimators : simplex : Could not convert integer to character string." // &
             TRIM(errstr)
        RETURN       

@@ -751,6 +751,7 @@ CONTAINS
     CALL removeLeadingBlanks(designation)
     CALL toInt(designation(6:7), i, error)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Base / MPC3DesToMPCDes", &
             "Could not convert string to integer.", 1)
        RETURN
@@ -855,6 +856,7 @@ CONTAINS
        END DO
        CALL toString(i, designation_(1:2), error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Base / decodeMPCDesignation", &
                "Could not convert integer to string (5).", 1)       
           WRITE(stderr,*) TRIM(designation)
@@ -871,6 +873,7 @@ CONTAINS
        END DO
        CALL toString(i, designation_(8:9), error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Base / decodeMPCDesignation", &
                "Could not convert integer to string (10).", 1)       
           WRITE(stderr,*) TRIM(designation)
@@ -944,6 +947,7 @@ CONTAINS
        END DO
        CALL toString(i, designation_(1:2), error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Base / decodeMPCDesignation", &
                "Could not convert integer to string (5).", 1)       
           WRITE(stderr,*) TRIM(designation)
@@ -1009,6 +1013,7 @@ CONTAINS
        ! Designation of type 2001 AB12:
        CALL toInt(designation(1:2), i, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Base / encodeMPCDesignation", &
                "Could not convert string to integer (5).", 1)       
           WRITE(stderr,*) TRIM(designation)
@@ -1026,6 +1031,7 @@ CONTAINS
        ELSE
           CALL toInt(designation(8:9), i, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("Base / encodeMPCDesignation", &
                   "Could not convert string to integer (10).", 1)       
              WRITE(stderr,*) TRIM(designation)
@@ -1073,6 +1079,7 @@ CONTAINS
     ! Number of type 100001:
     CALL toInt(number(1:2), i, error)
     IF (error) THEN
+       error = 0
        CALL errorMessage("Base / encodeMPCNumber", &
             "Could not convert string to integer (5).", 1)       
        WRITE(stderr,*) TRIM(number)
@@ -1126,6 +1133,7 @@ CONTAINS
        ! Designation of type 2001 AB12:
        CALL toInt(designation(1:2), i, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("Base / encodeMPC3Designation", &
                "Could not convert string to integer (5).", 1)       
           WRITE(stderr,*) TRIM(designation)

@@ -157,6 +157,7 @@ CONTAINS
     IF (.NOT. compute_) THEN
        residuals_ => getResidualDistribution(storb)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / makeResidualStamps", &
                "Residuals are not available.", 1)
           RETURN
@@ -165,12 +166,14 @@ CONTAINS
        ! Compute residuals
        observed_scoords => getObservationSCoords(obss)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (5)", 1)
           RETURN
        END IF
        obsy_ccoords => getObservatoryCCoords(obss)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (10)", 1)
           RETURN
@@ -178,6 +181,7 @@ CONTAINS
        nobs = SIZE(observed_scoords,dim=1)
        orb_arr => getSampleOrbits(storb)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (15)", 1)
           RETURN
@@ -195,6 +199,7 @@ CONTAINS
           CALL getEphemerides(orb_arr(j), obsy_ccoords, &
                computed_scoords)
           IF (error) THEN
+       error = 0
              CALL errorMessage("io / makeResidualStamps", &
                   "TRACE BACK (20)", 1)
              RETURN
@@ -204,12 +209,14 @@ CONTAINS
           DO i=1,nobs
              observed_coords(i,:) = getCoordinates(observed_scoords(i))
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (25)", 1)
                 RETURN
              END IF
              computed_coords(i,:) = getCoordinates(computed_scoords(i))
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (30)", 1)
                 RETURN
@@ -247,6 +254,7 @@ CONTAINS
 
     obs_arr => getObservations(obss)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / makeResidualStamps", &
             "TRACE BACK (35)", 1)
        RETURN
@@ -264,6 +272,7 @@ CONTAINS
     DO i=1,nobs
        t = getTime(obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (40)", 1)
           RETURN
@@ -275,12 +284,14 @@ CONTAINS
           dates(i) = getCalendarDateString(t, "UT1")
        END IF
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (45)", 1)
           RETURN
        END IF
        codes(i) = getCode(obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (50)", 1)
           RETURN
@@ -289,12 +300,14 @@ CONTAINS
 
     id = getID(obss)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / makeResidualStamps", &
             "TRACE BACK (55)", 1)
        RETURN
     END IF
     CALL toString(nobs, str, error)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / makeResidualStamps", &
             "TRACE BACK (60)", 1)
        RETURN
@@ -302,11 +315,13 @@ CONTAINS
 
     CALL getParameters(storb, res_accept=res_accept_prm)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / makeResidualStamps", &
             "Will use a default stamp size instead (+-5-sigma).", 1)
        error = .FALSE.
        stdevs => getStandardDeviations(obss)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (65)", 1)
           RETURN
@@ -319,6 +334,7 @@ CONTAINS
     END IF
     obs_masks => getObservationMasks(storb)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / makeResidualStamps", &
             "TRACE BACK (70)", 1)
        RETURN
@@ -344,6 +360,7 @@ CONTAINS
           ysize = 1.0/nrow_max*nrow
           CALL toString(ysize, str1, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("io / makeResidualStamps", &
                   "TRACE BACK (80)", 1)
              RETURN
@@ -354,12 +371,14 @@ CONTAINS
           ysize = 1.0/nrow_max*nrow
           CALL toString(xsize, str1, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("io / makeResidualStamps", &
                   "TRACE BACK (80)", 1)
              RETURN
           END IF
           CALL toString(ysize, str2, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("io / makeResidualStamps", &
                   "TRACE BACK (80)", 1)
              RETURN
@@ -377,12 +396,14 @@ CONTAINS
        CALL system('echo set multiplot >> ' // TRIM(str))
        CALL toString(1.0/(ncolumn_max-1.5), str1, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (75)", 1)
           RETURN
        END IF
        CALL toString(1.0/(nrow_max-1.5), str2, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (80)", 1)
           RETURN
@@ -402,12 +423,14 @@ CONTAINS
                 CALL toString((j-1)*(xsize/nobs), str1, error)                
              END IF
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (85)", 1)
                 RETURN
              END IF
              CALL toString(ysize-i*(1.0/nrow_max)-0.02, str2, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (90)", 1)
                 RETURN
@@ -420,6 +443,7 @@ CONTAINS
              CALL toString(res_accept_prm(k,2)/rad_asec, &
                   str2, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (95)", 1)
                 RETURN
@@ -430,6 +454,7 @@ CONTAINS
              CALL toString(res_accept_prm(k,3)/rad_asec, &
                   str2, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (100)", 1)
                 RETURN
@@ -450,6 +475,7 @@ CONTAINS
                   TRIM(str))
              CALL toString(k, str1, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (105)", 1)
                 RETURN
@@ -457,12 +483,14 @@ CONTAINS
              str1 = TRIM(str) // "_tmp" // TRIM(str1)
              CALL NEW(tmpfile, TRIM(str1))
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (110)", 1)
                 RETURN
              END IF
              CALL OPEN(tmpfile)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (115)", 1)
                 RETURN
@@ -775,6 +803,7 @@ CONTAINS
           IF (PRESENT(element_type_out)) THEN
              CALL locase(par_val, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / readConfigurationFile", &
                      "The type of output orbital elements " // &
                      "string contains forbidden characters.", 1)
@@ -825,6 +854,7 @@ CONTAINS
           IF (PRESENT(element_type_comp)) THEN
              CALL locase(par_val, error)
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / readConfigurationFile", &
                      "The type of computation orbital " // &
                      "elements string contains forbidden characters.", 1)
@@ -1864,6 +1894,7 @@ CONTAINS
 
        END SELECT
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / readConfigurationFile", &
                "Problems with the following line:", 1)
           IF (err_verb >= 1) THEN
@@ -1935,6 +1966,7 @@ CONTAINS
        CALL NEW(epoch, mjd_epoch, "TT")
        !      CALL NEW(epoch, mjd_epoch, "TCB")
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / readDESOrbitFile", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -1969,6 +2001,7 @@ CONTAINS
           RETURN          
        END IF
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / readDESOrbitFile", &
                "TRACE BACK (10)", 1)
           RETURN
@@ -2050,6 +2083,7 @@ CONTAINS
           CALL toReal(line(15:19), HG_arr(norb,2), error)
        END IF
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / readMPCOrbitFile", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -2058,6 +2092,7 @@ CONTAINS
        CALL decodeMPCDate(line(21:25), year, month, day)
        CALL NEW(epoch, year, month, day, "TT")
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / readMPCOrbitFile", &
                "TRACE BACK (10)", 1)
           RETURN
@@ -2080,6 +2115,7 @@ CONTAINS
        elements(4:6) = MODULO(elements(4:6),two_pi)
        CALL NEW(orb_arr(norb), elements, "keplerian", "ecliptic", epoch)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / readMPCOrbitFile", &
                "TRACE BACK (15):", 1)
           WRITE(stderr,"(A)") TRIM(line)
@@ -2098,11 +2134,13 @@ CONTAINS
 !!$          CALL decodeMPCDesignation(line)
 !!$          CALL toReal(line(1:4),arc_arr(norb),error) ! discovery year
           IF (error) THEN
+       error = 0
              error = .FALSE.
              arc_arr(norb) = -1
           END IF
        END IF
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / readMPCOrbitFile", &
                "TRACE BACK (20)", 1)
           RETURN
@@ -2221,6 +2259,7 @@ CONTAINS
        RETURN       
     END IF
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / readOpenOrbOrbitFile", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -2257,6 +2296,7 @@ CONTAINS
 
     CALL NEW(orb, elements, element_type_in, "ecliptic", copy(t))
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / readOpenOrbOrbitFile", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -2571,6 +2611,7 @@ CONTAINS
        IF (PRESENT(H)) THEN
           CALL toReal(str(1:9), H, error)
           IF (error) THEN
+       error = 0
              CALL errorMessage("io / readOpenOrbOrbitFile", &
                   "Conversion error (145).", 1)
              RETURN
@@ -2686,6 +2727,7 @@ CONTAINS
 
     elements = getElements(orb_, element_type_out, TRIM(frame_))
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeDESOrbitFile", &
             "TRACE BACK", 1)
        RETURN       
@@ -2811,12 +2853,14 @@ CONTAINS
 
     orb = getNominalOrbit(storb)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeNominalSolution", &
             "TRACE BACK (105)", 1)
        RETURN
     END IF
     t = getTime(orb)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeNominalSolution", &
             "TRACE BACK (110)", 1)
        RETURN
@@ -2863,6 +2907,7 @@ CONTAINS
     WRITE(lu,"(A6,2X,A7,1X,6(F16.12,1X),A,'TT')") &
          str(1:6), id(1:7), elements, getCalendarDateString(t,"tt")
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeNominalSolution", &
             "TRACE BACK (115)", 1)
        RETURN
@@ -2877,6 +2922,7 @@ CONTAINS
        cov = getCovarianceMatrix(storb, TRIM(element_type_), "ecliptic")
     END IF
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeNominalSolution", &
             "TRACE BACK (116)", 1)
        RETURN
@@ -2932,6 +2978,7 @@ CONTAINS
     ! WRITE RESIDUAL BLOCK:
     obs_masks => getObservationMasks(storb)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeNominalSolution", &
             "TRACE BACK (120)", 1)
        RETURN
@@ -2940,6 +2987,7 @@ CONTAINS
     CALL writeResidualBlock(orb, obss, obs_masks, &
          TRIM(str), lu, residuals)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeNominalSolution", &
             "TRACE BACK (125)", 1)
        RETURN
@@ -3479,6 +3527,7 @@ CONTAINS
     END IF
     elements = getElements(orb, element_type_out, frame=TRIM(frame_))
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeOpenOrbOrbitFile", &
             "TRACE BACK (5)", 1)
        RETURN
@@ -3496,6 +3545,7 @@ CONTAINS
     END IF
     t = getTime(orb)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeOpenOrbOrbitFile", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -3517,6 +3567,7 @@ CONTAINS
     IF (exist(t)) THEN ! MJD not requested since t still exists...
        CALL getCalendarDate(t, "tdt", year, month, day)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "TRACE BACK (15)", 1)
           RETURN
@@ -3582,6 +3633,7 @@ CONTAINS
              ELSE
                 CALL partialsCartesianWrtKeplerian(orb, jacobian_matrix, "equatorial")
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("io / writeOpenOrbOrbitFile", &
                         "TRACE BACK (20) ",4)
                    RETURN
@@ -3603,6 +3655,7 @@ CONTAINS
              ELSE
                 CALL partialsCartesianWrtKeplerian(orb, jacobian_matrix, "equatorial")
                 IF (error) THEN
+       error = 0
                    CALL errorMessage("io / writeOpenOrbOrbitFile", &
                         "TRACE BACK (25) ",4)
                    RETURN
@@ -3765,6 +3818,7 @@ CONTAINS
     IF (PRESENT(apriori)) THEN
        CALL getAPrioriWeights(storb, apriori, apriori_pdf)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeProbabilities", &
                "TRACE BACK (5)", 1)
           RETURN
@@ -3774,6 +3828,7 @@ CONTAINS
        CALL getGroupWeights(storb, probability_arr, group_arr)
     END IF
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeProbabilities", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -3811,6 +3866,7 @@ CONTAINS
          "PHA probability (without prior knowledge and size requirement)", &
          100.0_bp*getPHAProbability(storb)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeProbabilities", &
             "TRACE BACK (15)", 1)
        RETURN
@@ -3858,12 +3914,14 @@ CONTAINS
     ! Compute residuals
     observed_scoords => getObservationSCoords(obss)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeResidualBlock", &
             "TRACE BACK (5)", 1)
        RETURN
     END IF
     obsy_ccoords => getObservatoryCCoords(obss)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeResidualBlock", &
             "TRACE BACK (10)", 1)
        RETURN
@@ -3880,6 +3938,7 @@ CONTAINS
     END IF
     CALL getEphemerides(orb, obsy_ccoords, computed_scoords)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeResidualBlock", &
             "TRACE BACK (15)", 1)
        RETURN
@@ -3889,12 +3948,14 @@ CONTAINS
     DO i=1,nobs
        observed_coords(i,:) = getCoordinates(observed_scoords(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeResidualBlock", &
                "TRACE BACK (20)", 1)
           RETURN
        END IF
        computed_coords(i,:) = getCoordinates(computed_scoords(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeResidualBlock", &
                "TRACE BACK (25)", 1)
           RETURN
@@ -3906,6 +3967,7 @@ CONTAINS
          COS(observed_coords(1:nobs,3))
     obs_arr => getObservations(obss)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeResidualBlock", &
             "TRACE BACK (30)", 1)
        RETURN
@@ -3914,6 +3976,7 @@ CONTAINS
     DO i=1,nobs
        t = getTime(obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeResidualBlock", &
                "TRACE BACK (35)", 1)
           RETURN
@@ -3925,6 +3988,7 @@ CONTAINS
           CALL getCalendarDate(t, "UT1", year, month, day)
        END IF
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeResidualBlock", &
                "TRACE BACK (40)", 1)
           RETURN
@@ -3932,6 +3996,7 @@ CONTAINS
        CALL NULLIFY(t)
        CALL toString(month, month_str, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeResidualBlock", &
                "TRACE BACK (45)", 1)
           RETURN
@@ -3941,6 +4006,7 @@ CONTAINS
        END IF
        CALL toString(FLOOR(day), day_str, error)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeResidualBlock", &
                "TRACE BACK (50)", 1)
           RETURN
@@ -4074,6 +4140,7 @@ CONTAINS
     IF (.NOT. compute_) THEN
        residuals_ => getResidualDistribution(storb)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeResiduals", &
                "Residuals are not available.", 1)
           RETURN
@@ -4082,12 +4149,14 @@ CONTAINS
        ! Compute residuals
        observed_scoords => getObservationSCoords(obss)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeResiduals", &
                "TRACE BACK (5)", 1)
           RETURN
        END IF
        obsy_ccoords => getObservatoryCCoords(obss)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeResiduals", &
                "TRACE BACK (10)", 1)
           RETURN
@@ -4096,6 +4165,7 @@ CONTAINS
 
        orb_arr => getSampleOrbits(storb)
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeResiduals", &
                "TRACE BACK (15)", 1)
           RETURN
@@ -4115,6 +4185,7 @@ CONTAINS
           CALL getEphemerides(orb_arr(j), obsy_ccoords, &
                computed_scoords)
           IF (error) THEN
+       error = 0
              CALL errorMessage("io / writeResiduals", &
                   "TRACE BACK (20)", 1)
              RETURN
@@ -4124,12 +4195,14 @@ CONTAINS
           DO i=1,nobs
              observed_coords(i,:) = getCoordinates(observed_scoords(i))
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / writeResiduals", &
                      "TRACE BACK (25)", 1)
                 RETURN
              END IF
              computed_coords(i,:) = getCoordinates(computed_scoords(i))
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / writeResiduals", &
                      "TRACE BACK (30)", 1)
                 RETURN
@@ -4161,6 +4234,7 @@ CONTAINS
 
     obs_arr => getObservations(obss)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeResiduals", &
             "TRACE BACK (35)", 1)
        RETURN
@@ -4178,6 +4252,7 @@ CONTAINS
     DO i=1,nobs
        t = getTime(obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeResiduals", &
                "TRACE BACK (40)", 1)
           RETURN
@@ -4189,12 +4264,14 @@ CONTAINS
           jds(i) = getJD(t, "UT1")
        END IF
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeResiduals", &
                "TRACE BACK (45)", 1)
           RETURN
        END IF
        codes(i) = getCode(obs_arr(i))
        IF (error) THEN
+       error = 0
           CALL errorMessage("io / writeResiduals", &
                "TRACE BACK (50)", 1)
           RETURN
@@ -4203,12 +4280,14 @@ CONTAINS
 
     id = getID(obss)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeResiduals", &
             "TRACE BACK (52)", 1)
        RETURN
     END IF
     CALL toString(nobs, str, error)
     IF (error) THEN
+       error = 0
        CALL errorMessage("io / writeResiduals", &
             "TRACE BACK (55)", 1)
        RETURN
@@ -4361,6 +4440,7 @@ CONTAINS
 
     nobs = getNumberOfObservations(obss)
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "TRACE BACK 20", 1)
@@ -4368,6 +4448,7 @@ CONTAINS
     END IF
     obsarc = getObservationalTimespan(obss)
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "TRACE BACK 20", 1)
@@ -4375,6 +4456,7 @@ CONTAINS
     END IF
     obs_stdev_arr => getStandardDeviations(obss)
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "TRACE BACK 20", 1)
@@ -4382,6 +4464,7 @@ CONTAINS
     END IF
     obs_stdev_arr = obs_stdev_arr/rad_asec
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "TRACE BACK 20", 1)
@@ -4389,6 +4472,7 @@ CONTAINS
     END IF
     obs_masks => getObservationMasks(storb)
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "TRACE BACK 10", 1)
@@ -4429,6 +4513,7 @@ CONTAINS
          generat_multiplier = generat_multiplier_prm, &
          sor_deviates = sor_deviates_prm)
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "TRACE BACK 15", 1)
@@ -4439,6 +4524,7 @@ CONTAINS
 
        orb_arr_cmp => getSampleOrbits(storb)
        IF (error) THEN
+       error = 0
           error = .TRUE.
           CALL errorMessage("io / writeSORResults", &
                "TRACE BACK 20", 1)
@@ -4448,6 +4534,7 @@ CONTAINS
 
        pdf_arr_cmp => getDiscretePDF(storb)
        IF (error) THEN
+       error = 0
           error = .TRUE.
           CALL errorMessage("io / writeSORResults", &
                "TRACE BACK 20", 1)
@@ -4455,6 +4542,7 @@ CONTAINS
        END IF
        rchi2_arr_cmp => getReducedChi2Distribution(storb)
        IF (error) THEN
+       error = 0
           error = .TRUE.
           CALL errorMessage("io / writeSORResults", &
                "TRACE BACK 20", 1)
@@ -4462,6 +4550,7 @@ CONTAINS
        END IF
        res_arr_cmp => getResidualDistribution(storb)
        IF (error) THEN
+       error = 0
           error = .TRUE.
           CALL errorMessage("io / writeSORResults", &
                "TRACE BACK 20", 1)
@@ -4469,6 +4558,7 @@ CONTAINS
        END IF
        rms_arr_cmp => getRMSDistribution(storb)
        IF (error) THEN
+       error = 0
           error = .TRUE.
           CALL errorMessage("io / writeSORResults", &
                "TRACE BACK 20", 1)
@@ -4479,6 +4569,7 @@ CONTAINS
             sor_norb_cmp=sor_norb_cmp, sor_ntrial_cmp=sor_ntrial_cmp, &
             sor_rho_cmp=sor_rho_cmp, sor_rho_histo_cmp=sor_rho_histo_cmp)
        IF (error) THEN
+       error = 0
           error = .TRUE.
           CALL errorMessage("io / writeSORResults", &
                "TRACE BACK 25", 1)
@@ -4494,11 +4585,13 @@ CONTAINS
        DO i=1,SIZE(orb_arr_cmp)
           elements_arr(i,1:6) =  getElements(orb_arr_cmp(i), "keplerian")
           IF (error) THEN
+       error = 0
              EXIT
           END IF
           elements_arr(i,3:6) = elements_arr(i,3:6)/rad_deg
        END DO
        IF (error) THEN
+       error = 0
           error = .FALSE.
           str1 = "COM elements = "
           str2 = "Lower limit  = "
@@ -4506,12 +4599,14 @@ CONTAINS
           DO i=1,SIZE(orb_arr_cmp)
              elements_arr(i,1:6) =  getElements(orb_arr_cmp(i), "cometary")
              IF (error) THEN
+       error = 0
                 EXIT
              END IF
              elements_arr(i,3:5) = elements_arr(i,3:5)/rad_deg             
           END DO
        END IF
        IF (error) THEN
+       error = 0
           error = .FALSE.
           str1 = "CAR elements = "
           str2 = "Lower limit  = "
@@ -4519,6 +4614,7 @@ CONTAINS
           DO i=1,SIZE(orb_arr_cmp)
              elements_arr(i,1:6) =  getElements(orb_arr_cmp(i), "cartesian", "ecliptic")
              IF (error) THEN
+       error = 0
                 CALL errorMessage("io / writeSORResults", &
                      "TRACE BACK 26", 1)
                 RETURN
@@ -4656,6 +4752,7 @@ CONTAINS
        IF (.NOT. sor_random_obs_prm) THEN
           CALL toString(sor_pair_arr_prm(1,1), str1, error)
           IF (error) THEN
+       error = 0
              error = .TRUE.
              CALL errorMessage("io / writeSORResults", &
                   "TRACE BACK 20", 1)
@@ -4663,6 +4760,7 @@ CONTAINS
           END IF
           CALL toString(sor_pair_arr_prm(1,2), str2, error)
           IF (error) THEN
+       error = 0
              error = .TRUE.
              CALL errorMessage("io / writeSORResults", &
                   "TRACE BACK 20", 1)
@@ -4844,6 +4942,7 @@ CONTAINS
     stdevs = stdevs/rad_asec
     obs_masks => getObservationMasks(storb)
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "TRACE BACK", 1)
@@ -4867,6 +4966,7 @@ CONTAINS
          vomcmc_nmap = vomcmc_nmap_prm, vomcmc_scaling = vomcmc_scaling_prm, &
          vomcmc_mapping_mask=vomcmc_mapping_mask_prm)
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "TRACE BACK", 1)
@@ -4875,6 +4975,7 @@ CONTAINS
 
     orb_arr_cmp => getSampleOrbits(storb)
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "TRACE BACK", 1)
@@ -4889,6 +4990,7 @@ CONTAINS
          vomcmc_ntrial_cmp=vomcmc_ntrial_cmp, &
          vomcmc_scaling_ready_cmp=vomcmc_scaling_ready_cmp)
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "TRACE BACK", 1)
@@ -4899,6 +5001,7 @@ CONTAINS
 
     elements = getElements(orb_arr_cmp(indx_ml), TRIM(element_type_prm), "ecliptic")
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "TRACE BACK", 1)
@@ -4910,6 +5013,7 @@ CONTAINS
 
     elem_stdevs = getStandardDeviations(storb, TRIM(element_type_prm))
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "TRACE BACK 30", 1)
@@ -5100,6 +5204,7 @@ CONTAINS
     stdevs = stdevs/rad_asec
     obs_masks => getObservationMasks(storb)
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeVOVResults", &
             "TRACE BACK", 1)
@@ -5128,6 +5233,7 @@ CONTAINS
          vov_nmap = vov_nmap_prm, vov_scaling = vov_scaling_prm, &
          vov_mapping_mask=vov_mapping_mask_prm)
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeVOVResults", &
             "TRACE BACK", 1)
@@ -5136,6 +5242,7 @@ CONTAINS
 
     orb_arr_cmp => getSampleOrbits(storb)
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeVOVResults", &
             "TRACE BACK", 1)
@@ -5152,6 +5259,7 @@ CONTAINS
          vov_ntrial_cmp=vov_ntrial_cmp, &
          vov_scaling_ready_cmp=vov_scaling_ready_cmp)
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeVOVResults", &
             "TRACE BACK", 1)
@@ -5164,6 +5272,7 @@ CONTAINS
     err_verb = 0
     elements = getElements(orb_arr_cmp(indx_ml), "keplerian")
     IF (error) THEN
+       error = 0
        error = .FALSE.
        elements = getElements(orb_arr_cmp(indx_ml), "cartesian")
        str1 = "CAR elements    = "
@@ -5177,6 +5286,7 @@ CONTAINS
 
     elem_stdevs = getStandardDeviations(storb, "keplerian")
     IF (error) THEN
+       error = 0
        error = .TRUE.
        CALL errorMessage("io / writeVoVResults", &
             "TRACE BACK 30", 1)
