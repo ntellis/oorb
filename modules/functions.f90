@@ -69,7 +69,6 @@ CONTAINS
     ! k = 0,1,2,...
     IF (k < 0) THEN
        stumpff_r8_series = 0.0_rprec8
-       error = .FALSE.
        RETURN
     END IF
 
@@ -122,7 +121,6 @@ CONTAINS
     ! k = 0,1,2,...
     IF (k < 0) THEN
        stumpff_r16_series = 0.0_rprec16
-       error = .FALSE.
        RETURN
     END IF
 
@@ -177,7 +175,6 @@ CONTAINS
     ! k = 0,1,2,... and stumpff > 0
     IF (k < 0 .OR. stumpff <= 0) THEN
        stumpff_r8_recursive = 0.0_rprec8
-       error = .FALSE.
        RETURN
     END IF
 
@@ -185,7 +182,6 @@ CONTAINS
        IF (to_higher) THEN
           ! c_k -> c_(k+2)
           stumpff_r8_recursive = (1.0_rprec8/factorial(k-2) - stumpff)/x
-          error = .FALSE.
        RETURN
        END IF
     END IF
@@ -223,7 +219,6 @@ CONTAINS
     ! k = 0,1,2,... and stumpff > 0
     IF (k < 0 .OR. stumpff <= 0) THEN
        stumpff_r16_recursive = 0.0_rprec16
-       error = .FALSE.
        RETURN
     END IF
 
@@ -231,7 +226,6 @@ CONTAINS
        IF (to_higher) THEN
           ! c_(k+2) <- c_k
           stumpff_r16_recursive = (1.0_rprec16/factorial(k-2) - stumpff)/x
-          error = .FALSE.
        RETURN
        END IF
     END IF
@@ -253,7 +247,6 @@ CONTAINS
     ! k = 0,1,2,...
     IF (k < 0) THEN
        factorial = 0
-       error = .FALSE.
        RETURN
     END IF
 

@@ -768,8 +768,7 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_ch18_1(n))
-    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
-       RETURN
+    IF (.NOT. ASSOCIATED(array)) RETURN
     nold = SIZE(array, dim=1)
     reallocate_ch18_1(1:MIN(n,nold)) = array(1:MIN(n,nold))
     DEALLOCATE(array)
@@ -789,8 +788,7 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_ch24_1(n))
-    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
-       RETURN
+    IF (.NOT. ASSOCIATED(array)) RETURN
     nold = SIZE(array, dim=1)
     reallocate_ch24_1(1:MIN(n,nold)) = array(1:MIN(n,nold))
     DEALLOCATE(array)
@@ -852,8 +850,7 @@ CONTAINS
     INTEGER :: nold, mold
 
     ALLOCATE(reallocate_i4_2(n,m))
-    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
-       RETURN
+    IF (.NOT. ASSOCIATED(array)) RETURN
     nold = SIZE(array,1)
     mold = SIZE(array,2)
     reallocate_i4_2(1:MIN(n,nold),1:MIN(m,mold)) = &
@@ -875,8 +872,7 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_i8_1(n))
-    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
-       RETURN
+    IF (.NOT. ASSOCIATED(array)) RETURN
     nold = SIZE(array)
     reallocate_i8_1(1:MIN(n,nold)) = array(1:MIN(n,nold))
     DEALLOCATE(array)
@@ -896,8 +892,7 @@ CONTAINS
     INTEGER :: nold, mold
 
     ALLOCATE(reallocate_i8_2(n,m))
-    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
-       RETURN
+    IF (.NOT. ASSOCIATED(array)) RETURN
     nold = SIZE(array,1)
     mold = SIZE(array,2)
     reallocate_i8_2(1:MIN(n,nold),1:MIN(m,mold)) = &
@@ -919,8 +914,7 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_r4_1(n))
-    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
-       RETURN
+    IF (.NOT. ASSOCIATED(array)) RETURN
     nold = SIZE(array)
     reallocate_r4_1(1:MIN(n,nold)) = array(1:MIN(n,nold))
     DEALLOCATE(array)
@@ -940,8 +934,7 @@ CONTAINS
     INTEGER :: nold, mold
 
     ALLOCATE(reallocate_r4_2(n,m))
-    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
-       RETURN
+    IF (.NOT. ASSOCIATED(array)) RETURN
     nold = SIZE(array,1)
     mold = SIZE(array,2)
     reallocate_r4_2(1:MIN(n,nold),1:MIN(m,mold)) = &
@@ -963,8 +956,7 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_r8_1(n))
-    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
-       RETURN
+    IF (.NOT. ASSOCIATED(array)) RETURN
     nold = SIZE(array)
     reallocate_r8_1(1:MIN(n,nold)) = array(1:MIN(n,nold))
     DEALLOCATE(array)
@@ -1044,8 +1036,7 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_r16_1(n))
-    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
-       RETURN
+    IF (.NOT. ASSOCIATED(array)) RETURN
     nold = SIZE(array)
     reallocate_r16_1(1:MIN(n,nold)) = array(1:MIN(n,nold))
     DEALLOCATE(array)
@@ -1065,8 +1056,7 @@ CONTAINS
     INTEGER :: nold, mold
 
     ALLOCATE(reallocate_r16_2(n,m))
-    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
-       RETURN
+    IF (.NOT. ASSOCIATED(array)) RETURN
     nold = SIZE(array,1)
     mold = SIZE(array,2)
     reallocate_r16_2(1:MIN(n,nold),1:MIN(m,mold)) = &
@@ -1088,8 +1078,7 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_l_1(n))
-    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
-       RETURN
+    IF (.NOT. ASSOCIATED(array)) RETURN
     nold = SIZE(array)
     reallocate_l_1(1:MIN(n,nold)) = &
          array(1:MIN(n,nold))
@@ -1110,8 +1099,7 @@ CONTAINS
     INTEGER :: nold, mold
 
     ALLOCATE(reallocate_l_2(n,m))
-    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
-       RETURN
+    IF (.NOT. ASSOCIATED(array)) RETURN
     nold = SIZE(array,dim=1)
     mold = SIZE(array,dim=2)
     reallocate_l_2(1:MIN(n,nold),1:MIN(m,mold)) = &
