@@ -116,7 +116,6 @@ CONTAINS
 !!$                     "Square of element (" // TRIM(str1) // "," // TRIM(str1) // &
 !!$                     ") of Devroye's matrix A is negative (" // TRIM(str2) // ").", 1)
 !!$                error = .FALSE.
-       RETURN
 !!$             END IF
 !!$             A(i,i) = SQRT(ABS(cov(i,i) - SUM(A(i,1:i-1)**2)))
 !!$          ELSE IF (j < i) THEN
