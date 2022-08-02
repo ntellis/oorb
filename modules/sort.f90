@@ -294,8 +294,7 @@ CONTAINS
              END DO
              ind(j+1) = tmp
           END DO
-          IF (istack == 0) 
-       RETURN
+          IF (istack == 0) RETURN
           right  = stack(istack)
           left   = stack(istack-1)
           istack = istack - 2
@@ -370,8 +369,7 @@ CONTAINS
              END DO
              array(j+1) = element
           END DO
-          IF (istack == 0) 
-       RETURN
+          IF (istack == 0) RETURN
           right  = stack(istack)
           left   = stack(istack-1)
           istack = istack - 2
@@ -452,8 +450,7 @@ CONTAINS
              END DO
              ind(j+1) = tmp
           END DO
-          IF (istack == 0) 
-       RETURN
+          IF (istack == 0) RETURN
           right  = stack(istack)
           left   = stack(istack-1)
           istack = istack - 2
@@ -528,8 +525,7 @@ CONTAINS
              END DO
              array(j+1) = element
           END DO
-          IF (istack == 0) 
-       RETURN
+          IF (istack == 0) RETURN
           right  = stack(istack)
           left   = stack(istack-1)
           istack = istack - 2
@@ -610,8 +606,7 @@ CONTAINS
              END DO
              ind(j+1) = tmp
           END DO
-          IF (istack == 0) 
-       RETURN
+          IF (istack == 0) RETURN
           right  = stack(istack)
           left   = stack(istack-1)
           istack = istack - 2
@@ -686,8 +681,7 @@ CONTAINS
              END DO
              array(j+1) = element
           END DO
-          IF (istack == 0) 
-       RETURN
+          IF (istack == 0) RETURN
           right  = stack(istack)
           left   = stack(istack-1)
           istack = istack - 2
@@ -761,8 +755,7 @@ CONTAINS
              END DO
              array(j+1) = element
           END DO
-          IF (istack == 0) 
-       RETURN
+          IF (istack == 0) RETURN
           right  = stack(istack)
           left   = stack(istack-1)
           istack = istack - 2
@@ -843,8 +836,7 @@ CONTAINS
              END DO
              ind(j+1) = tmp
           END DO
-          IF (istack == 0) 
-       RETURN
+          IF (istack == 0) RETURN
           right  = stack(istack)
           left   = stack(istack-1)
           istack = istack - 2
