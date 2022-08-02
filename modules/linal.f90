@@ -522,6 +522,7 @@ CONTAINS
       DEALLOCATE(wk1, stat=err)
       IF (err /= 0) THEN
          error = " -> linal : jrotate : Could not deallocate memory." // &
+               TRIM(error)
        RETURN
       END IF
 

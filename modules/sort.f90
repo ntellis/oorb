@@ -213,8 +213,7 @@ CONTAINS
              END DO
              array(j+1) = element
           END DO
-          IF (istack == 0) error = .FALSE.
-       RETURN
+          IF (istack == 0) RETURN
           right  = stack(istack)
           left   = stack(istack-1)
           istack = istack - 2
@@ -244,7 +243,6 @@ CONTAINS
           istack = istack + 2
           IF (istack > NSTACK) THEN
              error = " -> sort : quickSort : NSTACK too small." // TRIM(error)
-             error = .FALSE.
        RETURN
           END IF
           IF (right-i+1 >= j-1) THEN
@@ -296,7 +294,7 @@ CONTAINS
              END DO
              ind(j+1) = tmp
           END DO
-          IF (istack == 0) error = .FALSE.
+          IF (istack == 0) 
        RETURN
           right  = stack(istack)
           left   = stack(istack-1)
@@ -328,7 +326,6 @@ CONTAINS
           istack = istack + 2
           IF (istack > NSTACK) THEN
              error = " -> sort : quickSort : NSTACK too small." // TRIM(error)
-             error = .FALSE.
        RETURN
           END IF
           IF (right-i+1 >= j-1) THEN
@@ -373,7 +370,7 @@ CONTAINS
              END DO
              array(j+1) = element
           END DO
-          IF (istack == 0) error = .FALSE.
+          IF (istack == 0) 
        RETURN
           right  = stack(istack)
           left   = stack(istack-1)
@@ -404,7 +401,6 @@ CONTAINS
           istack = istack + 2
           IF (istack > NSTACK) THEN
              error = " -> sort : quickSort : NSTACK too small." // TRIM(error)
-             error = .FALSE.
        RETURN
           END IF
           IF (right-i+1 >= j-1) THEN
@@ -456,7 +452,7 @@ CONTAINS
              END DO
              ind(j+1) = tmp
           END DO
-          IF (istack == 0) error = .FALSE.
+          IF (istack == 0) 
        RETURN
           right  = stack(istack)
           left   = stack(istack-1)
@@ -488,7 +484,6 @@ CONTAINS
           istack = istack + 2
           IF (istack > NSTACK) THEN
              error = " -> sort : quickSort : NSTACK too small." // TRIM(error)
-             error = .FALSE.
        RETURN
           END IF
           IF (right-i+1 >= j-1) THEN
@@ -533,7 +528,7 @@ CONTAINS
              END DO
              array(j+1) = element
           END DO
-          IF (istack == 0) error = .FALSE.
+          IF (istack == 0) 
        RETURN
           right  = stack(istack)
           left   = stack(istack-1)
@@ -564,7 +559,6 @@ CONTAINS
           istack = istack + 2
           IF (istack > NSTACK) THEN
              error = " -> sort : quickSort : NSTACK too small." // TRIM(error)
-             error = .FALSE.
        RETURN
           END IF
           IF (right-i+1 >= j-1) THEN
@@ -616,7 +610,7 @@ CONTAINS
              END DO
              ind(j+1) = tmp
           END DO
-          IF (istack == 0) error = .FALSE.
+          IF (istack == 0) 
        RETURN
           right  = stack(istack)
           left   = stack(istack-1)
@@ -648,7 +642,6 @@ CONTAINS
           istack = istack + 2
           IF (istack > NSTACK) THEN
              error = " -> sort : quickSort : NSTACK too small." // TRIM(error)
-             error = .FALSE.
        RETURN
           END IF
           IF (right-i+1 >= j-1) THEN
@@ -693,7 +686,7 @@ CONTAINS
              END DO
              array(j+1) = element
           END DO
-          IF (istack == 0) error = .FALSE.
+          IF (istack == 0) 
        RETURN
           right  = stack(istack)
           left   = stack(istack-1)
@@ -724,7 +717,6 @@ CONTAINS
           istack = istack + 2
           IF (istack > NSTACK) THEN
              error = " -> sort : quickSort : NSTACK too small." // TRIM(error)
-             error = .FALSE.
        RETURN
           END IF
           IF (right-i+1 >= j-1) THEN
@@ -769,7 +761,7 @@ CONTAINS
              END DO
              array(j+1) = element
           END DO
-          IF (istack == 0) error = .FALSE.
+          IF (istack == 0) 
        RETURN
           right  = stack(istack)
           left   = stack(istack-1)
@@ -800,7 +792,6 @@ CONTAINS
           istack = istack + 2
           IF (istack > NSTACK) THEN
              error = " -> sort : quickSort : NSTACK too small." // TRIM(error)
-             error = .FALSE.
        RETURN
           END IF
           IF (right-i+1 >= j-1) THEN
@@ -852,7 +843,7 @@ CONTAINS
              END DO
              ind(j+1) = tmp
           END DO
-          IF (istack == 0) error = .FALSE.
+          IF (istack == 0) 
        RETURN
           right  = stack(istack)
           left   = stack(istack-1)
@@ -884,7 +875,6 @@ CONTAINS
           istack = istack + 2
           IF (istack > NSTACK) THEN
              error = " -> sort : quickSort : NSTACK too small." // TRIM(error)
-             error = .FALSE.
        RETURN
           END IF
           IF (right-i+1 >= j-1) THEN
@@ -935,7 +925,6 @@ CONTAINS
     ! - if the length of the array is zero:
     IF (n == 0) THEN
        binarySearch_i8 = -1
-       error = .FALSE.
        RETURN
     END IF
     ! - if the key (value to be searched for) is smaller or 
@@ -943,7 +932,6 @@ CONTAINS
     !   the array:
     IF (key < array(1) .OR. key > array(n)) THEN
        binarySearch_i8 = -1
-       error = .FALSE.
        RETURN
     END IF
 
@@ -955,7 +943,6 @@ CONTAINS
        center = CEILING((left+right)/2.0)
        IF (key == array(center)) THEN
           binarySearch_i8 = center
-          error = .FALSE.
        RETURN
        ELSE IF (key < array(center)) THEN
           right = center - 1 
@@ -1008,7 +995,6 @@ CONTAINS
     ! - if the length of the array is zero:
     IF (n == 0) THEN
        binarySearch_r8 = -1
-       error = .FALSE.
        RETURN
     END IF
     ! - if the key (value to be searched for) is smaller or 
@@ -1016,7 +1002,6 @@ CONTAINS
     !   the array:
     IF (key < array(1) .OR. key > array(n)) THEN
        binarySearch_r8 = -1
-       error = .FALSE.
        RETURN
     END IF
 
@@ -1028,7 +1013,6 @@ CONTAINS
        center = CEILING((left+right)/2.0)
        IF (ABS(key - array(center)) < 10.0_rprec8*EPSILON(key)) THEN
           binarySearch_r8 = center
-          error = .FALSE.
        RETURN
        ELSE IF (key < array(center)) THEN
           right = center - 1 
@@ -1081,7 +1065,6 @@ CONTAINS
     ! - if the length of the array is zero:
     IF (n == 0) THEN
        binarySearch_r16 = -1
-       error = .FALSE.
        RETURN
     END IF
     ! - if the key (value to be searched for) is smaller or 
@@ -1089,7 +1072,6 @@ CONTAINS
     !   the array:
     IF (key < array(1) .OR. key > array(n)) THEN
        binarySearch_r16 = -1
-       error = .FALSE.
        RETURN
     END IF
 
@@ -1101,7 +1083,6 @@ CONTAINS
        center = CEILING((left+right)/2.0)
        IF (ABS(key - array(center)) < 10.0_rprec16*EPSILON(key)) THEN
           binarySearch_r16 = center
-          error = .FALSE.
        RETURN
        ELSE IF (key < array(center)) THEN
           right = center - 1 
@@ -1155,7 +1136,6 @@ CONTAINS
     ! - if the length of the array is zero:
     IF (n == 0) THEN
        binarySearch_ch = -1
-       error = .FALSE.
        RETURN
     END IF
     ! - if the key (value to be searched for) is smaller or 
@@ -1163,7 +1143,6 @@ CONTAINS
     !   the array:
     IF (key < array(1) .OR. key > array(n)) THEN
        binarySearch_ch = -1
-       error = .FALSE.
        RETURN
     END IF
 
@@ -1175,7 +1154,6 @@ CONTAINS
        center = CEILING((left+right)/2.0)
        IF (key == array(center)) THEN
           binarySearch_ch = center
-          error = .FALSE.
        RETURN
        ELSE IF (key < array(center)) THEN
           right = center - 1 
@@ -1229,7 +1207,6 @@ CONTAINS
     ! - if the length of the array is zero:
     IF (n == 0) THEN
        binarySearch_ch_index = -1
-       error = .FALSE.
        RETURN
     END IF
     ! - if the key (value to be searched for) is smaller or 
@@ -1237,7 +1214,6 @@ CONTAINS
     !   the array:
     IF (key < array(indx(1)) .OR. key > array(indx(n))) THEN
        binarySearch_ch_index = -1
-       error = .FALSE.
        RETURN
     END IF
 
@@ -1248,8 +1224,6 @@ CONTAINS
        i = i + 1
        center = CEILING((left+right)/2.0)
        IF (key == array(indx(center))) THEN
-          binarySearch_ch_index = indx(center)
-          error = .FALSE.
        RETURN
        ELSE IF (key < array(indx(center))) THEN
           right = center - 1 
@@ -1300,11 +1274,9 @@ CONTAINS
     ! minimum or maximum values of the array:
     IF (VALUE < array(1)) THEN
        findLocation_r8 = 1
-       error = .FALSE.
        RETURN
     ELSE IF (VALUE >= array(n)) THEN
        findLocation_r8 = n+1
-       error = .FALSE.
        RETURN
     END IF
 
@@ -1362,11 +1334,9 @@ CONTAINS
     ! minimum or maximum values of the array:
     IF (VALUE < array(indx_array(1))) THEN
        findLocation_r8_indx = 1
-       error = .FALSE.
        RETURN
     ELSE IF (VALUE >= array(indx_array(n))) THEN
        findLocation_r8_indx = n+1
-       error = .FALSE.
        RETURN
     END IF
 
@@ -1421,11 +1391,9 @@ CONTAINS
     ! minimum or maximum values of the array:
     IF (VALUE < array(1)) THEN
        findLocation_r16 = 1
-       error = .FALSE.
        RETURN
     ELSE IF (VALUE >= array(n)) THEN
        findLocation_r16 = n+1
-       error = .FALSE.
        RETURN
     END IF
 
