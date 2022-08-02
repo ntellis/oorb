@@ -75,12 +75,14 @@ CONTAINS
     j = 0
     DO WHILE (value(1:1) == " ")
        j = j + 1
-       IF (j>256) RETURN
+       IF (j>256) error = .FALSE.
+       RETURN
        value = TRIM(value(2:))
     END DO
     ! Return empty value, if no value is given:
     IF (value(2:2) == "-") THEN
        value = ""
+       error = .FALSE.
        RETURN
     END IF
     ! Remove a blank found in the middle and everything

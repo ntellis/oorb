@@ -166,6 +166,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -201,6 +202,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -212,6 +214,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("SphericalCoordinates / new", &
             "The frame string contains forbidden characters.", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%frame          = TRIM(frame_)
@@ -245,6 +248,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -304,6 +308,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -312,6 +317,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("SphericalCoordinates / new", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -321,6 +327,7 @@ CONTAINS
        CALL errorMessage("SphericalCoordinates / new", &
             "Negative distance is not allowed.", 1)
        this%is_initialized = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
     this%position(1)    = distance
@@ -351,6 +358,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -390,6 +398,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -397,6 +406,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / new", &
             "Negative distance is not allowed.", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%position(1)    = distance
@@ -442,6 +452,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -449,6 +460,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / new", &
             "Negative distance is not allowed.", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%position       = position
@@ -503,6 +515,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("SphericalCoordinates / copy", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     copy_SC%is_initialized = this%is_initialized
@@ -558,10 +571,12 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / addMultinormalDeviate", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
     IF (ALL(mean == 0.0_bp) .AND. ALL(covariance == 0)) THEN
+       error = .FALSE.
        RETURN
     END IF
 
@@ -595,6 +610,7 @@ CONTAINS
        CALL errorMessage("SphericalCoordinates / addMultinormalDeviate:", &
             "Cholesky decomposition unsuccessful:", 1)
        WRITE(stderr,"(A)") TRIM(errstr)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,6
@@ -642,6 +658,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / addUniformDeviate", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -706,6 +723,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / equal", &
             "1st object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -713,30 +731,35 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / equal", &
             "2nd object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
     ! Designation:
     IF (.NOT.(this%frame == that%frame)) THEN
        equal_SC = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
 
     ! Position:
     IF (ANY(ABS(this%position - that%position) > EPSILON(this%position(1)))) THEN
        equal_SC = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
 
     ! Velocity:
     IF (ANY(ABS(this%velocity - that%velocity) > EPSILON(this%velocity(1)))) THEN
        equal_SC = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
 
     ! Epoch
     IF (.NOT.equal(this%t,that%t)) THEN
        equal_SC = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -766,6 +789,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / getCoordinates", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -794,6 +818,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / getPosition", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -821,6 +846,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / getVelocity", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -847,6 +873,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / getFrame", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -874,6 +901,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / getTime", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -900,6 +928,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / getDistance", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -926,6 +955,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / getLongitude", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -952,6 +982,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / getLatitude", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -987,9 +1018,11 @@ CONTAINS
        CALL errorMessage("SphericalCoordinates / reallocate", &
             "Could not allocate memory.", 1)
        reallocate_SC_1 => NULL()
+       error = .FALSE.
        RETURN
     END IF
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array,dim=1)
     DO i=1, MIN(n,nold)
        reallocate_SC_1(i) = copy(array(i))
@@ -999,6 +1032,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / reallocate", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1032,9 +1066,11 @@ CONTAINS
        CALL errorMessage("SphericalCoordinates / reallocate", &
             "Could not allocate memory.", 1)
        reallocate_SC_2 => NULL()
+       error = .FALSE.
        RETURN
     END IF
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array,dim=1)
     mold = SIZE(array,dim=2)
     DO i=1, MIN(n,nold)
@@ -1047,6 +1083,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / reallocate", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1089,6 +1126,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / rotateToEquatorial", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1205,6 +1243,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("SphericalCoordinates / rotateToEcliptic", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 

@@ -147,6 +147,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -188,6 +189,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -198,6 +200,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Time / new", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -229,6 +232,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
     mjd = getMJD(year, month, day)
@@ -237,6 +241,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Time / new", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -271,6 +276,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -280,6 +286,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Time / new", &
             "Could not transform string to integer (1).", 1)
+       error = .FALSE.
        RETURN
     END IF
     year = tmp*100 + year
@@ -292,7 +299,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Time / new", &
                "Could not transform string to integer (2).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        day = day + tmp/10.0_bp**(n-5)
     END IF
@@ -302,6 +310,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Time / new", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -336,6 +345,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -351,7 +361,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Time / new", &
                "TRACE BACK 3", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        taiut_max = getNrOfLines(datafile)
        ALLOCATE(idv(taiut_max), mjdv(taiut_max), stat=err)
@@ -359,7 +370,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Time / new", &
                "Could not allocate arrays for TAI-UT.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO
           READ(getUnit(datafile), "(A)", iostat=err) record
@@ -367,12 +379,14 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Time / new", &
                   "End of file " // TRIM(TAIUTC_FNAME), 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           ELSE IF (err > 0) THEN
              error = .TRUE.
              CALL errorMessage("Time / new", &
                   "Could not read file " // TRIM(TAIUTC_FNAME), 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           ELSE
              IF (record == "----------") EXIT
           END IF
@@ -386,7 +400,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Time / new", &
                   "Could not read file " // TRIM(TAIUTC_FNAME), 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           ELSE
              taiut_size = taiut_size + 1
              idv(taiut_size) = iii
@@ -396,7 +411,8 @@ CONTAINS
                    error  = .TRUE.
                    CALL errorMessage("Time / new", &
                         "File " // TRIM(TAIUTC_FNAME) // " is not sorted.", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
              END IF
           END IF
@@ -407,14 +423,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Time / new", &
                "TRACE BACK 4", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (taiut_size < 2) THEN
           error = .TRUE.
           CALL errorMessage("Time / new", &
                "File " // TRIM(TAIUTC_FNAME) // &
                " contains less than two data records.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Load table of ET-UT as a function of UT:
@@ -427,7 +445,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Time / new", &
                "TRACE BACK 7", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        etut_max = getNrOfLines(datafile)
        ALLOCATE(tv(etut_max), dtv(etut_max), stat=err)
@@ -435,7 +454,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Time / new", &
                "Could not allocate arrays for ET-UT.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO
           READ(getUnit(datafile), "(A)", iostat=err) record
@@ -443,12 +463,14 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Time / new", &
                   "End of file" // TRIM(ETUT_FNAME), 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           ELSE IF (err > 0) THEN
              error = .TRUE.
              CALL errorMessage("Time / new", &
                   "Could not read file " // TRIM(ETUT_FNAME), 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           ELSE
              IF (record == "----------") EXIT
           END IF
@@ -462,7 +484,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Time / new", &
                   "Could not read file " // TRIM(ETUT_FNAME), 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           ELSE
              etut_size = etut_size + 1
              tv(etut_size) = getMJD(year, month, day*1.0_bp)
@@ -476,7 +499,8 @@ CONTAINS
           CALL errorMessage("Time / new", &
                "File " // TRIM(ETUT_FNAME) // &
                " contains less than two data records.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        first = .FALSE.
@@ -514,12 +538,14 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / new", &
             "Type of time is either missing or erroneus.", 1)
+       error = .FALSE.
        RETURN
     END SELECT
     IF (error) THEN
        error = .FALSE.
        CALL errorMessage("Time / new", &
             "TRACE BACK 10", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%is_initialized = .TRUE.
@@ -641,6 +667,7 @@ CONTAINS
     ! Trying to use previous value
     IF(mjdc >= mjdv(jp-1) .AND. mjdc < mjdv(jp)) THEN
        deltaAT = idv(jp-1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -650,18 +677,21 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / deltaAT", &
             "TJM too small.", 1)
+       error = .FALSE.
        RETURN
     ELSE IF (mjdc >= mjdv(taiut_size)) THEN
        error = .TRUE.
        CALL errorMessage("Time / deltaAT", &
             "TJM too large.", 1)
+       error = .FALSE.
        RETURN
     ELSE
        DO i=2, taiut_size
           IF (mjdc < mjdv(i)) THEN
              jp = i
              deltaAT = idv(jp-1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
     END IF
@@ -694,6 +724,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / deltaT", &
             "dtv has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -702,6 +733,7 @@ CONTAINS
        c1 = (tv(ipos+1) - tjm) / (tv(ipos+1) - tv(ipos))
        c2 = 1 - c1
        deltaT = c1*dtv(ipos) + c2*dtv(ipos+1)
+       error = .FALSE.
        RETURN
     END IF
     ! Selecting the records of the table before and after the date
@@ -710,6 +742,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / deltaT", &
             "TJM out of range", 1)
+       error = .FALSE.
        RETURN
     ELSE
        DO ipos=1,etut_size-1
@@ -717,12 +750,14 @@ CONTAINS
              c1 = (tv(ipos+1) - tjm) / (tv(ipos+1) - tv(ipos))
              c2 = 1 - c1
              deltaT = c1*dtv(ipos) + c2*dtv(ipos+1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        error = .TRUE.
        CALL errorMessage("Time / deltaT", &
             "Internal error.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -785,6 +820,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / getCalendarDate", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -793,6 +829,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Time / getCalendarDate", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -854,6 +891,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / getCalendarDate", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -862,6 +900,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Time / getCalendarDateString", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
     
@@ -910,6 +949,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / getCalendarDate", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -918,6 +958,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Time / getCalendarDate", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -962,6 +1003,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / getCalendarDateString", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -970,6 +1012,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Time / getCalendarDateString", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -980,6 +1023,7 @@ CONTAINS
        CALL errorMessage("Time / getCalendarDateString", &
             "Could not write output string.", 1)
        str = "*****ERROR*****"
+       error = .FALSE.
        RETURN
     END IF
 
@@ -992,7 +1036,8 @@ CONTAINS
              CALL errorMessage("Time / getCalendarDateString", &
                   "Could not write output string.", 1)
              str = "*****ERROR*****"
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           DO i=1,len_TRIM(str)
              IF (str(i:i) == " ") THEN
@@ -1051,6 +1096,7 @@ CONTAINS
     IF (error) THEN
        error = .FALSE.
        CALL errorMessage("Time / getCurrentTime", "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL getCalendarDate(t, "utc", date_time(1), date_time(2), &
@@ -1058,6 +1104,7 @@ CONTAINS
     IF (error) THEN
        error = .FALSE.
        CALL errorMessage("Time / getCurrentTime", "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     date_time(7) = NINT(s)
@@ -1071,14 +1118,16 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Time / getCurrentTime", "TRACE BACK (15)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL getCalendarDate(t, "utc", date_time(1), date_time(2), &
             date_time(3), date_time(5), date_time(6), s)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Time / getCurrentTime", "TRACE BACK (20)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        date_time(7) = NINT(s)
        CALL NULLIFY(t)
@@ -1117,6 +1166,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / getGMST", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1170,6 +1220,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / getJD", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1178,6 +1229,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Time / getJD", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
     jd = mjd + 2400000.5_bp 
@@ -1213,6 +1265,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / getMJD", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1224,7 +1277,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Time / getMJD", &
                   "TRACE BACK (5)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           this%ut1 = mjd
        ELSE
@@ -1237,7 +1291,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Time / getMJD", &
                   "TRACE BACK (10)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           this%tai = mjd
        ELSE
@@ -1250,7 +1305,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Time / getMJD", &
                   "TRACE BACK (15)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           this%utc = mjd
        ELSE
@@ -1262,6 +1318,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / getMJD", &
             "Timescale " // TRIM(timescale) // " is erroneus.", 1)
+       error = .FALSE.
        RETURN
     END SELECT
 
@@ -1346,9 +1403,11 @@ CONTAINS
        CALL errorMessage("Time / reallocate", &
             "Could not allocate memory.", 1)
        reallocate_T_1 => NULL()
+       error = .FALSE.
        RETURN
     END IF
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array)
     DO i=1, MIN(n,nold)
        reallocate_T_1(i) = copy(array(i))
@@ -1358,6 +1417,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Time / reallocate", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1414,19 +1474,22 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Time / timescaleConversion", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Required timescale has been reached
        IF (eqsc == eqsc2) THEN
           mjd2 = mjd2_int + sec2/86400.0_bp
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Check on infinite loops
        IF (loops > 6) THEN
           error = .TRUE.
           CALL errorMessage("Time / timescaleConversion", &
                "Too many loops.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        loops = loops + 1
        ! Transformations are performed according to the following path:
@@ -1458,14 +1521,16 @@ CONTAINS
        error = .FALSE.
                    CALL errorMessage("Time / timescaleConversion", &
                         "TRACE BACK (10)", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 nit = nit + 1
                 IF (nit > nitmax) THEN
                    error = .TRUE.
                    CALL errorMessage("Time / timescaleConversion", &
                         "Abnormal end.",1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 ENDIF
                 !   c) try to find the starting value of TDT from the approximate
                 !      value of UT1
@@ -1478,7 +1543,8 @@ CONTAINS
        error = .FALSE.
                    CALL errorMessage("Time / timescaleConversion", &
                         "TRACE BACK (15)", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 !   d) computation of error and correction of the approximate value
                 diff = (mjd2_real-mjd2_int)*86400.0_bp + sec2r - sec2
@@ -1508,7 +1574,8 @@ CONTAINS
        error = .FALSE.
                 CALL errorMessage("Time / timescaleConversion", &
                      "TRACE BACK (20)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              !   b) subtract DAT from (mjd2_int,sec2), finding a first approximation
              !      for UTC
@@ -1521,14 +1588,16 @@ CONTAINS
        error = .FALSE.
                    CALL errorMessage("Time / timescaleConversion", &
                         "TRACE BACK (25)", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 nit = nit + 1
                 IF (nit > nitmax) THEN
                    error = .TRUE.
                    CALL errorMessage("Time / timescaleConversion", &
                         "Abnormal end.",1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 !   c) try to find the starting value of TAI from the approximate
                 !      value of UTC
@@ -1538,14 +1607,16 @@ CONTAINS
        error = .FALSE.
                    CALL errorMessage("Time / timescaleConversion", &
                         "TRACE BACK (30)", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 CALL toNormalForm(mjd2_real, sec2r, "TAI")
                 IF (error) THEN
        error = .FALSE.
                    CALL errorMessage("Time / timescaleConversion", &
                         "TRACE BACK (35)", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 !   d) computation of error and correction of the approximate value
                 diff = (mjd2_real-mjd2_int)*86400.0_bp + sec2r - sec2 + &
@@ -1554,7 +1625,8 @@ CONTAINS
        error = .FALSE.
                    CALL errorMessage("Time / timescaleConversion", &
                         "TRACE BACK (40)", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 IF (ABS(diff) > epst) THEN
                    sect = sect - diff
@@ -1577,14 +1649,16 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Time / timescaleConversion", &
                   "TRACE BACK (45)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           eqsc = "TAI"
        ELSE
           error = .TRUE.
           CALL errorMessage("Time / timescaleConversion", &
                "Abnormal end.",1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
     END DO
@@ -1632,7 +1706,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Time / toNormalForm", &
                   "Abnormal end.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (sec < 0.0_bp) THEN
              ! Duration in seconds of the previous day
@@ -1641,7 +1716,8 @@ CONTAINS
        error = .FALSE.
                 CALL errorMessage("Time / toNormalForm", &
                      "TRACE BACK (5)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              sec = sec + idur
              mjd = mjd - 1
@@ -1660,7 +1736,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Time / toNormalForm", &
                   "TRACE BACK (10)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           ! Renormalization of time
           IF (isec >= idur) THEN
@@ -1690,11 +1767,13 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Time / toNormalForm", &
                   "Abnormal end.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           k = sec/86400.0_bp
           IF (sec < 0.0_bp) k = k - 1
-          IF (k == 0) RETURN
+          IF (k == 0) error = .FALSE.
+       RETURN
           mjd = mjd + k
           sec = sec - k*86400.0_bp
        END DO

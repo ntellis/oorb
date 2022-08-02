@@ -55,7 +55,8 @@ PROGRAM ephtester
   IF (error) THEN
        error = .FALSE.
      WRITE(0,*) "***** INITIALIZATION ERROR OCCURRED *****"     
-     STOP
+     error = .FALSE.
+       STOP
   END IF
   i = 0
   DO
@@ -67,7 +68,8 @@ PROGRAM ephtester
         IF (error) THEN
        error = .FALSE.
            WRITE(0,*) "***** READ ERROR OCCURRED *****"     
-           STOP
+           error = .FALSE.
+       STOP
         END IF
      END IF
      i = i + 1
@@ -91,7 +93,8 @@ PROGRAM ephtester
      IF (ntarget /= 13 .and. &
           ABS(ephemeris(1,ncoord)-correct_value) > 10.0E-13_rprec8) THEN
         WRITE(0,*) "***** COMPARISON ERROR OCCURRED *****"
-        STOP
+        error = .FALSE.
+       STOP
      END IF
 
      IF (ASSOCIATED(ephemeris)) THEN

@@ -590,6 +590,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Base / rotationMatrix", &
             "Axis out of range. It has to be 1, 2, or 3.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -754,6 +755,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Base / MPC3DesToMPCDes", &
             "Could not convert string to integer.", 1)
+       error = .FALSE.
        RETURN
     END IF
     designation(1:7) = designation(1:4) // mpc_conv_table(i) // &
@@ -786,6 +788,7 @@ CONTAINS
     IF (.NOT.(designation(1:1) == "I" .OR. &
          designation(1:1) == "J" .OR. &
          designation(1:1) == "K")) THEN
+       error = .FALSE.
        RETURN
     END IF
     DO i=0,SIZE(mpc_conv_table,dim=1)-1
@@ -860,7 +863,8 @@ CONTAINS
           CALL errorMessage("Base / decodeMPCDesignation", &
                "Could not convert integer to string (5).", 1)       
           WRITE(stderr,*) TRIM(designation)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        designation_(3:4) = designation(2:3)
        designation_(5:5) = " "
@@ -877,7 +881,8 @@ CONTAINS
           CALL errorMessage("Base / decodeMPCDesignation", &
                "Could not convert integer to string (10).", 1)       
           WRITE(stderr,*) TRIM(designation)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (designation_(8:9) == "00") THEN
           designation_(8:) = " "
@@ -926,6 +931,7 @@ CONTAINS
          (i >= 48 .AND.  i <= 57)) THEN
        ! Designation already seems to be decoded, because it 
        ! contains empty space or starts with a number.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -951,7 +957,8 @@ CONTAINS
           CALL errorMessage("Base / decodeMPCDesignation", &
                "Could not convert integer to string (5).", 1)       
           WRITE(stderr,*) TRIM(designation)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        designation_(3:4) = designation(2:3)
        designation_(5:5) = " "
@@ -999,6 +1006,7 @@ CONTAINS
          i < 48 .OR.  i > 57) THEN
        ! Designation already seems to be encoded, because it has no
        ! empty space or starts with a non-number.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1017,7 +1025,8 @@ CONTAINS
           CALL errorMessage("Base / encodeMPCDesignation", &
                "Could not convert string to integer (5).", 1)       
           WRITE(stderr,*) TRIM(designation)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        designation_ = " "
        designation_(1:3) = mpc_conv_table(i) // designation(3:4)
@@ -1035,7 +1044,8 @@ CONTAINS
              CALL errorMessage("Base / encodeMPCDesignation", &
                   "Could not convert string to integer (10).", 1)       
              WRITE(stderr,*) TRIM(designation)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           designation_(5:6) = mpc_conv_table(i) // designation(10:10)
        END IF
@@ -1073,6 +1083,7 @@ CONTAINS
     IF (i < 48 .OR.  i > 57 .OR. LEN_TRIM(number) <= length) THEN
        ! Number either doesn't need to be coded or already seems to be
        ! encoded, because it starts with a non-number.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1083,6 +1094,7 @@ CONTAINS
        CALL errorMessage("Base / encodeMPCNumber", &
             "Could not convert string to integer (5).", 1)       
        WRITE(stderr,*) TRIM(number)
+       error = .FALSE.
        RETURN
     END IF
     number_ = " "
@@ -1119,6 +1131,7 @@ CONTAINS
          i < 48 .OR.  i > 57) THEN
        ! Designation already seems to be encoded, because it has no
        ! empty space or starts with a non-number.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1137,7 +1150,8 @@ CONTAINS
           CALL errorMessage("Base / encodeMPC3Designation", &
                "Could not convert string to integer (5).", 1)       
           WRITE(stderr,*) TRIM(designation)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        designation_ = TRIM(ADJUSTL(designation(8:)))
        DO WHILE (LEN_TRIM(designation_) < 4) 

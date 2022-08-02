@@ -108,7 +108,8 @@ PROGRAM asc2eph
   WRITE(*,*) " ASSUMING TYPE OF INPUT ASCII EPHEMERIS FILE IS DE" // TRIM(eph_type)
 
   IF (nrecl == 0) THEN
-     STOP "*** ERROR: User did not set NRECL ***"
+     error = .FALSE.
+       STOP "*** ERROR: User did not set NRECL ***"
   END IF
 
   ! Read the size and number of main ephemeris records.
@@ -252,7 +253,8 @@ PROGRAM asc2eph
 
   ! We're through.  Wrap it up.
   CLOSE (12)
-  STOP "ASCII to binary conversion successful."
+  error = .FALSE.
+       STOP "ASCII to binary conversion successful."
 
 
 
@@ -267,7 +269,8 @@ CONTAINS
     INTEGER, INTENT(in) :: i
 
     WRITE(*,'("ERROR #",I8,2X,A50)') i, msg
-    STOP " ERROR "
+    error = .FALSE.
+       STOP " ERROR "
 
   END SUBROUTINE errprt
 

@@ -427,6 +427,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -455,6 +456,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -462,6 +464,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / new", &
             "Observations not intialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -510,6 +513,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -518,7 +522,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / new", &
                "Observations not intialized.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%obss = copy(obss)
        this%obs_masks_prm => getObservationMasks(this%obss)
@@ -528,6 +533,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / new", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -591,6 +597,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -602,6 +609,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / new", &
             "Could not allocate pointer (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,this%sor_norb_cmp
@@ -615,7 +623,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / new", &
                "Could not allocate pointer (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,this%sor_norb_cmp
           this%jac_arr_cmp(i,1) = jac_arr(i,1)
@@ -630,7 +639,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / new", &
                "Could not allocate pointer (15).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%rchi2_arr_cmp = rchi2_arr
     END IF
@@ -641,7 +651,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / new", &
                "Could not allocate pointer (20).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%reg_apr_arr_cmp = reg_apr_arr
     END IF
@@ -653,7 +664,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / new", &
                   "Could not allocate pointer (25).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           this%repetition_arr_cmp = repetition_arr
        END IF
@@ -664,7 +676,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / new", &
                "Observations not intialized.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%obss = copy(obss)
        this%obs_masks_prm => getObservationMasks(this%obss)
@@ -870,6 +883,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / copy", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -881,7 +895,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / copy", &
                "TRACE BACK (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     norb = SIZE(this%orb_arr_cmp)
@@ -897,7 +912,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,norb
           copy_SO%orb_arr_cmp(i) = copy(this%orb_arr_cmp(i))       
@@ -912,7 +928,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%res_arr_cmp = this%res_arr_cmp(1:norb,1:nobs,1:6)
     END IF
@@ -926,7 +943,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (15).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%cov_ml_cmp = this%cov_ml_cmp
     END IF
@@ -936,7 +954,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (25).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%rms_arr_cmp = this%rms_arr_cmp(1:norb,1:6)
     END IF
@@ -946,7 +965,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (30).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%rchi2_arr_cmp = this%rchi2_arr_cmp(1:norb)
     END IF
@@ -956,7 +976,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (35).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%pdf_arr_cmp = this%pdf_arr_cmp(1:norb)
     END IF
@@ -966,7 +987,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (40).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%reg_apr_arr_cmp = this%reg_apr_arr_cmp(1:norb)
     END IF
@@ -976,7 +998,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (45).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%jac_arr_cmp = this%jac_arr_cmp(1:norb,1:3)
     END IF
@@ -986,7 +1009,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (46).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%repetition_arr_cmp = this%repetition_arr_cmp(1:norb)
     END IF
@@ -996,7 +1020,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (20).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%obs_masks_prm = this%obs_masks_prm
     END IF
@@ -1032,7 +1057,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (50).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%finite_diff_prm = this%finite_diff_prm
     END IF
@@ -1050,7 +1076,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (55).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%sor_deviates_prm = this%sor_deviates_prm
     END IF
@@ -1060,7 +1087,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (60).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%sor_rho_arr_cmp = this%sor_rho_arr_cmp
     END IF
@@ -1071,7 +1099,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (65).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%sor_pair_histo_prm = this%sor_pair_histo_prm
     END IF
@@ -1084,7 +1113,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (70).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%sor_pair_arr_prm = this%sor_pair_arr_prm
     END IF
@@ -1108,7 +1138,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (75).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%vov_map_cmp = this%vov_map_cmp
     END IF
@@ -1132,7 +1163,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / copy", &
                "Could not allocate pointer (75).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_SO%vomcmc_map_cmp = this%vomcmc_map_cmp
     END IF
@@ -1218,6 +1250,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / autoStatisticalRanging", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1227,14 +1260,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoStatisticalRanging", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL setRangeBounds(this)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoStatisticalRanging", &
                "TRACE BACK (10)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -1255,6 +1290,7 @@ CONTAINS
     IF (error .OR. this%sor_norb_cmp <= 1) THEN
        CALL errorMessage("StochasticOrbit / autoStatisticalRanging", &
             "First iteration failed.", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%sor_niter_cmp = 1
@@ -1278,6 +1314,7 @@ CONTAINS
     IF (error .OR. this%sor_norb_cmp <= 1) THEN
        CALL errorMessage("StochasticOrbit / autoStatisticalRanging", &
             "Second iteration failed.", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%sor_niter_cmp = 2
@@ -1299,7 +1336,8 @@ CONTAINS
        IF (error .OR. this%sor_norb_cmp <= 1) THEN
           CALL errorMessage("StochasticOrbit / autoStatisticalRanging", &
                "Additional iteration failed.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%sor_niter_cmp = 3
        CALL updateRanging(this, automatic=.TRUE.)
@@ -1327,7 +1365,8 @@ CONTAINS
        IF (error .OR. this%sor_norb_cmp <= 1) THEN
           CALL errorMessage("StochasticOrbit / autoStatisticalRanging", &
                "Subsequent iteration failed.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        dchi2 = MAXVAL(this%rchi2_arr_cmp) - MINVAL(this%rchi2_arr_cmp)
        ddchi2 = ABS(dchi2 - this%dchi2_prm)
@@ -1375,6 +1414,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / comparePropagationParameters", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1388,6 +1428,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / comparePropagationParameters", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL getParameters(orb, &
@@ -1399,6 +1440,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / comparePropagationParameters", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (storb_dyn_model == "n-body" .AND. &
@@ -1442,6 +1484,7 @@ CONTAINS
     containsDiscretePDF = .FALSE.
 
     IF (.NOT. this%is_initialized_prm) THEN
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1543,6 +1586,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1554,6 +1598,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     frame = getFrame(orb_nominal)
@@ -1561,6 +1606,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     elements_nominal = getElements(orb_nominal, this%element_type_prm, frame)
@@ -1568,6 +1614,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (15)", 1)
+       error = .FALSE.
        RETURN
     END IF
     cov = getCovarianceMatrix(this, this%element_type_prm, frame)
@@ -1575,6 +1622,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (20)", 1)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,6
@@ -1585,6 +1633,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (25)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1594,6 +1643,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (30)", 1)
+       error = .FALSE.
        RETURN
     END IF
     stdev_arr_measur => getStandardDeviations(this%obss)
@@ -1601,6 +1651,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (31)", 1)
+       error = .FALSE.
        RETURN
     END IF
     obs_scoords => getObservationSCoords(this%obss)
@@ -1608,6 +1659,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (35)", 1)
+       error = .FALSE.
        RETURN
     END IF
     nobs = SIZE(obs_scoords,dim=1)
@@ -1623,7 +1675,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "TRACE BACK (40)",1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        cosdec0(i) = COS(obs_coords(i,3))
     END DO
@@ -1632,6 +1685,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (45)",1)
+       error = .FALSE.
        RETURN
     END IF
     failed_flag = 0
@@ -1643,6 +1697,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (50)",1)
+       error = .FALSE.
        RETURN
     END IF
     ! Multiply RA partials with cosine of observed declination:
@@ -1656,7 +1711,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "TRACE BACK (55)",1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        residuals2(i,1:6) = obs_coords(i,1:6) - comp_coord(1:6)
        residuals2(i,2) = residuals2(i,2) * cosdec0(i)
@@ -1706,6 +1762,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "TRACE BACK (60)" // TRIM(errstr),1)
+       error = .FALSE.
        RETURN
     END IF
     DEALLOCATE(residuals2)
@@ -1739,7 +1796,8 @@ CONTAINS
              WRITE(stderr,*)
           END DO
           CALL matrix_print(information_matrix_elem,stderr,errstr)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        apriori = 1.0_bp
@@ -1775,6 +1833,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / covarianceSampling:", &
             "Cholesky decomposition unsuccessful:", 1)
        WRITE(stderr,"(A)") TRIM(errstr)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,6
@@ -1899,7 +1958,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / covarianceSampling", &
                   "TRACE BACK (70)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        IF (info_verb >= 2) THEN
@@ -1921,7 +1981,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / covarianceSampling", &
                   "TRACE BACK (71)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           ! Semimajor axis:
           IF (this%apriori_a_min_prm >= 0.0_bp .OR. &
@@ -2025,7 +2086,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "TRACE BACK (75)",1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        !!
@@ -2042,7 +2104,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "TRACE BACK (80)",1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (info_verb >= 4) THEN
           WRITE(stdout,"(2X,A,1X,A)") &
@@ -2061,7 +2124,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / covarianceSampling", &
                   "TRACE BACK (85)",1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           residuals3(iorb+1,i,1:6) = obs_coords(i,1:6) - comp_coord(1:6)
           residuals3(iorb+1,i,2) = residuals3(iorb+1,i,2) * cosdec0(i)
@@ -2117,7 +2181,8 @@ CONTAINS
 !!$             DEALLOCATE(partials_arr, stat=err)
 !!$             CALL errorMessage("StochasticOrbit / covarianceSampling", &
 !!$                  "Could not deallocate memory (5)", 1)
-!!$             RETURN
+!!$             error = .FALSE.
+       RETURN
 !!$          END IF
 !!$          CYCLE
 !!$       END IF
@@ -2128,7 +2193,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "TRACE BACK (90)" // TRIM(errstr),1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (chi2 < 0.0_bp) THEN
           WRITE(stdout,"(2X,A,1X,A,F10.5,A,I0)") &
@@ -2153,7 +2219,8 @@ CONTAINS
              DEALLOCATE(partials_arr, stat=err)
              CALL errorMessage("StochasticOrbit / covarianceSampling", &
                   "Could not deallocate memory (5)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           CYCLE
        END IF
@@ -2184,7 +2251,8 @@ CONTAINS
                 WRITE(stderr,*)
              END DO
              CALL matrix_print(information_matrix_elem,stderr,errstr)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        ELSE
           apriori = 1.0_bp
@@ -2243,7 +2311,8 @@ CONTAINS
              END IF
              errstr = ""
              CALL NULLIFY(orb)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
 
           ! Determinant of Jacobian between equinoctial and
@@ -2279,7 +2348,8 @@ CONTAINS
           DEALLOCATE(partials_arr, stat=err)
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "Could not deallocate memory (15).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        IF (info_verb >= 2) THEN
@@ -2364,7 +2434,8 @@ CONTAINS
           DEALLOCATE(information_matrix_obs, stat=err)
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "Could not deallocate memory (20).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     ALLOCATE(this%orb_arr_cmp(iorb), stat=err)
@@ -2379,6 +2450,7 @@ CONTAINS
        DEALLOCATE(information_matrix_obs, stat=err)
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "Could not allocate memory (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,iorb
@@ -2397,7 +2469,8 @@ CONTAINS
           DEALLOCATE(information_matrix_obs, stat=err)
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "Could not deallocate memory (25).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
     END IF
     ALLOCATE(this%pdf_arr_cmp(iorb), stat=err)
@@ -2412,6 +2485,7 @@ CONTAINS
        DEALLOCATE(information_matrix_obs, stat=err)
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "Could not allocate memory (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%pdf_arr_cmp = pdf_arr
@@ -2428,7 +2502,8 @@ CONTAINS
           DEALLOCATE(information_matrix_obs, stat=err)
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "Could not deallocate memory (25).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
     END IF
     ALLOCATE(this%jac_arr_cmp(iorb,3), stat=err)
@@ -2443,6 +2518,7 @@ CONTAINS
        DEALLOCATE(information_matrix_obs, stat=err)
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "Could not allocate memory (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%jac_arr_cmp = jacobian_arr
@@ -2459,7 +2535,8 @@ CONTAINS
           DEALLOCATE(information_matrix_obs, stat=err)
           CALL errorMessage("StochasticOrbit / covarianceSampling", &
                "Could not deallocate memory (25).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
     END IF
     ALLOCATE(this%rchi2_arr_cmp(iorb), stat=err)
@@ -2474,6 +2551,7 @@ CONTAINS
        DEALLOCATE(information_matrix_obs, stat=err)
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "Could not allocate memory (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%rchi2_arr_cmp = rchi2_arr
@@ -2500,6 +2578,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        CALL errorMessage("StochasticOrbit / covarianceSampling", &
             "Could not deallocate memory (30).", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -2533,6 +2612,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getApoapsisDistance", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2544,7 +2624,8 @@ CONTAINS
           CALL errorMessage("Orbit / getApoapsisDistance", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(pdf_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ALLOCATE(Q(SIZE(this%orb_arr_cmp,dim=1),2), stat=err)
@@ -2553,7 +2634,8 @@ CONTAINS
           CALL errorMessage("Orbit / getApoapsisDistance", &
                "Could not allocate memory (5).", 1)
           DEALLOCATE(pdf_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        partials = identity_matrix(6)
        DO i=1,SIZE(this%orb_arr_cmp,dim=1)
@@ -2564,7 +2646,8 @@ CONTAINS
              CALL errorMessage("Orbit / getApoapsisDistance", &
                   "TRACE BACK (5)", 1)
              DEALLOCATE(pdf_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           jac = ABS(determinant(partials, errstr))
           IF (LEN_TRIM(errstr) /= 0) THEN
@@ -2574,7 +2657,8 @@ CONTAINS
                   TRIM(errstr), 1)
              errstr = ""
              DEALLOCATE(pdf_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           Q(i,2) = pdf_arr(i)*jac
        END DO
@@ -2584,7 +2668,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getApoapsisDistance", &
                "Could not deallocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
     ELSE
@@ -2594,7 +2679,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getApoapsisDistance", &
                "Could not allocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        orb = copy(this%orb_ml_cmp)
        CALL toKeplerian(orb)
@@ -2606,7 +2692,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getApoapsisDistance", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(orb)
 
@@ -2635,6 +2722,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getAPrioriWeights", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2643,6 +2731,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getAPrioriWeights", &
             "No sample orbits available.", 1)
+       error = .FALSE.
        RETURN
     END IF
     norb = SIZE(this%orb_arr_cmp,dim=1)
@@ -2651,6 +2740,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getAPrioriWeights", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
     apriori_pdf = 0.0_bp
@@ -2661,7 +2751,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getAPrioriWeights", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        elements(3) = elements(3)/rad_deg
        DO j=1,nbin
@@ -2701,6 +2792,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getBestFittingSampleOrbit", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2709,6 +2801,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getBestFittingSampleOrbit", &
             "TRACE BACK (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2723,7 +2816,8 @@ CONTAINS
           DEALLOCATE(pdf, stat=err)
           IF (err /= 0) CALL errorMessage("StochasticOrbit / getBestFittingSampleOrbit", &
                "Could not deallocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (SIZE(apriori_pdf,dim=1) /= norb) THEN
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getBestFittingSampleOrbit", &
@@ -2731,7 +2825,8 @@ CONTAINS
           DEALLOCATE(pdf, apriori_pdf, stat=err)
           IF (err /= 0) CALL errorMessage("StochasticOrbit / getBestFittingSampleOrbit", &
                "Could not deallocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        pdf(1:norb) = pdf(1:norb)*apriori_pdf(1:norb)
        IF (SUM(pdf) < EPSILON(pdf(1))) THEN
@@ -2741,7 +2836,8 @@ CONTAINS
           DEALLOCATE(pdf, apriori_pdf, stat=err)
           IF (err /= 0) CALL errorMessage("StochasticOrbit / getBestFittingSampleOrbit", &
                "Could not deallocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           pdf = pdf / SUM(pdf)
        END IF
@@ -2750,7 +2846,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getBestFittingSampleOrbit", &
                "Could not deallocate memory (15).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     indx = MAXLOC(pdf,dim=1)
@@ -2759,6 +2856,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getBestFittingSampleOrbit", &
             "Could not deallocate memory (20).", 1)
+       error = .FALSE.
        RETURN
     END IF
     getBestFittingSampleOrbit = copy(this%orb_arr_cmp(indx))
@@ -2784,12 +2882,14 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getChi2", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (.NOT.exist(orb)) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getChi2", &
             "Orbit has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
     residuals => getResiduals(this, orb)
@@ -2798,6 +2898,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / getChi2", &
             "TRACE BACK (5)", 1)
        DEALLOCATE(residuals, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     information_matrix => getBlockDiagInformationMatrix(this%obss)
@@ -2807,6 +2908,7 @@ CONTAINS
             "TRACE BACK (10)", 1)
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(information_matrix, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2819,7 +2921,8 @@ CONTAINS
           errstr = ""
           DEALLOCATE(residuals, stat=err)
           DEALLOCATE(information_matrix, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        getChi2_this_orb = chi_square(residuals, information_matrix, this%obs_masks_prm, errstr)
@@ -2830,7 +2933,8 @@ CONTAINS
           errstr = ""
           DEALLOCATE(residuals, stat=err)
           DEALLOCATE(information_matrix, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -2841,6 +2945,7 @@ CONTAINS
             "Could not deallocate memory (10).", 1)
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(information_matrix, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2909,6 +3014,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getChi2", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
     residuals_ = residuals
@@ -2932,6 +3038,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getChi2", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2976,6 +3083,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2983,6 +3091,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
             "Covariances are not available.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2996,6 +3105,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
             "The element type string contains forbidden characters.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3009,11 +3119,13 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
             "Frame must be given for non-Keplerian elements.", 1)       
+       error = .FALSE.
        RETURN
     END IF
 
     IF (cov_type_ == this%cov_type_prm) THEN
        getCovarianceMatrix_SO = this%cov_ml_cmp
+       error = .FALSE.
        RETURN
     ELSE IF (this%cov_type_prm == "cartesian" .AND. &
          cov_type_ == "cometary") THEN
@@ -3022,7 +3134,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE IF (this%cov_type_prm == "cartesian" .AND. &
          cov_type_ == "keplerian") THEN
@@ -3031,7 +3144,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE IF (this%cov_type_prm == "cometary" .AND. &
          cov_type_ == "cartesian") THEN
@@ -3040,7 +3154,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE IF (this%cov_type_prm == "cometary" .AND. &
          cov_type_ == "keplerian") THEN
@@ -3049,7 +3164,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE IF (this%cov_type_prm == "keplerian" .AND. &
          cov_type_ == "cartesian") THEN
@@ -3062,6 +3178,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / getCovarianceMatrix", &
             "No such option: " // TRIM(this%cov_type_prm) // &
             " in and " // TRIM(cov_type_) // " out.", 1)
+       error = .FALSE.
        RETURN
     END IF
     getCovarianceMatrix_SO = MATMUL(MATMUL(partials, this%cov_ml_cmp), TRANSPOSE(partials))
@@ -3106,6 +3223,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getEphemeris", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3115,7 +3233,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getEphemeris", &
                "One or more of the observers has not been initialized.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -3133,7 +3252,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / getEphemerides", &
                "TRACE BACK (3)", 1)
           DEALLOCATE(pdf_arr_1, stat=err)
-          RETURN          
+          error = .FALSE.
+       RETURN          
        END IF
        IF (PRESENT(this_lt_corr_arr)) THEN
           CALL getEphemerides(this%orb_arr_cmp, observers, &
@@ -3152,7 +3272,8 @@ CONTAINS
           DEALLOCATE(pdf_arr_1, stat=err)
           DEALLOCATE(ephemerides_arr, stat=err)
           DEALLOCATE(partials_arr4, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        norb = SIZE(this%orb_arr_cmp, dim=1)
        ALLOCATE(pdf_arr_2(norb,nobs), stat=err)
@@ -3163,7 +3284,8 @@ CONTAINS
           DEALLOCATE(pdf_arr_1, stat=err)
           DEALLOCATE(ephemerides_arr, stat=err)
           DEALLOCATE(partials_arr4, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,norb
           DO j=1,nobs
@@ -3183,7 +3305,8 @@ CONTAINS
                 DEALLOCATE(pdf_arr_2, stat=err)
                 DEALLOCATE(ephemerides_arr, stat=err)
                 DEALLOCATE(partials_arr4, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              ! Changed 2008-12-14
              !pdf_arr_2(i,j) = pdf_arr_1(i)/ABS(det)
@@ -3232,7 +3355,8 @@ CONTAINS
              DEALLOCATE(ephemerides_arr, stat=err)
              DEALLOCATE(partials_arr4, stat=err)
              DEALLOCATE(pdf_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           pdf_arr = pdf_arr_2
        END IF
@@ -3243,7 +3367,8 @@ CONTAINS
                "Could not deallocate memory (5).", 1)
           DEALLOCATE(ephemerides_arr, stat=err)
           DEALLOCATE(pdf_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE IF (exist(this%orb_ml_cmp) .AND. PRESENT(cov_arr)) THEN
        ! Least squares solution + covariance matrix:
@@ -3252,14 +3377,16 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getEphemerides", &
                "Element types for ML Orbit and StochasticOrbit are not compatible.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (getElementType(this%orb_ml_cmp) /= &
             this%cov_type_prm) THEN
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getEphemerides", &
                "Element types for ML orbit and covariance are not compatible.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(this_lt_corr_arr)) THEN
           CALL getEphemerides(this%orb_ml_cmp, observers, &
@@ -3281,7 +3408,8 @@ CONTAINS
                "TRACE BACK (10)", 1)
           DEALLOCATE(ephemerides_arr_, stat=err)
           DEALLOCATE(partials_arr3, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        cov_elm = getCovarianceMatrix(this, &
             getElementType(this%orb_ml_cmp), &
@@ -3295,7 +3423,8 @@ CONTAINS
           DEALLOCATE(ephemerides_arr, stat=err)
           DEALLOCATE(cov_arr, stat=err)
           DEALLOCATE(partials_arr3, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,nobs
           ephemerides_arr(1,i) = copy(ephemerides_arr_(i))
@@ -3311,7 +3440,8 @@ CONTAINS
           DEALLOCATE(ephemerides_arr_, stat=err)
           DEALLOCATE(ephemerides_arr, stat=err)
           DEALLOCATE(cov_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DEALLOCATE(ephemerides_arr_, stat=err)
        IF (err /= 0) THEN
@@ -3320,12 +3450,14 @@ CONTAINS
                "Could not deallocate memory (15).", 1)
           DEALLOCATE(ephemerides_arr, stat=err)
           DEALLOCATE(cov_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getEphemerides", &
             "pdf_arr or cov_arr must be specified.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3369,6 +3501,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getEphemeris", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3376,6 +3509,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getEphemeris", &
             "'observer' has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3394,7 +3528,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / getEphemeris", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(pdf_arr_, stat=err)
-          RETURN          
+          error = .FALSE.
+       RETURN          
        END IF
        IF (PRESENT(this_lt_corr_arr) .AND. PRESENT(pdf_lt_corr_arr)) THEN
           CALL getEphemeris(this%orb_arr_cmp, observer, ephemeris_arr, &
@@ -3409,7 +3544,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getEphemeris", &
                "Are you sure you want to do this?", 1)
-          RETURN          
+          error = .FALSE.
+       RETURN          
        END IF
        IF (error) THEN
        error = .FALSE.
@@ -3423,7 +3559,8 @@ CONTAINS
           END IF
           DEALLOCATE(jacobian_lt_corr_arr, stat=err)
           DEALLOCATE(jacobian_prop_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        norb = SIZE(this%orb_arr_cmp, dim=1)
        ALLOCATE(pdf_arr(norb), stat=err)
@@ -3440,7 +3577,8 @@ CONTAINS
           DEALLOCATE(jacobian_lt_corr_arr, stat=err)
           DEALLOCATE(jacobian_prop_arr, stat=err)
           DEALLOCATE(pdf_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,norb
           det = determinant(partials_arr(i,:,:), errstr)
@@ -3460,7 +3598,8 @@ CONTAINS
              DEALLOCATE(jacobian_lt_corr_arr, stat=err)
              DEALLOCATE(jacobian_prop_arr, stat=err)
              DEALLOCATE(pdf_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           ! Changed 2008-12-14
           !pdf_arr(i) = pdf_arr_(i)/ABS(det)
@@ -3479,7 +3618,8 @@ CONTAINS
           DEALLOCATE(jacobian_lt_corr_arr, stat=err)
           DEALLOCATE(jacobian_prop_arr, stat=err)
           DEALLOCATE(pdf_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(this_lt_corr_arr) .AND. PRESENT(pdf_lt_corr_arr)) THEN
           ALLOCATE(pdf_lt_corr_arr(norb), stat=err)
@@ -3493,7 +3633,8 @@ CONTAINS
              DEALLOCATE(jacobian_lt_corr_arr, stat=err)
              DEALLOCATE(jacobian_prop_arr, stat=err)
              DEALLOCATE(pdf_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           DO i=1,norb
              det = determinant(MATMUL(jacobian_lt_corr_arr(i,:,:), &
@@ -3511,7 +3652,8 @@ CONTAINS
                 DEALLOCATE(jacobian_lt_corr_arr, stat=err)
                 DEALLOCATE(jacobian_prop_arr, stat=err)
                 DEALLOCATE(pdf_arr, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              ! Changed 2008-12-14
              !pdf_lt_corr_arr(i) = pdf_arr_(i)/ABS(det)
@@ -3527,7 +3669,8 @@ CONTAINS
              DEALLOCATE(jacobian_lt_corr_arr, stat=err)
              DEALLOCATE(jacobian_prop_arr, stat=err)
              DEALLOCATE(pdf_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        DEALLOCATE(pdf_arr_, stat=err)
@@ -3539,7 +3682,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / getEphemeris", &
                "Could not allocate memory.", 1)
           DEALLOCATE(ephemeris_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        cov_elm = getCovarianceMatrix(this, &
             getElementType(this%orb_ml_cmp), &
@@ -3566,7 +3710,8 @@ CONTAINS
           IF (PRESENT(this_lt_corr_arr)) THEN
              DEALLOCATE(this_lt_corr_arr, stat=err)
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        cov = MATMUL(MATMUL(partials, cov_elm), &
             TRANSPOSE(partials))
@@ -3574,6 +3719,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getEphemeris", &
             "Ephemeris cannot be requested without proper uncertainty estimate.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3607,6 +3753,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getGroupWeights", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3615,6 +3762,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getGroupWeights", &
             "No sample orbits available.", 1)
+       error = .FALSE.
        RETURN
     END IF
     norb = SIZE(this%orb_arr_cmp,dim=1)
@@ -3625,6 +3773,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getGroupWeights", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
     mask_array_tot = .TRUE. ! which are left?
@@ -3633,6 +3782,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getGroupWeights", &
             "TRACE BACK", 1)          
+       error = .FALSE.
        RETURN
     END IF
     pdf = pdf / SUM(pdf)
@@ -3642,7 +3792,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getGroupWeights", &
                "TRACE BACK", 1)          
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        !       write(stdout,"(6(E15.5,1X))") elements(i,:)
     END DO
@@ -3653,7 +3804,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getGroupWeights", &
                "Size of a priori array not consistent with number of orbits.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        pdf(1:norb) = pdf(1:norb)*apriori_pdf(1:norb)
        IF (SUM(pdf) < EPSILON(pdf(1))) THEN
@@ -3853,6 +4005,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getGroupWeights", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3871,6 +4024,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getID", &
          "Object does not contain an ID.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3899,6 +4053,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResidualMeanRMS", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3906,6 +4061,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResidualMeanRMS", &
             "RMSs are missing -> make an orbit distribution.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -3948,6 +4104,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPeriapsisDistance", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3959,7 +4116,8 @@ CONTAINS
           CALL errorMessage("Orbit / getPeriapsisDistance", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(pdf_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ALLOCATE(q(SIZE(this%orb_arr_cmp,dim=1),2), stat=err)
@@ -3968,7 +4126,8 @@ CONTAINS
           CALL errorMessage("Orbit / getPeriapsisDistance", &
                "Could not allocate memory (5).", 1)
           DEALLOCATE(pdf_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        partials = identity_matrix(6)
        DO i=1,SIZE(this%orb_arr_cmp,dim=1)
@@ -3979,7 +4138,8 @@ CONTAINS
              CALL errorMessage("Orbit / getPeriapsisDistance", &
                   "TRACE BACK (5)", 1)
              DEALLOCATE(pdf_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           jac = ABS(determinant(partials, errstr))
           IF (LEN_TRIM(errstr) /= 0) THEN
@@ -3989,7 +4149,8 @@ CONTAINS
                   TRIM(errstr), 1)
              errstr = ""
              DEALLOCATE(pdf_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           q(i,2) = pdf_arr(i)*jac
        END DO
@@ -3999,7 +4160,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getPeriapsisDistance", &
                "Could not deallocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
     ELSE
@@ -4009,7 +4171,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getPeriapsisDistance", &
                "Could not allocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        orb = copy(this%orb_ml_cmp)
        CALL toKeplerian(orb)
@@ -4021,7 +4184,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getPeriapsisDistance", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(orb)
 
@@ -4059,6 +4223,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4066,6 +4231,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "No sample orbits available.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4074,6 +4240,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     mjd_tdt = getMJD(t, "tdt")
@@ -4081,6 +4248,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     elem => JPL_ephemeris(mjd_tdt, 3, 11, error)
@@ -4088,6 +4256,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "TRACE BACK (15)", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(orbit_earth)
@@ -4096,6 +4265,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "TRACE BACK (20)", 1)
+       error = .FALSE.
        RETURN
     END IF
     DEALLOCATE(elem, stat=err)
@@ -4103,6 +4273,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL toKeplerian(orbit_earth)
@@ -4110,6 +4281,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "TRACE BACK (25)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4119,6 +4291,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
     pdf => getDiscretePDF(this)
@@ -4126,6 +4299,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "TRACE BACK (30)", 1)
+       error = .FALSE.
        RETURN
     END IF
     pdf = pdf / SUM(pdf)
@@ -4137,7 +4311,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getPHAProbability", &
                "TRACE BACK (35)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (moid(i) <= 0.05_bp) THEN
           getPHAProbability = getPHAProbability + pdf(i)
@@ -4149,6 +4324,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getPHAProbability", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4178,6 +4354,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getNominalOrbit", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4191,6 +4368,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getNominalOrbit", &
             "The nominal orbit is not available.", 1)
+       error = .FALSE.
        RETURN
     ELSE IF (ml_orbit_ .AND. containsDiscretePDF(this)) THEN
        pdf => getDiscretePDF(this)
@@ -4198,7 +4376,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getNominalOrbit", &
                "TRACE BACK", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        indx_ml = MAXLOC(pdf,dim=1)
        DEALLOCATE(pdf, stat=err)
@@ -4227,6 +4406,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getNrOfSampleOrbits", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4234,6 +4414,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getNrOfSampleOrbits", &
             "Sample orbits do not exist.", 1)       
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4263,6 +4444,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getObservationMasks", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4270,6 +4452,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getObservationMasks", &
             "Observation masks have not been allocated.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -4279,6 +4462,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getObservationMasks", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4305,6 +4489,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getObservations", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4331,6 +4516,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getObservationPair", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4479,6 +4665,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getParameters", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4536,14 +4723,16 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / getParameters", &
                   "Could not allocate memory.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           res_accept = this%res_accept_prm
        ELSE
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getParameters", &
                "Acceptance windows not available.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(chi2_min_init_prm)) THEN
@@ -4639,14 +4828,16 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / getParameters", &
                   "Could not allocate memory.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           sor_deviates = this%sor_deviates_prm
        ELSE
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getParameters", &
                "Generation windows not available.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(vov_norb)) THEN
@@ -4759,6 +4950,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getDiscretePDF", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4766,6 +4958,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getDiscretePDF", &
             "PDF values do not exist.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4775,6 +4968,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getDiscretePDF", &
             "Sizes of arrays do not agree with each other.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -4783,6 +4977,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getDiscretePDF", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4811,7 +5006,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getDiscretePDF", &
                "Not yet implemented for cometary elements.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        getDiscretePDF = pdf*jac
        DEALLOCATE(jac, stat=err)
@@ -4819,7 +5015,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getDiscretePDF", &
                "Could not deallocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        getDiscretePDF = pdf
@@ -4832,6 +5029,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getDiscretePDF", &
             "Could not deallocate memory (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4865,6 +5063,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPhaseAngle", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4872,6 +5071,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPhaseAngle", &
             "Observer object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4879,6 +5079,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPhaseAngle", &
             "Orbital-element pdf missing.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4888,6 +5089,7 @@ CONTAINS
        CALL errorMessage("Orbit / getPhaseAngle", &
             "TRACE BACK (5)", 1)
        DEALLOCATE(pdf_arr, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4897,6 +5099,7 @@ CONTAINS
        CALL errorMessage("Orbit / getPhaseAngle", &
             "Could not allocate memory (5).", 1)
        DEALLOCATE(pdf_arr, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     partials = identity_matrix(6)
@@ -4908,7 +5111,8 @@ CONTAINS
           CALL errorMessage("Orbit / getPhaseAngle", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(pdf_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        jac = ABS(determinant(partials, errstr))
        IF (LEN_TRIM(errstr) /= 0) THEN
@@ -4917,7 +5121,8 @@ CONTAINS
                "Could not compute determinant for Jacobian.", 1)
           errstr = ""
           DEALLOCATE(pdf_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        phase_angle_pdf(i,2) = pdf_arr(i)*jac
     END DO
@@ -4927,6 +5132,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getPhaseAngle", &
             "Could not deallocate memory (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4957,6 +5163,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getPhaseAngles", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4965,7 +5172,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getPhaseAngles", &
                "All observer objects have not been initialized.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -4975,7 +5183,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getPhaseAngles", &
                "Could not allocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,SIZE(this%orb_arr_cmp)
           CALL getPhaseAngles(this%orb_arr_cmp(i), observers, phase_angles_)
@@ -4983,7 +5192,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / getPhaseAngles", &
                   "TRACE BACK (5).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           phase_angles(i,:) = phase_angles_
           DEALLOCATE(phase_angles_, stat=err)
@@ -4991,7 +5201,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / getPhaseAngles", &
                   "Could not deallocate memory (5).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
     ELSE
@@ -5000,14 +5211,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getPhaseAngles", &
                "TRACE BACK (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ALLOCATE(phase_angles(1,SIZE(phase_angles_)), stat=err)
        IF (err /= 0) THEN
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getPhaseAngles", &
                "Could not allocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        phase_angles(1,:) = phase_angles_
        DEALLOCATE(phase_angles_, stat=err)
@@ -5015,7 +5228,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getPhaseAngles", &
                "Could not deallocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -5049,6 +5263,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPhaseAngle", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5056,6 +5271,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPhaseAngle", &
             "Observer object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5068,7 +5284,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getPhaseAngle", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(sigma)) THEN
           ! Compute phase-angle uncertainty (sigma):
@@ -5079,7 +5296,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Orbit / getPhaseAngle", &
                   "TRACE BACK (10)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           variance(1:1,1:1) = MATMUL(MATMUL(partials(1:1,1:3), &
                cov(1:3,1:3)), TRANSPOSE(partials(1:1,1:3)))
@@ -5090,6 +5308,7 @@ CONTAINS
        CALL errorMessage("Orbit / getPhaseAngle", &
             "Either the orbital-element p.d.f. exist, " // &
             "or the maximum likelihood orbit does not exist.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5116,6 +5335,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getPositionDistribution", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5123,6 +5343,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getPositionDistribution", &
             "Sample orbits do not exist.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5131,6 +5352,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getPositionDistribution", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5140,7 +5362,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getPositionDistribution", &
                "TRACE BACK", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -5167,6 +5390,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getRangeBounds", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5198,6 +5422,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getReducedChi2Distribution", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5205,6 +5430,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getReducedChi2Distribution", &
             "Reduced chi2 array does not exist.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5213,6 +5439,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getReducedChi2Distribution", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5241,6 +5468,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResidualDistribution", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5248,6 +5476,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResidualDistribution", &
             "Residuals do not exist.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5258,6 +5487,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResidualDistribution", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5287,6 +5517,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5294,6 +5525,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "Object 'obss' has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5302,6 +5534,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     norb = SIZE(this%orb_arr_cmp)
@@ -5311,6 +5544,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5319,6 +5553,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5327,6 +5562,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (15)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5335,6 +5571,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (20)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5347,7 +5584,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getResiduals", &
                "TRACE BACK (25)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO j=1,norb
           CALL rotateToEquatorial(computed_scoords(j,i))
@@ -5356,7 +5594,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / getResiduals", &
                   "TRACE BACK (30)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
     END DO
@@ -5395,6 +5634,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5428,6 +5668,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5435,6 +5676,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "Object 'orb' has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5443,6 +5685,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5452,6 +5695,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5460,6 +5704,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5468,6 +5713,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (15)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5476,6 +5722,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "TRACE BACK (20)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5487,14 +5734,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getResiduals", &
                "TRACE BACK (25)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        computed_coords(i,:) = getCoordinates(computed_scoords(i))
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getResiduals", &
                "TRACE BACK (30)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -5522,6 +5771,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResiduals", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5652,6 +5902,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getResults", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5662,14 +5913,16 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / getResults", &
                   "Could not allocate memory.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           reg_apr_arr = this%reg_apr_arr_cmp
        ELSE
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getResults", &
                "Apriori array not available.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(jac_arr)) THEN
@@ -5680,14 +5933,16 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / getResults", &
                   "Could not allocate memory.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           jac_arr = this%jac_arr_cmp
        ELSE
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getResults", &
                "Jacobians not available.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(repetition_arr_cmp)) THEN
@@ -5697,14 +5952,16 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / getResults", &
                   "Could not allocate memory.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           repetition_arr_cmp = this%repetition_arr_cmp
        ELSE
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getResults", &
                "Repetition array not available.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(sor_norb_cmp)) THEN
@@ -5727,14 +5984,16 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / getResults", &
                   "Could not allocate memory.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           sor_rho_arr_cmp = this%sor_rho_arr_cmp
        ELSE
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getResults", &
                "Generated rho values not available.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(sor_rho_histo_cmp)) THEN
@@ -5759,14 +6018,16 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / getResults", &
                   "Could not allocate memory.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           vov_map_cmp = this%vov_map_cmp
        ELSE
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getResults", &
                "VoV map not available.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(vov_scaling_ready_cmp)) THEN
@@ -5791,14 +6052,16 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / getResults", &
                   "Could not allocate memory.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           vomcmc_map_cmp = this%vomcmc_map_cmp
        ELSE
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getResults", &
                "VoV map not available.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(vomcmc_scaling_ready_cmp)) THEN
@@ -5829,6 +6092,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getRhoDistribution", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5836,6 +6100,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getRhoDistribution", &
             "Rho distribution does not exist.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5869,6 +6134,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getRMS", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5877,6 +6143,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / getRMS", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -5891,6 +6158,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getRMS", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5918,6 +6186,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getRMSDistribution", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5925,6 +6194,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getRMSDistribution", &
             "rms distribution does not exist.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5934,6 +6204,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getRMSDistribution", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5965,6 +6236,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getRMSValues", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5995,6 +6267,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getSampleOrbit", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6002,6 +6275,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getSampleOrbit", &
             "Sample orbits do not exist.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6034,6 +6308,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getSampleOrbits", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6041,6 +6316,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getSampleOrbits", &
             "Sample orbits do not exist.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6050,7 +6326,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getSampleOrbits", &
                "TRACE BACK", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ALLOCATE(indx_arr(SIZE(pdf_arr)))
        CALL credible_region(pdf_arr, probability_mass, indx_arr, errstr)
@@ -6058,7 +6335,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getSampleOrbits", &
                "Error in computation of credible region: " // TRIM(errstr), 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        norb = 0
        DO i=1,SIZE(indx_arr)
@@ -6071,7 +6349,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getSampleOrbits", &
                "Could not allocate memory.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        j = 0
        DO i=1, SIZE(indx_arr)
@@ -6087,7 +6366,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getSampleOrbits", &
                "Could not allocate memory.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1, SIZE(this%orb_arr_cmp)
           getSampleOrbits(i) = copy(this%orb_arr_cmp(i))
@@ -6120,6 +6400,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getStandardDeviations", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6127,6 +6408,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getStandardDeviations", &
             "PDF values do not exist.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6141,6 +6423,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getStandardDeviations", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6159,7 +6442,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / getStandardDeviations", &
                "TRACE BACK (10)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     DO i=1,6
@@ -6169,7 +6453,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / getStandardDeviations", &
                "TRACE BACK (15) " // TRIM(errstr), 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     getStandardDeviations_SO = stdev
@@ -6179,6 +6464,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getStandardDeviations", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6205,6 +6491,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getTime", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6218,7 +6505,8 @@ CONTAINS
              CALL errorMessage("StochasticOrbit / getTime", &
                   "Sample orbits have different epochs.", 1)
              CALL NULLIFY(t)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
     ELSE IF (exist(this%orb_ml_cmp) .AND. ASSOCIATED(this%orb_arr_cmp)) THEN
@@ -6229,7 +6517,8 @@ CONTAINS
              CALL errorMessage("StochasticOrbit / getTime", &
                   "Sample orbits and the nominal orbit have different epochs.", 1)
              CALL NULLIFY(t)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
     END IF
@@ -6256,6 +6545,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / getTrials", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6283,6 +6573,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / includeObservations", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6290,6 +6581,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / includeObservations", &
             "Observations not intialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6307,6 +6599,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / includeObservations", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6353,7 +6646,8 @@ CONTAINS
        IF (error .OR. storb%sor_norb_cmp <= 1) THEN
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "First iteration failed.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%sor_niter_cmp = 1
        CALL updateRanging(storb, automatic=.TRUE.)
@@ -6371,7 +6665,8 @@ CONTAINS
        IF (error .OR. storb%sor_norb_cmp <= 1) THEN
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "Second iteration failed.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%sor_niter_cmp = 2
        CALL updateRanging(storb, automatic=.TRUE.)
@@ -6390,14 +6685,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (15)", 1)
-          STOP
+          error = .FALSE.
+       STOP
        END IF
        CALL setRangeBounds(storb)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (20)", 1)
-          STOP
+          error = .FALSE.
+       STOP
        END IF
        !       storb%orb_ml_prm=getNominalOrbit(storb, ml_orbit=.true.)
        ! Optionally, use ML-orbit to start the next chain (TO BE TESTED!)
@@ -6415,7 +6712,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (10)", 1)
-          STOP
+          error = .FALSE.
+       STOP
        END IF
        this%sor_niter_cmp = 1
 
@@ -6425,14 +6723,16 @@ CONTAINS
        error = .FALSE.
        !   CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
        !        "TRACE BACK (15)", 1)
-       !   STOP
+       !   error = .FALSE.
+       STOP
        !END IF
        CALL setRangeBounds(storb)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (20)", 1)
-          STOP
+          error = .FALSE.
+       STOP
        END IF
        ! Optionally, use ML-orbit to start the next chain (TO BE TESTED!)
        IF (this%sor_iterate_bounds_prm(1)) THEN
@@ -6454,7 +6754,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (10)", 1)
-          STOP
+          error = .FALSE.
+       STOP
        END IF
        this%sor_niter_cmp = 2
        CALL setRangeBounds(storb)
@@ -6462,7 +6763,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
                "TRACE BACK (20)", 1)
-          STOP
+          error = .FALSE.
+       STOP
        END IF
     END IF
 
@@ -6486,6 +6788,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / autoMCMCRanging", &
             "TRACE BACK (50)", 1)
+       error = .FALSE.
        STOP
     END IF
     this%sor_niter_cmp = 3
@@ -6534,7 +6837,8 @@ CONTAINS
        IF (error .OR. storb%sor_norb_cmp <= 1) THEN
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "First iteration failed.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%sor_niter_cmp = 1
        CALL updateRanging(storb, automatic=.TRUE.)
@@ -6555,7 +6859,8 @@ CONTAINS
        IF (error .OR. storb%sor_norb_cmp <= 1) THEN
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "Second iteration failed.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%sor_niter_cmp = 2
        CALL updateRanging(storb, automatic=.TRUE.)
@@ -6572,14 +6877,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (15)", 1)
-          STOP
+          error = .FALSE.
+       STOP
        END IF
        CALL setRangeBounds(storb)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (20)", 1)
-          STOP
+          error = .FALSE.
+       STOP
        END IF
        !       storb%orb_ml_prm=getNominalOrbit(storb, ml_orbit=.true.)
        ! Optionally, use ML-orbit to start the next chain (TO BE TESTED!)
@@ -6595,7 +6902,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (10)", 1)
-          STOP
+          error = .FALSE.
+       STOP
        END IF
        this%sor_niter_cmp = 1
 
@@ -6605,14 +6913,16 @@ CONTAINS
        error = .FALSE.
        !   CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
        !        "TRACE BACK (15)", 1)
-       !   STOP
+       !   error = .FALSE.
+       STOP
        !END IF
        CALL setRangeBounds(storb)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (20)", 1)
-          STOP
+          error = .FALSE.
+       STOP
        END IF
        IF (storb%chi2_min_prm > storb%chi2_min_cmp) storb%chi2_min_prm = storb%chi2_min_cmp
        ! Optionally, use ML-orbit to start the next chain (TO BE TESTED!)
@@ -6632,7 +6942,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (10)", 1)
-          STOP
+          error = .FALSE.
+       STOP
        END IF
        this%sor_niter_cmp = 2
        CALL setRangeBounds(storb)
@@ -6640,7 +6951,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
                "TRACE BACK (20)", 1)
-          STOP
+          error = .FALSE.
+       STOP
        END IF
 
     ENDIF
@@ -6665,6 +6977,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / autoRandomWalkRanging", &
             "TRACE BACK (50)", 1)
+       error = .FALSE.
        STOP
     END IF
     this%sor_niter_cmp = 3
@@ -6729,6 +7042,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6739,7 +7053,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "Could not deallocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     ALLOCATE(this%orb_arr_cmp(this%sor_norb_prm), stat=err) 
@@ -6747,6 +7062,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "Could not allocate memory (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     nobs = getNrOfObservations(this%obss)
@@ -6765,6 +7081,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "Could not allocate memory (10).", 1)
+       error = .FALSE.
        RETURN 
     END IF
     this%repetition_arr_cmp = 0
@@ -6775,7 +7092,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "Could not deallocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     ALLOCATE(this%pdf_arr_cmp(this%sor_norb_prm), stat=err) 
@@ -6783,6 +7101,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "Could not allocate memory (15).", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%sor_rho_cmp(:,1) = HUGE(this%sor_rho_cmp)
@@ -6794,6 +7113,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     obs_coords = 0.0_bp
@@ -6805,7 +7125,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (10)", 1)
           CALL NULLIFY(obs_scoords(i))
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! CALL NULLIFY(obs_scoords(i))
        cosdec0(i) = COS(obs_coords(i,3))
@@ -6816,6 +7137,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "TRACE BACK (15)", 1)
+       error = .FALSE.
        RETURN
     END IF
     ! Observation number counter (observation mask must be up-to-date!), 
@@ -6835,6 +7157,7 @@ CONTAINS
        DEALLOCATE(information_matrix_obs, stat=err)
        DEALLOCATE(obs_coords, stat=err)
        DEALLOCATE(comp_coords, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6843,6 +7166,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "TRACE BACK (25)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6853,6 +7177,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "Use of random observation pairs not accepted.", 1)
+       error = .FALSE.
        RETURN
     END IF
     ! Copy observation pair
@@ -6862,6 +7187,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "TRACE BACK (30)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6891,6 +7217,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "TRACE BACK (50)", 1)
        DEALLOCATE(obs_masks, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6956,7 +7283,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (65)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Create new topocentric cartesian coordinates of the observations in equatorial frame
@@ -6968,7 +7296,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (70)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Rotate to ecliptic
@@ -6980,7 +7309,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (75)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Cartesian heliocentric coordinates
@@ -6992,7 +7322,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (80)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        CALL estimateLightTime(obs_ccoord_helio1, state(1))! changed from 3 and 6
@@ -7001,7 +7332,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (85)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Find orbit candidate at the epoch of the first observation by
@@ -7158,7 +7490,8 @@ CONTAINS
           !DEALLOCATE(information_matrix_obs, stat=err)
           !DEALLOCATE(obs_coords, stat=err)         
           !DEALLOCATE(comp_coords, stat=err)
-          !RETURN
+          !error = .FALSE.
+       RETURN
           error = .FALSE.
           CYCLE
        END IF
@@ -7178,7 +7511,8 @@ CONTAINS
              DEALLOCATE(information_matrix_obs, stat=err)
              DEALLOCATE(obs_coords, stat=err)
              DEALLOCATE(comp_coords, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           CALL NULLIFY(comp_scoords(i))
        END DO
@@ -7205,7 +7539,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                "TRACE BACK (60)", 1)
           DEALLOCATE(obs_masks, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Jacobians
@@ -7311,7 +7646,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / randomWalkRanging", &
                   "Burn in failed!", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           chi2_ = chi2
           state_ = state
@@ -7383,6 +7719,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / randomWalkRanging", &
             "Could not deallocate memory (20).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7446,6 +7783,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7456,7 +7794,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "Could not deallocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     ALLOCATE(this%orb_arr_cmp(this%sor_norb_prm), stat=err) 
@@ -7464,6 +7803,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "Could not allocate memory (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     nobs = getNrOfObservations(this%obss)
@@ -7482,6 +7822,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "Could not allocate memory (10).", 1)
+       error = .FALSE.
        RETURN 
     END IF
     this%repetition_arr_cmp = 0
@@ -7492,7 +7833,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "Could not deallocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     ALLOCATE(this%pdf_arr_cmp(this%sor_norb_prm), stat=err) 
@@ -7500,6 +7842,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "Could not allocate memory (15).", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%sor_rho_cmp(:,1) = HUGE(this%sor_rho_cmp)
@@ -7511,6 +7854,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     obs_coords = 0.0_bp
@@ -7522,7 +7866,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (10)", 1)
           CALL NULLIFY(obs_scoords(i))
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! CALL NULLIFY(obs_scoords(i))
        cosdec0(i) = COS(obs_coords(i,3))
@@ -7533,6 +7878,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "TRACE BACK (15)", 1)
+       error = .FALSE.
        RETURN
     END IF
     ! Observation number counter (observation mask must be up-to-date!), 
@@ -7552,6 +7898,7 @@ CONTAINS
        DEALLOCATE(information_matrix_obs, stat=err)
        DEALLOCATE(obs_coords, stat=err)
        DEALLOCATE(comp_coords, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7560,6 +7907,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "TRACE BACK (25)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7570,6 +7918,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "Use of random observation pairs not accepted.", 1)
+       error = .FALSE.
        RETURN
     END IF
     ! Copy observation pair
@@ -7579,6 +7928,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "TRACE BACK (30)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7608,6 +7958,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "TRACE BACK (50)", 1)
        DEALLOCATE(obs_masks, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     ! Center the first trial to the ml orbit if available
@@ -7674,7 +8025,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (65)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Create new topocentric cartesian coordinates of the observations in equatorial frame
@@ -7686,7 +8038,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (70)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Rotate to ecliptic
@@ -7698,7 +8051,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (75)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Cartesian heliocentric coordinates
@@ -7710,7 +8064,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (80)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        CALL estimateLightTime(obs_ccoord_helio1, state(1))! changed from 3 and 6
@@ -7719,7 +8074,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (85)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Find orbit candidate at the epoch of the first observation by
@@ -7869,7 +8225,8 @@ CONTAINS
           !DEALLOCATE(information_matrix_obs, stat=err)
           !DEALLOCATE(obs_coords, stat=err)         
           !DEALLOCATE(comp_coords, stat=err)
-          !RETURN
+          !error = .FALSE.
+       RETURN
           error = .FALSE.
           CYCLE
        END IF
@@ -7889,7 +8246,8 @@ CONTAINS
              DEALLOCATE(information_matrix_obs, stat=err)
              DEALLOCATE(obs_coords, stat=err)
              DEALLOCATE(comp_coords, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           CALL NULLIFY(comp_scoords(i))
        END DO
@@ -7916,7 +8274,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / MCMCRanging", &
                "TRACE BACK (60)", 1)
           DEALLOCATE(obs_masks, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Jacobians
@@ -8046,7 +8405,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / MCMCRanging", &
                   "Burn in failed!", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
 
           chi2_ = chi2
@@ -8118,6 +8478,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / MCMCRanging", &
             "Could not deallocate memory (20).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8173,6 +8534,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / observationSampling", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8180,6 +8542,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / observationSampling", &
             "Preliminary orbit (#1) has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8188,7 +8551,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / observationSampling", &
                "Outlier criterion has not been defined.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -8196,6 +8560,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / observationSampling", &
             "Observation mask is missing.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8206,6 +8571,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / " // &
             "observationSampling", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (this%generat_gaussian_deviates_prm) THEN
@@ -8216,7 +8582,8 @@ CONTAINS
                "observationSampling", &
                "TRACE BACK (10)", 1)
           DEALLOCATE(cov_mat_obs, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ALLOCATE(mean_arr(nobs,6))
        mean_arr = 0.0_bp
@@ -8228,7 +8595,8 @@ CONTAINS
                "observationSampling", &
                "TRACE BACK (15)", 1)
           DEALLOCATE(cov_mat_obs, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ALLOCATE(center_and_absbound_arr(nobs,6,2))
        center_and_absbound_arr = 0.0_bp
@@ -8247,7 +8615,8 @@ CONTAINS
                "observationSampling", &
                "TRACE BACK (20)", 1)
           DEALLOCATE(cov_mat_obs, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ALLOCATE(coordinates_arr(nobs,6))
        DO i=1,nobs
@@ -8265,6 +8634,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / " // &
             "observationSampling", &
             "TRACE BACK (25)", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL getParameters(orb_arr(1), dyn_model=dyn_model)
@@ -8273,6 +8643,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / " // &
             "observationSampling", &
             "TRACE BACK (30)", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (dyn_model /= this%dyn_model_prm) THEN
@@ -8282,6 +8653,7 @@ CONTAINS
             "Inconsistent propagation schemes: " // &
             "orb=" // TRIM(dyn_model) // " and storb=" // &
             TRIM(this%dyn_model_prm) // ".", 1)
+       error = .FALSE.
        RETURN
     END IF
     dyn_model_ = dyn_model
@@ -8292,6 +8664,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / " // &
             "observationSampling", &
             "TRACE BACK (35)", 1)
+       error = .FALSE.
        RETURN
     END IF
     element_type = this%element_type_prm
@@ -8300,6 +8673,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / observationSampling", &
             "The element type string contains forbidden characters.", 1)
+       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(orb_arr_init(MAX(7,SIZE(orb_arr))))
@@ -8315,7 +8689,8 @@ CONTAINS
                "observationSampling", &
                "TRACE BACK (45)", 1)
           DEALLOCATE(cov_mat_obs, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        orb_arr_init(1) = copy(orb_arr(1))
        DO i=1,6
@@ -8328,7 +8703,8 @@ CONTAINS
                   "observationSampling", &
                   "TRACE BACK (50)", 1)
              DEALLOCATE(cov_mat_obs, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        DO i=1,7
@@ -8345,7 +8721,8 @@ CONTAINS
                   "TRACE BACK (55)", 1)
              DEALLOCATE(cov_mat_obs, stat=err)
              DEALLOCATE(center_and_absbound_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
     END IF
@@ -8359,14 +8736,16 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / observationSampling", &
                "Can not use elements of type: " // TRIM(element_type), 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END SELECT
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / " // &
                "observationSampling", &
                "TRACE BACK (40)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -8411,7 +8790,8 @@ CONTAINS
                "TRACE BACK (65)", 1)
           DEALLOCATE(cov_mat_obs, stat=err)
           DEALLOCATE(center_and_absbound_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        IF (.NOT.first) THEN
@@ -8428,7 +8808,8 @@ CONTAINS
                   "TRACE BACK (70)", 1)
              DEALLOCATE(cov_mat_obs, stat=err)
              DEALLOCATE(center_and_absbound_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
 
@@ -8453,7 +8834,8 @@ CONTAINS
                "WARNING: Error message from simplexOrbits", 1)
           !DEALLOCATE(cov_mat_obs, stat=err)
           !DEALLOCATE(center_and_absbound_arr, stat=err)
-          !RETURN
+          !error = .FALSE.
+       RETURN
           error = .FALSE.
           CYCLE
        END IF
@@ -8468,7 +8850,8 @@ CONTAINS
                "TRACE BACK (80)", 1)
           DEALLOCATE(cov_mat_obs, stat=err)
           DEALLOCATE(center_and_absbound_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Compute the "reduced" chi2 by subtracting the number of
@@ -8529,7 +8912,8 @@ CONTAINS
                   "observationSampling", &
                   "TRACE BACK (85)", 1)
              DEALLOCATE(cov_mat_obs, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           elements(3:5) = elements(3:5)/rad_deg
           IF (accept) THEN
@@ -8555,7 +8939,8 @@ CONTAINS
                   "TRACE BACK (90)", 1)
              DEALLOCATE(cov_mat_obs, stat=err)
              DEALLOCATE(center_and_absbound_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           DO j=1,nobs
              coordinates = getCoordinates(scoord_arr(j))
@@ -8565,7 +8950,8 @@ CONTAINS
                      "observationSampling", &
                      "TRACE BACK (95)", 1)
                 DEALLOCATE(cov_mat_obs, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              IF (accept .AND. this%os_sampling_type_prm == 2) THEN ! "dependence" sampling
                 IF (this%generat_gaussian_deviates_prm) THEN
@@ -8669,6 +9055,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8681,6 +9068,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8711,7 +9099,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                   "TRACE BACK (15)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (info_verb >= 2) THEN
              WRITE(stdout,"(2X)")
@@ -8743,7 +9132,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                   "TRACE BACK (20)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           ! Remove nominal orbit
           CALL NULLIFY(this%orb_ml_cmp)
@@ -8752,7 +9142,8 @@ CONTAINS
              IF (err /= 0) THEN
                 CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                      "Could not deallocate memory ()", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END IF
        END IF
@@ -8762,7 +9153,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                "TRACE BACK (25)", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        norb = SIZE(this%orb_arr_cmp,dim=1)
        IF ((ALL(scaling_ready) .AND. norb >= norb_final) &
@@ -8780,7 +9172,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                "Could not allocate memory (5).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
 
        DO i=1,norb
@@ -8789,7 +9182,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                   "TRACE BACK (30)", 1)
-             RETURN       
+             error = .FALSE.
+       RETURN       
           END IF
        END DO
 
@@ -8819,7 +9213,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                "Could not allocate memory (10).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        histo = 0.0_bp
        elem_data = element_arr(:,indx)
@@ -8840,7 +9235,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                "Computation of moments failed: " // TRIM(errstr), 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        tmp = 3.0_bp*stdev1/(this%vov_scaling_cmp(indx,1)*this%vov_map_cmp(1,6+indx))
        scaling_cmp(indx,1:2) = REAL(CEILING(tmp*this%vov_scaling_cmp(indx,1:2)),bp)
@@ -8868,7 +9264,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                "Could not deallocate memory (5).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
 
        nbin = 20
@@ -8878,7 +9275,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                "Could not allocate memory (15).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        DO i=1,6
           IF (i == indx) THEN
@@ -9000,7 +9398,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                "Could not deallocate memory (15).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
 
        IF (info_verb >= 2) THEN
@@ -9048,7 +9447,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / autoVolumeOfVariation", &
                   "TRACE BACK (55)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        WRITE(stdout,"(2X,A)") "Global least-squares solution in " // &
@@ -9209,12 +9609,14 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (.NOT.exist(preliminary_orbit)) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "Preliminary orbit has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -9223,24 +9625,28 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (nobs < 2) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "Less than two observations available.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (.NOT.ASSOCIATED(this%res_accept_prm)) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "Window for accepted residuals not set.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (this%vov_norb_prm < 0) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "Required number of sample orbits not set.", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL comparePropagationParameters(this, preliminary_orbit, &
@@ -9248,6 +9654,7 @@ CONTAINS
     IF (error .OR. .NOT.parameters_agree) THEN
        CALL errorMessage("StochasticOrbit / volumeOfVariation", &
             "TRACE BACK (1)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -9293,6 +9700,7 @@ CONTAINS
        DEALLOCATE(rchi2_arr, stat=err)
        DEALLOCATE(rms_arr, stat=err)
        DEALLOCATE(diff, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -9315,6 +9723,7 @@ CONTAINS
        DEALLOCATE(rchi2_arr, stat=err)
        DEALLOCATE(rms_arr, stat=err)
        DEALLOCATE(diff, stat=err)
+       error = .FALSE.
        RETURN
     ELSE       
        element_type = this%element_type_prm
@@ -9340,6 +9749,7 @@ CONTAINS
        DEALLOCATE(rms_arr, stat=err)
        DEALLOCATE(diff, stat=err)
        DEALLOCATE(obs_scoords, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,nobs
@@ -9363,7 +9773,8 @@ CONTAINS
           DEALLOCATE(rms_arr, stat=err)
           DEALLOCATE(diff, stat=err)
           DEALLOCATE(obs_scoords, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        cosdec0(i) = COS(obs_coords(i,3))
     END DO
@@ -9388,6 +9799,7 @@ CONTAINS
        DEALLOCATE(diff, stat=err)
        DEALLOCATE(obs_scoords, stat=err)
        DEALLOCATE(obsy_ccoords, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (this%chi2_min_prm < 0.0_bp) THEN
@@ -9424,6 +9836,7 @@ CONTAINS
        DEALLOCATE(obs_scoords, stat=err)
        DEALLOCATE(obsy_ccoords, stat=err)
        CALL NULLIFY(orb)
+       error = .FALSE.
        RETURN
     END IF
     IF (element_type == "keplerian") THEN
@@ -9451,6 +9864,7 @@ CONTAINS
        DEALLOCATE(obs_scoords, stat=err)
        DEALLOCATE(obsy_ccoords, stat=err)
        CALL NULLIFY(orb)
+       error = .FALSE.
        RETURN       
     END IF
     IF (error) THEN
@@ -9474,6 +9888,7 @@ CONTAINS
        DEALLOCATE(obs_scoords, stat=err)
        DEALLOCATE(obsy_ccoords, stat=err)
        CALL NULLIFY(orb)
+       error = .FALSE.
        RETURN
     END IF
     ! Epoch is bound to the epoch of the preliminary orbit
@@ -9500,6 +9915,7 @@ CONTAINS
        DEALLOCATE(obsy_ccoords, stat=err)
        CALL NULLIFY(orb)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -9530,6 +9946,7 @@ CONTAINS
        DEALLOCATE(obsy_ccoords, stat=err)
        CALL NULLIFY(orb)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
     ! Mapping index
@@ -9570,7 +9987,8 @@ CONTAINS
           DEALLOCATE(obsy_ccoords, stat=err)
           CALL NULLIFY(orb)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (info_verb == 1 .AND. info_verb_ == 2) THEN
           t = getTime(this%orb_ml_cmp)
@@ -9616,6 +10034,7 @@ CONTAINS
        DEALLOCATE(obs_scoords, stat=err)
        DEALLOCATE(obsy_ccoords, stat=err)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
     ! LS orbit
@@ -9642,6 +10061,7 @@ CONTAINS
        DEALLOCATE(obsy_ccoords, stat=err)
        CALL NULLIFY(orb_global)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
     ! Orbital elements at the specified epoch:
@@ -9668,6 +10088,7 @@ CONTAINS
        DEALLOCATE(obsy_ccoords, stat=err)
        CALL NULLIFY(orb_global)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
     ! Correlation/Standard deviation matrix:
@@ -9694,6 +10115,7 @@ CONTAINS
        DEALLOCATE(obsy_ccoords, stat=err)
        CALL NULLIFY(orb_global)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,6
@@ -9723,6 +10145,7 @@ CONTAINS
        DEALLOCATE(obsy_ccoords, stat=err)
        CALL NULLIFY(orb_global)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
     IF (this%regularization_prm) THEN
@@ -9750,7 +10173,8 @@ CONTAINS
           DEALLOCATE(obsy_ccoords, stat=err)
           CALL NULLIFY(orb_global)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        apriori = 1.0_bp
@@ -9780,6 +10204,7 @@ CONTAINS
        DEALLOCATE(residuals2, stat=err)
        CALL NULLIFY(orb_global)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
     information_matrix_obs => getBlockDiagInformationMatrix(this%obss)
@@ -9807,6 +10232,7 @@ CONTAINS
        DEALLOCATE(information_matrix_obs, stat=err)
        CALL NULLIFY(orb_global)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,6
@@ -9842,6 +10268,7 @@ CONTAINS
        DEALLOCATE(information_matrix_obs, stat=err)
        CALL NULLIFY(orb_global)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -9877,6 +10304,7 @@ CONTAINS
        DEALLOCATE(information_matrix_obs, stat=err)
        CALL NULLIFY(orb_global)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
     partial_stdev_global = 0.0_bp
@@ -9919,6 +10347,7 @@ CONTAINS
        DEALLOCATE(information_matrix_obs, stat=err)
        CALL NULLIFY(orb_global)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
     partial_product_global = 1.0_bp
@@ -9952,7 +10381,8 @@ CONTAINS
           DEALLOCATE(information_matrix_obs, stat=err)
           CALL NULLIFY(orb_global)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        partial_product_global = partial_product_global*ABS(partial_eigenvalues_global(i))
     END DO
@@ -10099,6 +10529,7 @@ CONTAINS
        DEALLOCATE(information_matrix_obs, stat=err)
        CALL NULLIFY(orb_global)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
     ! Mapping parameters lower or equal to midpoint (<= global ls)
@@ -10139,7 +10570,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL setParameters(orb_local, &
             dyn_model=this%dyn_model_prm, &
@@ -10174,7 +10606,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Local least-squares fits:
        info_verb_ = info_verb
@@ -10208,7 +10641,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(orb_local)
        orb_local = copy(this%orb_ml_cmp)
@@ -10237,7 +10671,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        elements_local_arr(imap,1:6) = getElements(orb_local, element_type)
        IF (error) THEN
@@ -10265,7 +10700,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! 6x6 correlation matrix where elements on the lines
        ! corresponding to the mapping parameter are zero and the
@@ -10296,7 +10732,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! C = S^(-1) Sigma S^(-1)
        correlation_matrix = MATMUL(MATMUL(partial_inverse_stdev_global, &
@@ -10329,7 +10766,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,6
           principal_axes(imap,1:6,i) = SQRT(eigenvalues(i))*partial_stdev_global(1:6)*eigenvectors(1:6,i)
@@ -10393,7 +10831,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL setParameters(orb_local, &
             perturbers=this%perturbers_prm, &
@@ -10428,7 +10867,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Local least-squares fits:
        info_verb_ = info_verb
@@ -10462,7 +10902,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(orb_local)
        orb_local = copy(this%orb_ml_cmp)
@@ -10491,7 +10932,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        elements_local_arr(imap,1:6) = getElements(orb_local, element_type)
        IF (error) THEN
@@ -10519,7 +10961,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! 6x6 correlation matrix where elements on the lines
        ! corresponding to the mapping parameter are zero and the
@@ -10550,7 +10993,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! C = S^(-1) Sigma S^(-1)
        correlation_matrix = MATMUL(MATMUL(partial_inverse_stdev_global, &
@@ -10583,7 +11027,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,6
           principal_axes(imap,1:6,i) = SQRT(eigenvalues(i))*partial_stdev_global(1:6)*eigenvectors(1:6,i)
@@ -10663,7 +11108,8 @@ CONTAINS
              CALL NULLIFY(orb_global)
              CALL NULLIFY(orb_local)
              CALL NULLIFY(t0)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
 
@@ -10770,7 +11216,8 @@ CONTAINS
              CALL NULLIFY(orb_global)
              CALL NULLIFY(orb_local)
              CALL NULLIFY(t0)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           imap_arr(i) = imap
           IF (i == norb) THEN
@@ -10824,7 +11271,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        DO i=1,norb
@@ -10868,7 +11316,8 @@ CONTAINS
                 DEALLOCATE(imap_arr, stat=err)
                 DEALLOCATE(comp_scoords, stat=err)
                 DEALLOCATE(partials4, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              residuals3(iorb+1,iobs,1:6) = obs_coords(iobs,1:6) - comp_coord(1:6)
              residuals3(iorb+1,iobs,2) = residuals3(iorb+1,iobs,2) * cosdec0(iobs)
@@ -10948,7 +11397,8 @@ CONTAINS
              CALL NULLIFY(orb_global)
              CALL NULLIFY(orb_local)
              CALL NULLIFY(t0)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
 
           ! Compute dchi2 wrt best fit orbit
@@ -11012,7 +11462,8 @@ CONTAINS
                 CALL NULLIFY(orb_global)
                 CALL NULLIFY(orb_local)
                 CALL NULLIFY(t0)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           ELSE
              apriori = 1.0_bp
@@ -11034,7 +11485,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / volumeOfVariation", &
                   "TRACE BACK (356) ",4)
-             RETURN
+             error = .FALSE.
+       RETURN
           ELSE
              jac_car_kep = ABS(determinant(jacobian_matrix, errstr))
              IF (LEN_TRIM(errstr) > 0) THEN
@@ -11070,7 +11522,8 @@ CONTAINS
                 CALL NULLIFY(orb_global)
                 CALL NULLIFY(orb_local)
                 CALL NULLIFY(t0)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END IF
           elements = getElements(orb_arr(i), "keplerian")
@@ -11080,7 +11533,8 @@ CONTAINS
                   "TRACE BACK (357) ",4)
              !error = .FALSE.
              !jac_equ_kep = -1.0_bp
-             RETURN
+             error = .FALSE.
+       RETURN
           ELSE
              jac_equ_kep = 0.5_bp*elements(2)*SIN(0.5_bp*elements(3)) / &
                   COS(0.5_bp*elements(3))**3
@@ -11121,7 +11575,8 @@ CONTAINS
              CALL NULLIFY(orb_global)
              CALL NULLIFY(orb_local)
              CALL NULLIFY(t0)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
 
           reg_apriori_arr(iorb) = apriori
@@ -11190,7 +11645,8 @@ CONTAINS
              CALL NULLIFY(orb_global)
              CALL NULLIFY(orb_local)
              CALL NULLIFY(t0)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        DEALLOCATE(comp_scoords, partials4, stat=err)
@@ -11226,7 +11682,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
     END DO vov_main
@@ -11286,7 +11743,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
     END IF
     ALLOCATE(this%orb_arr_cmp(iorb), stat=err)
@@ -11322,6 +11780,7 @@ CONTAINS
        CALL NULLIFY(orb_global)
        CALL NULLIFY(orb_local)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN       
     END IF
     IF (iorb == 0) THEN
@@ -11356,6 +11815,7 @@ CONTAINS
        CALL NULLIFY(orb_global)
        CALL NULLIFY(orb_local)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -11396,7 +11856,8 @@ CONTAINS
           CALL NULLIFY(orb_global)
           CALL NULLIFY(orb_local)
           CALL NULLIFY(t0)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     CALL propagate(this%orb_arr_cmp, t0)
@@ -11434,6 +11895,7 @@ CONTAINS
        CALL NULLIFY(orb_global)
        CALL NULLIFY(orb_local)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
     ! Maximum likelihood point:
@@ -11473,6 +11935,7 @@ CONTAINS
        CALL NULLIFY(orb_global)
        CALL NULLIFY(orb_local)
        CALL NULLIFY(t0)
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(orb_global)
@@ -11630,6 +12093,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -11637,12 +12101,14 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
             "Less than two observations available.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (.NOT.ASSOCIATED(this%obs_masks_prm)) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
             "Observation masks not set.", 1)
+       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(obs_masks_(SIZE(this%obs_masks_prm,dim=1),SIZE(this%obs_masks_prm,dim=2)), stat=err)
@@ -11652,6 +12118,7 @@ CONTAINS
             "observationSampling", &
             "Could not allocate memory.", 1)
        DEALLOCATE(obs_masks_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     obs_masks_ = this%obs_masks_prm
@@ -11660,12 +12127,14 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
             "Window for accepted residuals not set.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (this%vomcmc_norb_prm < 0) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
             "Required number of sample orbits not set.", 1)
+       error = .FALSE.
        RETURN
     END IF
 !!$    CALL comparePropagationParameters(this, orb_arr(1), &
@@ -11673,7 +12142,8 @@ CONTAINS
 !!$    IF (error .OR. .NOT.parameters_agree) THEN
 !!$       CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
 !!$            "TRACE BACK (1)", 1)
-!!$       RETURN
+!!$       error = .FALSE.
+       RETURN
 !!$    END IF
 
     frame = getFrame(orb_arr_in(1))
@@ -11681,6 +12151,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
             "TRACE BACK (70)", 1)
+       error = .FALSE.
        RETURN
     END IF
     ! Inversion epoch is bound to the epoch of the first input orbit:
@@ -11689,6 +12160,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
             "TRACE BACK (65)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -11706,7 +12178,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
                "TRACE BACK (66)", 1)       
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ALLOCATE(orb_arr(SIZE(this%orb_arr_cmp)))
        DO i=1,SIZE(this%orb_arr_cmp)
@@ -11806,7 +12279,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
                "TRACE BACK (315)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL setParameters(orb, &
             perturbers=this%perturbers_prm, &
@@ -11818,7 +12292,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
                "TRACE BACK (325)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        !!
@@ -11919,7 +12394,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
                "TRACE BACK (330)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Probability density function value:
@@ -11963,7 +12439,8 @@ CONTAINS
        error = .FALSE.
                 CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
                      "TRACE BACK (355)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           ELSE
              burn_in = .FALSE.
@@ -12009,6 +12486,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / virtualObservationMCMC", &
             "No sample orbit found.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -12101,6 +12579,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / leastSquares", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -12108,6 +12587,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / leastSquares", &
             "Preliminary orbit has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -12115,6 +12595,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / leastSquares", &
             "Acceptance criterion has not been defined.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -12123,7 +12604,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / leastSquares", &
                "Outlier criterion has not been defined.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     sigma_multiplier_rms = this%accept_multiplier_prm
@@ -12135,6 +12617,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / leastSquares", &
             "Observation mask is missing.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -12142,6 +12625,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / leastSquares", &
             "ls_niter_minor_prm undefined.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -12149,6 +12633,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / leastSquares", &
             "ls_niter_major_min_prm undefined.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -12156,6 +12641,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / leastSquares", &
             "ls_niter_major_max_prm undefined.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -12166,6 +12652,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / " // &
             "leastSquares", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(observed(nobs,6), computed(nobs,6), residuals(nobs,6), &
@@ -12189,6 +12676,7 @@ CONTAINS
        DEALLOCATE(computed, stat=err) 
        DEALLOCATE(residuals, stat=err) 
        DEALLOCATE(obs_masks_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     orb = copy(preliminary_orbit)
@@ -12213,6 +12701,7 @@ CONTAINS
        DEALLOCATE(computed, stat=err) 
        DEALLOCATE(residuals, stat=err) 
        DEALLOCATE(obs_masks_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -12236,6 +12725,7 @@ CONTAINS
        DEALLOCATE(computed, stat=err) 
        DEALLOCATE(residuals, stat=err) 
        DEALLOCATE(obs_masks_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (dyn_model /= this%dyn_model_prm) THEN
@@ -12258,6 +12748,7 @@ CONTAINS
        DEALLOCATE(computed, stat=err) 
        DEALLOCATE(residuals, stat=err) 
        DEALLOCATE(obs_masks_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     dyn_model_ = dyn_model
@@ -12282,6 +12773,7 @@ CONTAINS
        DEALLOCATE(computed, stat=err) 
        DEALLOCATE(residuals, stat=err) 
        DEALLOCATE(obs_masks_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     element_type = this%element_type_prm
@@ -12290,6 +12782,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / leastSquares", &
             "The element type string contains forbidden characters.", 1)
+       error = .FALSE.
        RETURN
     END IF
     SELECT CASE (TRIM(element_type))
@@ -12314,6 +12807,7 @@ CONTAINS
        DEALLOCATE(computed, stat=err) 
        DEALLOCATE(residuals, stat=err) 
        DEALLOCATE(obs_masks_, stat=err)
+       error = .FALSE.
        RETURN
     END SELECT
     IF (error) THEN
@@ -12334,6 +12828,7 @@ CONTAINS
        DEALLOCATE(computed, stat=err) 
        DEALLOCATE(residuals, stat=err) 
        DEALLOCATE(obs_masks_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     elements_pre(1:6) = getElements(orb, element_type)
@@ -12359,6 +12854,7 @@ CONTAINS
        DEALLOCATE(computed, stat=err) 
        DEALLOCATE(residuals, stat=err) 
        DEALLOCATE(obs_masks_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (info_verb >= 2) THEN
@@ -12386,6 +12882,7 @@ CONTAINS
        DEALLOCATE(computed, stat=err) 
        DEALLOCATE(residuals, stat=err) 
        DEALLOCATE(obs_masks_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(obs_masks_(SIZE(this%obs_masks_prm,dim=1),SIZE(this%obs_masks_prm,dim=2)), stat=err)
@@ -12407,6 +12904,7 @@ CONTAINS
        DEALLOCATE(computed, stat=err) 
        DEALLOCATE(residuals, stat=err) 
        DEALLOCATE(obs_masks_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     obs_masks_ = this%obs_masks_prm
@@ -12433,6 +12931,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(obs_masks_, stat=err)
        DEALLOCATE(obsy_codes, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     obsy_ccoords => getObservatoryCCoords(this%obss)
@@ -12455,6 +12954,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(obs_masks_, stat=err)
        DEALLOCATE(obsy_codes, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,nobs
@@ -12478,7 +12978,8 @@ CONTAINS
           DEALLOCATE(residuals, stat=err)
           DEALLOCATE(obs_masks_, stat=err)
           DEALLOCATE(obsy_codes, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     observed(:,2) = observed(:,2)*COS(observed(:,3))
@@ -12502,6 +13003,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(obs_masks_, stat=err)
        DEALLOCATE(obsy_codes, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -12526,6 +13028,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(obs_masks_, stat=err)
        DEALLOCATE(obsy_codes, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     stdev_max(2) = MAXVAL(stdev_arr_obs(:,2))
@@ -12552,6 +13055,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(obs_masks_, stat=err)
        DEALLOCATE(obsy_codes, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -12578,6 +13082,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(obs_masks_, stat=err)
        DEALLOCATE(obsy_codes, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     CALL propagate(orb, t)
@@ -12601,6 +13106,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(obs_masks_, stat=err)
        DEALLOCATE(obsy_codes, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -12629,7 +13135,8 @@ CONTAINS
           DEALLOCATE(residuals, stat=err)
           DEALLOCATE(obs_masks_, stat=err)
           DEALLOCATE(obsy_codes, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        design_mat(2,j,:) = partials_arr(2,:,j)*COS(observed(j,3))
        design_mat(3,j,:) = partials_arr(3,:,j)
@@ -12655,6 +13162,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(obs_masks_, stat=err)
        DEALLOCATE(obsy_codes, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -12695,7 +13203,8 @@ CONTAINS
           DEALLOCATE(residuals, stat=err)
           DEALLOCATE(obs_masks_, stat=err)
           DEALLOCATE(obsy_codes, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(t_)
        WRITE(stdout,"(2X,A)") "Residuals RA & Dec [as]:"
@@ -12789,7 +13298,8 @@ CONTAINS
              CALL errorMessage("StochasticOrbit / " // &
                   "leastSquares", &
                   "TRACE BACK (69)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           CALL NULLIFY(orb)
           err_verb_ = err_verb
@@ -12855,7 +13365,8 @@ CONTAINS
              DEALLOCATE(residuals, stat=err)
              DEALLOCATE(obs_masks_, stat=err)
              DEALLOCATE(obsy_codes, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
 
           ! Compute positions and partial derivatives:
@@ -12899,7 +13410,8 @@ CONTAINS
                 DEALLOCATE(residuals, stat=err) 
                 DEALLOCATE(obs_masks_, stat=err)
                 DEALLOCATE(obsy_codes, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              design_mat(2,k,:) = partials_arr(2,:,k)*COS(observed(k,3))
              design_mat(3,k,:) = partials_arr(3,:,k)
@@ -12925,7 +13437,8 @@ CONTAINS
              DEALLOCATE(residuals, stat=err)
              DEALLOCATE(obs_masks_, stat=err)
              DEALLOCATE(obsy_codes, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
 
           ! Output orbital elements if needed:
@@ -12966,7 +13479,8 @@ CONTAINS
                 DEALLOCATE(residuals, stat=err) 
                 DEALLOCATE(obs_masks_, stat=err)
                 DEALLOCATE(obsy_codes, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              CALL NULLIFY(t_)
           END IF
@@ -13030,7 +13544,8 @@ CONTAINS
                 DEALLOCATE(residuals, stat=err) 
                 DEALLOCATE(obs_masks_, stat=err)
                 DEALLOCATE(obsy_codes, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              stdev(k) = SQRT(cov(k,k))
           END DO
@@ -13106,7 +13621,8 @@ CONTAINS
                 DEALLOCATE(residuals, stat=err) 
                 DEALLOCATE(obs_masks_, stat=err)
                 DEALLOCATE(obsy_codes, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              IF (ANY(rmss_iter_arr(iiter,2:3) > sigma_multiplier_rms*stdev_max(2:3))) THEN
                 error = .TRUE.
@@ -13114,7 +13630,8 @@ CONTAINS
                      "Least squares solution not reliable when " // &
                      "rms values are so large as compared to assumed " // &
                      "observational uncertainty. (Check noise assumption!)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END IF
           EXIT ls_i
@@ -13163,7 +13680,8 @@ CONTAINS
                 DEALLOCATE(residuals, stat=err) 
                 DEALLOCATE(obs_masks_, stat=err)
                 DEALLOCATE(obsy_codes, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END IF
        ELSE IF (elements_converge .AND. rmss_converge .AND. approach /= 11) THEN
@@ -13228,7 +13746,8 @@ CONTAINS
           DEALLOCATE(residuals, stat=err)
           DEALLOCATE(obs_masks_, stat=err)
           DEALLOCATE(obsy_codes, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (approach_direction(3) < 0 .AND. &
             i > 25 .AND. approach < 44) THEN
@@ -13302,7 +13821,8 @@ CONTAINS
                 DEALLOCATE(residuals, stat=err) 
                 DEALLOCATE(obs_masks_, stat=err)
                 DEALLOCATE(obsy_codes, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              element_mask(1:6) = this%ls_elem_mask_prm
              EXIT
@@ -13374,7 +13894,8 @@ CONTAINS
                 DEALLOCATE(obs_masks_, stat=err)
                 DEALLOCATE(obsy_codes, stat=err)
                 WRITE(stderr,*) "Returning from leastSquares"
-                RETURN
+                error = .FALSE.
+       RETURN
              ELSE
                 approach = approach + approach_direction(3)
              END IF
@@ -13413,7 +13934,8 @@ CONTAINS
           DEALLOCATE(residuals, stat=err)
           DEALLOCATE(obs_masks_, stat=err)
           DEALLOCATE(obsy_codes, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        WRITE(stdout,"(2X,A)") "# Final results:"
        err_verb_ = err_verb
@@ -13477,7 +13999,8 @@ CONTAINS
           DEALLOCATE(residuals, stat=err)
           DEALLOCATE(obs_masks_, stat=err)
           DEALLOCATE(obsy_codes, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     this%cov_ml_cmp = cov
@@ -13568,6 +14091,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / levenbergMarquardt", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -13575,6 +14099,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / levenbergMarquardt", &
             "Preliminary orbit has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -13583,7 +14108,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / levenbergMarquardt", &
                "Outlier criterion has not been defined.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -13591,6 +14117,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / levenbergMarquardt", &
             "Observation mask is missing.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -13598,6 +14125,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / levenbergMarquardt", &
             "ls_niter_minor_prm undefined.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -13605,6 +14133,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / levenbergMarquardt", &
             "ls_niter_major_max_prm undefined.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -13625,6 +14154,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     orb = copy(preliminary_orbit)
@@ -13641,6 +14171,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -13656,6 +14187,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (dyn_model_ /= this%dyn_model_prm) THEN
@@ -13670,6 +14202,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     CALL getParameters(orb, &
@@ -13686,6 +14219,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -13701,6 +14235,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     element_type_ = this%element_type_prm
@@ -13714,6 +14249,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     SELECT CASE (TRIM(element_type_))
@@ -13732,6 +14268,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END SELECT
     IF (error) THEN
@@ -13744,6 +14281,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     params(1:6) = getElements(orb, element_type_)
@@ -13760,6 +14298,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (info_verb >= 2) THEN
@@ -13780,6 +14319,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     mask_measur = this%obs_masks_prm
@@ -13796,6 +14336,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     obsy_ccoords => getObservatoryCCoords(this%obss)
@@ -13812,6 +14353,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,ndata
@@ -13829,7 +14371,8 @@ CONTAINS
           DEALLOCATE(mask_measur, stat=err)
           DEALLOCATE(alpha, stat=err)
           DEALLOCATE(jacobians, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     measur(:,2) = measur(:,2)*COS(measur(:,3))
@@ -13846,6 +14389,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     information_matrix_measur => getBlockDiagInformationMatrix(this%obss)
@@ -13862,6 +14406,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     stdev_arr_measur => getStandardDeviations(this%obss)
@@ -13879,6 +14424,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     mask_param = this%ls_elem_mask_prm
@@ -13909,7 +14455,8 @@ CONTAINS
              DEALLOCATE(mask_measur, stat=err)
              DEALLOCATE(alpha, stat=err)
              DEALLOCATE(jacobians, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (ABS(rchi2 - rchi2_previous) < this%ls_rchi2_diff_tresh_prm .AND. &
                rchi2 <= rchi2_previous) THEN
@@ -13953,6 +14500,7 @@ CONTAINS
        DEALLOCATE(mask_measur, stat=err)
        DEALLOCATE(alpha, stat=err)
        DEALLOCATE(jacobians, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -13967,6 +14515,7 @@ CONTAINS
             "levenbergMarquardt", &
             "Speed of object is larger than speed of light.", 1)
        DEALLOCATE(mask_measur, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -13994,6 +14543,7 @@ CONTAINS
             "levenbergMarquardt", &
             "TRACE BACK (65)", 1)
        DEALLOCATE(mask_measur, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     CALL setParameters(this%orb_ml_cmp, &
@@ -14009,6 +14559,7 @@ CONTAINS
             "levenbergMarquardt", &
             "TRACE BACK (70)", 1)
        DEALLOCATE(mask_measur, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (.NOT.ASSOCIATED(this%cov_ml_cmp)) THEN
@@ -14019,7 +14570,8 @@ CONTAINS
                "leastSquares", &
                "Could not allocate memory (10).", 1)
           DEALLOCATE(mask_measur, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     DO i=1,nparam
@@ -14039,6 +14591,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / " // &
             "levenbergMarquardt", &
             "Could not find an acceptable least-squares solution.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -14069,7 +14622,8 @@ CONTAINS
                  "levenbergMarquardt / levenbergMarquardt_private", &
                  "TRACE BACK (5)", 1)
             DEALLOCATE(params_, beta, param_corrections)
-            RETURN
+            error = .FALSE.
+       RETURN
          END IF
          !         rchi2_ = rchi2
          rchi2_previous = rchi2
@@ -14085,7 +14639,8 @@ CONTAINS
               TRIM(errstr), 1)
          errstr = ""
          DEALLOCATE(params_, beta, param_corrections)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       param_corrections(:,1) = beta
       CALL gauss_jordan(cov_mat_param, param_corrections, errstr)
@@ -14096,11 +14651,13 @@ CONTAINS
               TRIM(errstr), 1)
          errstr = ""
          DEALLOCATE(params_, beta, param_corrections)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       IF (ABS(lambda) < EPSILON(lambda)) THEN
          DEALLOCATE(params_, beta, param_corrections)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       params_ = params + param_corrections(:,1)
       IF (info_verb >= 2) THEN
@@ -14114,7 +14671,8 @@ CONTAINS
               "levenbergMarquardt / levenbergMarquardt_private", &
               "TRACE BACK (10)", 1)
          DEALLOCATE(params_, beta, param_corrections)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       !      IF (rchi2 < rchi2_) THEN
       IF (rchi2 < rchi2_previous) THEN
@@ -14155,7 +14713,8 @@ CONTAINS
          CALL errorMessage("StochasticOrbit / " // &
               "levenbergMarquardt / coefficients", &
               "TRACE BACK (5)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       ! Approximate Hessian by multiplying Jacobians
       ! alpha = cov_param^(-1) = J^T Sigma_obs^(-1) J:
@@ -14207,7 +14766,8 @@ CONTAINS
          CALL errorMessage("StochasticOrbit / " // &
               "levenbergMarquardt / ephemeris_lsl", &
               "Speed of object is larger than speed of light.", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       CALL NEW(orb, elements, TRIM(element_type_), TRIM(frame_), copy(t))
       IF (error) THEN
@@ -14215,7 +14775,8 @@ CONTAINS
          CALL errorMessage("StochasticOrbit / " // &
               "levenbergMarquardt / ephemeris_lsl", &
               "TRACE BACK (5)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       CALL setParameters(orb, &
            dyn_model=dyn_model_, &
@@ -14229,7 +14790,8 @@ CONTAINS
          CALL errorMessage("StochasticOrbit / " // &
               "levenbergMarquardt / ephemeris_lsl", &
               "TRACE BACK (10)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
 
       ! Compute positions and partial derivatives:
@@ -14240,7 +14802,8 @@ CONTAINS
          CALL errorMessage("StochasticOrbit / " // &
               "levenbergMarquardt / ephemeris_lsl", &
               "TRACE BACK (15)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
 
       ! Write design matrix and add cosine term to it and the computed positions:
@@ -14253,7 +14816,8 @@ CONTAINS
             CALL errorMessage("StochasticOrbit / " // &
                  "levenbergMarquardt / ephemeris_lsl", &
                  "TRACE BACK (20)", 1)
-            RETURN
+            error = .FALSE.
+       RETURN
          END IF
          jacobians(:,:,j) = partials_arr(:,:,j)
          jacobians(2,:,j) = jacobians(2,:,j)*COS(measur(j,3))
@@ -14264,7 +14828,8 @@ CONTAINS
          CALL errorMessage("StochasticOrbit / " // &
               "levenbergMarquardt / ephemeris_lsl", &
               "Could not deallocate memory.", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       ! Output orbital elements and sky-plane residuals and rms if needed:
       IF (info_verb >= 2) THEN
@@ -14287,7 +14852,8 @@ CONTAINS
             CALL errorMessage("StochasticOrbit / " // &
                  "levenbergMarquardt / ephemeris_lsl", &
                  "TRACE BACK (25)", 1)
-            RETURN
+            error = .FALSE.
+       RETURN
          END IF
          CALL NULLIFY(t_)
          WRITE(stdout,"(2X,A)") "Residuals RA & Dec [as]:"
@@ -14366,6 +14932,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / makePairsOfObservations", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -14375,6 +14942,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / makePairsOfObservations", &
             "TRACE BACK (1", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -14383,6 +14951,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / makePairsOfObservations", &
             "Too few observations for pairing.",1)
+       error = .FALSE.
        RETURN
     END IF
     nomit = nobs_orig - nobs
@@ -14429,6 +14998,7 @@ CONTAINS
        DEALLOCATE(idx_pair, stat=err)
        DEALLOCATE(ip, stat=err)
        DEALLOCATE(ip2, stat=err)       
+       error = .FALSE.
        RETURN
     END IF
 
@@ -14460,6 +15030,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / propagate", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -14475,7 +15046,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / propagate", &
                "TRACE BACK (5)", 1)
           DEALLOCATE(jacobians, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Propagation of pdf
        pdf_arr => getDiscretePDF(this)
@@ -14484,7 +15056,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / propagate", &
                "TRACE BACK (10)", 1)
           DEALLOCATE(jacobians, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,SIZE(this%orb_arr_cmp)
           det = determinant(jacobians(i,:,:), errstr)
@@ -14494,7 +15067,8 @@ CONTAINS
                   "TRACE BACK (15) " // TRIM(errstr), 1)
              errstr = ""
              DEALLOCATE(jacobians, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           ! Changed 2008-12-14
           !this%pdf_arr_cmp(i) = pdf_arr(i) / det
@@ -14507,7 +15081,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / propagate", &
                "Could not deallocate memory.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (exist(this%orb_ml_cmp)) THEN
@@ -14518,7 +15093,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / propagate", &
                "Missing covariances.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(encounters)) THEN
           CALL propagate(this%orb_ml_cmp, t, jacobian=jacobian, encounters=encounters)
@@ -14529,7 +15105,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / propagate", &
                "TRACE BACK (20)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%cov_ml_cmp = MATMUL(MATMUL(jacobian, cov), &
             TRANSPOSE(jacobian))
@@ -14564,6 +15141,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setAcceptanceWindow", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (PRESENT(accept_multiplier)) THEN
@@ -14571,7 +15149,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setAcceptanceWindow", &
                "Acceptance multiplier not accepted.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        accept_multiplier_ = accept_multiplier
        this%accept_multiplier_prm = accept_multiplier
@@ -14581,6 +15160,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setAcceptanceWindow", &
             "Acceptance multiplier not available.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -14589,6 +15169,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / setAcceptanceWindow", &
             "TRACE BACK 5", 1)
+       error = .FALSE.
        RETURN       
     END IF
     IF (ASSOCIATED(this%res_accept_prm)) THEN
@@ -14598,7 +15179,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / setAcceptanceWindow", &
                   "Could not deallocate memory (5).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
     END IF
@@ -14608,7 +15190,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setAcceptanceWindow", &
                "Could not allocate memory.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     stdevs => getStandardDeviations(this%obss)
@@ -14616,6 +15199,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / setAcceptanceWindow", &
             "TRACE BACK 10", 1)
+       error = .FALSE.
        RETURN
     END IF
     ! Acceptance windows for residuals:
@@ -14625,6 +15209,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setAcceptanceWindow", &
             "Could not deallocate memory (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -14660,6 +15245,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setGenerationWindow", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -14667,6 +15253,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setGenerationWindow", &
             "Generation multiplier not acceptable.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -14678,7 +15265,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("StochasticOrbit / setGenerationWindow", &
                   "Could not deallocate memory (5).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
     END IF
@@ -14688,7 +15276,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setGenerationWindow", &
                "Could not allocate memory.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -14702,7 +15291,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setGenerationWindow", &
                "Inconsistencies in array dimensions", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,nobs
           DO j=1,6
@@ -14712,7 +15302,8 @@ CONTAINS
                 CALL errorMessage("StochasticOrbit / setGenerationWindow", &
                      "Could not compute moments. " // TRIM(errstr), 1)
                 errstr = ""
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              this%sor_deviates_prm(i,j,1) = mean
              !this%sor_deviates_prm(i,j,2) = this%generat_multiplier_prm*stdev
@@ -14731,7 +15322,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setGenerationWindow", &
                "Could not deallocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -14870,6 +15462,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setParameters", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -14881,7 +15474,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "Parameter 'dyn_model' too long.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        str = dyn_model
        CALL locase(str, error)
@@ -14889,14 +15483,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "The dynamical model string contains forbidden characters.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (str /= "2-body" .AND. &
             str /= "n-body" .AND. str /= "pseudo-n-body") THEN
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "Option " // TRIM(dyn_model) // " not available.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%dyn_model_prm = TRIM(str)
        IF (str == "2-body" .OR. str == "n-body") THEN
@@ -14915,7 +15511,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "Perturber array too small.", 1)
-          RETURN                       
+          error = .FALSE.
+       RETURN                       
        END IF
        this%perturbers_prm = perturbers
        IF (ASSOCIATED(this%orb_arr_cmp)) THEN
@@ -14956,7 +15553,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "The integrator string contains forbidden characters.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%integrator_prm = TRIM(str)
        IF (ASSOCIATED(this%orb_arr_cmp)) THEN
@@ -14976,7 +15574,8 @@ CONTAINS
                 error = .TRUE.
                 CALL errorMessage("StochasticOrbit / setParameters", &
                      "Could not allocate memory.", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END IF
           this%finite_diff_prm = finite_diff
@@ -15005,14 +15604,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "The element type string contains forbidden characters.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL locase(this%element_type_prm, error)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "The element type string contains forbidden characters.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (this%element_type_prm /= "keplerian" .AND. &
             this%element_type_prm /= "cartesian" .AND. &
@@ -15021,7 +15622,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / setParameters", &
                "Orbital element type is not recognized: " // &
                TRIM(element_type) // ".", 1)
-          RETURN          
+          error = .FALSE.
+       RETURN          
        END IF
     END IF
     IF (PRESENT(multiple_objects)) THEN
@@ -15035,7 +15637,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "Multiplier for the outlier criterion is zero or negative.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%outlier_multiplier_prm = outlier_multiplier
     END IF
@@ -15056,7 +15659,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "Scaling of acceptance window is zero or negative.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%accept_multiplier_prm = accept_multiplier
        IF (PRESENT(set_acceptance_window)) THEN
@@ -15113,7 +15717,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "Number of sample orbits must be positive.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%sor_norb_prm = sor_norb
        END IF
@@ -15125,7 +15730,8 @@ CONTAINS
                "Number of sample orbits for the stepwise " // &
                "approach must be positive and " // &
                "less than 10001.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%sor_norb_sw_prm = sor_norb_sw
        END IF
@@ -15136,7 +15742,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / setParameters", &
                "Number of trial orbits must be positive and " // &
                "less than 100,000,001.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%sor_ntrial_prm = sor_ntrial
        END IF
@@ -15147,7 +15754,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / setParameters", &
                "Number of trial orbits for the stepwise " // & 
                "must be positive and less than 1,000,001.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%sor_ntrial_sw_prm = sor_ntrial_sw
        END IF
@@ -15185,7 +15793,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "Scaling of generation window is zero or negative.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%generat_multiplier_prm = generat_multiplier
        CALL setGenerationWindow(this, sor_generat_offset)
@@ -15194,7 +15803,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setParameters", &
                "Scaling of generation window is zero or negative.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%generat_multiplier_prm = generat_multiplier
        CALL setGenerationWindow(this)
@@ -15334,6 +15944,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setNEORanging", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15363,6 +15974,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setObservationMask", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15370,6 +15982,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setObservationMask", &
             "Unrealistic input values.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15399,6 +16012,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setObservationMask", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15430,6 +16044,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setObservationMask", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15437,6 +16052,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setObservationMask", &
             "Observations not intialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15446,7 +16062,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setObservationMask", &
                "Could not deallocate memory.", 1)
-          RETURN          
+          error = .FALSE.
+       RETURN          
        END IF
     END IF
     this%obs_masks_prm => getObservationMasks(this%obss, use_notes)
@@ -15475,6 +16092,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setObservationPair", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15485,7 +16103,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setObservationPair", &
                "Could not deallocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     ALLOCATE(intarr(nobs), this%sor_pair_arr_prm(1,2), stat=err)
@@ -15493,6 +16112,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setObservationPair", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,nobs
@@ -15508,6 +16128,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setObservationPair", &
             "Only one observation available.", 1)
+       error = .FALSE.
        RETURN
     END IF
     DEALLOCATE(intarr, stat=err)
@@ -15515,6 +16136,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setObservationPair", &
             "Could not deallocate memory (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15541,6 +16163,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setObservationPair", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15550,12 +16173,14 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setObservationPair", &
             "Unrealistic input values.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (.NOT. this%obs_masks_prm(iobs1,2) .OR. .NOT. this%obs_masks_prm(iobs2,2)) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setObservationPair", &
             "One or both observations excluded.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (ASSOCIATED(this%sor_pair_arr_prm)) THEN
@@ -15564,7 +16189,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setObservationPair", &
                "Could not deallocate memory.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     ALLOCATE(this%sor_pair_arr_prm(1,2), stat=err)
@@ -15572,6 +16198,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setObservationPair", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%sor_pair_arr_prm(1,1) = iobs1
@@ -15603,6 +16230,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setRandomObservationSelection", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15613,6 +16241,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setRandomObservationSelection", &
             "Could not deallocate memory (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(this%sor_pair_arr_prm(SIZE(idx_pair,dim=1), SIZE(idx_pair,dim=2)), &
@@ -15621,6 +16250,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setRandomObservationSelection", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%sor_pair_arr_prm = idx_pair
@@ -15629,6 +16259,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setRandomObservationSelection", &
             "Could not deallocate memory (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15661,6 +16292,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setRangeBounds", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15678,7 +16310,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / setRangeBounds", &
                "Could not compute moments (5). " // TRIM(errstr), 1)
           errstr = ""
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        rhomin1 = MINVAL(this%sor_rho_arr_cmp(:,1))
        rhomax1 = MAXVAL(this%sor_rho_arr_cmp(:,1))
@@ -15687,14 +16320,16 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setRangeBounds", &
                "Could not allocate memory.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL histogram(this%sor_rho_arr_cmp(:,1), histo)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / setRangeBounds", &
                "TRACE BACK", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        histo(:,2) = histo(:,2)/MAXVAL(histo(:,2),dim=1)
        ! Check the end points of the histogram, raise flag if the wings do not
@@ -15710,7 +16345,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setRangeBounds", &
                "Could not deallocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! 3-sigma bounds for topocentric ranges:
        IF (this%sor_iterate_bounds_prm(1)) THEN
@@ -15735,7 +16371,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setRangeBounds", &
                "Could not allocate memory for arrays.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        topo_range = this%sor_rho_arr_cmp(:,2) - this%sor_rho_arr_cmp(:,1)
        rhomin2 = MINVAL(topo_range)
@@ -15747,14 +16384,16 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / setRangeBounds", &
                "Could not compute moments (10). " // TRIM(errstr), 1)
           errstr = ""
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DEALLOCATE(topo_range, stat=err)
        IF (err /= 0) THEN
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / setRangeBounds", &
                "Could not deallocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! 3-sigma bounds for topocentric ranges:
        IF (this%sor_iterate_bounds_prm(3)) THEN
@@ -15804,6 +16443,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setRangeBounds", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15838,6 +16478,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setRegularizationOff", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15863,6 +16504,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / setTNORanging", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15873,6 +16515,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / setTNORanging", &
             "TRACE BACK (1", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15958,6 +16601,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / simplexOrbits", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -15977,6 +16621,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / simplexOrbits", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL propagate(orb_arr, this%t_inv_prm)
@@ -15984,6 +16629,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / simplexOrbits", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,ndim+1
@@ -15993,7 +16639,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / simplexOrbits", &
                "TRACE BACK (15)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        p_init(i,1:6) = p(i,1:6)
        info_verb_ = info_verb
@@ -16004,7 +16651,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / simplexOrbits", &
                "TRACE BACK (20)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     p_best = p(MINLOC(y,dim=1),:)
@@ -16014,6 +16662,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / simplexOrbits", &
             "TRACE BACK (25)", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (info_verb >= 2) THEN
@@ -16036,6 +16685,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / simplexOrbits", &
             "Maximum number of iterations exceeded.", 1)
        DEALLOCATE(p, p_init, y, psum, p_best)
+       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(this%orb_arr_cmp(ndim+1), this%rchi2_arr_cmp(ndim+1), stat=err)
@@ -16046,7 +16696,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / simplexOrbits", &
                "TRACE BACK (45)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL setParameters(this%orb_arr_cmp(i), &
             dyn_model=this%dyn_model_prm, &
@@ -16058,7 +16709,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / simplexOrbits", &
                "TRACE BACK (45)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%rchi2_arr_cmp(i) = y(i) - REAL(COUNT(this%obs_masks_prm),bp)
     END DO
@@ -16125,7 +16777,8 @@ CONTAINS
        error = .FALSE.
                   CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                        "TRACE BACK (20)", 1)
-                  RETURN
+                  error = .FALSE.
+       RETURN
                END IF
                ilo = iminloc(y(:))
                ihi = imaxloc(y(:))
@@ -16141,7 +16794,8 @@ CONTAINS
                CALL swap(y(1),y(ilo))
                CALL swap(p(1,:),p(ilo,:)) 
                ilo = 1
-               RETURN 
+               error = .FALSE.
+       RETURN 
             END IF
          END IF
          IF (info_verb >= 3) THEN
@@ -16166,10 +16820,12 @@ CONTAINS
             CALL swap(y(1),y(ilo))
             CALL swap(p(1,:),p(ilo,:)) 
             ilo = 1
-            RETURN 
+            error = .FALSE.
+       RETURN 
          END IF
          IF (this%smplx_niter_cmp >= this%smplx_niter_prm) THEN
-            RETURN
+            error = .FALSE.
+       RETURN
          END IF
          ! Begin a new iteration. First extrapolate by a factor -1
          ! through the face of the simplex across from the high
@@ -16179,7 +16835,8 @@ CONTAINS
        error = .FALSE.
             CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                  "TRACE BACK (30)", 1)
-            RETURN
+            error = .FALSE.
+       RETURN
          END IF
          this%smplx_niter_cmp = this%smplx_niter_cmp + 1 
          IF (ytry_ref >= y(ilo) .AND. ytry_ref < y(inhi)) THEN
@@ -16196,7 +16853,8 @@ CONTAINS
        error = .FALSE.
                CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                     "TRACE BACK (35)", 1)
-               RETURN
+               error = .FALSE.
+       RETURN
             END IF
             this%smplx_niter_cmp = this%smplx_niter_cmp + 1
             IF (ytry_exp < ytry_ref) THEN
@@ -16219,7 +16877,8 @@ CONTAINS
        error = .FALSE.
                   CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                        "TRACE BACK (40)", 1)
-                  RETURN
+                  error = .FALSE.
+       RETURN
                END IF
                IF (ytry_co < ytry_ref) THEN
                   y(ihi) = ytry_co
@@ -16233,7 +16892,8 @@ CONTAINS
        error = .FALSE.
                   CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                        "TRACE BACK (40)", 1)
-                  RETURN
+                  error = .FALSE.
+       RETURN
                END IF
                IF (ytry_co < y(ihi)) THEN
                   y(ihi) = ytry_co
@@ -16270,7 +16930,8 @@ CONTAINS
        error = .FALSE.
                         CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                              "TRACE BACK (45)", 1)
-                        RETURN
+                        error = .FALSE.
+       RETURN
                      END IF
                      CALL setParameters(orb, &
                           dyn_model=this%dyn_model_prm, &
@@ -16282,7 +16943,8 @@ CONTAINS
        error = .FALSE.
                         CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                              "TRACE BACK (45)", 1)
-                        RETURN
+                        error = .FALSE.
+       RETURN
                      END IF
                      info_verb_ = info_verb
                      info_verb = info_verb_ - 1
@@ -16292,7 +16954,8 @@ CONTAINS
        error = .FALSE.
                         CALL errorMessage("StochasticOrbit / simplexOrbits / simplex_private", &
                              "TRACE BACK (50)", 1)
-                        RETURN
+                        error = .FALSE.
+       RETURN
                      END IF
                      CALL NULLIFY(orb)
                   END IF
@@ -16353,7 +17016,8 @@ CONTAINS
        error = .FALSE.
          CALL errorMessage("StochasticOrbit / simplexOrbits / simtry", &
               "TRACE BACK (55)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       CALL setParameters(orb, &
            dyn_model=this%dyn_model_prm, &
@@ -16365,14 +17029,16 @@ CONTAINS
        error = .FALSE.
          CALL errorMessage("StochasticOrbit / simplexOrbits / simtry", &
               "TRACE BACK (45)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       ! Get heliocentric cartesion coordinates if forcing Earth impact
       IF (force_earth_impact_at_epoch_) THEN
          coord_obj = getElements(orb, "cartesian", "ecliptic")
          IF (SQRT(SUM((coord_obj(1:3) - coord_earth(1:3))**2)) > planetary_radii(3) + 60.0_bp/km_au) THEN
             ytry = HUGE(ytry)
-            RETURN
+            error = .FALSE.
+       RETURN
          END IF
       END IF
       info_verb_ = info_verb
@@ -16383,7 +17049,8 @@ CONTAINS
        error = .FALSE.
          CALL errorMessage("StochasticOrbit / simplexOrbits / simtry", &
               "TRACE BACK (60)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       CALL NULLIFY(orb)
 
@@ -16466,6 +17133,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -16474,6 +17142,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "More than one object!", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -16482,42 +17151,49 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (nobs < 2) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "Less than two observations available.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (.NOT.ASSOCIATED(this%sor_deviates_prm)) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "Generation window not set.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (.NOT.ASSOCIATED(this%res_accept_prm)) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "Window for accepted residuals not set.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (ALL(this%sor_rho_prm < 0.0_bp)) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "Topocentric range intervals not set.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (.NOT.ASSOCIATED(this%sor_pair_arr_prm)) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "Observation pair not set.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (this%sor_norb_prm < 0) THEN
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "Required number of sample orbits not set.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -16535,6 +17211,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "Inversion epoch not set.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -16547,6 +17224,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "TRACE BACK (15)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -16554,6 +17232,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "Cannot use variational-equations approach for "//TRIM(integrator), 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -16561,6 +17240,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / StatisticalRanging", &
             "Use of random observation pairs not accepted.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -16588,6 +17268,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / statisticalRanging", &
             "Could not allocate memory (1).", 1)
+       error = .FALSE.
        RETURN
     END IF
     pdf_arr              = 0.0_bp
@@ -16625,6 +17306,7 @@ CONTAINS
        DEALLOCATE(residual_vector, stat=err)
        DEALLOCATE(maskarr, stat=err)
        DEALLOCATE(obs_scoords, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -16650,6 +17332,7 @@ CONTAINS
        DEALLOCATE(maskarr, stat=err)
        DEALLOCATE(obs_scoords, stat=err)
        DEALLOCATE(information_matrix_obs, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -16676,6 +17359,7 @@ CONTAINS
        DEALLOCATE(obs_scoords, stat=err)
        DEALLOCATE(information_matrix_obs, stat=err)
        DEALLOCATE(cov_matrices, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -16710,7 +17394,8 @@ CONTAINS
           DEALLOCATE(obs_scoords, stat=err)
           DEALLOCATE(information_matrix_obs, stat=err)
           DEALLOCATE(cov_matrices, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        cosdec0_arr(i) = COS(r_ra_dec(3))
     END DO
@@ -16745,6 +17430,7 @@ CONTAINS
        DEALLOCATE(information_matrix_obs, stat=err)
        DEALLOCATE(cov_matrices, stat=err)
        DEALLOCATE(obsies_ccoords, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -16854,7 +17540,8 @@ CONTAINS
                 CALL errorMessage("StochasticOrbit / statisticalRanging", &
                      "Could not print covariance matrix " // &
                      TRIM(errstr), 1) 
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END DO
           WRITE(stdout,"(2X,A,6(I0,1X))") "Number of included observations " // &
@@ -16913,7 +17600,8 @@ CONTAINS
              DEALLOCATE(rho2,stat=err)
              DEALLOCATE(sphdev, stat=err)
              DEALLOCATE(mjd_lt, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
 
@@ -16985,7 +17673,8 @@ CONTAINS
              DEALLOCATE(sphdev, stat=err)
              DEALLOCATE(mjd_lt, stat=err)
              CALL NULLIFY(obs_scoord1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (this%sor_gaussian_pdf_prm) THEN
              obs_scoord_ = copy(obs_scoord1)
@@ -17035,7 +17724,8 @@ CONTAINS
              DEALLOCATE(sphdev, stat=err)
              DEALLOCATE(mjd_lt, stat=err)
              CALL NULLIFY(obs_scoord1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (rho1(i+1) <= planetary_radii(3)) THEN
              IF (info_verb >= 5) THEN
@@ -17118,7 +17808,8 @@ CONTAINS
                 DEALLOCATE(mjd_lt, stat=err)
                 CALL NULLIFY(obs_scoord1)
                 CALL NULLIFY(obs_scoord2)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
 
              IF (this%sor_gaussian_pdf_prm) THEN
@@ -17165,7 +17856,8 @@ CONTAINS
                 DEALLOCATE(mjd_lt, stat=err)
                 CALL NULLIFY(obs_scoord1)
                 CALL NULLIFY(obs_scoord2)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              IF (this%informative_apriori_prm) THEN
                 IF (this%apriori_rho_min_prm >= 0.0_bp .AND. &
@@ -17231,7 +17923,8 @@ CONTAINS
              CALL NULLIFY(obs_scoord1)
              CALL NULLIFY(obs_scoord2)
              CALL NULLIFY(obs_ccoord_topo1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
 
           CALL rotateToEcliptic(obs_ccoord_topo1)
@@ -17273,7 +17966,8 @@ CONTAINS
                 CALL NULLIFY(obs_scoord1)
                 CALL NULLIFY(obs_scoord2)
                 CALL NULLIFY(obs_ccoord_topo1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              WRITE(stdout,"(2X,A,1X,2(F15.10,1X))") &
                   "Spurious coordinates - Original observation 1:", & 
@@ -17318,7 +18012,8 @@ CONTAINS
              CALL NULLIFY(obs_scoord2)
              CALL NULLIFY(obs_ccoord_topo1)
              CALL NULLIFY(obs_ccoord_topo2)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           CALL rotateToEcliptic(obs_ccoord_topo2)
           IF (info_verb >= 5) THEN
@@ -17367,7 +18062,8 @@ CONTAINS
                 CALL NULLIFY(obs_scoord2)
                 CALL NULLIFY(obs_ccoord_topo1)
                 CALL NULLIFY(obs_ccoord_topo2)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END IF
 
@@ -17448,7 +18144,8 @@ CONTAINS
              CALL NULLIFY(obs_ccoord_topo2)
              CALL NULLIFY(obs_ccoord_focus1)
              CALL NULLIFY(obs_ccoord_focus2)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           t1 = getTime(obs_ccoord_focus1)
           mjd_lt(i+1) = getMJD(t1,"TDT")
@@ -17636,7 +18333,8 @@ CONTAINS
              CALL NULLIFY(obs_ccoord_topo2)
              CALL NULLIFY(obs_ccoord_focus1)
              CALL NULLIFY(obs_ccoord_focus2)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           CALL propagate(orb_arr(i+1), t1)
           IF (error) THEN
@@ -17688,7 +18386,8 @@ CONTAINS
                 CALL NULLIFY(obs_ccoord_topo2)
                 CALL NULLIFY(obs_ccoord_focus1)
                 CALL NULLIFY(obs_ccoord_focus2)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           ELSE
              CALL rotateToEquatorial(orb_arr(i+1))
@@ -17751,7 +18450,8 @@ CONTAINS
           DEALLOCATE(rho2,stat=err)
           DEALLOCATE(sphdev, stat=err)
           DEALLOCATE(mjd_lt, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! ---------------------------------------------
@@ -17807,7 +18507,8 @@ CONTAINS
           DEALLOCATE(mjd_lt, stat=err)
           DEALLOCATE(scoords, stat=err)
           DEALLOCATE(partials_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        sor_orb_acc: DO i=1,norb
@@ -17848,7 +18549,8 @@ CONTAINS
                 DEALLOCATE(mjd_lt, stat=err)
                 DEALLOCATE(scoords, stat=err)
                 DEALLOCATE(partials_arr, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              computed_coord = getCoordinates(scoords(i,j))
              IF (error) THEN
@@ -17885,7 +18587,8 @@ CONTAINS
                 DEALLOCATE(mjd_lt, stat=err)
                 DEALLOCATE(scoords, stat=err)
                 DEALLOCATE(partials_arr, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              residuals(iorb+1,j,1:6) = observed_coord(1:6) - computed_coord(1:6)
              residuals(iorb+1,j,2) = residuals(iorb+1,j,2) * cosdec0_arr(j)
@@ -17961,7 +18664,8 @@ CONTAINS
              DEALLOCATE(mjd_lt, stat=err)
              DEALLOCATE(scoords, stat=err)
              DEALLOCATE(partials_arr, stat=err)
-             RETURN          
+             error = .FALSE.
+       RETURN          
           END IF
 
           ! Compute dchi2 wrt best fit orbit
@@ -18086,7 +18790,8 @@ CONTAINS
                 DEALLOCATE(mjd_lt, stat=err)
                 DEALLOCATE(scoords, stat=err)
                 DEALLOCATE(partials_arr, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              ELSE
                 jac_car_kep = ABS(determinant(jacobian_matrix, errstr)) 
                 IF (LEN_TRIM(errstr) /= 0) THEN
@@ -18129,7 +18834,8 @@ CONTAINS
                    DEALLOCATE(mjd_lt, stat=err)
                    DEALLOCATE(scoords, stat=err)
                    DEALLOCATE(partials_arr, stat=err)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
              END IF
 
@@ -18302,7 +19008,8 @@ CONTAINS
              DEALLOCATE(mjd_lt, stat=err)
              DEALLOCATE(scoords, stat=err)
              DEALLOCATE(partials_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        IF (this%regularization_prm .OR. this%jacobians_prm) THEN
@@ -18346,7 +19053,8 @@ CONTAINS
           DEALLOCATE(mjd_lt, stat=err)
           DEALLOCATE(scoords, stat=err)
           DEALLOCATE(partials_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
     END DO sor_main
@@ -18435,7 +19143,8 @@ CONTAINS
           DEALLOCATE(mjd_lt, stat=err)
           DEALLOCATE(scoords, stat=err)
           DEALLOCATE(partials_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        DO i=1, this%sor_norb_cmp
@@ -18490,7 +19199,8 @@ CONTAINS
              DEALLOCATE(mjd_lt, stat=err)
              DEALLOCATE(scoords, stat=err)
              DEALLOCATE(partials_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           this%sor_pair_histo_prm = pair_histogram
        END IF
@@ -18562,6 +19272,7 @@ CONTAINS
        DEALLOCATE(mjd_lt, stat=err)
        DEALLOCATE(scoords, stat=err)
        DEALLOCATE(partials_arr, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -18609,6 +19320,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / stepwiseRanging", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -18618,14 +19330,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL setRangeBounds(this)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                "TRACE BACK (10)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -18634,6 +19348,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / stepwiseRanging", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     nobs = SIZE(obs_arr,dim=1)
@@ -18642,6 +19357,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / stepwiseRanging", &
             "Number of observations is not sufficient. At least two required.", 1)
        DEALLOCATE(obs_arr, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (nobs_max < 0 .OR. nobs_max > nobs) THEN
@@ -18656,6 +19372,7 @@ CONTAINS
             "TRACE BACK (10)", 1)
        DEALLOCATE(obs_arr, stat=err)
        CALL NULLIFY(obss)
+       error = .FALSE.
        RETURN
     END IF
     CALL addObservation(obss, obs_arr(1))
@@ -18665,6 +19382,7 @@ CONTAINS
             "TRACE BACK (15)", 1)
        DEALLOCATE(obs_arr, stat=err)
        CALL NULLIFY(obss)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -18696,7 +19414,8 @@ CONTAINS
                "TRACE BACK (20)", 1)
           DEALLOCATE(obs_arr, stat=err)
           CALL NULLIFY(obss)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(storb)
        CALL NEW(storb, obss)
@@ -18707,7 +19426,8 @@ CONTAINS
           DEALLOCATE(obs_arr, stat=err)
           CALL NULLIFY(obss)
           CALL NULLIFY(storb)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL setParameters(storb, &
             dyn_model=this%dyn_model_prm, &
@@ -18751,7 +19471,8 @@ CONTAINS
           DEALLOCATE(obs_arr, stat=err)
           CALL NULLIFY(obss)
           CALL NULLIFY(storb)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (i == 2) THEN
           CALL autoStatisticalRanging(storb)
@@ -18769,7 +19490,8 @@ CONTAINS
           DEALLOCATE(obs_arr, stat=err)
           CALL NULLIFY(obss)
           CALL NULLIFY(storb)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%sor_norb_sw_cmp = storb%sor_norb_cmp
           this%sor_ntrial_sw_cmp = storb%sor_ntrial_cmp
@@ -18783,7 +19505,8 @@ CONTAINS
              DEALLOCATE(obs_arr, stat=err)
              CALL NULLIFY(obss)
              CALL NULLIFY(storb)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (exist(obss_next)) THEN
              CALL constrainRangeDistributions(storb, obss_next)
@@ -18797,7 +19520,8 @@ CONTAINS
              DEALLOCATE(obs_arr, stat=err)
              CALL NULLIFY(obss)
              CALL NULLIFY(storb)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           rho(1:4) = getRangeBounds(storb)
           IF (error) THEN
@@ -18807,7 +19531,8 @@ CONTAINS
              DEALLOCATE(obs_arr, stat=err)
              CALL NULLIFY(obss)
              CALL NULLIFY(storb)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           chi2_min_ = storb%chi2_min_cmp
        END IF
@@ -18819,6 +19544,7 @@ CONTAINS
             "Could not deallocate memory.", 1)
        CALL NULLIFY(obss)
        CALL NULLIFY(storb)
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(obss)
@@ -18841,7 +19567,8 @@ CONTAINS
              CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                   "TRACE BACK (40)", 1)
              CALL NULLIFY(storb)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (info_verb >= 2) THEN
              WRITE(stdout,"(2X,A,1X,I0)") "Nr of observations     :", i
@@ -18853,7 +19580,8 @@ CONTAINS
              CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                   "Subsequent iteration failed.", 1)
              CALL NULLIFY(storb)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           this%sor_niter_cmp = this%sor_niter_cmp + 1
           IF (this%sor_norb_cmp < this%sor_norb_prm .AND. err_verb >= 2) THEN
@@ -18872,7 +19600,8 @@ CONTAINS
              CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                   "TRACE BACK (45)", 1)
              CALL NULLIFY(storb)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           rho(1:4) = getRangeBounds(this)
           IF (error) THEN
@@ -18880,7 +19609,8 @@ CONTAINS
              CALL errorMessage("StochasticOrbit / stepwiseRanging", &
                   "TRACE BACK (50)", 1)
              CALL NULLIFY(storb)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           chi2_min_ = MIN(this%chi2_min_cmp,this%chi2_min_prm)
        END DO
@@ -18945,6 +19675,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / constrainRangeDistributions2", &
             "TRACE BACK (5)", 1)
        DEALLOCATE(residuals, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -18956,6 +19687,7 @@ CONTAINS
             "TRACE BACK (10)", 1)
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(stdevs, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -18970,6 +19702,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(stdevs, stat=err)
        DEALLOCATE(mask, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -18987,6 +19720,7 @@ CONTAINS
             "Could not deallocate memory (5)", 1)
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(mask, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (info_verb >= 2 .AND. COUNT(mask) > 0) THEN
@@ -19012,6 +19746,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(mask, stat=err)
        DEALLOCATE(information_matrix_obs, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(chi2_arr(norb), mask_(norb), stat=err)
@@ -19024,6 +19759,7 @@ CONTAINS
        DEALLOCATE(information_matrix_obs, stat=err)
        DEALLOCATE(chi2_arr, stat=err)
        DEALLOCATE(mask_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     mask_ = mask
@@ -19038,7 +19774,8 @@ CONTAINS
           DEALLOCATE(information_matrix_obs, stat=err)
           DEALLOCATE(chi2_arr, stat=err)
           DEALLOCATE(mask_, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     ! Find best-fit orbit
@@ -19077,7 +19814,8 @@ CONTAINS
           DEALLOCATE(information_matrix_obs, stat=err)
           DEALLOCATE(chi2_arr, stat=err)
           DEALLOCATE(mask_, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -19091,7 +19829,8 @@ CONTAINS
           DEALLOCATE(residuals, stat=err)
           DEALLOCATE(mask, stat=err)
           DEALLOCATE(dates_orig, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        dates_add => getDates(obss)       
        IF (error) THEN
@@ -19102,7 +19841,8 @@ CONTAINS
           DEALLOCATE(mask, stat=err)
           DEALLOCATE(dates_orig, stat=err)
           DEALLOCATE(dates_add, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        ALLOCATE(dates_orig(1), dates_add(1), stat=err)
@@ -19114,7 +19854,8 @@ CONTAINS
           DEALLOCATE(mask, stat=err)
           DEALLOCATE(dates_orig, stat=err)
           DEALLOCATE(dates_add, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        dates_orig = 1.0_bp
        dates_add  = 0.0_bp
@@ -19160,7 +19901,8 @@ CONTAINS
           DEALLOCATE(mask, stat=err)
           DEALLOCATE(dates_orig, stat=err)
           DEALLOCATE(dates_add, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        orb_arr => getSampleOrbits(this)
        IF (error) THEN
@@ -19171,7 +19913,8 @@ CONTAINS
           DEALLOCATE(dates_orig, stat=err)
           DEALLOCATE(dates_add, stat=err) 
           DEALLOCATE(orb_arr, stat=err)         
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Save best-fit orbit (only if not already defined)
        IF (.NOT.exist(this%orb_ml_cmp)) THEN
@@ -19189,7 +19932,8 @@ CONTAINS
           DEALLOCATE(dates_add, stat=err)
           DEALLOCATE(orb_arr, stat=err)         
           DEALLOCATE(ephemerides, stat=err)         
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (ASSOCIATED(this%sor_rho_arr_cmp)) THEN
           DEALLOCATE(this%sor_rho_arr_cmp, stat=err)
@@ -19203,7 +19947,8 @@ CONTAINS
              DEALLOCATE(dates_add, stat=err)
              DEALLOCATE(orb_arr, stat=err)         
              DEALLOCATE(ephemerides, stat=err)         
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        ALLOCATE(this%sor_rho_arr_cmp(norb,2), stat=err)
@@ -19217,7 +19962,8 @@ CONTAINS
           DEALLOCATE(dates_add, stat=err)
           DEALLOCATE(orb_arr, stat=err)         
           DEALLOCATE(ephemerides, stat=err)         
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,norb
           this%sor_rho_arr_cmp(i,1) = getDistance(ephemerides(i,1))
@@ -19235,7 +19981,8 @@ CONTAINS
              DEALLOCATE(dates_add, stat=err)
              DEALLOCATE(orb_arr, stat=err)         
              DEALLOCATE(ephemerides, stat=err)         
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        CALL NULLIFY(observers(1))
@@ -19251,7 +19998,8 @@ CONTAINS
           DEALLOCATE(dates_add, stat=err)
           DEALLOCATE(orb_arr, stat=err)         
           DEALLOCATE(ephemerides, stat=err)         
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (info_verb >= 2) THEN
           WRITE(stdout,"(2X,A,1X,A)") "constrainRangeDistributions2:", &
@@ -19267,6 +20015,7 @@ CONTAINS
        DEALLOCATE(mask, stat=err)
        DEALLOCATE(dates_orig, stat=err)
        DEALLOCATE(dates_add, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -19280,6 +20029,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(mask, stat=err)
        DEALLOCATE(sor_rho_arr_cmp, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (info_verb >= 3) THEN
@@ -19306,6 +20056,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(mask, stat=err)
        DEALLOCATE(sor_rho_arr_cmp, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(this%sor_rho_arr_cmp(COUNT(mask),2), stat=err)
@@ -19315,6 +20066,7 @@ CONTAINS
             "Could not allocate memory (30)", 1)
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(mask, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     this%sor_rho_arr_cmp = sor_rho_arr_cmp
@@ -19326,6 +20078,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(mask, stat=err)
        DEALLOCATE(sor_rho_arr_cmp, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -19382,6 +20135,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / constrainRangeDistributions", &
             "TRACE BACK (5)", 1)
        DEALLOCATE(residuals, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -19393,6 +20147,7 @@ CONTAINS
             "TRACE BACK (10)", 1)
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(stdevs, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -19407,6 +20162,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(stdevs, stat=err)
        DEALLOCATE(mask, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -19424,6 +20180,7 @@ CONTAINS
             "Could not deallocate memory (5)", 1)
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(mask, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (info_verb >= 2 .AND. COUNT(mask) > 0) THEN
@@ -19452,7 +20209,8 @@ CONTAINS
           DEALLOCATE(residuals, stat=err)
           DEALLOCATE(mask, stat=err)
           DEALLOCATE(information_matrix_obs, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ALLOCATE(chi2_arr(norb), mask_(norb), stat=err)
        IF (err /= 0) THEN
@@ -19464,7 +20222,8 @@ CONTAINS
           DEALLOCATE(information_matrix_obs, stat=err)
           DEALLOCATE(chi2_arr, stat=err)
           DEALLOCATE(mask_, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        mask_ = mask
        DO i=1,norb
@@ -19478,7 +20237,8 @@ CONTAINS
              DEALLOCATE(information_matrix_obs, stat=err)
              DEALLOCATE(chi2_arr, stat=err)
              DEALLOCATE(mask_, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        j = COUNT(mask)
@@ -19510,7 +20270,8 @@ CONTAINS
           DEALLOCATE(information_matrix_obs, stat=err)
           DEALLOCATE(chi2_arr, stat=err)
           DEALLOCATE(mask_, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -19524,7 +20285,8 @@ CONTAINS
           DEALLOCATE(residuals, stat=err)
           DEALLOCATE(mask, stat=err)
           DEALLOCATE(dates_orig, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        dates_add => getDates(obss)       
        IF (error) THEN
@@ -19535,7 +20297,8 @@ CONTAINS
           DEALLOCATE(mask, stat=err)
           DEALLOCATE(dates_orig, stat=err)
           DEALLOCATE(dates_add, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        ALLOCATE(dates_orig(1), dates_add(1), stat=err)
@@ -19547,7 +20310,8 @@ CONTAINS
           DEALLOCATE(mask, stat=err)
           DEALLOCATE(dates_orig, stat=err)
           DEALLOCATE(dates_add, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        dates_orig = 1.0_bp
        dates_add  = 0.0_bp
@@ -19593,7 +20357,8 @@ CONTAINS
           DEALLOCATE(mask, stat=err)
           DEALLOCATE(dates_orig, stat=err)
           DEALLOCATE(dates_add, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        orb_arr => getSampleOrbits(this)
        IF (error) THEN
@@ -19604,7 +20369,8 @@ CONTAINS
           DEALLOCATE(dates_orig, stat=err)
           DEALLOCATE(dates_add, stat=err) 
           DEALLOCATE(orb_arr, stat=err)         
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL getEphemerides(orb_arr, observers, ephemerides)
        IF (error) THEN
@@ -19617,7 +20383,8 @@ CONTAINS
           DEALLOCATE(dates_add, stat=err)
           DEALLOCATE(orb_arr, stat=err)         
           DEALLOCATE(ephemerides, stat=err)         
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (ASSOCIATED(this%sor_rho_arr_cmp)) THEN
           DEALLOCATE(this%sor_rho_arr_cmp, stat=err)
@@ -19631,7 +20398,8 @@ CONTAINS
              DEALLOCATE(dates_add, stat=err)
              DEALLOCATE(orb_arr, stat=err)         
              DEALLOCATE(ephemerides, stat=err)         
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        ALLOCATE(this%sor_rho_arr_cmp(norb,2), stat=err)
@@ -19645,7 +20413,8 @@ CONTAINS
           DEALLOCATE(dates_add, stat=err)
           DEALLOCATE(orb_arr, stat=err)         
           DEALLOCATE(ephemerides, stat=err)         
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,norb
           this%sor_rho_arr_cmp(i,1) = getDistance(ephemerides(i,1))
@@ -19663,7 +20432,8 @@ CONTAINS
              DEALLOCATE(dates_add, stat=err)
              DEALLOCATE(orb_arr, stat=err)         
              DEALLOCATE(ephemerides, stat=err)         
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        CALL NULLIFY(observers(1))
@@ -19679,7 +20449,8 @@ CONTAINS
           DEALLOCATE(dates_add, stat=err)
           DEALLOCATE(orb_arr, stat=err)         
           DEALLOCATE(ephemerides, stat=err)         
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (info_verb >= 2) THEN
           WRITE(stdout,"(2X,A,1X,A)") "constrainRangeDistributions:", &
@@ -19695,6 +20466,7 @@ CONTAINS
        DEALLOCATE(mask, stat=err)
        DEALLOCATE(dates_orig, stat=err)
        DEALLOCATE(dates_add, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -19708,6 +20480,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(mask, stat=err)
        DEALLOCATE(sor_rho_arr_cmp, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (info_verb >= 3) THEN
@@ -19734,6 +20507,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(mask, stat=err)
        DEALLOCATE(sor_rho_arr_cmp, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(this%sor_rho_arr_cmp(COUNT(mask),2), stat=err)
@@ -19743,6 +20517,7 @@ CONTAINS
             "Could not allocate memory (30)", 1)
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(mask, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     this%sor_rho_arr_cmp = sor_rho_arr_cmp
@@ -19754,6 +20529,7 @@ CONTAINS
        DEALLOCATE(residuals, stat=err)
        DEALLOCATE(mask, stat=err)
        DEALLOCATE(sor_rho_arr_cmp, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -19777,6 +20553,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / toCartesian", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -19786,6 +20563,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("StochasticOrbit / toCartesian", &
             "The frame string contains forbidden characters.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (frame_ /= "equatorial" .AND. &
@@ -19810,7 +20588,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCartesian", &
                   "TRACE BACK (5)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           i = MAXLOC(pdf_arr,dim=1)
           DEALLOCATE(pdf_arr, stat=err)
@@ -19822,7 +20601,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCartesian", &
                   "TRACE BACK (10)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
     ELSE IF (this%element_type_prm == "cometary" .OR. &
@@ -19836,7 +20616,8 @@ CONTAINS
        error = .FALSE.
                 CALL errorMessage("StochasticOrbit / toCartesian", &
                      "TRACE BACK (15)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              !this%pdf_arr_cmp(i) = this%pdf_arr_cmp(i)/this%jac_arr_cmp(i,2)
           END DO
@@ -19845,7 +20626,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCartesian", &
                   "TRACE BACK (20)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           this%pdf_arr_cmp = pdf_arr
           DEALLOCATE(pdf_arr)
@@ -19856,7 +20638,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCartesian", &
                   "TRACE BACK (25)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           this%cov_type_prm = "cartesian"
        END IF
@@ -19866,7 +20649,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCartesian", &
                   "TRACE BACK (30)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           i = MAXLOC(pdf_arr,dim=1)
           DEALLOCATE(pdf_arr, stat=err)
@@ -19878,7 +20662,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCartesian", &
                   "TRACE BACK (35)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        this%element_type_prm = "cartesian"
@@ -19887,6 +20672,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / toCartesian", &
             "Cannot convert from " // TRIM(this%element_type_prm) // &
             " to Cartesian elements.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -19908,10 +20694,12 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / toCometary", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
     IF (this%element_type_prm == "cometary") THEN
+       error = .FALSE.
        RETURN
     END IF
 
@@ -19929,7 +20717,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCometary", &
                   "TRACE BACK (5)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           this%pdf_arr_cmp = pdf_arr
           DEALLOCATE(pdf_arr, stat=err)
@@ -19944,7 +20733,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / toCometary", &
                   "TRACE BACK (10)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           i = MAXLOC(pdf_arr,dim=1)
           DEALLOCATE(pdf_arr, stat=err)
@@ -19959,6 +20749,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / toCometary", &
             "Cannot convert from " // TRIM(this%element_type_prm) // &
             " to Cometary elements.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -19980,10 +20771,12 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / toKeplerian", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
     IF (this%element_type_prm == "keplerian") THEN
+       error = .FALSE.
        RETURN
     END IF
 
@@ -19998,7 +20791,8 @@ CONTAINS
        error = .FALSE.
                 CALL errorMessage("StochasticOrbit / toKeplerian", &
                      "TRACE BACK (5)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              !this%pdf_arr_cmp(i) = this%pdf_arr_cmp(i)*this%jac_arr_cmp(i,2)
           END DO
@@ -20007,7 +20801,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / toKeplerian", &
                   "TRACE BACK (10)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           this%pdf_arr_cmp = pdf_arr
           DEALLOCATE(pdf_arr, stat=err)
@@ -20018,7 +20813,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / toKeplerian", &
                   "TRACE BACK (15)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           this%cov_type_prm = "keplerian"
        END IF
@@ -20028,7 +20824,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / toKeplerian", &
                   "TRACE BACK (20)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           i = MAXLOC(pdf_arr,dim=1)
           DEALLOCATE(pdf_arr, stat=err)
@@ -20040,7 +20837,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("StochasticOrbit / toKeplerian", &
                   "TRACE BACK (25)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        this%element_type_prm = "keplerian"
@@ -20049,6 +20847,7 @@ CONTAINS
        CALL errorMessage("StochasticOrbit / toKeplerian", &
             "Cannot convert from " // TRIM(this%element_type_prm) // &
             " to Keplerian elements.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -20092,6 +20891,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / updateRanging", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -20101,6 +20901,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("StochasticOrbit / updateRanging", &
             "Could not allocate memory (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -20133,7 +20934,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / updateRanging", &
                "Error in moment computation for RA " // &
                TRIM(errstr), 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL moments(this%res_arr_cmp(:,i,3), mean=dec_mean(i), &
             std_dev=dec_std, errstr=errstr)
@@ -20142,7 +20944,8 @@ CONTAINS
           CALL errorMessage("StochasticOrbit / updateRanging", &
                "Error in moment computation for Dec " // &
                TRIM(errstr), 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -20164,7 +20967,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / updateRanging", &
                "Could not allocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        nr_array = RESHAPE((/ (i, i = 1,nobs) /), (/ nobs /))
        obs_masks => getObservationMasks(this%obss, use_notes=.TRUE.)
@@ -20173,7 +20977,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("StochasticOrbit / updateRanging", &
                "TRACE BACK ()", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        maskarr = .FALSE.
        DO i=1,nobs
@@ -20201,7 +21006,8 @@ CONTAINS
        error = .FALSE.
                    CALL errorMessage("StochasticOrbit / updateRanging", &
                         "Error in conversion from integer to character.", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 frmt = "(A,I0,A,I0," // TRIM(str) // "(1X,I0),A)"
                 WRITE(stdout,TRIM(frmt)) "No of omitted: ", &
@@ -20229,7 +21035,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("StochasticOrbit / updateRanging", &
                "Could not deallocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -20240,6 +21047,7 @@ CONTAINS
        DEALLOCATE(dec_mean, stat=err)
        CALL errorMessage("StochasticOrbit / updateRanging", &
             "Could not deallocate memory (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -20538,6 +21346,7 @@ CONTAINS
     IF ((percentage < 0) .OR. (percentage > 1)) THEN
        CALL errorMessage("StochasticOrbit / unmaskGaiaObservations", &
                          "Invalid percentage given.", 1)
+       error = .FALSE.
        RETURN
     END IF
 

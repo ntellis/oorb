@@ -107,6 +107,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -137,6 +138,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -476,6 +478,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / crudeHEstimate", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -483,6 +486,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / crudeHEstimate", &
             "Orbital information not available.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -490,6 +494,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / crudeHEstimate", &
             "Photometric information not available.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -514,6 +519,7 @@ CONTAINS
     IF (err /= 0) THEN
        CALL errorMessage("PhysicalParameters / crudeHEstimate", &
             "Could not allocate memory (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     j = 0
@@ -538,7 +544,8 @@ CONTAINS
        IF (err /= 0) THEN
           CALL errorMessage("PhysicalParameters / crudeHEstimate", &
                "Could not allocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        orb_arr(1) = getNominalOrbit(this%storb)
     END IF
@@ -546,6 +553,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("PhysicalParameters / crudeHEstimate", &
             "TRACE BACK (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL getEphemerides(orb_arr, obsy_ccoord_arr, &
@@ -554,6 +562,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("PhysicalParameters / crudeHEstimate", &
             "TRACE BACK (15).", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (info_verb >= 2) THEN
@@ -565,6 +574,7 @@ CONTAINS
     IF (err /= 0) THEN
        CALL errorMessage("PhysicalParameters / crudeHEstimate", &
             "Could not allocate memory (15).", 1)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,nmag
@@ -690,6 +700,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / estimateHAndG", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -697,6 +708,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / estimateHAndG", &
             "Orbital information not available.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -704,6 +716,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / estimateHAndG", &
             "Photometric information not available.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -717,6 +730,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("PhysicalParameters / estimateHAndG", &
             "TRACE BACK (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (info_verb >= 2) THEN
@@ -737,6 +751,7 @@ CONTAINS
        CALL warningMessage("PhysicalParameters / estimateHAndG", &
             "0 observations contain brightness information -> " // &
             "estimation of H and G is impossible.", 1)
+       error = .FALSE.
        RETURN
     END IF
     nmag = SIZE(obsy_ccoord_arr)
@@ -768,6 +783,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("PhysicalParameters / estimateHAndG", &
             "TRACE BACK (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (info_verb >= 2) THEN
@@ -785,7 +801,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("PhysicalParameters / estimateHAndG", &
                   "TRACE BACK (15).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        IF (info_verb >= 3) THEN
@@ -798,6 +815,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("PhysicalParameters / estimateHAndG", &
             "TRACE BACK (20).", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (info_verb >= 2) THEN
@@ -823,7 +841,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("PhysicalParameters / estimateHAndG", &
                   "TRACE BACK (25).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (info_verb >= 3) THEN
              WRITE(stdout,*) "H0_arr: ", this%H0_arr(i,:), &
@@ -852,7 +871,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("PhysicalParameters / estimateHAndG", &
                "TRACE BACK (30).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (info_verb >= 2) THEN
           WRITE(stdout,*) "H0: ", this%H0_nominal, "  dH0: ", this%H0_unc
@@ -997,6 +1017,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / getG", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1023,6 +1044,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / getGDistribution", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1049,6 +1071,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / getH0", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1075,6 +1098,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / getH0Distribution", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1082,6 +1106,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / getH0Distribution", &
             "Object does not contain H0 distribution.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1131,6 +1156,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / HG", &
             "One or more reported brightness uncertainties are equal to zero.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -1138,6 +1164,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / HG", &
             "Needs 3 or more brightness measurements to estimate uncertainty on H and/or G.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -1688,6 +1715,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("PhysicalParameters / massEstimation_MCMC:", &
             "Could not allocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1760,6 +1788,7 @@ CONTAINS
        CALL errorMessage("PhysicalParameters / massEstimation_MCMC:", &
             "Cholesky decomposition unsuccessful:", 1)
        WRITE(stderr,"(A)") TRIM(errstr)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2233,7 +2262,8 @@ CONTAINS
                   repetition_arr=NINT(accepted_solutions(8*nstorb+3,1:iorb))) ! repetitions
              IF (LEN_TRIM(errstr) /= 0) THEN
                 WRITE(stderr,"(2A)") "Error: ", TRIM(errstr)
-                STOP
+                error = .FALSE.
+       STOP
              END IF
              bounds = (/ HUGE(probability_mass), -HUGE(probability_mass) /)
              DO k=1,iorb

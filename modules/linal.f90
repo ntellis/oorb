@@ -209,6 +209,7 @@ CONTAINS
     IF (n /= SIZE(a,dim=2) .OR. n /= SIZE(p)) THEN
        error = " -> linal : cholesky_decomposition : Matrix and vector sizes are not compatible." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -216,10 +217,12 @@ CONTAINS
     IF (err > 0) THEN
        error = " -> linal : cholesky_decomposition : Matrix is not positive definite." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
     ELSE IF (err < 0) THEN
        error = " -> linal : cholesky_decomposition : Illegal value in DPOTRF argument." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -238,8 +241,8 @@ CONTAINS
 
   !! *Description*:
   !!
-  !! Solves the set of N linear equations A · x = b, where a is a
-  !! positive-definite symmetric matrix. a (N × N) and p (of length N)
+  !! Solves the set of N linear equations A ï¿½ x = b, where a is a
+  !! positive-definite symmetric matrix. a (N ï¿½ N) and p (of length N)
   !! are input as the output of the routine choldc.  Only the lower
   !! subdiagonal portion of a is accessed. b is the input right-hand-
   !! side vector, of length N. The solution vector, also of length N,
@@ -263,12 +266,13 @@ CONTAINS
          n /= SIZE(b) .OR. n /= SIZE(x)) THEN
        error = " -> linal : cholesky_solve : Matrix and/or vector sizes are not compatible." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
     END IF
-    DO i=1,n ! Solve L · y = b, storing y in x.
+    DO i=1,n ! Solve L ï¿½ y = b, storing y in x.
        x(i) = (b(i) - DOT_PRODUCT(a(i,1:i-1),x(1:i-1))) / p(i)
     END DO
-    DO i=n,1,-1 ! Solve LT · x = y.
+    DO i=n,1,-1 ! Solve LT ï¿½ x = y.
        x(i) = (x(i) - DOT_PRODUCT(a(i+1:n,i),x(i+1:n))) / p(i)
     END DO
 
@@ -292,13 +296,15 @@ CONTAINS
     IF (SIZE(diagonal) < n) THEN
        error = " -> linal : diagonal_multiplication : Matrix and diagonal vector are not compatible." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
     END IF
     IF (PRESENT(mask)) THEN
        IF (SIZE(mask) < n) THEN
           error = " -> linal : diagonal_multiplication : Matrix and mask vector are not compatible." // &
                TRIM(error)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     diagonal_multiplication_vec_r8 = matrix
@@ -332,7 +338,8 @@ CONTAINS
        IF (SIZE(mask) < n) THEN
           error = " -> linal : diagonal_multiplication : Matrix and mask vector are not compatible." // &
                TRIM(error)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     diagonal_multiplication_sca_r8 = matrix
@@ -384,6 +391,7 @@ CONTAINS
          n /= SIZE(v,dim=1) .OR. n /= SIZE(v,dim=2)) THEN
        error = " -> linal : eigen_decomposition_jacobi : Matrix and/or vector sizes are not compatible." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(aa(n,n), b(n), z(n), upper_triangle(n,n), stat=err)
@@ -394,6 +402,7 @@ CONTAINS
        DEALLOCATE(b, stat=err)
        DEALLOCATE(z, stat=err)
        DEALLOCATE(upper_triangle, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     aa = a
@@ -420,7 +429,8 @@ CONTAINS
           END IF
           ! Make sure that the eigenvalues are non-negative:
           d = ABS(d)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        tresh = MERGE((0.2_rprec8*sm)/(n**2), 0.0_rprec8, i < 4)
        DO ip=1,n-1
@@ -452,29 +462,34 @@ CONTAINS
                 CALL jrotate(aa(1:ip-1, ip), aa(1:ip-1, iq), error)
                 IF (LEN_TRIM(error) /= 0) THEN
                    error = " -> linal : eigen_decomposition_jacobi : (1)" // TRIM(error) 
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 CALL jrotate(aa(ip, ip+1:iq-1), aa(ip+1:iq-1, iq), error)
                 IF (LEN_TRIM(error) /= 0) THEN
                    error = " -> linal : eigen_decomposition_jacobi : (2)" // TRIM(error) 
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 CALL jrotate(aa(ip, iq+1:n), aa(iq, iq+1:n), error)
                 IF (LEN_TRIM(error) /= 0) THEN
                    error = " -> linal : eigen_decomposition_jacobi : (3)" // TRIM(error) 
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 CALL jrotate(v(:,ip), v(:,iq), error)
                 IF (LEN_TRIM(error) /= 0) THEN
                    error = " -> linal : eigen_decomposition_jacobi : (4)" // TRIM(error) 
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 IF (LEN_TRIM(error) /= 0) THEN
                    DEALLOCATE(aa, stat=err)
                    DEALLOCATE(b, stat=err)
                    DEALLOCATE(z, stat=err)
                    DEALLOCATE(upper_triangle, stat=err)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 nrot = nrot + 1
              END IF
@@ -494,6 +509,7 @@ CONTAINS
        DEALLOCATE(b, stat=err)
        DEALLOCATE(z, stat=err)
        DEALLOCATE(upper_triangle, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -512,7 +528,8 @@ CONTAINS
       IF (err /= 0) THEN
          error = " -> linal : jrotate : Could not allocate memory." // &
               TRIM(error)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
 
       wk1(:) = a1(:)
@@ -523,7 +540,8 @@ CONTAINS
       IF (err /= 0) THEN
          error = " -> linal : jrotate : Could not deallocate memory." // &
               TRIM(error)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
 
     END SUBROUTINE jrotate
@@ -578,11 +596,13 @@ CONTAINS
     IF (up_bound(1) /= up_bound(2)) THEN
        error = " -> linal : sq_matrix_check : A is not a square matrix." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
        ! Is it bigger than 1x1?
     ELSE IF (up_bound(1) < 2) THEN
        error = " -> linal : sq_matrix_check : A is a 1x1 matrix." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
        ! If everything is ok, give n the right value:
     ELSE
@@ -617,6 +637,7 @@ CONTAINS
     IF (up_bound(2) /= 3) THEN
        error = " -> linal : tri_matrix_check : A is not a compressed tridiagonal matrix." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
        ! If everything is ok, give n the right value:
     ELSE
@@ -677,6 +698,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = " -> linal : LU_factor : Matrix is numerically singular!" // &
             TRIM(error)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -712,6 +734,7 @@ CONTAINS
             TRIM(error)
        DEALLOCATE(vv, stat=err)
        DEALLOCATE(helpvec, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -723,6 +746,7 @@ CONTAINS
             TRIM(error)
        DEALLOCATE(vv, stat=err)
        DEALLOCATE(helpvec, stat=err)
+       error = .FALSE.
        RETURN
     ELSE
        vv = 1.0_rprec16 / vv
@@ -743,7 +767,8 @@ CONTAINS
                TRIM(error)
           DEALLOCATE(vv, stat=err)
           DEALLOCATE(helpvec, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        A2LU(i+1:n,i) = A2LU(i+1:n,i) / A2LU(i,i)
        A2LU(i+1:n,i+1:n) = A2LU(i+1:n,i+1:n) - &
@@ -756,6 +781,7 @@ CONTAINS
             TRIM(error)
        DEALLOCATE(vv, stat=err)
        DEALLOCATE(helpvec, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -929,6 +955,7 @@ CONTAINS
     IF (n /= SIZE(A,dim=2)) THEN
        error = " -> linal : matinv : Input not a square matrix." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -945,7 +972,8 @@ CONTAINS
                TRIM(error)
           DEALLOCATE(LU, stat=err)
           DEALLOCATE(indx, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! A => LU :
@@ -956,7 +984,8 @@ CONTAINS
                TRIM(error)
           DEALLOCATE(LU, stat=err)
           DEALLOCATE(indx, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Initialize the identity matrix:
@@ -976,7 +1005,8 @@ CONTAINS
                TRIM(error)
           DEALLOCATE(LU, stat=err)
           DEALLOCATE(indx, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
     ELSE IF (method_ == "Cholesky") THEN
@@ -987,7 +1017,8 @@ CONTAINS
                TRIM(error)
           DEALLOCATE(L, stat=err)
           DEALLOCATE(p, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        L(:,:) = A(:,:)
@@ -997,7 +1028,8 @@ CONTAINS
                TRIM(error)
           DEALLOCATE(L, stat=err)
           DEALLOCATE(p, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Initialize the matrix:
@@ -1011,11 +1043,13 @@ CONTAINS
        IF (err > 0) THEN
           error = " -> linal : matinv : Computation failed due to zero element in the diagonal." // &
                TRIM(error)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (err < 0) THEN
           error = " -> linal : matinv : Illegal value in DPOTRI argument." // &
                TRIM(error)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! copy the lower triangle to the upper triangle
@@ -1031,7 +1065,8 @@ CONTAINS
                TRIM(error)
           DEALLOCATE(L, stat=err)
           DEALLOCATE(p, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
     ELSE
@@ -1069,6 +1104,7 @@ CONTAINS
     IF (n /= SIZE(A,dim=2)) THEN
        error = " -> linal : matinv : Input not a square matrix." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1078,6 +1114,7 @@ CONTAINS
             TRIM(error)
        DEALLOCATE(LU, stat=err)
        DEALLOCATE(indx, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1089,6 +1126,7 @@ CONTAINS
             TRIM(error)
        DEALLOCATE(LU, stat=err)
        DEALLOCATE(indx, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1109,6 +1147,7 @@ CONTAINS
             TRIM(error)
        DEALLOCATE(LU, stat=err)
        DEALLOCATE(indx, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1166,7 +1205,8 @@ CONTAINS
        IF (ABS(AA(ii,i)) < EPSILON(AA(ii,i))) THEN
           error = " -> linal : Gauss_elimination : Attempted division by zero." // &
                TRIM(error)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Calculate the upper triangular matrix by
        ! means of the Gauss procedure:
@@ -1229,7 +1269,8 @@ CONTAINS
        IF (ipiv(icol) > 1) THEN
           error = " -> linal : gauss_jordan : Singular matrix (1)." // &
                TRIM(error)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (irow /= icol) THEN
           CALL swap(a(irow,:),a(icol,:))
@@ -1240,7 +1281,8 @@ CONTAINS
        IF (a(icol,icol) == 0.0) THEN
           error = " -> linal : gauss_jordan : Singular matrix (2)." // &
                TRIM(error)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        pivinv = 1.0_rprec8/a(icol,icol)
        a(icol,icol) = 1.0_rprec8
@@ -1287,7 +1329,8 @@ CONTAINS
        IF (ABS(AA(i-1,2)) < EPSILON(AA(i-1,2))) THEN
           error = " -> linal : tridiagonal_solve : Attempted division by almost zero." // &
                TRIM(error)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        AA(i,2) = AA(i,2) - (AA(i,1) * AA(i-1,3)) / AA(i-1,2)
        b(i) = b(i) - (AA(i,1) * b(i-1)) / AA(i-1,2)
@@ -1346,7 +1389,8 @@ CONTAINS
           IF (ABS(D(i)) < EPSILON(D(i))) THEN
              error = " -> linal : Jacobi_iteration : Attempted division by almost zero." // &
                   TRIM(error)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           y(i) = (b(i) - DOT_PRODUCT(LU(i,:), x)) / D(i)
        END DO
@@ -1355,14 +1399,16 @@ CONTAINS
        IF (diff > old_diff) THEN
           error = " -> linal : Jacobi_iteration : Iteration divergent." // &
                TRIM(error)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        x = y
        iter = iter + 1
        IF (iter > max_iter) THEN
           error = " -> linal : Jacobi_iteration : Reached maximum number of iterations." // &
                TRIM(error)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -1418,7 +1464,8 @@ CONTAINS
           IF (ABS(D(i)) < EPSILON(D(i))) THEN
              error = " -> linal : Gauss_Seidel_iteration : Attempted division by almost zero." // &
                   TRIM(error)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           y(i) = (b(i) - DOT_PRODUCT(LU(i,1:i-1), y(1:i-1)) - &
                DOT_PRODUCT(LU(i,i+1:n), x(i+1:n))) / D(i)
@@ -1428,14 +1475,16 @@ CONTAINS
        IF (diff > old_diff) THEN
           error = " -> linal : Gauss_Seidel_iteration : Iteration divergent." // &
                TRIM(error)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        x = y
        iter = iter + 1
        IF (iter > max_iter) THEN
           error = " -> linal : Gauss_Seidel_iteration : Reached maximum number of iterations." // &
                TRIM(error)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -1468,6 +1517,7 @@ CONTAINS
     IF (LEN_TRIM(error) /= 0) THEN
        error = " -> linal : determinant : ." // TRIM(error)
        determinant = 0.0_rprec8
+       error = .FALSE.
        RETURN
     END IF
     ! det = U(1,1)*U(2,2)*U(3,3)*...*U(n,n)
@@ -1504,6 +1554,7 @@ CONTAINS
     IF (LEN_TRIM(error) /= 0) THEN
        error = " -> linal : cond_nr : ." // TRIM(error)
        cond_nr = HUGE(cond_nr)
+       error = .FALSE.
        RETURN
     END IF
     inv_A_norm = matnorm(inv_A)
@@ -1563,6 +1614,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = " -> linal : matrix_print : Could not allocate memory." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1600,6 +1652,7 @@ CONTAINS
             TRIM(error)
        DEALLOCATE(indx1, stat=err)
        DEALLOCATE(indx2, stat=err)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -1636,6 +1689,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = " -> linal : matrix_print : Could not allocate memory." // &
             TRIM(error)
+       error = .FALSE.
        RETURN       
     END IF
     AA = A
@@ -1666,6 +1720,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = " -> linal : matrix_print : Could not deallocate memory." // &
             TRIM(error)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -1799,6 +1854,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = " -> linal : vector_print : Could not allocate memory." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
     END IF
     bb = b
@@ -1842,6 +1898,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = " -> linal : vector_print : Could not deallocate memory." // &
             TRIM(error)
+       error = .FALSE.
        RETURN
     END IF
 

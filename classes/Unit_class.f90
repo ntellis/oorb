@@ -113,6 +113,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Unit / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -122,6 +123,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Unit / new", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -162,7 +164,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Unit / nullify", &
                "Could not close unit.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -239,6 +242,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Unit / getUnit", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -280,6 +284,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Unit / isOpen", &
             "Inquiry returned error.", 1)
+       error = .FALSE.
        RETURN
     ELSE
        IF (this%is_initialized) THEN
@@ -331,7 +336,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Unit / safeLogicalUnit", &
                "Inquiry failed.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (used) THEN
           count = count + 1
@@ -342,7 +348,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Unit / safeLogicalUnit", &
                   "Could not find a free logical unit.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           ! Try next supposedly free unit:
           lu = next_lu
@@ -385,6 +392,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Unit / setDebugUnit", &
             "Unit has already been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 

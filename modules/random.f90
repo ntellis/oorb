@@ -115,7 +115,8 @@ CONTAINS
 !!$                CALL errorMessage("StochasticOrbit / covarianceSampling", &
 !!$                     "Square of element (" // TRIM(str1) // "," // TRIM(str1) // &
 !!$                     ") of Devroye's matrix A is negative (" // TRIM(str2) // ").", 1)
-!!$                RETURN
+!!$                error = .FALSE.
+       RETURN
 !!$             END IF
 !!$             A(i,i) = SQRT(ABS(cov(i,i) - SUM(A(i,1:i-1)**2)))
 !!$          ELSE IF (j < i) THEN
@@ -135,7 +136,7 @@ CONTAINS
   !! calling sequence with a random deviate as the returned function value:
   !! call with idum a negative integer to initialize; thereafter, do not
   !! alter idum except to reinitialize. The period of this generator is
-  !! about 3.1 × 10^18.
+  !! about 3.1 ï¿½ 10^18.
   !!
   SUBROUTINE ran_pmm_r4(idum, ran)
 
@@ -182,7 +183,7 @@ CONTAINS
   !! calling sequence with a random deviate as the returned function value:
   !! call with idum a negative integer to initialize; thereafter, do not
   !! alter idum except to reinitialize. The period of this generator is
-  !! about 3.1 × 10^18.
+  !! about 3.1 ï¿½ 10^18.
   !!
   SUBROUTINE ran_pmm_r8(idum, ran)
 
@@ -228,7 +229,7 @@ CONTAINS
   !! calling sequence with a random deviate as the returned function value:
   !! call with idum a negative integer to initialize; thereafter, do not
   !! alter idum except to reinitialize. The period of this generator is
-  !! about 3.1 × 10^18.
+  !! about 3.1 ï¿½ 10^18.
   !!
   SUBROUTINE ran_pmm_r16(idum, ran)
 
@@ -598,7 +599,7 @@ CONTAINS
   !! *Description*:
   !!
   !! Generate random number following the Maxwellian distribution with
-  !! parameter alpha. Method based on Jöhnk's method after a
+  !! parameter alpha. Method based on Jï¿½hnk's method after a
   !! transformation to a Gamma distribution.
   !!
   SUBROUTINE randomMaxwellian_single_r8(alpha, ranmaxwell)

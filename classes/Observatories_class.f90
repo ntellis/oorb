@@ -142,6 +142,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -152,6 +153,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / new", &
             "Filename too long; adjust parameters.", 1)
+       error = .FALSE.
        RETURN
     ELSE
        this%code_fname = TRIM(CODE_FNAME)
@@ -162,6 +164,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / new", &
             "TRACE BACK 1", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -172,6 +175,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / new", &
             "TRACE BACK 4", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -182,6 +186,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / new", &
             "Could not allocate memory for observatories.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -193,7 +198,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Observatories / new", &
                "Error while reading from observatory datafile.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Make the transformation to Cartesian geocentric equatorial
@@ -208,7 +214,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Observatories / new", &
                "TRACE BACK 6", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
     END DO
@@ -218,6 +225,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / new", &
             "TRACE BACK 7", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -248,7 +256,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Observatories / nullify", &
                "Could not deallocate memory.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     this%no_of_observatories =  0
@@ -283,7 +292,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Observatories / copy", &
                "Could not allocate memory.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,nobsies
           copy_Obsies%observatory_arr(i) = &
@@ -336,6 +346,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / equationOfEquinoxes", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -346,6 +357,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / equationOfEquinoxes", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -376,6 +388,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / getName", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -383,7 +396,8 @@ CONTAINS
        trial_code = getCode(this%observatory_arr(i))
        IF (TRIM(code) == TRIM(trial_code)) THEN
           getName_Obsies = getName(this%observatory_arr(i))
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -420,6 +434,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / getObservatory", &
             "Object has not been initialized yet.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -431,7 +446,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Observatories / getObservatory", &
                   "TRACE BACK (5)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           ! If the matching code is found, then 
           ! collect the data and return:
@@ -442,9 +458,11 @@ CONTAINS
                 CALL errorMessage("Observatories / getObservatory", &
                      "TRACE BACK (10)", 1)
                 CALL NULLIFY(getObservatory_Obsies)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
     ELSE
@@ -454,7 +472,8 @@ CONTAINS
           CALL errorMessage("Observatories / getObservatory", &
                "TRACE BACK (15)", 1)
           CALL NULLIFY(getObservatory_Obsies)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        position = 0.0_bp
        CALL NEW(getObservatory_Obsies, code, planetary_locations(i), position)
@@ -463,8 +482,10 @@ CONTAINS
           CALL errorMessage("Observatories / getObservatory", &
                "TRACE BACK (20)", 1)
           CALL NULLIFY(getObservatory_Obsies)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
+       error = .FALSE.
        RETURN
     END IF
 
@@ -507,6 +528,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / getObservatoryCCoord", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -514,6 +536,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / getObservatoryCCoord", &
             "t has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -529,28 +552,32 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        coordinates => JPL_ephemeris(mjd_tt, 3, 11, error)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "Could not get planetary ephemeris (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NEW(geocenter_ccoord, coordinates(1,:), "equatorial", copy(t_))
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "TRACE BACK (10)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DEALLOCATE(coordinates, stat=err)
        IF (err /= 0) THEN
           error = .TRUE.
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "Could not deallocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Equatorial geocentric Cartesian state for the observatory
        geocentric_obs_ccoord = getGeocentricObservatoryCCoord(this, code, t_)
@@ -558,7 +585,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "TRACE BACK (15)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Equatorial heliocentric Cartesian state for the observatory
        getObservatoryCCoord_code = copy(geocenter_ccoord + geocentric_obs_ccoord)
@@ -566,7 +594,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "TRACE BACK (20)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL rotateToEquatorial(getObservatoryCCoord_code)
        CALL NULLIFY(t_)
@@ -582,41 +611,47 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "TRACE BACK (25)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL toInt(TRIM(code(indx+1:)), i, error)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "Could not convert string to integer.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (i < 1 .OR. i>11) THEN
           error = .TRUE.
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "Observatory code invalid: " // TRIM(code(indx+1:)), 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        coordinates => JPL_ephemeris(mjd_tt, i, 11, error)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "Could not get planetary ephemeris (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NEW(getObservatoryCCoord_code, coordinates(1,:), "equatorial", copy(t_))
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "TRACE BACK (30)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DEALLOCATE(coordinates, stat=err)
        IF (err /= 0) THEN
           error = .TRUE.
           CALL errorMessage("Observatories / getObservatoryCCoord", &
                "Could not deallocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL rotateToEquatorial(getObservatoryCCoord_code)
        CALL NULLIFY(t_)
@@ -649,6 +684,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / getObservatoryCCoord", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -656,6 +692,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / getObservatoryCCoord", &
             "obsy has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -663,6 +700,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / getObservatoryCCoord", &
             "t has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -671,6 +709,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / getObservatoryCCoord", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -679,6 +718,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / getObservatoryCCoord", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -721,6 +761,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / getGeocentricObservatoryCCoord", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -728,6 +769,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / getGeocentricObservatoryCCoord", &
             "t has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -740,6 +782,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / getGeocentricObservatoryCCoord", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -758,6 +801,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / getGeocentricObservatoryCCoord", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -771,6 +815,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / getGeocentricObservatoryCCoord", &
             "TRACE BACK (15)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -791,6 +836,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / getGeocentricObservatoryCCoord", &
             "TRACE BACK (20)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -804,6 +850,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / getGeocentricObservatoryCCoord", &
             "TRACE BACK (25)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -835,6 +882,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / getPosition", &
             "Object has not been initialized yet.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -843,7 +891,8 @@ CONTAINS
        ! If the matching code is found, then collect the data and return:
        IF (TRIM(code) == TRIM(trial_code)) THEN
           getPosition_Obsies = getPosition(this%observatory_arr(i))
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -893,6 +942,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / getNutationAngles", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -901,6 +951,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / getNutationAngles", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
     t1 = (mjd_tt-51544.5_bp)/36525.0_bp
@@ -1103,6 +1154,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / getNutationMatrix", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1111,6 +1163,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / getNutationMatrix", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1120,6 +1173,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / getNutationMatrix", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     dpsi = dpsi * rad_asec
@@ -1180,6 +1234,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / getPrecessionMatrix", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1188,6 +1243,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observatories / getPrecessionMatrix", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1248,6 +1304,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / precessionAndNutationMatrix", &
             "Unkown starting frame.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1255,6 +1312,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / precessionAndNutationMatrix", &
             "Unkown starting reference system.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1262,6 +1320,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / precessionAndNutationMatrix", &
             "Unkown final frame.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1269,6 +1328,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / precessionAndNutationMatrix", &
             "Unkown final reference system.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1276,6 +1336,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / precessionAndNutationMatrix", &
             "Unkown starting epoch.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1283,6 +1344,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatories / precessionAndNutationMatrix", &
             "Unkown final epoch.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1296,6 +1358,7 @@ CONTAINS
        CALL errorMessage("Observatories / " // &
             "precessionAndNutationMatrix", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     tt2 = getMJD(t2, "TT")
@@ -1304,6 +1367,7 @@ CONTAINS
        CALL errorMessage("Observatories / " // &
             "precessionAndNutationMatrix", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     tt_ = tt1
@@ -1335,7 +1399,8 @@ CONTAINS
                 CALL errorMessage("Observatories / " // &
                      "precessionAndNutationMatrix", &
                      "TRACE BACK (15)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           ELSE IF (frame == "equatorial") THEN
              IF (TRIM(rsys) == "true-of-date") THEN
@@ -1348,7 +1413,8 @@ CONTAINS
                    CALL errorMessage("Observatories / " // &
                         "precessionAndNutationMatrix", &
                         "TRACE BACK (20)", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 rot = MATMUL(TRANSPOSE(r),rot)
                 rsys = "mean"
@@ -1367,7 +1433,8 @@ CONTAINS
                    CALL errorMessage("Observatories / " // &
                         "precessionAndNutationMatrix", &
                         "TRACE BACK (25)", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
              END IF
           END IF
@@ -1386,7 +1453,8 @@ CONTAINS
                 CALL errorMessage("Observatories / " // &
                      "precessionAndNutationMatrix", &
                      "TRACE BACK (30)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              rot = MATMUL(TRANSPOSE(r),rot)
              rsys = "mean"
@@ -1401,7 +1469,8 @@ CONTAINS
                    CALL errorMessage("Observatories / " // &
                         "precessionAndNutationMatrix", &
                         "TRACE BACK (35)", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 rot = MATMUL(r,rot)
                 rsys = rsys2
@@ -1410,7 +1479,8 @@ CONTAINS
                 CALL errorMessage("Observatories / " // &
                      "precessionAndNutationMatrix", &
                      "Internal error (5).", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END IF
 
@@ -1438,7 +1508,8 @@ CONTAINS
                 CALL errorMessage("Observatories / " // &
                      "precessionAndNutationMatrix", &
                      "Internal error (10).", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END IF
 

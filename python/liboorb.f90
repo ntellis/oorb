@@ -143,6 +143,7 @@ CONTAINS
     IF(error) THEN
        ! CALL errorMessage("oorb / init", "TRACE BACK (1)", 1)
        errorCode = 1
+       error = .FALSE.
        RETURN
     END IF
 
@@ -152,6 +153,7 @@ CONTAINS
        ! Error Could not initialize planetary ephemerides.
        CALL errorMessage("oorb / init", "TRACE BACK (2)", 1)
        errorCode = 1
+       error = .FALSE.
        RETURN
     END IF
 
@@ -162,6 +164,7 @@ CONTAINS
     IF(error) THEN
        ! Error Could not initialize observatory codes.
        errorCode = 45
+       error = .FALSE.
        RETURN
     END IF
 
@@ -393,6 +396,7 @@ CONTAINS
          dyn_model .NE. "n-body") THEN
        ! Error: unsupported dynamical model.
        errorCode = 21
+       error = .FALSE.
        RETURN
     ELSEIF(dyn_model .EQ. "n-body") THEN
        dynModel = "n-body"
@@ -454,6 +458,7 @@ CONTAINS
        error = .FALSE.
        ! Error in getID()
        errorCode = 2
+       error = .FALSE.
        RETURN
     END IF
 
@@ -462,6 +467,7 @@ CONTAINS
        error = .FALSE.
        ! Error in getObservationalTimeInterval()
        errorCode = 3
+       error = .FALSE.
        RETURN
     END IF
 
@@ -484,7 +490,8 @@ CONTAINS
     IF (.NOT.exist(epoch)) THEN
        CALL epochFromObservations(obs_in, t, errorCode)
        IF(errorCode /= 0) THEN
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        CALL NULLIFY(t)
@@ -495,6 +502,7 @@ CONTAINS
        error = .FALSE.
        ! Error in new(outOrbit)
        errorCode = 8
+       error = .FALSE.
        RETURN
     END IF
     CALL setParameters(outOrbit, dyn_model=dynModel, perturbers=perturbers, &
@@ -522,6 +530,7 @@ CONTAINS
        error = .FALSE.
        ! Error in setParameters()
        errorCode = 9
+       error = .FALSE.
        RETURN
     END IF
 
@@ -569,7 +578,8 @@ CONTAINS
        error = .FALSE.
           ! Error in setParameters()
           errorCode = 10
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL autoStatisticalRanging(outOrbit)
     CASE (3)
@@ -581,12 +591,14 @@ CONTAINS
        error = .FALSE.
           ! Error in setParameters()
           errorCode = 11
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL stepwiseRanging(outOrbit, nobs_max=-1)
     CASE default
        ! Error: unknown type of ranging
        errorCode = 12
+       error = .FALSE.
        RETURN
     END SELECT
 
@@ -597,17 +609,20 @@ CONTAINS
        errorCode = 13
        error  = .FALSE.
        CALL NULLIFY(outOrbit)
+       error = .FALSE.
        RETURN
     END IF
 
     ! Cleanup everything
-    RETURN
+    error = .FALSE.
+       RETURN
   END SUBROUTINE ranging
 
 
   SUBROUTINE mcmc
     WRITE (*,*)  "mcmc"
-    RETURN
+    error = .FALSE.
+       RETURN
   END SUBROUTINE mcmc
 
 
@@ -722,6 +737,7 @@ CONTAINS
          dyn_model .NE. "n-body") THEN
        ! Error: unsupported dynamical model.
        errorCode = 21
+       error = .FALSE.
        RETURN
     ELSEIF(dyn_model .EQ. "2-body") THEN
        dynModel = "2-body"
@@ -731,6 +747,7 @@ CONTAINS
          dyn_model_init .NE. "n-body") THEN
        ! Error: unsupported dynamical model.
        errorCode = 21
+       error = .FALSE.
        RETURN
     ELSEIF(dyn_model_init .EQ. "n-body") THEN
        dynModelInit = "n-body"
@@ -763,11 +780,13 @@ CONTAINS
        error = .FALSE.
        ! Error in getNrOfObservations()
        errorCode = 22
+       error = .FALSE.
        RETURN
     END IF
     IF (nobs < 4) THEN
        ! Error: Too few observations!
        errorCode = 23
+       error = .FALSE.
        RETURN
     END IF
 
@@ -778,7 +797,8 @@ CONTAINS
        error = .FALSE.
           ! Error in getSampleOrbits()
           errorCode = 16
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        norb = SIZE(orb_arr)
     ELSE
@@ -788,20 +808,23 @@ CONTAINS
        error = .FALSE.
           ! Error in getNominalOrbit()
           errorCode = 24
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        norb = 1
     END IF
     IF (norb == 0) THEN
        CALL errorMessage("oorb4mops / lsl", &
             "Initial orbit not available.", 1)
+       error = .FALSE.
        STOP
     END IF
 
     IF (.NOT.exist(epoch)) THEN
        CALL epochFromObservations(obs_in, t, errorCode)
        IF(errorCode /= 0) THEN
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        t = copy(epoch)
@@ -832,6 +855,7 @@ CONTAINS
        error = .FALSE.
        ! Error in createing a new Stochasic Orbit
        errorCode = 8
+       error = .FALSE.
        RETURN
     END IF
     CALL setParameters(outStochOrbit, &
@@ -853,6 +877,7 @@ CONTAINS
        error = .FALSE.
        ! Error in setParameters()
        errorCode = 9
+       error = .FALSE.
        RETURN
     END IF
 
@@ -866,7 +891,8 @@ CONTAINS
        error = .FALSE.
           ! Error in setParameters()
           errorCode = 9
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        CALL propagate(orb_arr(j), t)
@@ -874,7 +900,8 @@ CONTAINS
        error = .FALSE.
           ! Error in propagate()
           errorCode = 25
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL setParameters(orb_arr(j), &
             dyn_model=dynModel, &
@@ -885,7 +912,8 @@ CONTAINS
        error = .FALSE.
           ! Error in setParameters()
           errorCode = 9
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        CALL levenbergMarquardt(outStochOrbit, orb_arr(j))
@@ -899,6 +927,7 @@ CONTAINS
        error = .FALSE.
        ! Error: least squares fit failed.
        errorCode = 26
+       error = .FALSE.
        RETURN
     END IF
 
@@ -948,12 +977,14 @@ CONTAINS
        error = .FALSE.
           ! Error in creating a new epoch
           errorCode = 39
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (.NOT.exist(epoch)) THEN
        ! Error creating a viable epoch.
        errorCode = 40
+       error = .FALSE.
        RETURN
     END IF
     IF(PRESENT(dyn_model) .AND. &
@@ -961,6 +992,7 @@ CONTAINS
          dyn_model .NE. "n-body") THEN
        ! Error: unsupported dynamical model.
        errorCode = 21
+       error = .FALSE.
        RETURN
     ELSEIF(dyn_model .EQ. "n-body") THEN
        dynModel = "n-body"
@@ -976,6 +1008,7 @@ CONTAINS
        error = .FALSE.
        ! Error in setParameters()
        errorCode = 37
+       error = .FALSE.
        RETURN
     END IF
 
@@ -985,6 +1018,7 @@ CONTAINS
        error = .FALSE.
        ! Error in propagate()
        errorCode = 41
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1065,6 +1099,7 @@ CONTAINS
          dyn_model .NE. "n-body") THEN
        ! Error: unsupported dynamical model.
        errorCode = 21
+       error = .FALSE.
        RETURN
     ELSEIF(dyn_model .EQ. "n-body") THEN
        dynModel = "n-body"
@@ -1084,7 +1119,8 @@ CONTAINS
        error = .FALSE.
           ! Error in creating a new Time object.
           errorCode = 35
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Compute heliocentric observatory coordinates
        observers(j) = getObservatoryCCoord(obsies, obsy_code, t)
@@ -1092,7 +1128,8 @@ CONTAINS
        error = .FALSE.
           ! Error in getObservatoryCCoord()
           errorCode = 36
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL rotateToEquatorial(observers(j))
        CALL NULLIFY(t)
@@ -1113,6 +1150,7 @@ CONTAINS
        error = .FALSE.
        ! Error in setParameters()
        errorCode = 37
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1126,6 +1164,7 @@ CONTAINS
        error = .FALSE.
        ! Error in getEphemerides()
        errorCode = 38
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1152,6 +1191,7 @@ CONTAINS
     IF (.NOT.containsDiscretePDF(storb)) THEN
        ! Error: we need sampled uncertainty information required for this task.
        errorCode = 44
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1192,6 +1232,7 @@ CONTAINS
        ! Error: MOID for hyperbolic orbits currently not computed...
        errorCode = 42
        moid = -1.0_bp
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1241,6 +1282,7 @@ CONTAINS
        error = .FALSE.
        ! Error in getObservationalTimeInterval()
        errorCode = 3
+       error = .FALSE.
        RETURN
     END IF
     obs = getObservation(obs_in,1)
@@ -1248,6 +1290,7 @@ CONTAINS
        error = .FALSE.
        ! Error in getObservation()
        errorCode = 4
+       error = .FALSE.
        RETURN
     END IF
     t = getTime(obs)
@@ -1255,6 +1298,7 @@ CONTAINS
        error = .FALSE.
        ! Error in getTime()
        errorCode = 5
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(obs)
@@ -1263,6 +1307,7 @@ CONTAINS
        error = .FALSE.
        ! Error in getMJD()
        errorCode = 6
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(t)
@@ -1272,6 +1317,7 @@ CONTAINS
        error = .FALSE.
        ! Error in new(t)
        errorCode = 7
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1317,6 +1363,7 @@ CONTAINS
        error = .FALSE.
        WRITE(*, *) "Error in getResults()"
        errorCode = 15
+       error = .FALSE.
        RETURN
     END IF
     ! Get ORBITAL-ELEMENT PDF
@@ -1325,6 +1372,7 @@ CONTAINS
        error = .FALSE.
        WRITE(*, *) "Error in getSampleOrbits()"
        errorCode = 16
+       error = .FALSE.
        RETURN
     END IF
     pdf_arr_cmp => getDiscretePDF(storb)
@@ -1332,6 +1380,7 @@ CONTAINS
        error = .FALSE.
        WRITE(*, *) "Error in getDiscretePDF()"
        errorCode = 17
+       error = .FALSE.
        RETURN
     END IF
     rchi2_arr_cmp => getReducedChi2Distribution(storb)
@@ -1339,6 +1388,7 @@ CONTAINS
        error = .FALSE.
        WRITE(*, *) "Error in getReducedChi2Distribution()"
        errorCode = 17
+       error = .FALSE.
        RETURN
     END IF
     CALL getResults(storb, &
@@ -1349,6 +1399,7 @@ CONTAINS
        WRITE(*, *) "Error in getResults()"
        numOutOrbits = 0
        errorCode = 18
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1362,7 +1413,8 @@ CONTAINS
        error = .FALSE.
           WRITE(*, *) "Error in fetching the orbit"
           errorCode = 19
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (elementType == "keplerian") THEN
           elements(3:6) = elements(3:6)/rad_deg
@@ -1382,7 +1434,8 @@ CONTAINS
        error = .FALSE.
           WRITE(*, *) "Error in getTime/getMjd"
           errorCode = 5
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
 
@@ -1414,6 +1467,7 @@ CONTAINS
     IF (err /= 0) THEN
        WRITE(*, *) "Error: Could not deallocate memory"
        errorCode = 19
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1452,6 +1506,7 @@ CONTAINS
        error = .FALSE.
        WRITE(*, *) "Error in getNominalOrbit()"
        errorCode = 28
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1461,6 +1516,7 @@ CONTAINS
        error = .FALSE.
        WRITE(*, *) "Error in fetching the orbit"
        errorCode = 19
+       error = .FALSE.
        RETURN
     END IF
     IF (elementType == "keplerian") THEN
@@ -1481,6 +1537,7 @@ CONTAINS
        error = .FALSE.
        WRITE(*, *) "Error in getTime/getMjd"
        errorCode = 5
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1490,6 +1547,7 @@ CONTAINS
        error = .FALSE.
        WRITE(*, *) "Error in getCovarianceMatrix"
        errorCode = 29
+       error = .FALSE.
        RETURN
     END IF
     DO j=1,6
@@ -1625,6 +1683,7 @@ CONTAINS
        error = .FALSE.
        ! Error in creating input file instance
        errorCode = 30
+       error = .FALSE.
        RETURN
     END IF
     CALL setStatusOld(orb_in_file)
@@ -1633,6 +1692,7 @@ CONTAINS
        error = .FALSE.
        ! Error in opeining input file.
        errorCode = 31
+       error = .FALSE.
        RETURN
     END IF
     ! 4 header lines are not taken into account.
@@ -1641,6 +1701,7 @@ CONTAINS
        error = .FALSE.
        ! Error in getNrOfLines()
        errorCode = 32
+       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(id_arr_in(norb), orb_arr_in(norb), &
@@ -1651,6 +1712,7 @@ CONTAINS
     IF (errorCode /= 0) THEN
        ! Error in memory allocation
        errorCode = 33
+       error = .FALSE.
        RETURN
     END IF
     jac_arr_in = -1.0_bp
@@ -1677,7 +1739,8 @@ CONTAINS
        error = .FALSE.
           ! Error in readOpenOrbOrbitFile()
           errorCode = 34
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     CALL NULLIFY(orb_in_file)
@@ -1701,6 +1764,7 @@ CONTAINS
     ELSE
        ! Error in StochasticOrbit instantiation
        errorCode = 34
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1755,6 +1819,7 @@ CONTAINS
          element_type_index .GT. SIZE(ORBITAL_ELEMENTS)) THEN
        ! Error: unsupported orbital elements.
        errorCode = 58
+       error = .FALSE.
        RETURN
     END IF
     element_type = ORBITAL_ELEMENTS(element_type_index)
@@ -1768,6 +1833,7 @@ CONTAINS
     IF (errorCode /= 0) THEN
        ! Error in memory allocation
        errorCode = 33
+       error = .FALSE.
        RETURN
     END IF
     jac_arr_in = -1.0_bp
@@ -1812,7 +1878,8 @@ CONTAINS
        IF(error) THEN
           ! Error in creating a Time instance.
           errorCode = 57
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Now create an Orbit instance.
@@ -1855,6 +1922,7 @@ CONTAINS
     ELSE
        ! Error in StochasticOrbit instantiation
        errorCode = 34
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1914,6 +1982,7 @@ CONTAINS
          element_type_index .GT. SIZE(ORBITAL_ELEMENTS)) THEN
        ! Error: unsupported orbital elements.
        errorCode = 58
+       error = .FALSE.
        RETURN
     END IF
     element_type = ORBITAL_ELEMENTS(element_type_index)
@@ -1927,6 +1996,7 @@ CONTAINS
     IF (errorCode /= 0) THEN
        ! Error in memory allocation
        errorCode = 33
+       error = .FALSE.
        RETURN
     END IF
     jac_arr_in = -1.0_bp
@@ -1967,7 +2037,8 @@ CONTAINS
        IF(error) THEN
           ! Error in creating a Time instance.
           errorCode = 57
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Now create an Orbit instance.
@@ -2002,6 +2073,7 @@ CONTAINS
     ELSE
        ! Error in StochasticOrbit instantiation
        errorCode = 34
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2048,6 +2120,7 @@ CONTAINS
        error = .FALSE.
        ! Error in opening observation file.
        errorCode = 46
+       error = .FALSE.
        RETURN
     END IF
     CALL NEW(rawObss, obs_file, stdev=stdevArray)
@@ -2123,6 +2196,7 @@ CONTAINS
     IF(n .LE. 0) THEN
        ! Now enough data!
        errorCode = 50
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2139,7 +2213,8 @@ CONTAINS
        IF(error) THEN
           ! Error in creating Time instnce.
           errorCode = 51
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Create SphericalCoordinates object containing R.A. Dec. epoch.
@@ -2148,7 +2223,8 @@ CONTAINS
        error = .FALSE.
           ! Error in creating a neSphericalCoordinates instance.
           errorCode = 52
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Now set the covariance matrix.
@@ -2164,7 +2240,8 @@ CONTAINS
        error = .FALSE.
           ! Error in deriving the observatory location!
           errorCode = 48
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        obsy_ccoord = getObservatoryCCoord(obsies, obsy, t)
 
@@ -2191,14 +2268,16 @@ CONTAINS
        error = .FALSE.
           ! Error in creating a new Observation instance.
           errorCode = 49
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        CALL addObservation(rawObss, obs, sort=.TRUE.)
        IF(error) THEN
           ! Error in adding a new observation.
           errorCode = 53
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        CALL NULLIFY(obs)
@@ -2257,6 +2336,7 @@ CONTAINS
     IF(element_type_index .LE. 0) THEN
        ! Error: unsupported element type!
        errorCode = 58
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2265,6 +2345,7 @@ CONTAINS
        error = .FALSE.
        ! write(*, *) "Error in getResults()"
        errorCode = 15
+       error = .FALSE.
        RETURN
     END IF
     ! Get ORBITAL-ELEMENT PDF
@@ -2273,6 +2354,7 @@ CONTAINS
        error = .FALSE.
        ! write(*, *) "Error in getSampleOrbits()"
        errorCode = 16
+       error = .FALSE.
        RETURN
     END IF
     pdf_arr_cmp => getDiscretePDF(storb)
@@ -2280,6 +2362,7 @@ CONTAINS
        error = .FALSE.
        ! write(*, *) "Error in getDiscretePDF()"
        errorCode = 17
+       error = .FALSE.
        RETURN
     END IF
     rchi2_arr_cmp => getReducedChi2Distribution(storb)
@@ -2287,6 +2370,7 @@ CONTAINS
        error = .FALSE.
        ! write(*, *) "Error in getReducedChi2Distribution()"
        errorCode = 17
+       error = .FALSE.
        RETURN
     END IF
     CALL getResults(storb, &
@@ -2297,6 +2381,7 @@ CONTAINS
        ! write(*, *) "Error in getResults()"
        numOutOrbits = 0
        errorCode = 18
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2318,7 +2403,8 @@ CONTAINS
        error = .FALSE.
           ! write(*, *) "Error in fetching the orbit"
           errorCode = 19
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (elementType == "keplerian") THEN
           elements(3:6) = elements(3:6)/rad_deg
@@ -2337,7 +2423,8 @@ CONTAINS
        error = .FALSE.
           ! write(*, *) "Error in getTime/getMjd"
           errorCode = 5
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Add the values to outOrbits.
@@ -2372,6 +2459,7 @@ CONTAINS
     IF (err /= 0) THEN
        ! write(*, *) "Error: Could not deallocate memory"
        errorCode = 19
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2418,6 +2506,7 @@ CONTAINS
     IF(element_type_index .LE. 0) THEN
        ! Error: unsupported element type!
        errorCode = 58
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2427,6 +2516,7 @@ CONTAINS
        error = .FALSE.
        ! write(*, *) "Error in getNominalOrbit()"
        errorCode = 28
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2436,6 +2526,7 @@ CONTAINS
        error = .FALSE.
        ! write(*, *) "Error in fetching the orbit"
        errorCode = 19
+       error = .FALSE.
        RETURN
     END IF
     IF (elementType == "keplerian") THEN
@@ -2456,6 +2547,7 @@ CONTAINS
        error = .FALSE.
        ! write(*, *) "Error in getTime/getMjd"
        errorCode = 5
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2473,6 +2565,7 @@ CONTAINS
        error = .FALSE.
        ! write(*, *) "Error in getCovarianceMatrix"
        errorCode = 29
+       error = .FALSE.
        RETURN
     END IF
     DO j=1,6
@@ -2542,7 +2635,8 @@ CONTAINS
           ! We do not support exporting ephems from ranging orbits yet.
           ! FIXME: support ephems from ranging orbits?
           errorCode = 59
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Input orbits correspond to one or more single-point estimates of the pdf.
@@ -2599,6 +2693,7 @@ CONTAINS
     IF(error) THEN
        ! Error in creating a Time object.
        errorCode = 55
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2607,6 +2702,7 @@ CONTAINS
     IF(error) THEN
        ! Error in converting to MJD.
        errorCode = 56
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2638,6 +2734,7 @@ CONTAINS
     IF(error) THEN
        ! Error in creating a Time object.
        errorCode = 55
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2646,6 +2743,7 @@ CONTAINS
     IF(error) THEN
        ! Error in converting to MJD.
        errorCode = 56
+       error = .FALSE.
        RETURN
     END IF
 

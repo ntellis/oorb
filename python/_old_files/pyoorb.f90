@@ -77,6 +77,7 @@ CONTAINS
        error = .FALSE.
        error_code = 1
        error = .FALSE.
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -85,6 +86,7 @@ CONTAINS
     IF (error) THEN
        error = .FALSE.
        error_code = 2
+       error = .FALSE.
        error = .FALSE.
        RETURN       
     END IF
@@ -96,7 +98,8 @@ CONTAINS
        error = .FALSE.
           error_code = 3
           error = .FALSE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        CALL JPL_ephemeris_init(error, &
@@ -105,7 +108,8 @@ CONTAINS
        error = .FALSE.
           error_code = 4
           error = .FALSE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -174,7 +178,8 @@ CONTAINS
             NINT(in_orbits(i,8)) > SIZE(element_types)) THEN
           ! Error: unsupported orbital elements.
           error_code = 58
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Get each flattened orbit and create an Orbit instance. First
@@ -184,7 +189,8 @@ CONTAINS
        error = .FALSE.
           ! Error in creating a Time instance.
           error_code = 57
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Now create an Orbit instance:
@@ -202,7 +208,8 @@ CONTAINS
        error = .FALSE.
           ! Error in transformation
           error_code = 58
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        out_orbits(i,8) = REAL(in_element_type,8)
        out_orbits(i,9:) = in_orbits(i,9:)
@@ -259,7 +266,8 @@ CONTAINS
             NINT(in_orbits(i,8)) > SIZE(element_types)) THEN
           ! Error: unsupported orbital elements.
           error_code = 58
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Get each flattened orbit and create an Orbit instance.
@@ -268,7 +276,8 @@ CONTAINS
        IF(error) THEN
           ! Error in creating a Time instance.
           error_code = 57
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Now create an Orbit instance.
@@ -286,7 +295,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           error_code = 37
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Create a Time instance based on the requested output epoch
        CALL NEW(t1, in_epoch(1), timescales(NINT(in_epoch(2))))
@@ -294,7 +304,8 @@ CONTAINS
        error = .FALSE.
           ! Error in transformation
           error_code = 58
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Compute topocentric ephemerides
        CALL propagate(orb, &
@@ -303,7 +314,8 @@ CONTAINS
        error = .FALSE.
           ! Error in getEphemerides()
           error_code = 40
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        out_orbits(i,1) = in_orbits(i,1)
        out_orbits(i,2:7) = getElements(orb, element_types(NINT(in_orbits(i,8))), &
@@ -312,7 +324,8 @@ CONTAINS
        error = .FALSE.
           ! Error in transformation
           error_code = 58
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Set element type (same as input element type)
        out_orbits(i,8) = in_orbits(i,8)
@@ -374,7 +387,8 @@ CONTAINS
             NINT(in_orbits(i,8)) > SIZE(element_types)) THEN
           ! Error: unsupported orbital elements.
           error_code = 58
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Get each flattened orbit and create an Orbit instance.
@@ -384,7 +398,8 @@ CONTAINS
        IF(error) THEN
           ! Error in creating a Time instance.
           error_code = 57
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Now create an Orbit instance.
@@ -402,7 +417,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           error_code = 37
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Create a Time instance based on the requested output epoch
        CALL NEW(t1, in_epoch(1), timescales(NINT(in_epoch(2))))
@@ -410,7 +426,8 @@ CONTAINS
        error = .FALSE.
           ! Error in transformation
           error_code = 58
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Propagate orbits
        CALL propagate(orb_arr(1), &
@@ -419,7 +436,8 @@ CONTAINS
        error = .FALSE.
           ! Error in propagation
           error_code = 40
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        out_orbits(i,1) = in_orbits(i,1)
        out_orbits(i,2:7) = getElements(orb_arr(1), element_types(NINT(in_orbits(i,8))), &
@@ -428,7 +446,8 @@ CONTAINS
        error = .FALSE.
           ! Error in transformation
           error_code = 58
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Set element type (same as input element type)
        out_orbits(i,8) = in_orbits(i,8)
@@ -517,7 +536,8 @@ CONTAINS
        error = .FALSE.
           ! Error in creating a new Time object.
           error_code = 35
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Compute heliocentric observatory coordinates
        observers(i) = getObservatoryCCoord(obsies, in_obscode, t)
@@ -525,7 +545,8 @@ CONTAINS
        error = .FALSE.
           ! Error in getObservatoryCCoord()
           error_code = 36
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL rotateToEquatorial(observers(i))
        CALL NULLIFY(t)
@@ -539,7 +560,8 @@ CONTAINS
             NINT(in_orbits(i,8)) > SIZE(element_types)) THEN
           ! Error: unsupported orbital elements.
           error_code = 58
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Get each flattened orbit and create an Orbit instance.
@@ -549,7 +571,8 @@ CONTAINS
        IF(error) THEN
           ! Error in creating a Time instance.
           error_code = 57
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Now create an instant of StochasticOrbit via an Orbit instance.
@@ -567,7 +590,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           error_code = 37
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Use cartesian equatorial coordinates:
        CALL toCartesian(orb_arr(1), "equatorial")
@@ -576,7 +600,8 @@ CONTAINS
        error = .FALSE.
           ! Error in setParameters()
           error_code = 39
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Compute topocentric ephemerides
        CALL getEphemerides(orb_arr, &
@@ -587,7 +612,8 @@ CONTAINS
        error = .FALSE.
           ! Error in getEphemerides()
           error_code = 40
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(orb_arr(1))
 
@@ -605,7 +631,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (50)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           CALL rotateToEquatorial(ccoord)
           obsy_obj = getPosition(ccoord)
@@ -613,7 +640,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (55)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           CALL NULLIFY(ccoord)
           ephemeris_r2 = DOT_PRODUCT(obsy_obj,obsy_obj)
@@ -623,7 +651,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (60)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           heliocentric_r2 = DOT_PRODUCT(pos,pos)
           obsy_pos = getPosition(observers(j))
@@ -631,7 +660,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (65)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           geoc_obsy = obsy_pos - pos
           observer_r2 = DOT_PRODUCT(obsy_pos,obsy_pos)
@@ -649,7 +679,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (70)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
 
           ! ephem date
@@ -661,7 +692,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (75)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           CALL rotateToEquatorial(obsy_ccoord)
           geoc_obsy = getPosition(obsy_ccoord)
@@ -669,7 +701,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (80)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
 
           CALL NULLIFY(t)
@@ -679,7 +712,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (85)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
 
           geoc_obsy = getPosition(obsy_ccoord)
@@ -788,7 +822,8 @@ CONTAINS
        error = .FALSE.
           ! Error in creating a new Time object.
           error_code = 35
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Compute heliocentric observatory coordinates
        observers(i) = getObservatoryCCoord(obsies, in_obscode, t)
@@ -796,7 +831,8 @@ CONTAINS
        error = .FALSE.
           ! Error in getObservatoryCCoord()
           error_code = 36
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL rotateToEquatorial(observers(i))
        CALL NULLIFY(t)
@@ -810,7 +846,8 @@ CONTAINS
             NINT(in_orbits(i,8)) > SIZE(element_types)) THEN
           ! Error: unsupported orbital elements.
           error_code = 58
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Get each flattened orbit and create an Orbit instance.
@@ -820,7 +857,8 @@ CONTAINS
        IF(error) THEN
           ! Error in creating a Time instance.
           error_code = 57
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Now create an instant of StochasticOrbit via an Orbit instance.
@@ -838,7 +876,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           error_code = 37
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Use cartesian equatorial coordinates:
        CALL toCartesian(orb_arr(1), "equatorial")
@@ -847,7 +886,8 @@ CONTAINS
        error = .FALSE.
           ! Error in setParameters()
           error_code = 39
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Compute topocentric ephemerides
        CALL getEphemerides(orb_arr, &
@@ -858,7 +898,8 @@ CONTAINS
        error = .FALSE.
           ! Error in getEphemerides()
           error_code = 40
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(orb_arr(1))
 
@@ -876,7 +917,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (50)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           CALL rotateToEquatorial(ccoord)
           obsy_obj = getPosition(ccoord)
@@ -884,7 +926,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (55)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           CALL NULLIFY(ccoord)
           ephemeris_r2 = DOT_PRODUCT(obsy_obj,obsy_obj)
@@ -894,7 +937,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (60)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           heliocentric_r2 = DOT_PRODUCT(pos,pos)
           obsy_pos = getPosition(observers(j))
@@ -902,7 +946,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (65)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           geoc_obsy = obsy_pos - pos
           observer_r2 = DOT_PRODUCT(obsy_pos,obsy_pos)
@@ -920,7 +965,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (70)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
 
           ! ephem date
@@ -932,7 +978,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (75)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           CALL rotateToEquatorial(obsy_ccoord)
           geoc_obsy = getPosition(obsy_ccoord)
@@ -940,7 +987,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (80)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
 
           CALL NULLIFY(t)
@@ -950,7 +998,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (85)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
 
           geoc_obsy = getPosition(obsy_ccoord)
@@ -1071,7 +1120,8 @@ CONTAINS
        error = .FALSE.
           ! Error in creating a new Time object.
           error_code = 35
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Compute heliocentric observatory coordinates
        observers(i) = getObservatoryCCoord(obsies, in_obscode, t)
@@ -1079,7 +1129,8 @@ CONTAINS
        error = .FALSE.
           ! Error in getObservatoryCCoord()
           error_code = 36
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL rotateToEquatorial(observers(i))
        CALL NULLIFY(t)
@@ -1093,7 +1144,8 @@ CONTAINS
             NINT(in_orbits(i,8)) > SIZE(element_types)) THEN
           ! Error: unsupported orbital elements.
           error_code = 58
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Get each flattened orbit and create an Orbit instance.
@@ -1103,7 +1155,8 @@ CONTAINS
        IF(error) THEN
           ! Error in creating a Time instance.
           error_code = 57
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Now create an instant of StochasticOrbit via an Orbit instance.
@@ -1121,7 +1174,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           error_code = 37
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NEW(storb, orb_arr(1), in_covariances(i,:,:), &
             cov_type=element_types(NINT(in_orbits(i,8))), &
@@ -1129,7 +1183,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           error_code = 34
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Use cartesian equatorial coordinates:
        CALL toCartesian(storb, "equatorial")
@@ -1138,7 +1193,8 @@ CONTAINS
        error = .FALSE.
           ! Error in setParameters()
           error_code = 36
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Set integration parameters
@@ -1151,7 +1207,8 @@ CONTAINS
        error = .FALSE.
           ! Error in setParameters()
           error_code = 37
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Compute topocentric ephemerides
@@ -1164,7 +1221,8 @@ CONTAINS
        error = .FALSE.
           ! Error in getEphemerides()
           error_code = 38
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(storb)
        CALL NULLIFY(orb_arr(1))
@@ -1183,7 +1241,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (50)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           CALL rotateToEquatorial(ccoord)
           obsy_obj = getPosition(ccoord)
@@ -1191,7 +1250,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (55)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           CALL NULLIFY(ccoord)
           ephemeris_r2 = DOT_PRODUCT(obsy_obj,obsy_obj)
@@ -1201,7 +1261,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (60)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           heliocentric_r2 = DOT_PRODUCT(pos,pos)
           obsy_pos = getPosition(observers(j))
@@ -1209,7 +1270,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (65)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
           observer_r2 = DOT_PRODUCT(obsy_pos,obsy_pos)
           cos_phase = 0.5_bp * (heliocentric_r2 + ephemeris_r2 - &
@@ -1223,7 +1285,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage('oorb / ephemeris', &
                   'TRACE BACK (70)',1)
-             STOP
+             error = .FALSE.
+       STOP
           END IF
 
           ! ephem date
@@ -1239,7 +1302,8 @@ CONTAINS
           IF (LEN_TRIM(errstr) /= 0) THEN
              error_code = 7
              WRITE(*,*) TRIM(errstr)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           ismaa = 1 + MAXLOC(ABS(eigenval(2:3)),dim=1)
           ismia = 1 + MINLOC(ABS(eigenval(2:3)),dim=1)

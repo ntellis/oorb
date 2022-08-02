@@ -109,6 +109,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatory / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -117,6 +118,7 @@ CONTAINS
        CALL errorMessage("Observatory / new", &
             "Observatory code ("// TRIM(code) // &
             ")too long.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -200,6 +202,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatory / equal", &
             "1st object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -207,18 +210,21 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatory / equal", &
             "2nd object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
     ! Observatory code:
     IF (.NOT.(this%code == that%code)) THEN
        equal_Obsy = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
 
     ! Position wrt. the geocenter:
     IF (ANY(ABS(this%position - that%position) > EPSILON(this%position(1)))) THEN
        equal_Obsy = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -247,6 +253,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatory / getCode", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -273,6 +280,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatory / getName", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -300,6 +308,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observatory / getPosition", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 

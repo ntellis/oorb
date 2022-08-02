@@ -1251,6 +1251,7 @@ CONTAINS
     xx => x
     IF (.NOT.ASSOCIATED(tree%nil,xx%rchild)) THEN
        y => minimum(tree, xx%rchild)
+       error = .FALSE.
        RETURN
     END IF
     y => xx%parent
@@ -1276,6 +1277,7 @@ CONTAINS
     xx => x
     IF (.NOT.ASSOCIATED(tree%nil,xx%rchild)) THEN
        y => minimum(tree, xx%rchild)
+       error = .FALSE.
        RETURN
     END IF
     y => xx%parent
@@ -1299,6 +1301,7 @@ CONTAINS
 
     IF (.NOT.ASSOCIATED(tree%nil,x%rchild)) THEN
        y => minimum(tree, x%rchild)
+       error = .FALSE.
        RETURN
     END IF
     y => x%parent
@@ -1322,6 +1325,7 @@ CONTAINS
 
     IF (.NOT.ASSOCIATED(tree%nil,x%rchild)) THEN
        y => minimum(tree, x%rchild)
+       error = .FALSE.
        RETURN
     END IF
     y => x%parent
@@ -1345,6 +1349,7 @@ CONTAINS
 
     IF (.NOT.ASSOCIATED(tree%nil,x%rchild)) THEN
        y => minimum(tree, x%rchild)
+       error = .FALSE.
        RETURN
     END IF
     y => x%parent
@@ -1368,6 +1373,7 @@ CONTAINS
 
     IF (.NOT.ASSOCIATED(tree%nil,x%rchild)) THEN
        y => minimum(tree, x%rchild)
+       error = .FALSE.
        RETURN
     END IF
     y => x%parent
@@ -1391,6 +1397,7 @@ CONTAINS
 
     IF (.NOT.ASSOCIATED(tree%nil,x%rchild)) THEN
        y => minimum(tree, x%rchild)
+       error = .FALSE.
        RETURN
     END IF
     y => x%parent
@@ -1414,6 +1421,7 @@ CONTAINS
 
     IF (.NOT.ASSOCIATED(tree%nil,x%rchild)) THEN
        y => minimum(tree, x%rchild)
+       error = .FALSE.
        RETURN
     END IF
     y => x%parent
@@ -2057,7 +2065,8 @@ CONTAINS
     DO WHILE (.NOT.ASSOCIATED(tree%nil,x))
        y => x
        IF (key == x%key) THEN
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (key < x%key) THEN
           x => x%lchild
        ELSE
@@ -2106,7 +2115,8 @@ CONTAINS
     DO WHILE (.NOT.ASSOCIATED(tree%nil,x))
        y => x
        IF (key == x%key) THEN
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (key < x%key) THEN
           x => x%lchild
        ELSE
@@ -2159,7 +2169,8 @@ CONTAINS
           IF (PRESENT(data_value)) THEN
              CALL insert_list_node(x%data_list, data_value)
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (key < x%key) THEN
           x => x%lchild
        ELSE
@@ -2214,7 +2225,8 @@ CONTAINS
              ALLOCATE(x%data_array(SIZE(data_array)))
              x%data_array(:) = data_array(:)
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (key < x%key) THEN
           x => x%lchild
        ELSE
@@ -2269,7 +2281,8 @@ CONTAINS
           IF (PRESENT(data_value)) THEN
              CALL insert_list_node(x%data_list, data_value)
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (key < x%key) THEN
           x => x%lchild
        ELSE
@@ -2334,7 +2347,8 @@ CONTAINS
                         SIZE(x%data_nodes(i)%data_array) + 1)
                    x%data_nodes(i)%data_array(SIZE(x%data_nodes(i)%data_array)) = data_value
                 END IF
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END DO
           IF (SIZE(x%data_nodes) < r16arr_size_max) THEN
@@ -2437,7 +2451,8 @@ CONTAINS
              ! Insert the new key and its first value
              CALL insert_tree_node(tree, key, data_value)
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (key < x%lkey) THEN
           x => x%lchild
        ELSE
@@ -2476,6 +2491,7 @@ CONTAINS
             tree%root%rchild%lchild%ukey, &
             tree%root%rchild%rchild%lkey, &
             tree%root%rchild%rchild%ukey
+       error = .FALSE.
        STOP
     END IF
 
@@ -2517,7 +2533,8 @@ CONTAINS
                         SIZE(x%data_nodes(i)%data_array) + 1)
                    x%data_nodes(i)%data_array(SIZE(x%data_nodes(i)%data_array)) = data_value
                 END IF
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END DO
           IF (SIZE(x%data_nodes) < i8arr_size_max) THEN
@@ -2620,7 +2637,8 @@ CONTAINS
              ! Insert the new key and its first value
              CALL insert_tree_node(tree, key, data_value)
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (key < x%lkey) THEN
           x => x%lchild
        ELSE
@@ -2659,6 +2677,7 @@ CONTAINS
             tree%root%rchild%lchild%ukey, &
             tree%root%rchild%rchild%lkey, &
             tree%root%rchild%rchild%ukey
+       error = .FALSE.
        STOP
     END IF
 
@@ -2685,7 +2704,8 @@ CONTAINS
     DO WHILE (.NOT.ASSOCIATED(tree%nil,x))
        y => x
        IF (key == x%key) THEN
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (key < x%key) THEN
           x => x%lchild
        ELSE
@@ -2735,7 +2755,8 @@ CONTAINS
     DO WHILE (.NOT.ASSOCIATED(tree%nil,x))
        y => x
        IF (z%key == x%key) THEN
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (key < x%key) THEN
           x => x%lchild
        ELSE

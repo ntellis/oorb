@@ -154,6 +154,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,"(A)") "bulirsch_full_jpl: Could not allocate memory (5)."
+       error = .FALSE.
        RETURN
     END IF
     ws(:,1:SIZE(celements,dim=2)) = celements
@@ -165,7 +166,8 @@ CONTAINS
           error = .TRUE.
           WRITE(0,"(A)") "bulirsch_full_jpl: Could not allocate memory (10)."
           DEALLOCATE(ws, pws, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -181,17 +183,20 @@ CONTAINS
        IF (SIZE(encounters,dim=1) < SIZE(ws,dim=2)) THEN
           error = .TRUE.
           WRITE(0,"(A)") "bulirsch_full_jpl: 'encounters' array too small (1)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (SIZE(encounters,dim=2) < 11) THEN
           error = .TRUE.
           WRITE(0,"(A)") "bulirsch_full_jpl: 'encounters' array too small (2)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (SIZE(encounters,dim=3) < 4) THEN
           error = .TRUE.
           WRITE(0,"(A)") "bulirsch_full_jpl: 'encounters' array too small (3)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        encounters = HUGE(encounters)
        encounters(:,:,2) = 3
@@ -221,6 +226,7 @@ CONTAINS
        WRITE(0,*) "rstep:       ", rstep
        WRITE(0,*) "total:       ", total
        WRITE(0,*) "total*istep: ", total*istep
+       error = .FALSE.
        STOP
     END IF
 
@@ -259,7 +265,8 @@ CONTAINS
        error = .FALSE.
              DEALLOCATE(ws, pws, stat=err)
              WRITE(0,"(A)") "bulirsch_full_jpl: TRACE BACK (5)"
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           mjd_tdt = mjd_tdt0 + k * istep
           k       = k + 1
@@ -309,7 +316,8 @@ CONTAINS
        IF (err /= 0) THEN
           error = .TRUE.
           WRITE(0,"(A)") "bulirsch_full_jpl: Could not deallocate memory (5)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        DO WHILE (k <= total)
@@ -336,7 +344,8 @@ CONTAINS
        error = .FALSE.
              DEALLOCATE(ws, stat=err)
              WRITE(0,"(A)") "bulirsch_full_jpl: TRACE BACK (10)"
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           mjd_tdt = mjd_tdt0 + k * istep
           k       = k + 1
@@ -391,6 +400,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,"(A)") "bulirsch_full_jpl: Could not deallocate memory (10)."
+       error = .FALSE.
        RETURN
     END IF
     IF (PRESENT(encounters)) THEN
@@ -398,7 +408,8 @@ CONTAINS
        IF (err /= 0) THEN
           error = .TRUE.
           WRITE(0,"(A)") "bulirsch_full_jpl: Could not deallocate memory (15)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -454,6 +465,7 @@ CONTAINS
        DEALLOCATE(hseq, wa0, wa1, pwa0, pwa1, ddif, pddif, wst, &
             pwst, ws_converged, pws_converged, ws_index, pws_index, &
             stat=err)
+       error = .FALSE.
        RETURN
     END IF
     ws_index = 0
@@ -479,7 +491,8 @@ CONTAINS
           DEALLOCATE(hseq, wa0, wa1, pwa0, pwa1, ddif, pddif, wst, &
                pwst, ws_converged, pws_converged, ws_index, &
                pws_index, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        pws_index = 0
        pws_converged = .FALSE.
@@ -550,7 +563,8 @@ CONTAINS
           DEALLOCATE(hseq, wa0, wa1, pwa0, pwa1, ddif, pddif, wst, &
                pwst, ws_converged, pws_converged, ws_index, pws_index, &
                stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Fill in the extrapolation table and check for convergence.
@@ -563,7 +577,8 @@ CONTAINS
              DEALLOCATE(hseq, wa0, wa1, pwa0, pwa1, ddif, pddif, wst, &
                   pwst, ws_converged, pws_converged, ws_index, pws_index, &
                   stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           WHERE (ws_converged .AND. ws_index == 0)
              ws_index = i
@@ -582,7 +597,8 @@ CONTAINS
                 DEALLOCATE(hseq, wa0, wa1, pwa0, pwa1, ddif, pddif, wst, &
                      pwst, ws_converged, pws_converged, ws_index, pws_index, &
                      stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              WHERE (pws_converged .AND. pws_index == 0)
                 pws_index = i
@@ -638,6 +654,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,"(A)") "step_bulirsch_full_jpl: Could not deallocate memory (5)."
+       error = .FALSE.
        RETURN
     END IF
     IF (PRESENT(pws0) .AND. PRESENT(pws1)) THEN
@@ -646,7 +663,8 @@ CONTAINS
        IF (err /= 0) THEN
           error = .TRUE.
           WRITE(0,"(A)") "step_bulirsch_full_jpl: Could not deallocate memory (10)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(encounters)) THEN
@@ -654,7 +672,8 @@ CONTAINS
        IF (err /= 0) THEN
           error = .TRUE.
           WRITE(0,"(A)") "step_bulirsch_full_jpl: Could not deallocate memory (15)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -729,7 +748,8 @@ CONTAINS
        IF (err /= 0) THEN
           error = .TRUE.
           WRITE(0,"(A)") "step_midpoint_full_jpl: Could not allocate memory (5)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        encounters = 0.0_prec
        encounters(:,:,2) = 3
@@ -751,7 +771,8 @@ CONTAINS
        END IF
        IF (error) THEN
        error = .FALSE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        q(:,:,sw(2)) = q(:,:,sw(1)) + dt * qd
        DO i=1, NS
@@ -779,7 +800,8 @@ CONTAINS
           END IF
           IF (error) THEN
        error = .FALSE.
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           q(:,:,sw(1)) = q(:,:,sw(1)) + 2.0_prec * dt * qd
           DO i = 1, NS
@@ -808,7 +830,8 @@ CONTAINS
        END IF
        IF (error) THEN
        error = .FALSE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        q(:,:,sw(1)) = q(:,:,sw(1)) + dt * qd
        DO i=1, NS
@@ -832,7 +855,8 @@ CONTAINS
        END IF
        IF (error) THEN
        error = .FALSE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        q(:,:,sw(2)) = q(:,:,sw(1)) + dt * qd
        DO k=2, nsteps
@@ -856,7 +880,8 @@ CONTAINS
           END IF
           IF (error) THEN
        error = .FALSE.
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           q(:,:,sw(1)) = q(:,:,sw(1)) + 2.0_prec * dt * qd
           sw(1:2)      = sw(2:1:-1)
@@ -881,7 +906,8 @@ CONTAINS
        END IF
        IF (error) THEN
        error = .FALSE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        q(:,:,sw(1)) = q(:,:,sw(1)) + dt * qd
        ws1 = (q(:,:,sw(1)) + q(:,:,sw(2))) / 2.0_prec
@@ -891,7 +917,8 @@ CONTAINS
        IF (err /= 0) THEN
           error = .TRUE.
           WRITE(0,"(A)") "step_midpoint_full_jpl: Could not deallocate memory (5)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -961,6 +988,7 @@ CONTAINS
     w1(:,z) = w0(:,z)
 
     IF (z == 1) THEN
+       error = .FALSE.
        RETURN
     END IF
 
@@ -969,6 +997,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        DEALLOCATE(cdif, tmp1, tmp2, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1003,6 +1032,7 @@ CONTAINS
     DEALLOCATE(cdif, tmp1, tmp2, stat=err)
     IF (err /= 0) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1041,6 +1071,7 @@ CONTAINS
     w1(:,z) = w0(:,z)
 
     IF (z == 1) THEN
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1049,6 +1080,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        DEALLOCATE(cdif, tmp, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1072,6 +1104,7 @@ CONTAINS
     DEALLOCATE(cdif, tmp, stat=err)
     IF (err /= 0) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1116,6 +1149,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        DEALLOCATE(column_ok, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1125,7 +1159,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           DEALLOCATE(column_ok, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     IF (ALL(column_ok)) THEN
@@ -1135,6 +1170,7 @@ CONTAINS
     DEALLOCATE(column_ok, stat=err)
     IF (err /= 0) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1174,6 +1210,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        DEALLOCATE(column_ok, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1183,7 +1220,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           DEALLOCATE(column_ok, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     IF (ALL(column_ok)) THEN
@@ -1193,6 +1231,7 @@ CONTAINS
     DEALLOCATE(column_ok, stat=err)
     IF (err /= 0) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1234,7 +1273,8 @@ CONTAINS
             ddif(:,:,:,i), converged(i), error)
        IF (error) THEN
        error = .FALSE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -1273,7 +1313,8 @@ CONTAINS
             ddif(:,:,:,i), converged(i), error)
        IF (error) THEN
        error = .FALSE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -1315,6 +1356,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        DEALLOCATE(column_ok, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1326,7 +1368,8 @@ CONTAINS
           IF (error) THEN
        error = .FALSE.
              DEALLOCATE(column_ok, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        IF (ALL(column_ok)) THEN
@@ -1337,6 +1380,7 @@ CONTAINS
     DEALLOCATE(column_ok, stat=err)
     IF (err /= 0) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1374,6 +1418,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        DEALLOCATE(column_ok, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1385,7 +1430,8 @@ CONTAINS
           IF (error) THEN
        error = .FALSE.
              DEALLOCATE(column_ok, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        IF (ALL(column_ok)) THEN
@@ -1396,6 +1442,7 @@ CONTAINS
     DEALLOCATE(column_ok, stat=err)
     IF (err /= 0) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1500,6 +1547,7 @@ CONTAINS
     IF (norb == 0) THEN
        error = .TRUE.
        WRITE(0,"(A)") "gauss_radau_15_full_jpl: No input orbits available."
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1519,6 +1567,7 @@ CONTAINS
     IF (PRESENT(jacobian)) THEN
        error = .TRUE.
        WRITE(0,"(A)") "gauss_radau_15_full_jpl: computation of jacobians not yet available."
+       error = .FALSE.
        RETURN
        ALLOCATE(w_massless1(6,norb*7), w_massless2(6,norb*7), &
             wd_massless1(6,norb*7), wd_massless2(6,norb*7), &
@@ -1554,17 +1603,20 @@ CONTAINS
        IF (SIZE(encounters,dim=1) < norb) THEN
           error = .TRUE.
           WRITE(0,"(A)") "gauss_radau_15_full_jpl: 'encounters' array too small (1)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (SIZE(encounters,dim=2) < 11) THEN
           error = .TRUE.
           WRITE(0,"(A)") "gauss_radau_15_full_jpl: 'encounters' array too small (2)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (SIZE(encounters,dim=3) < 4) THEN
           error = .TRUE.
           WRITE(0,"(A)") "gauss_radau_15_full_jpl: 'encounters' array too small (3)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        encounters = HUGE(encounters)
        encounters(:,:,2) = 3
@@ -1704,7 +1756,8 @@ CONTAINS
                wd_massless2, pwd_massless, b, g, e, bd, encounters_, &
                stat=err)
           WRITE(0,"(A)") "gauss_radau_15_full_jpl: TRACE BACK (10)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        nf = nf + 1
        ! Second loop. First find new beta-
@@ -1827,7 +1880,8 @@ CONTAINS
                    DEALLOCATE(w_massless1, w_massless2, wd_massless1, &
                         wd_massless2, pwd_massless, b, g, e, bd, encounters_, stat=err)
                    WRITE(0,"(A)") "gauss_radau_15_full_jpl: TRACE BACK (20)."
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 nf = nf + 1
                 DO iorb=1,SIZE(w_massless1,dim=2)
@@ -1915,7 +1969,8 @@ CONTAINS
                            wd_massless2, pwd_massless, b, g, e, bd, &
                            encounters_, stat=err)
                       WRITE(0,"(A)") "gauss_radau_15_full_jpl: ncount > 10."
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                    ! restart with 0.8x sequence size if new size called for is smaller than
                    ! originally chosen starting sequence size on first sequence.
@@ -1951,7 +2006,8 @@ CONTAINS
                    DEALLOCATE(w_massless1, w_massless2, wd_massless1, &
                         wd_massless2, b, g, e, bd, encounters_, stat=err)
                    WRITE(0,"(A)") "gauss_radau_15_full_jpl: Memory deallocation failed (10)."
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
              ELSE
                 celements = w_massless1
@@ -1961,7 +2017,8 @@ CONTAINS
                 IF (err /= 0) THEN
                    error = .TRUE.
                    WRITE(0,"(A)") "gauss_radau_15_full_jpl: Memory deallocation failed (20)."
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
              END IF
              DEALLOCATE(w_massless1, w_massless2, wd_massless1, &
@@ -1969,9 +2026,11 @@ CONTAINS
              IF (err /= 0) THEN
                 error = .TRUE.
                 WRITE(0,"(A)") "gauss_radau_15_full_jpl: Memory deallocation failed (30)."
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           ! Control on size of next sequence and adjust last sequence to exactly
           ! cover the integration span. last_seq=.true. Set on last sequence.
@@ -2024,7 +2083,8 @@ CONTAINS
                   wd_massless2, pwd_massless, b, g, e, bd, &
                   encounters_, stat=err)
              WRITE(0,"(A)") "gauss_radau_15_full_jpl: TRACE BACK (30)."
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           nf = nf + 1
           IF (ll >= 0.0_prec) THEN
@@ -2196,7 +2256,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           DEALLOCATE(wc, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (nastpert > 0) THEN ! Add asteroid perturbers.
           ALLOCATE(wc(SIZE(wc1,dim=1)+SIZE(wc2,dim=1),6))
@@ -2493,6 +2554,7 @@ CONTAINS
     END IF
     IF (err /= 0) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2561,6 +2623,7 @@ CONTAINS
     IF (central_body /= 11 .AND. relativity) THEN
        error = .TRUE.
        ! Relativity term can currently only be used in heliocentric system.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2569,6 +2632,7 @@ CONTAINS
     IF (error) THEN
        error = .FALSE.
        DEALLOCATE(wc_sun, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2576,6 +2640,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        DEALLOCATE(wc_sun, wc, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2716,6 +2781,7 @@ CONTAINS
     DEALLOCATE(wc, wc_sun, stat=err)
     IF (err /= 0) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2778,6 +2844,7 @@ CONTAINS
     END DO
     IF (count > 10) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2840,6 +2907,7 @@ CONTAINS
     END DO
     IF (count > 10) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2918,6 +2986,7 @@ CONTAINS
     END DO
     IF (count > 100) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3066,7 +3135,8 @@ CONTAINS
        arg = b*x/2.0_prec
        IF (ABS(arg) > 200.0_prec) THEN
           error = .TRUE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        s2 = SINH(arg)
        c2 = COSH(arg)
@@ -3079,6 +3149,7 @@ CONTAINS
     END DO
     IF (count > 10) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3128,7 +3199,8 @@ CONTAINS
        arg = b*x/2.0_prec
        IF (ABS(arg) > 50.0_prec) THEN
           error = .TRUE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        s2 = SINH(arg)
        c2 = COSH(arg)
@@ -3142,7 +3214,8 @@ CONTAINS
        den = (fp + SQRT(ABS(c16*fp*fp - c20*f*fpp)))
        IF (den == 0.0) THEN
           error = .TRUE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        dx = -c5*f/den
        xnew = x + dx
@@ -3151,6 +3224,7 @@ CONTAINS
     END DO
     IF (count > 20) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3159,6 +3233,7 @@ CONTAINS
     arg = b*x/2.0_prec
     IF (ABS(arg) > 200.0_prec) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
     s2 = SINH(arg)
@@ -3215,6 +3290,7 @@ CONTAINS
     arg = b*x/2.0_prec
     IF (ABS(arg) > 200.0_prec) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
     s2 = SINH(arg)
@@ -3238,6 +3314,7 @@ CONTAINS
     fmax = r0*x + eta*g2 + zeta*g3 - h
     IF (fmin*fmax > 0.0_prec) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3246,7 +3323,8 @@ CONTAINS
        arg = b*x/2.0_prec
        IF (ABS(arg) > 200.0_prec) THEN
           error = .TRUE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        s2 = SINH(arg)
        c2 = COSH(arg)
@@ -3264,6 +3342,7 @@ CONTAINS
     END DO
     IF (count > 100) THEN
        error = .TRUE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3304,6 +3383,7 @@ CONTAINS
     IF (error) THEN
        error = .FALSE.
        WRITE(0,"(A)") "kepler_step: Failed 2-body propagation using universal Kepler solver."
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3332,6 +3412,7 @@ CONTAINS
     IF (depth > 30) THEN
        error = .TRUE.
        WRITE(0,"(A)") "kepler_step_depth: kepler depth exceeded."
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3442,7 +3523,8 @@ CONTAINS
        !}
        IF (error) THEN
        error = .FALSE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        a = planetary_mu(central_body)/(-beta)
@@ -3475,7 +3557,8 @@ CONTAINS
 
        IF (error) THEN
        error = .FALSE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        a = planetary_mu(central_body)/beta
@@ -3493,7 +3576,8 @@ CONTAINS
        CALL solve_universal_parabolic(r0, beta, b, eta, zeta, dt, x, s2, c2)
        IF (error) THEN
        error = .FALSE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        G1 = x

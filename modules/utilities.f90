@@ -180,6 +180,7 @@ CONTAINS
        DEALLOCATE(kp, stat=err)
        DEALLOCATE(help, stat=err)
        DEALLOCATE(nbins_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     j = 0
@@ -205,6 +206,7 @@ CONTAINS
        DEALLOCATE(kp, stat=err)
        DEALLOCATE(help, stat=err)
        DEALLOCATE(nbins_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -257,6 +259,7 @@ CONTAINS
        DEALLOCATE(kp, stat=err)
        DEALLOCATE(help, stat=err)
        DEALLOCATE(nbins_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     j = 0
@@ -283,6 +286,7 @@ CONTAINS
        DEALLOCATE(kp, stat=err)
        DEALLOCATE(help, stat=err)
        DEALLOCATE(nbins_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -484,6 +488,7 @@ CONTAINS
        error = .TRUE.
        DEALLOCATE(kp, stat=err)
        DEALLOCATE(nbins_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     j = 0
@@ -647,6 +652,7 @@ CONTAINS
        DEALLOCATE(realToArray_r16r8, stat=err)
        DEALLOCATE(kp, stat=err)
        DEALLOCATE(nbins_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     j = 0
@@ -735,6 +741,7 @@ CONTAINS
     ALLOCATE(reallocate_ch_2(n,m))
     reallocate_ch_2 = " "
     IF (.NOT. ASSOCIATED(array)) THEN
+       error = .FALSE.
        RETURN
     END IF
     nold = SIZE(array, dim=1)
@@ -761,7 +768,8 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_ch18_1(n))
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array, dim=1)
     reallocate_ch18_1(1:MIN(n,nold)) = array(1:MIN(n,nold))
     DEALLOCATE(array)
@@ -781,7 +789,8 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_ch24_1(n))
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array, dim=1)
     reallocate_ch24_1(1:MIN(n,nold)) = array(1:MIN(n,nold))
     DEALLOCATE(array)
@@ -843,7 +852,8 @@ CONTAINS
     INTEGER :: nold, mold
 
     ALLOCATE(reallocate_i4_2(n,m))
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array,1)
     mold = SIZE(array,2)
     reallocate_i4_2(1:MIN(n,nold),1:MIN(m,mold)) = &
@@ -865,7 +875,8 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_i8_1(n))
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array)
     reallocate_i8_1(1:MIN(n,nold)) = array(1:MIN(n,nold))
     DEALLOCATE(array)
@@ -885,7 +896,8 @@ CONTAINS
     INTEGER :: nold, mold
 
     ALLOCATE(reallocate_i8_2(n,m))
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array,1)
     mold = SIZE(array,2)
     reallocate_i8_2(1:MIN(n,nold),1:MIN(m,mold)) = &
@@ -907,7 +919,8 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_r4_1(n))
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array)
     reallocate_r4_1(1:MIN(n,nold)) = array(1:MIN(n,nold))
     DEALLOCATE(array)
@@ -927,7 +940,8 @@ CONTAINS
     INTEGER :: nold, mold
 
     ALLOCATE(reallocate_r4_2(n,m))
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array,1)
     mold = SIZE(array,2)
     reallocate_r4_2(1:MIN(n,nold),1:MIN(m,mold)) = &
@@ -949,7 +963,8 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_r8_1(n))
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array)
     reallocate_r8_1(1:MIN(n,nold)) = array(1:MIN(n,nold))
     DEALLOCATE(array)
@@ -1029,7 +1044,8 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_r16_1(n))
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array)
     reallocate_r16_1(1:MIN(n,nold)) = array(1:MIN(n,nold))
     DEALLOCATE(array)
@@ -1049,7 +1065,8 @@ CONTAINS
     INTEGER :: nold, mold
 
     ALLOCATE(reallocate_r16_2(n,m))
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array,1)
     mold = SIZE(array,2)
     reallocate_r16_2(1:MIN(n,nold),1:MIN(m,mold)) = &
@@ -1071,7 +1088,8 @@ CONTAINS
     INTEGER :: nold
 
     ALLOCATE(reallocate_l_1(n))
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array)
     reallocate_l_1(1:MIN(n,nold)) = &
          array(1:MIN(n,nold))
@@ -1092,7 +1110,8 @@ CONTAINS
     INTEGER :: nold, mold
 
     ALLOCATE(reallocate_l_2(n,m))
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array,dim=1)
     mold = SIZE(array,dim=2)
     reallocate_l_2(1:MIN(n,nold),1:MIN(m,mold)) = &
@@ -1489,7 +1508,8 @@ CONTAINS
     DO i=1,limit
        IF (IACHAR(str(i:i)) > 127 .OR. IACHAR(str(i:i)) < 0) THEN
           error = .TRUE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (IACHAR(str(i:i)) >= ilo .AND. IACHAR(str(i:i)) <= ihi) THEN
           str(i:i) = CHAR(ICHAR(str(i:i))+32)
@@ -1674,6 +1694,7 @@ CONTAINS
     ! If overriden by an environmental variable, prefer that
     CALL getenv(envvar, s2)
     IF (LEN_TRIM(s2) /= 0) THEN
+       error = .FALSE.
        RETURN
     END IF
 

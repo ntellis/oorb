@@ -170,6 +170,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -204,6 +205,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -216,6 +218,7 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / new", &
             "Wrong frame of reference. " // &
             "Choose either 'equatorial' or 'ecliptic'.", 1)
+       error = .FALSE.
        RETURN
     ELSE
        this%frame       = TRIM(frame)
@@ -247,6 +250,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -255,6 +259,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("CartesianCoordinates / new",&
             "TRACE BACK 1", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%position(1) = position(1) * COS(position(2)) * COS(position(3))
@@ -266,6 +271,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("CartesianCoordinates / new",&
             "TRACE BACK 2", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%velocity(1) = COS(position(2))*COS(position(3))*velocity(1) - &
@@ -282,6 +288,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("CartesianCoordinates / new",&
             "TRACE BACK 3", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -290,6 +297,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("CartesianCoordinates / new",&
             "TRACE BACK 4", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%is_initialized = .TRUE.
@@ -320,6 +328,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -332,6 +341,7 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / new", &
             "Wrong frame of reference. " // &
             "Choose either 'equatorial' or 'ecliptic'.", 1)
+       error = .FALSE.
        RETURN
     ELSE
        this%frame       = TRIM(frame)
@@ -426,6 +436,7 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / + (addition)", &
             "Left object has not been initialized.", 1)
        CALL NULLIFY(addition_CC)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -433,6 +444,7 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / + (addition)", &
             "Right object has not been initialized.", 1)
        CALL NULLIFY(addition_CC)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -440,6 +452,7 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / + (addition)", &
             "Coordinates are not given in the same frame of reference.", 1)
        CALL NULLIFY(addition_CC)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -454,6 +467,7 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / + (addition)", &
             "Coordinatess at different epochs cannot be used in addition.", 1)
        CALL NULLIFY(addition_CC)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -481,6 +495,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / estimateLightTime", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -489,6 +504,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("CartesianCoordinates / estimateLightTime", &
             "TRACE BACK 1", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(this%t)
@@ -500,6 +516,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("CartesianCoordinates / estimateLightTime", &
             "TRACE BACK 2", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -575,6 +592,7 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / " // &
             "partialsSCoordWrtCCoord", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -585,6 +603,7 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / " // &
             "partialsSCoordWrtCCoord", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
     tmp1 = 1.0_bp/SUM(pos(1:2)**2)
@@ -622,6 +641,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / getFrame", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -649,6 +669,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / getCoordinates", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -677,6 +698,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / getPosition", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -709,6 +731,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / getSCoord", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -743,6 +766,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("CartesianCoordinates / getSCoord", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -768,6 +792,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / getTime", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -795,6 +820,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / getVelocity", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -863,7 +889,8 @@ CONTAINS
                "Could not allocate memory.", 1)
           DEALLOCATE(array)
           reallocate_CC => NULL()
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        j = 0
        DO i=1,SIZE(array)
@@ -875,7 +902,8 @@ CONTAINS
                 DEALLOCATE(array)
                 CALL errorMessage("CartesianCoordinates / reallocate", &
                      "TRACE BACK", 1)
-                RETURN          
+                error = .FALSE.
+       RETURN          
              END IF
           END IF
        END DO
@@ -885,6 +913,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / reallocate", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -918,9 +947,11 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / reallocate", &
             "Could not allocate memory.", 1)
        reallocate_CC_1 => NULL()
+       error = .FALSE.
        RETURN
     END IF
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array,dim=1)
     DO i=1, MIN(n,nold)
        reallocate_CC_1(i) = copy(array(i))
@@ -928,7 +959,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("CartesianCoordinates / reallocate", &
                "TRACE BACK", 1)
-          RETURN          
+          error = .FALSE.
+       RETURN          
        END IF
     END DO
     DEALLOCATE(array, stat=err)
@@ -936,6 +968,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / reallocate", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -969,9 +1002,11 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / reallocate", &
             "Could not allocate memory.", 1)
        reallocate_CC_2 => NULL()
+       error = .FALSE.
        RETURN
     END IF
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array,dim=1)
     mold = SIZE(array,dim=2)
     DO i=1, MIN(n,nold)
@@ -984,6 +1019,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / reallocate", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1008,6 +1044,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / rotateToEcliptic", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1041,6 +1078,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("CartesianCoordinates / rotateToEquatorial", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1080,6 +1118,7 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / - (subtraction)", &
             "Left object has not been initialized.", 1)
        CALL NULLIFY(subtraction_CC)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -1087,6 +1126,7 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / - (subtraction)", &
             "Right object has not been initialized.", 1)
        CALL NULLIFY(subtraction_CC)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -1094,6 +1134,7 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / - (subtraction)", &
             "Coordinates are not given in the same frame of reference.", 1)
        CALL NULLIFY(subtraction_CC)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -1108,6 +1149,7 @@ CONTAINS
        CALL errorMessage("CartesianCoordinates / - (subtraction)", &
             "Coordinatess at different times can not be used in subtraction.", 1)
        CALL NULLIFY(subtraction_CC)
+       error = .FALSE.
        RETURN          
     END IF
 

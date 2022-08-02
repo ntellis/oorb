@@ -225,6 +225,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -235,6 +236,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / new", &
             "Too many characters in designation:" // TRIM(designation), 1)
+       error = .FALSE.
        RETURN
     END IF
     this%discovery         = discovery
@@ -260,6 +262,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / new", &
             "Input of observation by satellite or roving observer is inconsistent.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (PRESENT(satellite_ccoord)) THEN
@@ -333,6 +336,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observation / copy", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     copy_Obs%covariance = this%covariance
@@ -346,6 +350,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observation / copy", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     copy_Obs%obsy_ccoord       = copy(this%obsy_ccoord)
@@ -353,6 +358,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observation / copy", &
             "TRACE BACK (15)", 1)
+       error = .FALSE.
        RETURN
     END IF
     copy_Obs%satellite_ccoord  = copy(this%satellite_ccoord)
@@ -360,6 +366,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observation / copy", &
             "TRACE BACK (20)", 1)
+       error = .FALSE.
        RETURN
     END IF
     copy_Obs%coord_unit        = this%coord_unit
@@ -431,7 +438,8 @@ CONTAINS
           CALL errorMessage("Observation / reallocate", &
                "Could not allocate memory.", 1)
           reallocate_a1_Obs => NULL()
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        reallocate_a1_Obs => NULL()
@@ -443,12 +451,14 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Observation / reallocate", &
                "Could not deallocate memory.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
     ! Return if there isn't anything to copy:
     IF (.NOT.ASSOCIATED(array)) THEN
+       error = .FALSE.
        RETURN
     END IF
 
@@ -471,6 +481,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / reallocate", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -507,11 +518,13 @@ CONTAINS
        CALL errorMessage("Observation / reallocate", &
             "Could not allocate memory.", 1)
        reallocate_a2_Obs => NULL()
+       error = .FALSE.
        RETURN
     END IF
 
     ! Return if there isn't anything to copy:
     IF (.NOT.ASSOCIATED(array)) THEN
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,MIN(n,nold)
@@ -524,6 +537,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / reallocate", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -559,6 +573,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / addMultinormalDeviate", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -573,6 +588,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observation / addMultinormalDeviate", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -615,6 +631,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / addUniformDeviate", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -623,6 +640,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observation / addUniformDeviate", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -642,6 +660,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / equal", &
             "1st object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -649,24 +668,28 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / equal", &
             "2nd object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
     ! Designation:
     IF (.NOT.(this%designation == that%designation)) THEN
        equal_Obs = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
 
     ! Epoch and coordinates:
     IF (.NOT.equal(this%obs_scoord,that%obs_scoord)) THEN
        equal_Obs = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
 
     ! Observatory
     IF (.NOT.equal(this%obsy,that%obsy)) THEN
        equal_Obs = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -696,6 +719,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getObsCode", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -719,6 +743,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getCovarianceMatrix", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -745,6 +770,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getDec", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -753,6 +779,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observation / getDec", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -777,6 +804,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getDesignation", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -803,6 +831,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getFilter", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -830,6 +859,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getID", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -860,6 +890,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getMagnitude", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -886,6 +917,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getMagnitudeUncertainty", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -914,6 +946,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getNumber", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -961,6 +994,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getObservationRecords", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -969,6 +1003,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observation / getObservationRecords", &
             "TRACE BACK (1)", 1)
+       error = .FALSE.
        RETURN       
     END IF
     ra = getRA(this)
@@ -976,6 +1011,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observation / getObservationRecords", &
             "TRACE BACK (2)", 1)
+       error = .FALSE.
        RETURN       
     END IF
     dec = getDec(this)
@@ -983,6 +1019,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observation / getObservationRecords", &
             "TRACE BACK (3)", 1)
+       error = .FALSE.
        RETURN       
     END IF
     obsy_code = getCode(this%obsy)
@@ -990,6 +1027,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observation / getObservationRecords", &
             "TRACE BACK (4)", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -1013,7 +1051,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "TRACE BACK (5)", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        IF (year >= 1972) THEN
           CALL getCalendarDate(t, "UTC", year, month, day)
@@ -1021,7 +1060,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "TRACE BACK (10)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        ELSE
           CALL getCalendarDate(t, "UT1", year, month, day)
@@ -1029,7 +1069,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "TRACE BACK (15)", 1)
-             RETURN       
+             error = .FALSE.
+       RETURN       
           END IF
        END IF
        CALL toString(month, month_str, error)
@@ -1038,7 +1079,8 @@ CONTAINS
           CALL errorMessage("Observation / getObservationRecords", &
                "Could not convert month to string.", 1)
           WRITE(stderr,*) year, month, day, getMJD(t,"utc")
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (month < 10) THEN
           month_str = "0" // TRIM(month_str)
@@ -1074,7 +1116,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (5).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        IF (h < 10) h_str = "0" // TRIM(h_str)
        CALL toString(m, m_str, error)
@@ -1082,7 +1125,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (10).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        IF (m < 10) m_str = "0" // TRIM(m_str)
        CALL toString(s, s_str, error, frmt="(F6.3)")
@@ -1090,7 +1134,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (15).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        IF (s < 10.0_bp) s_str = "0" // TRIM(s_str)
        CALL toString(deg, deg_str, error)
@@ -1098,7 +1143,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (20).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        IF (deg < 10) deg_str = "0" // TRIM(deg_str)
        CALL toString(am, am_str, error)
@@ -1106,7 +1152,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (25).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        IF (am < 10) am_str = "0" // TRIM(am_str)
        CALL toString(as, as_str, error, frmt="(F5.2)")
@@ -1114,14 +1161,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (30).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        IF (as < 10.0_bp) as_str = "0" // TRIM(as_str)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Observation / getObservationRecords", &
                "Conversion error (35).", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        IF (this%mag < 99.0_bp) THEN
           CALL toString(this%mag, mag_str, error, frmt="(F6.3)")
@@ -1129,7 +1178,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "Conversion error (40).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (this%mag < 10.0_bp) mag_str = " " // TRIM(mag_str)
        ELSE
@@ -1151,14 +1201,16 @@ CONTAINS
              CALL errorMessage("Observation / getObservationRecords", &
                   "TRACE BACK (18)", 1)
              DEALLOCATE(records, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (LEN_TRIM(number_) > 5) THEN
              error = .TRUE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "Number is too long for MPC format.", 1)
              DEALLOCATE(records, stat=err)
-             RETURN             
+             error = .FALSE.
+       RETURN             
           END IF
        END IF
        n = LEN_TRIM(this%designation)
@@ -1172,7 +1224,8 @@ CONTAINS
              CALL errorMessage("Observation / getObservationRecords", &
                   "TRACE BACK (20)", 1)
              DEALLOCATE(records, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        day_integer = NINT(day*10_ihp**6,kind=ihp)
@@ -1184,7 +1237,8 @@ CONTAINS
           CALL errorMessage("Observation / getObservationRecords", &
                "Could not convert day to string.", 1)
           DEALLOCATE(records, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        err = 0
        WRITE(records(1),"(A5,A7,3A1,I4,1X,A2,1X,A8,1X,A2,1X,A2,1X,A6," // &
@@ -1197,7 +1251,8 @@ CONTAINS
           CALL errorMessage("Observation / getObservationRecords", &
                "Could not write output string.", 1)
           DEALLOCATE(records, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        SELECT CASE (this%note2)
        CASE ("S") ! Satellite-based observation
@@ -1240,7 +1295,8 @@ CONTAINS
              CALL errorMessage("Observation / getObservationRecords", &
                   "Unit type not available.", 1)
              DEALLOCATE(records, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END SELECT
           records => reallocate(records,2)
        CASE default
@@ -1251,7 +1307,8 @@ CONTAINS
           CALL errorMessage("Observation / getObservationRecords", &
                "Could not write output string.", 1)
           DEALLOCATE(records, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
     CASE ("mpc2")
@@ -1267,14 +1324,16 @@ CONTAINS
              CALL errorMessage("Observation / getObservationRecords", &
                   "TRACE BACK (22)", 1)
              DEALLOCATE(records, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (LEN_TRIM(number_) > 7) THEN
              error = .TRUE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "Number is too long for MPC3 format.", 1)
              DEALLOCATE(records, stat=err)
-             RETURN             
+             error = .FALSE.
+       RETURN             
           END IF
        END IF
        n = LEN_TRIM(this%designation)
@@ -1292,7 +1351,8 @@ CONTAINS
           CALL errorMessage("Observation / getObservationRecords", &
                "Could not convert day to string (10).", 1)
           DEALLOCATE(records, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (SQRT(this%covariance(2,2))*SQRT(this%covariance(3,3)) > EPSILON(correlation)) THEN
           correlation = this%covariance(2,3) / &
@@ -1333,7 +1393,8 @@ CONTAINS
              CALL errorMessage("Observation / getObservationRecords", &
                   "Could not convert RA uncertainty to string.", 1)
              DEALLOCATE(records, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           ra_unc(2:8) = ra_unc(3:9)
           IF (ra_unc == "00000000") THEN
@@ -1354,7 +1415,8 @@ CONTAINS
              CALL errorMessage("Observation / getObservationRecords", &
                   "Could not convert Dec uncertainty to string.", 1)
              DEALLOCATE(records, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           dec_unc(2:8) = dec_unc(3:9)
           IF (dec_unc == "00000000") THEN
@@ -1398,7 +1460,8 @@ CONTAINS
              CALL errorMessage("Observation / getObservationRecords", &
                   "Unit type not available.", 1)
              DEALLOCATE(records, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END SELECT
           records(3)(18:18) = "+"
           records => reallocate(records,3)
@@ -1411,7 +1474,8 @@ CONTAINS
           CALL errorMessage("Observation / getObservationRecords", &
                "Could not write output string.", 1)
           DEALLOCATE(records, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
     CASE ("mpc3")
@@ -1427,14 +1491,16 @@ CONTAINS
              CALL errorMessage("Observation / getObservationRecords", &
                   "TRACE BACK (22)", 1)
              DEALLOCATE(records, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (LEN_TRIM(number_) > 7) THEN
              error = .TRUE.
              CALL errorMessage("Observation / getObservationRecords", &
                   "Number is too long for MPC3 format.", 1)
              DEALLOCATE(records, stat=err)
-             RETURN             
+             error = .FALSE.
+       RETURN             
           END IF
        END IF
 
@@ -1462,7 +1528,8 @@ CONTAINS
           CALL errorMessage("Observation / getObservationRecords", &
                "Could not convert day to string (10).", 1)
           DEALLOCATE(records, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (day < 10.0_bp) THEN
           day_str = "0" // TRIM(day_str)
@@ -1507,7 +1574,8 @@ CONTAINS
              CALL errorMessage("Observation / getObservationRecords", &
                   "Could not convert RA uncertainty to string.", 1)
              DEALLOCATE(records, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           ra_unc(2:8) = ra_unc(3:9)
           IF (ra_unc == "00000000") THEN
@@ -1528,7 +1596,8 @@ CONTAINS
              CALL errorMessage("Observation / getObservationRecords", &
                   "Could not convert Dec uncertainty to string.", 1)
              DEALLOCATE(records, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           dec_unc(2:8) = dec_unc(3:9)
           IF (dec_unc == "00000000") THEN
@@ -1573,7 +1642,8 @@ CONTAINS
              CALL errorMessage("Observation / getObservationRecords", &
                   "Unit type not available.", 1)
              DEALLOCATE(records, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END SELECT
           records(3)(20:20) = "+"
           records => reallocate(records,3)
@@ -1586,7 +1656,8 @@ CONTAINS
           CALL errorMessage("Observation / getObservationRecords", &
                "Could not write output string.", 1)
           DEALLOCATE(records, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
     CASE ("elgb")
@@ -1613,7 +1684,8 @@ CONTAINS
           CALL errorMessage("Observation / getELGBString", &
                "Could not write output string.", 1)
           DEALLOCATE(records, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        records => reallocate(records,1)
 
@@ -1642,7 +1714,8 @@ CONTAINS
           CALL errorMessage("Observation / getObservationRecords / des", &
                "Couldn't convert observation date to UTC or UT1.", 1)
           DEALLOCATE(records, stat=err)          
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (LEN_TRIM(this%number) /= 0) THEN
           WRITE(records(1),"(A,1X,F16.10,1X,A,3(1X,F14.10)," // &
@@ -1665,14 +1738,16 @@ CONTAINS
           CALL errorMessage("Observation / getObservationRecords / des", &
                "Number and designation missing for this record.", 1)
           DEALLOCATE(records, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (err /= 0) THEN
           error = .TRUE.
           CALL errorMessage("Observation / getObservationRecords / des", &
                "Could not write output string.", 1)
           DEALLOCATE(records, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        records => reallocate(records,1)
 
@@ -1702,6 +1777,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getObservationMask", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1731,6 +1807,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getObservationSCoord", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1758,6 +1835,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getObservatory", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1786,6 +1864,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getObservatoryCCoord", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1813,6 +1892,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getObservatoryCode", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1839,6 +1919,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getRA", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1847,6 +1928,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observation / getRA", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1874,6 +1956,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getSolarElongation", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1908,6 +1991,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getStandardDeviations", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1939,6 +2023,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / getTime", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1947,6 +2032,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observation / getTime", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1968,6 +2054,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / setCovarianceMatrix", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1996,6 +2083,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observations / setDesignation", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2003,6 +2091,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observations / setDesignation", &
             "New designation too long.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2026,6 +2115,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / setNumber", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2049,6 +2139,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / setNumber", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2057,6 +2148,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Observations / setDesignation", &
             "Conversion of number to string failed.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2084,6 +2176,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Observation / setObservationSCoord", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 

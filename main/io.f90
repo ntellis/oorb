@@ -139,6 +139,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / makeResidualStamps", &
             "StochasticOrbit object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -146,6 +147,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / makeResidualStamps", &
             "Observations object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -160,7 +162,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / makeResidualStamps", &
                "Residuals are not available.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        ! Compute residuals
@@ -169,14 +172,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        obsy_ccoords => getObservatoryCCoords(obss)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (10)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        nobs = SIZE(observed_scoords,dim=1)
        orb_arr => getSampleOrbits(storb)
@@ -184,7 +189,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (15)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ALLOCATE(residuals_(SIZE(orb_arr,dim=1),nobs,6), &
             observed_coords(nobs,6), computed_coords(nobs,6), &
@@ -193,7 +199,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / makeResidualStamps", &
                "Could not allocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO j=1,SIZE(orb_arr, dim=1)
           CALL getEphemerides(orb_arr(j), obsy_ccoords, &
@@ -202,7 +209,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("io / makeResidualStamps", &
                   "TRACE BACK (20)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           observed_coords = 0.0_bp
           computed_coords = 0.0_bp
@@ -212,14 +220,16 @@ CONTAINS
        error = .FALSE.
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (25)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              computed_coords(i,:) = getCoordinates(computed_scoords(i))
              IF (error) THEN
        error = .FALSE.
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (30)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END DO
           residuals_(j,1:nobs,1:6) = observed_coords(1:nobs,1:6) - &
@@ -231,7 +241,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("io / makeResidualStamps", &
                   "Could not deallocate memory (5).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        DO i=1,SIZE(orb_arr)
@@ -248,7 +259,8 @@ CONTAINS
           DEALLOCATE(observed_scoords, stat=err)
           DEALLOCATE(obsy_ccoords, stat=err)
           DEALLOCATE(orb_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -257,6 +269,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / makeResidualStamps", &
             "TRACE BACK (35)", 1)
+       error = .FALSE.
        RETURN
     END IF
     nobs = SIZE(obs_arr, dim=1)
@@ -266,6 +279,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / makeResidualStamps", &
             "Could not allocate memory (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -275,7 +289,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (40)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL getCalendarDate(t, "TT", year, month, day)
        IF (year >= 1972) THEN
@@ -287,14 +302,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (45)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        codes(i) = getCode(obs_arr(i))
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (50)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -303,6 +320,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / makeResidualStamps", &
             "TRACE BACK (55)", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL toString(nobs, str, error)
@@ -310,6 +328,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / makeResidualStamps", &
             "TRACE BACK (60)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -324,7 +343,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (65)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ALLOCATE(res_accept_prm(SIZE(stdevs,dim=1),6))
        DO i=1,SIZE(stdevs,dim=1)
@@ -337,6 +357,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / makeResidualStamps", &
             "TRACE BACK (70)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -363,7 +384,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("io / makeResidualStamps", &
                   "TRACE BACK (80)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           CALL system("echo set size 1.0," // TRIM(str1) // " >> " // TRIM(str))
        ELSE
@@ -374,14 +396,16 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("io / makeResidualStamps", &
                   "TRACE BACK (80)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           CALL toString(ysize, str2, error)
           IF (error) THEN
        error = .FALSE.
              CALL errorMessage("io / makeResidualStamps", &
                   "TRACE BACK (80)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           CALL system("echo set size " // TRIM(str1) // "," // &
                TRIM(str2) // " >> " // TRIM(str))
@@ -399,14 +423,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (75)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL toString(1.0/(nrow_max-1.5), str2, error)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("io / makeResidualStamps", &
                "TRACE BACK (80)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL system("echo set size " // TRIM(str1) // &
             "," // TRIM(str2) // " >> " // TRIM(str))
@@ -426,14 +452,16 @@ CONTAINS
        error = .FALSE.
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (85)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              CALL toString(ysize-i*(1.0/nrow_max)-0.02, str2, error)
              IF (error) THEN
        error = .FALSE.
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (90)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              CALL system("echo set origin " // TRIM(str1) // &
                   "," // TRIM(str2) // " >> " // TRIM(str))
@@ -446,7 +474,8 @@ CONTAINS
        error = .FALSE.
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (95)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              str1 = "-" // TRIM(str2)
              CALL system("echo set xrange [" // TRIM(str1) // &
@@ -457,7 +486,8 @@ CONTAINS
        error = .FALSE.
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (100)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              str1 = "-" // TRIM(str2)
              CALL system("echo set yrange [" // TRIM(str1) // &
@@ -478,7 +508,8 @@ CONTAINS
        error = .FALSE.
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (105)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              str1 = TRIM(str) // "_tmp" // TRIM(str1)
              CALL NEW(tmpfile, TRIM(str1))
@@ -486,14 +517,16 @@ CONTAINS
        error = .FALSE.
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (110)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              CALL OPEN(tmpfile)
              IF (error) THEN
        error = .FALSE.
                 CALL errorMessage("io / makeResidualStamps", &
                      "TRACE BACK (115)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              DO l=1,SIZE(residuals_,dim=1)
                 WRITE(getUnit(tmpfile),*) residuals_(l,k,2:3)/rad_asec
@@ -501,7 +534,8 @@ CONTAINS
                    error = .TRUE.
                    CALL errorMessage("io / makeResidualStamps", &
                         "Write error (15).", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
              END DO
              CALL NULLIFY(tmpfile)
@@ -536,7 +570,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / makeResidualStamps", &
                "Could not allocate memory (15).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        residuals = residuals_
     END IF
@@ -553,6 +588,7 @@ CONTAINS
        DEALLOCATE(codes, stat=err)
        DEALLOCATE(res_accept_prm, stat=err)
        DEALLOCATE(obs_masks, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -734,7 +770,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readConfigurationFile", &
                "Error while reading option file.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (err < 0) THEN ! end-of-file
           EXIT
        END IF
@@ -1402,7 +1439,8 @@ CONTAINS
                    error = .TRUE.
                    CALL errorMessage("io / readConfigurationFile", &
                         "Too many input values for sor.genwin.offset; only 4 allowed!.", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 CALL toReal(TRIM(par_val(indx1:indx1+indx2-1)), sor_genwin_offset(i), error)
                 ! Move starting index to the next parameter 
@@ -1446,7 +1484,8 @@ CONTAINS
                    error = .TRUE.
                    CALL errorMessage("io / readConfigurationFile", &
                         "Too many input values for sor.iterate_bounds; only 4 allowed!.", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 READ(par_val(indx1:indx1+indx2-1),"(L1)") sor_iterate_bounds(i)
                 ! Move starting index to the next parameter 
@@ -1724,7 +1763,8 @@ CONTAINS
                 error = .TRUE.
                 CALL errorMessage("io / readConfigurationFile", &
                      "No codes specified for option 'eph.observatory.code'.", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              i = 0
              indx1 = 1
@@ -1745,7 +1785,8 @@ CONTAINS
                       error = .TRUE.
                       CALL errorMessage("io / readConfigurationFile", &
                            "Could not allocate memory.", 1)
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                 ELSE IF (SIZE(eph_obsy_code,dim=1) < i) THEN
                    eph_obsy_code => reallocate(eph_obsy_code, 2*i)
@@ -1764,7 +1805,8 @@ CONTAINS
                 error = .TRUE.
                 CALL errorMessage("io / readConfigurationFile", &
                      "No dates specified for option 'eph.date'.", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              i = 0
              indx1 = 1
@@ -1785,7 +1827,8 @@ CONTAINS
                       error = .TRUE.
                       CALL errorMessage("io / readConfigurationFile", &
                            "Could not allocate memory.", 1)
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                 ELSE IF (SIZE(eph_date,dim=1) < i) THEN
                    eph_date => reallocate(eph_date, 2*i)
@@ -1811,7 +1854,8 @@ CONTAINS
                 error = .TRUE.
                 CALL errorMessage("io / readConfigurationFile", &
                      "No dt's specified for option 'eph.dt_since_last_obs'.", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              i = 0
              indx1 = 1
@@ -1832,7 +1876,8 @@ CONTAINS
                       error = .TRUE.
                       CALL errorMessage("io / readConfigurationFile", &
                            "Could not allocate memory.", 1)
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                 ELSE IF (SIZE(eph_dt_since_last_obs,dim=1) < i) THEN
                    eph_dt_since_last_obs => reallocate(eph_dt_since_last_obs, 2*i)
@@ -1852,7 +1897,8 @@ CONTAINS
                 error = .TRUE.
                 CALL errorMessage("io / readConfigurationFile", &
                      "No values specified for option 'eph.lt_correction'.", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              i = 0
              indx1 = 1
@@ -1873,7 +1919,8 @@ CONTAINS
                       error = .TRUE.
                       CALL errorMessage("io / readConfigurationFile", &
                            "Could not allocate memory.", 1)
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                 ELSE IF (SIZE(eph_lt_correction,dim=1) < i) THEN
                    eph_lt_correction => reallocate(eph_lt_correction, 2*i)
@@ -1883,7 +1930,8 @@ CONTAINS
                    error = .TRUE.
                    CALL errorMessage("io / readConfigurationFile", &
                         "Could not read parameter value (190).", 1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 ! Move starting index to the next parameter 
                 indx1 = indx1 + indx2
@@ -1900,7 +1948,8 @@ CONTAINS
           IF (err_verb >= 1) THEN
              WRITE(stderr,"(A)") TRIM(line)
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -1930,6 +1979,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / readDESOrbitFile", &
             "Length of header variable must be at least 128 characters.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -1939,6 +1989,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / readDESOrbitFile", &
             "Could not read 1st header line of orbit file.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (.NOT.(header(1:2) == "!!" .OR. header(1:1) == "#")) THEN
@@ -1956,7 +2007,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readDESOrbitFile", &
                "Problem reading line #" // TRIM(str) // " of the data file.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (err < 0) THEN
           EXIT
        ELSE IF (id_arr(norb+1)(1:1) == "#") THEN
@@ -1969,7 +2021,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / readDESOrbitFile", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (frmt == "COM") THEN
           elements(3:5) = elements(3:5)*rad_deg
@@ -1998,13 +2051,15 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readDESOrbitFile", &
                "No such option available: " // TRIM(frmt), 1)
-          RETURN          
+          error = .FALSE.
+       RETURN          
        END IF
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("io / readDESOrbitFile", &
                "TRACE BACK (10)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(epoch)
        norb = norb + 1
@@ -2041,7 +2096,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readMPCOrbitFile", &
                "Could not jump over header line of MPC orbit file.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (err < 0 .AND. nlines > 0) THEN
           ! Probably no header present, let's try rewinding to
           ! beginning of file and read orbits:
@@ -2059,7 +2115,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readMPCOrbitFile", &
                "Read error.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (err < 0) THEN
           EXIT
        ELSE IF (line(1:1) == "#") THEN
@@ -2086,7 +2143,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / readMPCOrbitFile", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Epoch
        CALL decodeMPCDate(line(21:25), year, month, day)
@@ -2095,7 +2153,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / readMPCOrbitFile", &
                "TRACE BACK (10)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! M
        CALL toReal(line(27:35), elements(6), error)
@@ -2119,7 +2178,8 @@ CONTAINS
           CALL errorMessage("io / readMPCOrbitFile", &
                "TRACE BACK (15):", 1)
           WRITE(stderr,"(A)") TRIM(line)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(epoch)
        IF (line(132:132) == "-") THEN
@@ -2143,7 +2203,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / readMPCOrbitFile", &
                "TRACE BACK (20)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -2183,6 +2244,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / readOpenOrbOrbitFile", &
             "Length of header variable must be at least 1024.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -2193,28 +2255,32 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Could not read 1st header line of orbit file.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        READ(lu, "(A)", iostat=err) header(2)(:)
        IF (err /= 0) THEN
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Could not read 2nd header line of orbit file.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        READ(lu, "(A)", iostat=err) header(3)(:)
        IF (err /= 0) THEN
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Could not read 3rd header line of orbit file.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        READ(lu, "(A)", iostat=err) header(4)(:)
        IF (err /= 0) THEN
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Could not read 4th header line of orbit file.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -2225,6 +2291,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / readOpenOrbOrbitFile", &
             "Read error (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL removeLeadingBlanks(id)
@@ -2240,7 +2307,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (6).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NEW(t, year, month, day, "TT")
     ELSE IF (INDEX(header(4),"-0074-") /= 0) THEN
@@ -2249,19 +2317,22 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (7).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NEW(t, mjd, "TT")
     ELSE
        error = .TRUE.
        CALL errorMessage("io / readOpenOrbOrbitFile", &
             "Epoch not given or given in wrong format.", 1)
+       error = .FALSE.
        RETURN       
     END IF
     IF (error) THEN
        error = .FALSE.
        CALL errorMessage("io / readOpenOrbOrbitFile", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (INDEX(header(4),"-0002-") /= 0 .AND. &
@@ -2291,6 +2362,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / readOpenOrbOrbitFile", &
             "Orbital elements are unknown to the software.", 1)       
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2299,6 +2371,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / readOpenOrbOrbitFile", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(t)
@@ -2309,7 +2382,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(element_type_pdf)) THEN
           element_type_pdf = str(1:12)
@@ -2322,7 +2396,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0010-") /= 0) THEN
@@ -2331,7 +2406,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (15).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0011-") /= 0) THEN
@@ -2340,7 +2416,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (20).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0012-") /= 0) THEN
@@ -2349,7 +2426,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (25).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0013-") /= 0) THEN
@@ -2358,7 +2436,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (30).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0014-") /= 0) THEN
@@ -2367,7 +2446,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (35).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0015-") /= 0) THEN
@@ -2376,7 +2456,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (40).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0016-") /= 0) THEN
@@ -2385,7 +2466,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (45).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0017-") /= 0) THEN
@@ -2394,7 +2476,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (50).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0018-") /= 0) THEN
@@ -2403,7 +2486,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (55).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0019-") /= 0) THEN
@@ -2412,7 +2496,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (60).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0020-") /= 0) THEN
@@ -2421,7 +2506,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (65).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0021-") /= 0) THEN
@@ -2430,7 +2516,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (70).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0022-") /= 0) THEN
@@ -2439,7 +2526,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (75).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0023-") /= 0) THEN
@@ -2448,7 +2536,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (80).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0024-") /= 0) THEN
@@ -2457,7 +2546,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (85).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0025-") /= 0) THEN
@@ -2466,7 +2556,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (90).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0026-") /= 0) THEN
@@ -2475,7 +2566,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (95).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0027-") /= 0) THEN
@@ -2484,7 +2576,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (100).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0028-") /= 0) THEN
@@ -2493,7 +2586,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (105).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (INDEX(header(4),"-0029-") /= 0) THEN
@@ -2502,7 +2596,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (110).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(cov)) THEN
@@ -2533,7 +2628,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (115).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(pdf)) THEN
           pdf = r
@@ -2545,7 +2641,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (120).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(rchi2)) THEN
           rchi2 = r
@@ -2557,7 +2654,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (125).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(reg_apr)) THEN
           reg_apr = r
@@ -2569,7 +2667,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (130).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(jac_sph_inv)) THEN
           jac_sph_inv = r
@@ -2581,7 +2680,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (135).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(jac_car_kep)) THEN
           jac_car_kep = r
@@ -2593,7 +2693,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (140).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(jac_equ_kep)) THEN
           jac_equ_kep = r
@@ -2606,7 +2707,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (145).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(H)) THEN
           CALL toReal(str(1:9), H, error)
@@ -2614,7 +2716,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("io / readOpenOrbOrbitFile", &
                   "Conversion error (145).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           !          H = r
        END IF
@@ -2625,7 +2728,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (150).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(G)) THEN
           G = r
@@ -2637,7 +2741,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (150).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(rho1)) THEN
           rho1 = r
@@ -2649,7 +2754,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (155).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(rho2)) THEN
           rho2 = r
@@ -2661,7 +2767,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / readOpenOrbOrbitFile", &
                "Read error (155).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(repetitions)) THEN
           repetitions = i
@@ -2672,6 +2779,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / readOpenOrbOrbitFile", &
             "Read error (160).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2730,6 +2838,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeDESOrbitFile", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN       
     END IF
     IF (element_type_out == "cometary") THEN
@@ -2747,6 +2856,7 @@ CONTAINS
        CALL errorMessage("io / writeDESOrbitFile", &
             "Element type '" // TRIM(element_type_out) // &
             "' not yet supported (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     epoch = getTime(orb_)
@@ -2785,7 +2895,8 @@ CONTAINS
           CALL errorMessage("io / writeDESOrbitFile", &
                "Element type '" // TRIM(element_type_out) // &
                "' not yet supported (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END SELECT
     END IF
     WRITE(lu,"(2(A,1X),7(E22.15,1X),1(E22.14,1X),2(I0,1X),E22.15,1X,A)",iostat=err) &
@@ -2795,6 +2906,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeDESOrbitFile", &
             "Write error (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(orb_)
@@ -2841,6 +2953,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeNominalSolution", &
             "StochasticOrbit object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2848,6 +2961,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeNominalSolution", &
             "Observations object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2856,6 +2970,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeNominalSolution", &
             "TRACE BACK (105)", 1)
+       error = .FALSE.
        RETURN
     END IF
     t = getTime(orb)
@@ -2863,6 +2978,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeNominalSolution", &
             "TRACE BACK (110)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2874,6 +2990,7 @@ CONTAINS
     IF (error .AND. TRIM(element_type_) == "cartesian") THEN
        CALL errorMessage("io / writeNominalSolution", &
             "TRACE BACK (111)", 1)
+       error = .FALSE.
        RETURN       
     ELSE IF (error .AND. TRIM(element_type_) == "keplerian") THEN
        error = .FALSE.
@@ -2910,6 +3027,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeNominalSolution", &
             "TRACE BACK (115)", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(t)
@@ -2925,6 +3043,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeNominalSolution", &
             "TRACE BACK (116)", 1)
+       error = .FALSE.
        RETURN
     END IF
     DO l=1,6
@@ -2981,6 +3100,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeNominalSolution", &
             "TRACE BACK (120)", 1)
+       error = .FALSE.
        RETURN
     END IF
     WRITE(str,"(A6,2X,A7)") "#RES  ", id(1:7)
@@ -2990,6 +3110,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeNominalSolution", &
             "TRACE BACK (125)", 1)
+       error = .FALSE.
        RETURN
     END IF
     WRITE(lu,"(A)") "#"
@@ -3012,6 +3133,7 @@ CONTAINS
        CALL errorMessage("io / writeNominalSolution", &
             "Could not compute chi2. " // TRIM(errstr), 1)
        errstr = ""
+       error = .FALSE.
        RETURN
     END IF
     WRITE(lu,"(A6,2X,A7,1X,F14.6)") "#RCHI2", id(1:7), rchi2
@@ -3291,7 +3413,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Output orbital elements are unknown to the software.", 1)       
-          RETURN          
+          error = .FALSE.
+       RETURN          
        END IF
        IF (PRESENT(mjd)) THEN
           IF (mjd) THEN
@@ -3530,6 +3653,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeOpenOrbOrbitFile", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (element_type_out == "keplerian") THEN
@@ -3548,6 +3672,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeOpenOrbOrbitFile", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (PRESENT(mjd)) THEN
@@ -3559,7 +3684,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("io / writeOpenOrbOrbitFile", &
                   "Write error (4).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           CALL NULLIFY(t)
        END IF
@@ -3570,7 +3696,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "TRACE BACK (15)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(t)
        WRITE(lu, "(A16,6(1X,E21.14),1X,I4,1X,I2,1X,F8.5)", &
@@ -3580,7 +3707,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(element_type_pdf)) THEN
@@ -3588,14 +3716,16 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Type description of orbital elements used in inversion too long.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        WRITE(lu, "(1X,A12)", advance="no", iostat=err) element_type_pdf
        IF (err /= 0) THEN
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (20).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(cov)) THEN
@@ -3611,7 +3741,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,5
           DO j=i+1,6
@@ -3636,7 +3767,8 @@ CONTAINS
        error = .FALSE.
                    CALL errorMessage("io / writeOpenOrbOrbitFile", &
                         "TRACE BACK (20) ",4)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 ELSE
                    jac = ABS(determinant(jacobian_matrix, errstr))
                    IF (LEN_TRIM(errstr) > 0) THEN
@@ -3644,7 +3776,8 @@ CONTAINS
                       CALL errorMessage("io / writeOpenOrbOrbitFile", &
                            "Failed computing determinant of jacobian between Cartesian and Keplerian " // &
                            "elements.", 1)
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                 END IF
              END IF
@@ -3658,7 +3791,8 @@ CONTAINS
        error = .FALSE.
                    CALL errorMessage("io / writeOpenOrbOrbitFile", &
                         "TRACE BACK (25) ",4)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 ELSE
                    jac = 1.0_bp/ABS(determinant(jacobian_matrix, errstr))
                    IF (LEN_TRIM(errstr) > 0) THEN
@@ -3666,7 +3800,8 @@ CONTAINS
                       CALL errorMessage("io / writeOpenOrbOrbitFile", &
                            "Failed computing determinant of jacobian between Cartesian and Keplerian " // &
                            "elements.", 1)
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                 END IF
              END IF
@@ -3676,13 +3811,15 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("io / writeOpenOrbOrbitFile", &
                   "Write error (15).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        ELSE          
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Missing type of orbital elements corresponding to p.d.f.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(rchi2)) THEN
@@ -3691,7 +3828,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (20).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(reg_apr)) THEN
@@ -3700,7 +3838,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (25).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(jac_sph_inv)) THEN
@@ -3709,7 +3848,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (30).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(jac_car_kep)) THEN
@@ -3718,7 +3858,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (35).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(jac_equ_kep)) THEN
@@ -3727,7 +3868,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (40).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(H)) THEN
@@ -3736,7 +3878,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (45).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(G)) THEN
@@ -3745,7 +3888,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (50).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(rho1)) THEN
@@ -3754,7 +3898,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (55).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(rho2)) THEN
@@ -3763,7 +3908,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (60).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(rms)) THEN
@@ -3772,7 +3918,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (65).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(npdf)) THEN
@@ -3781,7 +3928,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (70).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(repetitions)) THEN
@@ -3790,7 +3938,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeOpenOrbOrbitFile", &
                "Write error (75).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     WRITE(lu,"(A)") ""
@@ -3821,7 +3970,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / writeProbabilities", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL getGroupWeights(storb, probability_arr, group_arr, apriori_pdf)
     ELSE
@@ -3831,6 +3981,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeProbabilities", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     WRITE(lu,"('#')")
@@ -3869,6 +4020,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeProbabilities", &
             "TRACE BACK (15)", 1)
+       error = .FALSE.
        RETURN
     END IF
     DEALLOCATE(probability_arr, group_arr, stat=err)
@@ -3876,6 +4028,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeProbabilities", &
             "TRACE BACK (20)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3917,6 +4070,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeResidualBlock", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     obsy_ccoords => getObservatoryCCoords(obss)
@@ -3924,6 +4078,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeResidualBlock", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     nobs = SIZE(observed_scoords,dim=1)
@@ -3934,6 +4089,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeResidualBlock", &
             "Could not allocate memory (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL getEphemerides(orb, obsy_ccoords, computed_scoords)
@@ -3941,6 +4097,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeResidualBlock", &
             "TRACE BACK (15)", 1)
+       error = .FALSE.
        RETURN
     END IF
     observed_coords = 0.0_bp
@@ -3951,14 +4108,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / writeResidualBlock", &
                "TRACE BACK (20)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        computed_coords(i,:) = getCoordinates(computed_scoords(i))
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("io / writeResidualBlock", &
                "TRACE BACK (25)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     residuals_(1:nobs,1:6) = observed_coords(1:nobs,1:6) - &
@@ -3970,6 +4129,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeResidualBlock", &
             "TRACE BACK (30)", 1)
+       error = .FALSE.
        RETURN
     END IF
     residual_arr = " "
@@ -3979,7 +4139,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / writeResidualBlock", &
                "TRACE BACK (35)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL getCalendarDate(t, "TT", year, month, day)
        IF (year >= 1972) THEN
@@ -3991,7 +4152,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / writeResidualBlock", &
                "TRACE BACK (40)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(t)
        CALL toString(month, month_str, error)
@@ -3999,7 +4161,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / writeResidualBlock", &
                "TRACE BACK (45)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (LEN_TRIM(month_str) == 1) THEN
           month_str = "0" // TRIM(month_str)
@@ -4009,7 +4172,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / writeResidualBlock", &
                "TRACE BACK (50)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (LEN_TRIM(day_str) == 1) THEN
           day_str = "0" // TRIM(day_str)
@@ -4031,7 +4195,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeResidualBlock", &
                "Write error (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     residual_block = " "
@@ -4043,7 +4208,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeResidualBlock", &
                "Write error (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO j=1,SIZE(residual_block,dim=2)
           WRITE(lu,"(A,2X)",advance="no",iostat=err) &
@@ -4052,7 +4218,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("io / writeResidualBlock", &
                   "Write error (15).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        WRITE(lu,*,iostat=err)
@@ -4064,7 +4231,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeResidualBlock", &
                "Could not allocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        residuals = residuals_
     END IF
@@ -4121,6 +4289,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeResiduals", &
             "StochasticOrbit object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4128,6 +4297,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeResiduals", &
             "Observations object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4143,7 +4313,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / writeResiduals", &
                "Residuals are not available.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        ! Compute residuals
@@ -4152,14 +4323,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / writeResiduals", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        obsy_ccoords => getObservatoryCCoords(obss)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("io / writeResiduals", &
                "TRACE BACK (10)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        nobs = SIZE(observed_scoords,dim=1)
 
@@ -4168,7 +4341,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / writeResiduals", &
                "TRACE BACK (15)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ALLOCATE(residuals_(SIZE(orb_arr,dim=1),nobs,6), &
@@ -4178,7 +4352,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeResiduals", &
                "Could not allocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        DO j=1,SIZE(orb_arr, dim=1)
@@ -4188,7 +4363,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("io / writeResiduals", &
                   "TRACE BACK (20)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           observed_coords = 0.0_bp
           computed_coords = 0.0_bp
@@ -4198,14 +4374,16 @@ CONTAINS
        error = .FALSE.
                 CALL errorMessage("io / writeResiduals", &
                      "TRACE BACK (25)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              computed_coords(i,:) = getCoordinates(computed_scoords(i))
              IF (error) THEN
        error = .FALSE.
                 CALL errorMessage("io / writeResiduals", &
                      "TRACE BACK (30)", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              CALL NULLIFY(computed_scoords(i))
           END DO
@@ -4227,7 +4405,8 @@ CONTAINS
           DEALLOCATE(observed_scoords, stat=err)
           DEALLOCATE(obsy_ccoords, stat=err)
           DEALLOCATE(orb_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
     END IF
@@ -4237,6 +4416,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeResiduals", &
             "TRACE BACK (35)", 1)
+       error = .FALSE.
        RETURN
     END IF
     nobs = SIZE(obs_arr, dim=1)
@@ -4246,6 +4426,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeResiduals", &
             "Could not allocate memory (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4255,7 +4436,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / writeResiduals", &
                "TRACE BACK (40)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL getCalendarDate(t, "TT", year, month, day)
        IF (year >= 1972) THEN
@@ -4267,14 +4449,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("io / writeResiduals", &
                "TRACE BACK (45)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        codes(i) = getCode(obs_arr(i))
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("io / writeResiduals", &
                "TRACE BACK (50)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -4283,6 +4467,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeResiduals", &
             "TRACE BACK (52)", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL toString(nobs, str, error)
@@ -4290,6 +4475,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("io / writeResiduals", &
             "TRACE BACK (55)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4298,6 +4484,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeResiduals", &
             "Write error (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     WRITE(lu, "('#',10X,"//TRIM(str)//"(11X,A4,13X))", iostat=err) codes
@@ -4305,6 +4492,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeResiduals", &
             "Write error (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4315,7 +4503,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeResiduals", &
                "Write error (15).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -4325,7 +4514,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeResiduals", &
                "Could not allocate memory (15).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        residuals = residuals_
     END IF
@@ -4339,6 +4529,7 @@ CONTAINS
        DEALLOCATE(residuals_, stat=err)
        DEALLOCATE(jds, stat=err)
        DEALLOCATE(codes, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4416,6 +4607,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "StochasticOrbit object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4423,6 +4615,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "Observations object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4444,6 +4637,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "TRACE BACK 20", 1)
+       error = .FALSE.
        RETURN
     END IF
     obsarc = getObservationalTimespan(obss)
@@ -4452,6 +4646,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "TRACE BACK 20", 1)
+       error = .FALSE.
        RETURN
     END IF
     obs_stdev_arr => getStandardDeviations(obss)
@@ -4460,6 +4655,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "TRACE BACK 20", 1)
+       error = .FALSE.
        RETURN
     END IF
     obs_stdev_arr = obs_stdev_arr/rad_asec
@@ -4468,6 +4664,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "TRACE BACK 20", 1)
+       error = .FALSE.
        RETURN
     END IF
     obs_masks => getObservationMasks(storb)
@@ -4476,6 +4673,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "TRACE BACK 10", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4517,6 +4715,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeSORResults", &
             "TRACE BACK 15", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4528,7 +4727,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeSORResults", &
                "TRACE BACK 20", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        t = getTime(orb_arr_cmp(1))
 
@@ -4538,7 +4738,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeSORResults", &
                "TRACE BACK 20", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        rchi2_arr_cmp => getReducedChi2Distribution(storb)
        IF (error) THEN
@@ -4546,7 +4747,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeSORResults", &
                "TRACE BACK 20", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        res_arr_cmp => getResidualDistribution(storb)
        IF (error) THEN
@@ -4554,7 +4756,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeSORResults", &
                "TRACE BACK 20", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        rms_arr_cmp => getRMSDistribution(storb)
        IF (error) THEN
@@ -4562,7 +4765,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeSORResults", &
                "TRACE BACK 20", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL getResults(storb, reg_apr_arr=reg_apr_arr_cmp, &
             jac_arr=jac_arr_cmp, &
@@ -4573,7 +4777,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeSORResults", &
                "TRACE BACK 25", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        indx_ml = MAXLOC(pdf_arr_cmp,dim=1)
        ALLOCATE(elements_arr(SIZE(orb_arr_cmp),6))
@@ -4617,7 +4822,8 @@ CONTAINS
        error = .FALSE.
                 CALL errorMessage("io / writeSORResults", &
                      "TRACE BACK 26", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END DO
        END IF
@@ -4636,7 +4842,8 @@ CONTAINS
              CALL errorMessage("io / writeSORResults", &
                   "Could not compute confidence limits. " // TRIM(errstr), 1)
              errstr = ""
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        IF (ANY(elements-elements_arr(indx_ml,:) /= 0.0_bp)) THEN
@@ -4756,7 +4963,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("io / writeSORResults", &
                   "TRACE BACK 20", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           CALL toString(sor_pair_arr_prm(1,2), str2, error)
           IF (error) THEN
@@ -4764,7 +4972,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("io / writeSORResults", &
                   "TRACE BACK 20", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        ELSE
           str1 = "<random>"
@@ -4779,7 +4988,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("io / writeSORResults", &
                "Could not allocate memory.", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
 
        DO k=1,2
@@ -4923,6 +5133,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "StochasticOrbit object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4930,6 +5141,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "Observations object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4946,6 +5158,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4970,6 +5183,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4979,6 +5193,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
     t = getTime(orb_arr_cmp(1))
@@ -4994,6 +5209,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5005,6 +5221,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
     !elements(3:6) = elements(3:6)/rad_deg
@@ -5017,6 +5234,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOMCMCResults", &
             "TRACE BACK 30", 1)
+       error = .FALSE.
        RETURN
     END IF
     !elem_stdevs(3:5) = elem_stdevs(3:5)/rad_deg
@@ -5068,7 +5286,8 @@ CONTAINS
 !!$       error = .TRUE.
 !!$       CALL errorMessage("io / writeVOMCMCResults", &
 !!$            "Could not allocate memory.", 1)
-!!$       RETURN       
+!!$       error = .FALSE.
+       RETURN       
 !!$    END IF
 !!$
 !!$    DO k=1,2
@@ -5185,6 +5404,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOVResults", &
             "StochasticOrbit object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5192,6 +5412,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOVResults", &
             "Observations object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5208,6 +5429,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOVResults", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5237,6 +5459,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOVResults", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5246,6 +5469,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOVResults", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
     t = getTime(orb_arr_cmp(1))
@@ -5263,6 +5487,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVOVResults", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5290,6 +5515,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("io / writeVoVResults", &
             "TRACE BACK 30", 1)
+       error = .FALSE.
        RETURN
     END IF
     elem_stdevs(3:6) = elem_stdevs(3:6)/rad_deg
@@ -5374,7 +5600,8 @@ CONTAINS
 !!$       error = .TRUE.
 !!$       CALL errorMessage("io / writeVOVResults", &
 !!$            "Could not allocate memory.", 1)
-!!$       RETURN       
+!!$       error = .FALSE.
+       RETURN       
 !!$    END IF
 !!$
 !!$    DO k=1,2

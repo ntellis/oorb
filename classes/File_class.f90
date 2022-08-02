@@ -179,6 +179,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -186,6 +187,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / new", &
             "File has already been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -232,6 +234,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("File / new", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%is_initialized = .FALSE.
@@ -241,6 +244,7 @@ CONTAINS
        CALL errorMessage("File / new", &
             "Filename (" // TRIM(file_name) // &
             ") too long; adjust parameters.", 1)
+       error = .FALSE.
        RETURN
     ELSE
        this%fname    = TRIM(file_name)
@@ -280,7 +284,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("File / nullify", &
                "TRACE BACK", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     this%opened         = .FALSE.
@@ -363,6 +368,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / getFileName", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -402,6 +408,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / getNrOfColumns", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -409,6 +416,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / getNrOfColumns", &
             "File has not yet been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -417,6 +425,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / getNrOfColumns", &
             "Error while rewinding the file.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -426,6 +435,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / getNrOfColumns", &
             "Error while reading first line of file " // TRIM(this%fname), 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -434,6 +444,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / getNrOfColumns", &
             "Error while rewinding the file.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -488,6 +499,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / getNrOfLines", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -495,6 +507,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / getNrOfLines", &
             "File has not yet been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -503,6 +516,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / getNrOfLines", &
             "Error while rewinding the file.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -518,7 +532,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("File / getNrOfLines", &
                "Error while counting lines in file.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -527,6 +542,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / getNrOfLines", &
             "Error while rewinding the file.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -568,6 +584,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / matchCharNrLines", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -575,6 +592,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / matchCharNrLines", &
             "File has not yet been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -583,6 +601,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / matchCharNrLines", &
             "Error while rewinding the file.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -608,7 +627,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("File / getNrOfLines", &
                "Error while counting lines in file.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -617,6 +637,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / getNrOfLines", &
             "Error while rewinding the file.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -657,6 +678,7 @@ CONTAINS
        CALL errorMessage("File / getRecordLength", &
             "Object has not yet been initialized.", 1)
        getRecordLength = 0
+       error = .FALSE.
        RETURN
     END IF
 
@@ -768,6 +790,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / open", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -777,7 +800,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("File / open", &
                "TRACE BACK", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (this%open_recl == -1) THEN
           IF (this%open_position == "none") THEN
@@ -811,7 +835,8 @@ CONTAINS
           CALL errorMessage("File / open", &
                "Could not open file (" // TRIM(this%fname) // &
                "). Error code " // TRIM(str) // ".", 1)
-          RETURN     
+          error = .FALSE.
+       RETURN     
        END IF
     END IF
 
@@ -854,6 +879,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / readString", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -861,6 +887,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / readString", &
             "File has not yet been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -869,6 +896,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / readString", &
             "Could not read string from file.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -908,6 +936,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / readString", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -915,6 +944,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / readString", &
             "File has not yet been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -923,6 +953,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / readString", &
             "Could not read string from file.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -959,6 +990,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setAccessDirect", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -966,6 +998,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setAccessDirect", &
             "File has already been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1004,6 +1037,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setAccessSequential", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1011,6 +1045,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setAccessSequential", &
             "File has already been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1049,6 +1084,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setActionRead", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1056,6 +1092,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setActionRead", &
             "File has already been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1091,6 +1128,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setActionReadWrite", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1098,6 +1136,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setActionReadWrite", &
             "File has already been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1133,6 +1172,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setActionWrite", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1140,6 +1180,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setActionWrite", &
             "File has already been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1175,6 +1216,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setPositionAppend", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1182,6 +1224,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setPositionAppend", &
             "File has already been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1218,6 +1261,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setPositionAsis", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1225,6 +1269,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setPositionAsis", &
             "File has already been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1261,6 +1306,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setPositionRewind", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1268,6 +1314,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setPositionRewind", &
             "File has already been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1304,6 +1351,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setStatusNew", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1311,6 +1359,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setStatusNew", &
             "File has already been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1346,6 +1395,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setStatusOld", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1353,6 +1403,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setStatusOld", &
             "File has already been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1388,6 +1439,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setStatusReplace", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1395,6 +1447,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / setStatusReplace", &
             "File has already been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1439,6 +1492,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / writeString", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1446,6 +1500,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / writeString", &
             "File has not yet been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1454,6 +1509,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / writeString", &
             "Could not write string to file.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1493,6 +1549,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / writeString", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1500,6 +1557,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / writeString", &
             "File has not yet been opened.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1508,6 +1566,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("File / writeString", &
             "Could not write string to file.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 

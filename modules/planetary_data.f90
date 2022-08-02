@@ -245,6 +245,7 @@ CONTAINS
 
     ! Make sure this is the first call to this routine
     IF (.NOT.first) THEN
+       error = .FALSE.
        RETURN
     END IF
 
@@ -271,7 +272,8 @@ CONTAINS
        IF (err /= 0) THEN
           error = .TRUE.
           WRITE(0,*) "JPL_ephemeris_init(): Error when inquiring for status of logical unit."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (used) THEN
           count = count + 1
@@ -281,7 +283,8 @@ CONTAINS
           IF (count > max_lu) THEN
              error = .TRUE.
              WRITE(0,*) "JPL_ephemeris_init(): Could not find a free logical unit."
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           lu = lu + 1
           ! Back to beginning if top is reached:
@@ -318,11 +321,13 @@ CONTAINS
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_init(): Could not select correct record length for file '" &
             // TRIM(fname) // "'."
+       error = .FALSE.
        RETURN
     END IF
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_init(): Could not open file '" // TRIM(fname) // "'."
+       error = .FALSE.
        RETURN
     END IF
 
@@ -331,6 +336,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_init(): Could not read record #1."
+       error = .FALSE.
        RETURN
     END IF
 
@@ -338,6 +344,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_init(): Could not read record #2."
+       error = .FALSE.
        RETURN
     END IF
 
@@ -355,12 +362,14 @@ CONTAINS
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_init(): Could select correct amount of memory for file '" &
             // TRIM(fname) // "'."
+       error = .FALSE.
        RETURN
     END IF
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_init(): Could not allocate memory (5)."
        DEALLOCATE(tmp, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     i = 1
@@ -375,7 +384,8 @@ CONTAINS
              error = .TRUE.
              WRITE(0,*) "JPL_ephemeris_init(): NRECORD_MAX too small."
              DEALLOCATE(tmp, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
     END DO
@@ -464,6 +474,7 @@ CONTAINS
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_init(): Could not allocate memory (10)."
        DEALLOCATE(tmp, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     buf(1:SIZE(tmp,dim=1),1:i) = tmp(1:SIZE(tmp,dim=1),1:i)
@@ -471,6 +482,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_init(): Could not deallocate memory."
+       error = .FALSE.
        RETURN
     END IF
     CLOSE(lu)
@@ -572,7 +584,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           WRITE(0,*) "JPL_ephemeris_r8(): Error when calling JPL_ephemeris_init()."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -581,9 +594,11 @@ CONTAINS
        IF (err /= 0) THEN
           error = .TRUE.
           WRITE(0,*) "JPL_ephemeris_r8(): Could not allocate memory for output (1)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        JPL_ephemeris_r8(1,1:6) = 0.0_rprec8
+       error = .FALSE.
        RETURN
     END IF
 
@@ -610,15 +625,18 @@ CONTAINS
           IF (error) THEN
        error = .FALSE.
              WRITE(0,*) 'JPL_ephemeris_r8(): Target object and center object are the same.'
-             RETURN
+             error = .FALSE.
+       RETURN
           ELSE
              !state = celements(11,:)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        ELSE
           error = .TRUE.
           WRITE(0,*) 'JPL_ephemeris_r8(): No librations available on the ephemeris file.'
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -656,6 +674,7 @@ CONTAINS
     IF (error) THEN
        error = .FALSE.
        WRITE(0,*) 'JPL_ephemeris_r8(): Error when calling states() (1).'
+       error = .FALSE.
        RETURN
     END IF
 
@@ -686,10 +705,12 @@ CONTAINS
        IF (err /= 0) THEN
           error = .TRUE.
           WRITE(0,*) "JPL_ephemeris_r8(): Could not allocate memory for output (2)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        JPL_ephemeris_r8(1,1:6) = celements(ntarget,1:6)
        barycenter = tmp_barycenter
+       error = .FALSE.
        RETURN
     END IF
 
@@ -717,7 +738,8 @@ CONTAINS
        IF (err /= 0) THEN
           error = .TRUE.
           WRITE(0,*) "JPL_ephemeris_r8(): Could not allocate memory for output (3)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,9
           JPL_ephemeris_r8(i,1:6) = celements(i,1:6)
@@ -728,7 +750,8 @@ CONTAINS
        IF (err /= 0) THEN
           error = .TRUE.
           WRITE(0,*) "JPL_ephemeris_r8(): Could not allocate memory for output (4)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,10
           JPL_ephemeris_r8(i,1:6) = celements(i,1:6)
@@ -738,12 +761,14 @@ CONTAINS
        IF (err /= 0) THEN
           error = .TRUE.
           WRITE(0,*) "JPL_ephemeris_r8(): Could not allocate memory for output (5)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        JPL_ephemeris_r8(1,1:6) = celements(ntarget,1:6)
     ELSE
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_r8(): Could not decide what kind of output caller requested."
+       error = .FALSE.
        RETURN
     END IF
 
@@ -779,6 +804,7 @@ CONTAINS
     IF (error) THEN
        error = .FALSE.
        WRITE(0,*) "JPL_ephemeris_r16(): Error when calling JPL_ephemeris_r8()."
+       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(JPL_ephemeris_r16(SIZE(tmp,dim=1),SIZE(tmp,dim=2)), stat=err)
@@ -786,6 +812,7 @@ CONTAINS
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_r16(): Could not allocate memory."
        DEALLOCATE(tmp, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     JPL_ephemeris_r16 = REAL(tmp,rprec16)
@@ -793,6 +820,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_r16(): Could not deallocate memory."
+       error = .FALSE.
        RETURN
     END IF
 
@@ -870,7 +898,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           WRITE(0,*) "JPL_ephemeris_perturbers_r8(): Could not initialize ephemerides."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -901,6 +930,7 @@ CONTAINS
     IF (error) THEN
        error = .FALSE.
        WRITE(0,*) "JPL_ephemeris_perturbers_r8(): Error when calling states() (1)."
+       error = .FALSE.
        RETURN
     END IF
 
@@ -933,6 +963,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_perturbers_r8(): Could not allocate memory."
+       error = .FALSE.
        RETURN
     END IF
     j = 0
@@ -976,6 +1007,7 @@ CONTAINS
     IF (error) THEN
        error = .FALSE.
        WRITE(0,*) "JPL_ephemeris_perturbers_r16(): Error when calling JPL_ephemeris_perturbers_r8()."
+       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(JPL_ephemeris_perturbers_r16(SIZE(tmp,dim=1),SIZE(tmp,dim=2)), stat=err)
@@ -983,6 +1015,7 @@ CONTAINS
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_perturbers_r16(): Could not allocate memory."
        DEALLOCATE(tmp, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     JPL_ephemeris_perturbers_r16 = REAL(tmp,rprec16)
@@ -990,6 +1023,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,*) "JPL_ephemeris_perturbers_r16(): Could not deallocate memory."
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1052,7 +1086,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           WRITE(0,*) "nutations(): Could not initialize ephemerides."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -1073,7 +1108,8 @@ CONTAINS
        IF (tt2(1) == 0.0_rprec8) THEN
           error = .TRUE.
           WRITE(0,*) 'nutations(): Input Julian date is zero.'
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        s = tt2(1) - 0.5_rprec8
@@ -1088,7 +1124,8 @@ CONTAINS
             pjd(1) + pjd(4) > ss(2)) THEN
           error = .TRUE.
           WRITE(0,*) 'nutations(): Requested Julian ET not within limits.'
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Calculate record number and relative time in interval:
@@ -1102,7 +1139,8 @@ CONTAINS
        IF (record_nr < 1 .OR. record_nr > SIZE(buf,dim=2)) THEN
           error = .TRUE.
           WRITE(0,*) 'Requested Julian ET not within limits.'
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Do nutations if requested (and if on file)
@@ -1113,7 +1151,8 @@ CONTAINS
                ipt(2,12), 2, ipt(3,12), tmp, error)
           IF (error) THEN
        error = .FALSE.
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           nutations = tmp(1:4)
        ELSE
@@ -1122,7 +1161,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           WRITE(0,*) 'nutations(): No nutations on the ephemeris file.'
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -1249,6 +1289,7 @@ CONTAINS
     IF (ABS(tt2(1)) < EPSILON(tt2(1))) THEN
        error = .TRUE.
        WRITE(0,*) 'states(): Input Julian date is zero.'
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1265,6 +1306,7 @@ CONTAINS
        error = .TRUE.
        WRITE(0,*) 'states(): Requested Julian ET not within limits:'
        WRITE(0,*) tt2, ss
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1280,6 +1322,7 @@ CONTAINS
     IF (record_nr < 1 .OR. record_nr > SIZE(buf,dim=2)) THEN
        error = .TRUE.
        WRITE(0,*) 'states(): Requested Julian ephemeris date not within limits.'
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1297,6 +1340,7 @@ CONTAINS
     IF (error) THEN
        error = .FALSE.
        WRITE(0,*) "states(): Error when calling interpolate() (1)."
+       error = .FALSE.
        RETURN
     END IF
     states(12,1:6) = states(12,1:6)*aufac
@@ -1308,7 +1352,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           WRITE(0,*) "states(): Error when calling interpolate() (2)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (i <= 9 .AND. .NOT.barycenter) THEN
           states(i,:) = states(i,:) * aufac - states(12,:)
@@ -1323,7 +1368,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           WRITE(0,*) "states(): Error when calling interpolate() (3)."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE
        states(11,1) = 0.0_rprec8
@@ -1428,6 +1474,7 @@ CONTAINS
     IF (ABS(time(2)) < EPSILON(time(2))) THEN
        error = .TRUE.
        WRITE(0,*) 'interpolate(): Attempted division by zero.'
+       error = .FALSE.
        RETURN
     END IF
     vfac = (dna + dna)/time(2)
@@ -1558,7 +1605,8 @@ CONTAINS
        IF (err /= 0) THEN
           error = .TRUE.
           WRITE(0,*) "BC_ephemeris_init(): Error when inquiring for status of logical unit."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (used) THEN
           count = count + 1
@@ -1568,7 +1616,8 @@ CONTAINS
           IF (count > max_lu) THEN
              error = .TRUE.
              WRITE(0,*) "BC_ephemeris_init(): Could not find a free logical unit."
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           lu = lu + 1
           ! Back to beginning if top is reached:
@@ -1589,6 +1638,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,*) "BC_ephemeris_init(): Could not open file '" // TRIM(fname) // "'."
+       error = .FALSE.
        RETURN
     END IF
     to_include = nastpert
@@ -1607,6 +1657,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,*) "BC_ephemeris_init(): Could not open file '" // TRIM(fname) // "'."
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,SIZE(fbuffer) ! Read asteroid_ephemeris into fbuffer
@@ -1619,6 +1670,7 @@ CONTAINS
     IF (err /= 0) THEN
        error = .TRUE.
        WRITE(0,*) "BC_ephemeris_init(): Could not open file '" // TRIM(fname) // "'."
+       error = .FALSE.
        RETURN
     END IF
     k=1
@@ -1718,7 +1770,8 @@ CONTAINS
        IF (error) THEN
        error = .FALSE.
           WRITE(0,*) "BC_ephemeris_r8(): Error when calling BC_ephemeris_init()."
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        first_bc = .FALSE.
     END IF
@@ -1761,7 +1814,8 @@ CONTAINS
        DO WHILE (ABS(f(j,1)) >= tol)
           IF (i > nmax) THEN
              error = .TRUE.
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           ecosx(j,1) = tmp_elements(j,2)*COS(x(j,1))
           fp         = 1.0d0 - ecosx(j,1)

@@ -276,6 +276,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -313,6 +314,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -321,6 +323,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / new",&
             "TRACE BACK 1", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%element_type = "cartesian"
@@ -368,6 +371,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -375,6 +379,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / new", &
             "Given epoch has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -387,6 +392,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / new", &
             "The element type string contains forbidden characters.", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%element_type = TRIM(tmp)
@@ -414,7 +420,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / new", &
                "The frame string contains forbidden characters (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%frame = TRIM(tmp)
        this%is_initialized = .TRUE.
@@ -427,7 +434,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / new", &
                "The frame string contains forbidden characters (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%frame = TRIM(tmp)
        CALL NEW(scoord, elements, this%frame, this%t)
@@ -439,7 +447,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / new",&
                "TRACE BACK 1", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%element_type = "cartesian"
        this%is_initialized = .TRUE.
@@ -451,7 +460,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Semimajor Axis is negative.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(1) = elements(1)
        END IF
@@ -460,12 +470,14 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Eccentricity is exactly 1 (not possible, too few digits used).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (elements(2) < 0.0_bp .OR. elements(2) > 1.0_bp) THEN
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Eccentricity is outside the range [0,1[.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(2) = elements(2)
        END IF
@@ -474,7 +486,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Inclination is outside the range [0,pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(3) = elements(3)
        END IF
@@ -483,7 +496,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Longitude of Ascending Node is outside the range [0,two_pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(4) = elements(4)
        END IF
@@ -492,7 +506,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Argument of Perihelion is outside the range [0,two_pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(5) = elements(5)
        END IF
@@ -501,7 +516,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Mean Anomaly is outside the range [0,two_pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(6) = elements(6)
        END IF
@@ -517,7 +533,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Perihelion distance is negative.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(1) = elements(1)
        END IF
@@ -526,12 +543,14 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Eccentricity is negative.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (elements(2) == 1.0_bp) THEN
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Eccentricity is exactly 1 (not possible, too few digits used).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(2) = elements(2)
        END IF
@@ -540,7 +559,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Inclination is outside the range [0,pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(3) = elements(3)
        END IF
@@ -549,7 +569,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Longitude of Ascending Node is outside the range [0,two_pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(4) = elements(4)
        END IF
@@ -558,7 +579,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Argument of Perihelion is outside the range [0,two_pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(5) = elements(5)
        END IF
@@ -580,7 +602,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Perihelion distance is negative.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(1) = elements(1)
        END IF
@@ -589,12 +612,14 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Eccentricity is negative.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (elements(2) == 1.0_bp) THEN
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Eccentricity is exactly 1 (not possible, too few digits used).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(2) = elements(2)
        END IF
@@ -603,7 +628,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Inclination is outside the range [0,pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(3) = elements(3)
        END IF
@@ -612,7 +638,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Longitude of Ascending Node is outside the range [0,two_pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(4) = elements(4)
        END IF
@@ -621,7 +648,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Argument of Perihelion is outside the range [0,two_pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(5) = elements(5)
        END IF
@@ -630,7 +658,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "True Anomaly is outside the range [0,two_pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(6) = elements(6)
        END IF
@@ -649,7 +678,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Perihelion distance is negative.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(1) = elements(1)
        END IF
@@ -658,12 +688,14 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Eccentricity is negative.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (elements(2) == 1.0_bp) THEN
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Eccentricity is exactly 1 (not possible, too few digits used).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(2) = elements(2)
        END IF
@@ -672,7 +704,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Inclination is outside the range [0,pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(3) = elements(3)
        END IF
@@ -681,7 +714,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Longitude of Ascending Node is outside the range [0,two_pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(4) = elements(4)
        END IF
@@ -690,7 +724,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Argument of Perihelion is outside the range [0,two_pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(5) = elements(5)
        END IF
@@ -699,7 +734,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Mean Anomaly is outside the range [0,two_pi].", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           this%elements(6) = elements(6)
        END IF
@@ -714,6 +750,7 @@ CONTAINS
        CALL errorMessage("Orbit / new",&
             "Type of elements (" // TRIM(this%element_type) // &
             ") is incorrect.", 1)
+       error = .FALSE.
        RETURN       
 
     END SELECT
@@ -787,6 +824,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -794,6 +832,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / new", &
             "First position is unavailable.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -801,6 +840,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / new", &
             "Second position is unavailable.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -809,6 +849,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / new", &
             "Frames of input coordinates are different.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -822,6 +863,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / new", &
             "Could not initialize this object temporarily.", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(ccoord_)
@@ -868,6 +910,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / new", &
             "The method string contains forbidden characters.", 1)
+       error = .FALSE.
        RETURN
     END IF
     SELECT CASE (method_)
@@ -905,7 +948,8 @@ CONTAINS
              CALL errorMessage("Orbit / new", &
                   "TRACE BACK 5", 1)
              CALL NULLIFY(this)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           diff2 = cdf - cos_df
           DO WHILE (diff1*diff2 >= 0.0_bp)
@@ -915,7 +959,8 @@ CONTAINS
                 CALL errorMessage("Orbit / new", &
                      "Too many steps in bracketing (1).", 1)
                 CALL NULLIFY(this)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              p1    = p2
              p2    = p1 + dp
@@ -925,7 +970,8 @@ CONTAINS
                 CALL errorMessage("Orbit / new", &
                      "TRACE BACK 10", 1)
                 CALL NULLIFY(this)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              diff1 = diff2
              diff2 = cdf - cos_df
@@ -947,7 +993,8 @@ CONTAINS
                 CALL errorMessage("Orbit / new", &
                      "Too many steps in bracketing (2).", 1)
                 CALL NULLIFY(this)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              p1    = p2
              p2    = p1 + dp
@@ -957,7 +1004,8 @@ CONTAINS
                 CALL errorMessage("Orbit / new", &
                      "TRACE BACK 15", 1)
                 CALL NULLIFY(this)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              diff1 = diff2
              diff2 = cdf - cos_df
@@ -976,7 +1024,8 @@ CONTAINS
              CALL errorMessage("Orbit / new", &
                   "TRACE BACK 20", 1)
              CALL NULLIFY(this)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           diff2 = cdf - cos_df
           IF (ABS(diff2-diff1) < told) THEN
@@ -984,7 +1033,8 @@ CONTAINS
              CALL errorMessage("Orbit / new", &
                   "Step size approaches (+/-)-infinity (1).", 1)
              CALL NULLIFY(this)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           dp = -diff2*(p2-p1)/(diff2-diff1)
           DO WHILE (ABS(dp) >= tolp) 
@@ -994,7 +1044,8 @@ CONTAINS
                 CALL errorMessage("Orbit / new", &
                      "Too many steps in iteration.", 1)
                 CALL NULLIFY(this)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              p1 = p2
              p2 = p2 + dp
@@ -1004,7 +1055,8 @@ CONTAINS
                 CALL errorMessage("Orbit / new", &
                      "TRACE BACK 25", 1)
                 CALL NULLIFY(this)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              diff1 = diff2
              diff2 = cdf - cos_df
@@ -1013,7 +1065,8 @@ CONTAINS
                 CALL errorMessage("Orbit / new", &
                      "Step size approaches (+/-)-infinity (2).", 1)
                 CALL NULLIFY(this)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              dp = -diff2*(p2-p1)/(diff2-diff1)
           END DO
@@ -1037,13 +1090,15 @@ CONTAINS
           CALL errorMessage("Orbit / new", &
                "Could not find correct orbit.", 1)
           CALL NULLIFY(this)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (ABS(g) < TINY(g)) THEN
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Attempted division by zero (g-function).", 1)
           CALL NULLIFY(this)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           vel0 = (pos1 - f*pos0)/g
           this%elements(1:3) = pos0
@@ -1069,7 +1124,8 @@ CONTAINS
           ! t0 and t1 practically the same.
           CALL errorMessage("Orbit / new", &
                "Epochs t0 and t1 practically the same.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        kappa = SQRT(2.0_bp*(r0*r1+r01))
        orbit_normal = cross_product(pos0,pos1)
@@ -1078,7 +1134,8 @@ CONTAINS
           ! r0 and r1 almost parallel.
           CALL errorMessage("Orbit / new", &
                "Vectors r0 and r1 almost parallel.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        h = tau**2/(kappa**2*(kappa/3.0_bp+(r0+r1)/2.0_bp))
        CALL continuedFraction(h, tol, cf, dcf)
@@ -1086,7 +1143,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / new", &
                "Failure in continued fraction", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        p = (len_orbit_normal*cf/tau)**2.0_bp
        f = (r1/p)*(cdf - 1.0_bp) + 1.0_bp
@@ -1097,7 +1155,8 @@ CONTAINS
           CALL errorMessage("Orbit / new", &
                "Attempted division by zero (g-function).", 1)
           CALL NULLIFY(this)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        vel0 = (pos1 - f*pos0)/g
        this%elements(1:3) = pos0
@@ -1140,7 +1199,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / new", &
                "TRACE BACK (20)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (y_vector(1) < ftol_) THEN
           this = copy(orb)
@@ -1153,7 +1213,8 @@ CONTAINS
           IF (PRESENT(iter)) THEN
              iter = 0
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        p_matrix(1,1:3) = elements(4:6)
        CALL NULLIFY(orb)
@@ -1174,7 +1235,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Orbit / new", &
                   "TRACE BACK (20)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        CALL amoeba_private_2b
@@ -1185,7 +1247,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / new", &
                "TRACE BACK (25)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ilo = iminloc(y_vector(:))
        IF (info_verb >= 3) THEN
@@ -1235,7 +1298,8 @@ CONTAINS
           CALL errorMessage("Orbit / new", &
                "Could not solve the 2-point boundary value " // & 
                "problem in the 2-body approximation.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (PRESENT(ftol)) THEN
           ftol_ = ftol
@@ -1254,7 +1318,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / new", &
                "TRACE BACK (20)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (y_vector(1) < ftol_) THEN
           this = copy(orb)
@@ -1267,7 +1332,8 @@ CONTAINS
           IF (PRESENT(iter)) THEN
              iter = 0
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        elements = getElements(orb, "cartesian", frame)
        p_matrix(1,1:3) = elements(4:6)
@@ -1290,7 +1356,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Orbit / new", &
                   "TRACE BACK (20)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        CALL amoeba_private
@@ -1301,7 +1368,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / new", &
                "TRACE BACK (25)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ilo = iminloc(y_vector(:))
        IF (info_verb >= 3) THEN
@@ -1323,6 +1391,7 @@ CONTAINS
        CALL errorMessage("Orbit / new", &
             "Method chosen for solving the 2-point boundary value " // &
             "problem not available:" // TRIM(method) // ".", 1)
+       error = .FALSE.
        RETURN
 
     END SELECT
@@ -1346,7 +1415,8 @@ CONTAINS
          error = .TRUE.
          CALL errorMessage("Orbit / new", &
               "Matrix and vector dimensions incompatible.", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       iter_ = 0 
       psum(:) = SUM(p_matrix(:,:),dim=1) 
@@ -1377,14 +1447,16 @@ CONTAINS
             ! If returning, put best point and value in slot 1. 
             CALL swap(y_vector(1),y_vector(ilo))
             CALL swap(p_matrix(1,:),p_matrix(ilo,:)) 
-            RETURN 
+            error = .FALSE.
+       RETURN 
          END IF
          IF (iter_ >= ITMAX_PRM) THEN
             ! TMAX exceeded in amoeba
             error = .TRUE.
             CALL errorMessage("Orbit / new", &
                  "Maximum number of iterations exceeded.", 1)
-            RETURN
+            error = .FALSE.
+       RETURN
          END IF
          ! Begin a new iteration. First extrapolate by a factor -1
          ! through the face of the simplex across from the high
@@ -1394,7 +1466,8 @@ CONTAINS
        error = .FALSE.
             CALL errorMessage("Orbit / new", &
                  "TRACE BACK (30)", 1)
-            RETURN
+            error = .FALSE.
+       RETURN
          END IF
          iter_ = iter_ + 1 
          IF (ytry <= y_vector(ilo)) THEN
@@ -1405,7 +1478,8 @@ CONTAINS
        error = .FALSE.
                CALL errorMessage("Orbit / new", &
                     "TRACE BACK (35)", 1)
-               RETURN
+               error = .FALSE.
+       RETURN
             END IF
             iter_ = iter_ + 1 
          ELSE IF (ytry >= y_vector(inhi)) THEN 
@@ -1418,7 +1492,8 @@ CONTAINS
        error = .FALSE.
                CALL errorMessage("Orbit / new", &
                     "TRACE BACK (40)", 1)
-               RETURN
+               error = .FALSE.
+       RETURN
             END IF
             iter_ = iter_ + 1
             IF (ytry >= ysave) THEN
@@ -1433,7 +1508,8 @@ CONTAINS
        error = .FALSE.
                         CALL errorMessage("Orbit / new", &
                              "TRACE BACK (45)", 1)
-                        RETURN
+                        error = .FALSE.
+       RETURN
                      END IF
                      CALL setParameters(orb, &
                           dyn_model=this%dyn_model_prm, &
@@ -1445,14 +1521,16 @@ CONTAINS
        error = .FALSE.
                         CALL errorMessage("Orbit / new", &
                              "TRACE BACK (45)", 1)
-                        RETURN
+                        error = .FALSE.
+       RETURN
                      END IF
                      y_vector(i) = distance_2b(orb)
                      IF (error) THEN
        error = .FALSE.
                         CALL errorMessage("Orbit / new", &
                              "TRACE BACK (50)", 1)
-                        RETURN
+                        error = .FALSE.
+       RETURN
                      END IF
                      CALL NULLIFY(orb)
                   END IF
@@ -1479,7 +1557,8 @@ CONTAINS
          error = .TRUE.
          CALL errorMessage("Orbit / new", &
               "Matrix and vector dimensions incompatible.", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       iter_ = 0 
       psum(:) = SUM(p_matrix(:,:),dim=1) 
@@ -1510,14 +1589,16 @@ CONTAINS
             ! If returning, put best point and value in slot 1. 
             CALL swap(y_vector(1),y_vector(ilo))
             CALL swap(p_matrix(1,:),p_matrix(ilo,:)) 
-            RETURN 
+            error = .FALSE.
+       RETURN 
          END IF
          IF (iter_ >= ITMAX_PRM) THEN
             ! TMAX exceeded in amoeba
             error = .TRUE.
             CALL errorMessage("Orbit / new", &
                  "Maximum number of iterations exceeded.", 1)
-            RETURN
+            error = .FALSE.
+       RETURN
          END IF
          ! Begin a new iteration. First extrapolate by a factor -1
          ! through the face of the simplex across from the high
@@ -1527,7 +1608,8 @@ CONTAINS
        error = .FALSE.
             CALL errorMessage("Orbit / new", &
                  "TRACE BACK (30)", 1)
-            RETURN
+            error = .FALSE.
+       RETURN
          END IF
          iter_ = iter_ + 1 
          IF (ytry <= y_vector(ilo)) THEN
@@ -1538,7 +1620,8 @@ CONTAINS
        error = .FALSE.
                CALL errorMessage("Orbit / new", &
                     "TRACE BACK (35)", 1)
-               RETURN
+               error = .FALSE.
+       RETURN
             END IF
             iter_ = iter_ + 1 
          ELSE IF (ytry >= y_vector(inhi)) THEN 
@@ -1551,7 +1634,8 @@ CONTAINS
        error = .FALSE.
                CALL errorMessage("Orbit / new", &
                     "TRACE BACK (40)", 1)
-               RETURN
+               error = .FALSE.
+       RETURN
             END IF
             iter_ = iter_ + 1
             IF (ytry >= ysave) THEN
@@ -1566,7 +1650,8 @@ CONTAINS
        error = .FALSE.
                         CALL errorMessage("Orbit / new", &
                              "TRACE BACK (45)", 1)
-                        RETURN
+                        error = .FALSE.
+       RETURN
                      END IF
                      CALL setParameters(orb, &
                           dyn_model=this%dyn_model_prm, &
@@ -1578,14 +1663,16 @@ CONTAINS
        error = .FALSE.
                         CALL errorMessage("Orbit / new", &
                              "TRACE BACK (45)", 1)
-                        RETURN
+                        error = .FALSE.
+       RETURN
                      END IF
                      y_vector(i) = distance(orb)
                      IF (error) THEN
        error = .FALSE.
                         CALL errorMessage("Orbit / new", &
                              "TRACE BACK (50)", 1)
-                        RETURN
+                        error = .FALSE.
+       RETURN
                      END IF
                      CALL NULLIFY(orb)
                   END IF
@@ -1625,7 +1712,8 @@ CONTAINS
        error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (55)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       CALL setParameters(orb, &
            dyn_model=this%dyn_model_prm, &
@@ -1637,14 +1725,16 @@ CONTAINS
        error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (45)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       ytry = distance_2b(orb)
       IF (error) THEN
        error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (60)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       CALL NULLIFY(orb)
       IF (ytry < y_vector(ihi)) THEN 
@@ -1685,7 +1775,8 @@ CONTAINS
        error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (55)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       CALL setParameters(orb, &
            dyn_model=this%dyn_model_prm, &
@@ -1697,14 +1788,16 @@ CONTAINS
        error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (45)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       ytry = distance(orb)
       IF (error) THEN
        error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (60)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       CALL NULLIFY(orb)
       IF (ytry < y_vector(ihi)) THEN 
@@ -1732,14 +1825,16 @@ CONTAINS
        error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (65)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       pos_orb = getPosition(orb)
       IF (error) THEN
        error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (75)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       distance_2b = SQRT(SUM((pos1-pos_orb)**2))
 
@@ -1760,14 +1855,16 @@ CONTAINS
        error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (65)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       pos_orb1 = getPosition(orb)
       IF (error) THEN
        error = .FALSE.
          CALL errorMessage("Orbit / new", &
               "TRACE BACK (75)", 1)
-         RETURN
+         error = .FALSE.
+       RETURN
       END IF
       distance = SQRT(SUM((pos1-pos_orb1)**2))
 
@@ -1798,6 +1895,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / new", &
             "Object has already been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1807,6 +1905,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / new",&
             "TRACE BACK 1", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%elements = getCoordinates(ccoord)
@@ -1814,6 +1913,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / new",&
             "TRACE BACK 2", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%element_type = "cartesian"
@@ -1867,6 +1967,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / new_Orb_aeixyzt", &
             "Distance smaller than periapsis distance.",1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1875,6 +1976,7 @@ CONTAINS
        CALL errorMessage("Orbit / new_Orb_aeixyzt", &
             "Distance larger than apoapsis distance.",1)
        WRITE(stderr,*) r, kep(1)*(1.0_bp+kep(2)), r-kep(1)*(1.0_bp+kep(2))
+       error = .FALSE.
        RETURN
     END IF
 
@@ -1883,6 +1985,7 @@ CONTAINS
     b = pos(3)/(pos(2)*TAN(kep(3)))
     IF (a**2 - b**2 + 1.0_bp < 0.0_bp) THEN
        !write(lu,*) "node sqrt: ", a**2 - b**2 + 1.0_bp
+       error = .FALSE.
        RETURN
     END IF
     cosnode1 = (b + a*SQRT(a**2.0_bp - b**2.0_bp + 1.0_bp))/(a**2.0_bp + 1.0_bp)
@@ -1915,6 +2018,7 @@ CONTAINS
     c = pos(3)/SIN(kep(3))
     IF (a**2.0_bp + b**2.0_bp - c**2.0_bp < 0.0_bp) THEN
        !write(lu,*) "peri sqrt: ", a**2 + b**2 - c**2
+       error = .FALSE.
        RETURN
     END IF
     cosperi1 = (b*c + a*SQRT(a**2.0_bp + b**2.0_bp - c**2.0_bp))/(a**2.0_bp + b**2.0_bp)
@@ -1984,7 +2088,8 @@ CONTAINS
                 WRITE(lu,*) nam(2,:)/rad_deg
                 WRITE(lu,*) nam(3,:)/rad_deg
                 WRITE(lu,*) elements(4:6)/rad_deg
-                STOP
+                error = .FALSE.
+       STOP
              END IF
              IF (dist < 10.0E-10_bp) THEN
                 !WRITE(lu,"(A,6(1X,F10.6),1X,F10.4,3(1X,I0))") "NAM ", elements(1:2), elements(3:6)/rad_deg, mjd_tt, j, k, l
@@ -1996,10 +2101,11 @@ CONTAINS
                    CALL NEW(orb_arr(i+1), elements, "keplerian", "ecliptic", t)
                 END IF
                 IF (error) THEN
-       error = .FALSE.
+                error = .FALSE.
                    CALL errorMessage("Orbit / new_Orb_aeixyzt", &
                         "TRACE BACK 5",1)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 i = i + 1
              END IF
@@ -2074,7 +2180,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / copy", &
                "Could not allocate memory.",1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        copy_Orb%additional_perturbers = this%additional_perturbers
     ELSE
@@ -2129,18 +2236,21 @@ CONTAINS
     IF (error) THEN
        error = .FALSE.
        errstr = "error12"
+       error = .FALSE.
        RETURN
     END IF
     CALL NEW(orb, elements, "cartesian", "ecliptic", t)
     IF (error) THEN
        error = .FALSE.
        errstr = "error13"
+       error = .FALSE.
        RETURN
     END IF
     elements = getCometaryElements(orb, qei_only=.TRUE.)
     IF (error) THEN
        error = .FALSE.
        errstr = "error14"
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(orb)
@@ -2171,6 +2281,7 @@ CONTAINS
     CALL NEW(t, param(7), "TT")
     IF (error) THEN
        error = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
     IF (PRESENT(center)) THEN
@@ -2180,10 +2291,12 @@ CONTAINS
     END IF
     IF (error) THEN
        error = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
     elements = getCartesianElements(orb, "ecliptic")
     IF (error) THEN
+       error = .FALSE.
        error = .FALSE.
        RETURN
     END IF
@@ -2217,6 +2330,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / boundOrbit", &
             "Object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2225,6 +2339,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / boundOrbit", &
             "TRACE BACK 1",1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2236,6 +2351,7 @@ CONTAINS
     tmp = 2.0_bp - alpha
     IF (ABS(tmp) < 100.0_bp*EPSILON(tmp)) THEN
        boundOrbit = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
     a = r / tmp
@@ -2248,11 +2364,13 @@ CONTAINS
     ! Lower bound:
     IF (a < planetary_radii(this%center)) THEN
        boundOrbit = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
     ! Upper bound:
     IF (a > smamax) THEN
        boundOrbit = .FALSE.
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2294,7 +2412,8 @@ CONTAINS
        dsector_to_triangel_ratio = ABS(tmp1-tmp2)
        IF (dsector_to_triangel_ratio < tol) THEN
           sector_to_triangel_ratio = 1.0_bp + d1*tmp1
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        tmp2 = tmp1
     END DO
@@ -2328,6 +2447,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / estimateCosDf", &
             "This object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -2335,6 +2455,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / estimateCosDf", &
             "Orbital elements must be Cartesian.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2342,6 +2463,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / estimateCosDf", &
             "Second position has not been initialized.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -2359,6 +2481,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / estimateCosDf", &
             "Attempted division by zero (g-function).", 1)
+       error = .FALSE.
        RETURN
     END IF
     vel0 = (pos1 - f*pos0)/g
@@ -2370,6 +2493,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / estimateCosDf", &
             "TRACE BACK 4", 1)
+       error = .FALSE.
        RETURN
     END IF
     pos = orb%elements(1:3)
@@ -2408,6 +2532,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / GaussfgJacobian", &
             "This object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -2416,6 +2541,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / GaussfgJacobian", &
             "Preliminary criterions are not fulfilled.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2441,6 +2567,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / GaussfgJacobian", &
             "Criterions are not fulfilled.", 1)
+       error = .FALSE.
        RETURN
     END IF
     ps = (0.5_bp*palpha/alpha*tmp_B - tmp_A)/tmp_C
@@ -2509,6 +2636,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getApoapsisDistance", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2557,14 +2685,16 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Orbit / getApoapsisDistance", &
                   "a is approaching infinity.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           a_ = r / (2.0_bp - alpha)
           IF (a_ < 0.0_bp) THEN
              error = .TRUE.
              CALL errorMessage("Orbit / getApoapsisDistance", &
                   "Semimajor axis is negative.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        ! gamma = sqrt(mu*a)
@@ -2573,7 +2703,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getApoapsisDistance", &
                "Gamma is computationally too small.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! r(1+e*cos(f))=a|1-e^2|, r*cos(f)=a*cos(E)-ae, and for elliptical 
        ! orbits a=r/(2-rv^2/mu) (see above) and |1-e^2|=1-e^2
@@ -2586,13 +2717,15 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getApoapsisDistance", &
                "Orbit is hyperbolic.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (e < 10.0_bp*EPSILON(e)) THEN
           error = .TRUE.
           CALL errorMessage("Orbit / getApoapsisDistance", &
                "Orbit is almost circular (1).", 1)
           WRITE(stderr,*) e
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(this_)
        Q = a_*(1.0_bp + e)
@@ -2646,6 +2779,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getCartesianElements", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2655,6 +2789,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getCartesianElements", &
             "The frame string contains forbidden characters.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (frame_ /= "ecliptic" .AND. &
@@ -2673,6 +2808,7 @@ CONTAINS
             this%frame /= "ecliptic") THEN
           CALL rotateToEcliptic(getCartesianElements(1:6))
        END IF
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2701,28 +2837,32 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (10)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NEW(this_, celements, "cartesian", "ecliptic", t)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (15)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL setParameters(this_, dyn_model="2-body")
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (20)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL propagate(this_, this%t)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (25)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Return the Cartesian elements:
@@ -2731,7 +2871,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (30)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(this_)
        CALL NULLIFY(t)
@@ -2743,21 +2884,24 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (35)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL toCometary(this_)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (40)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        getCartesianElements = getElements(this_, "cartesian", frame_)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (45)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(this_)
 
@@ -2769,7 +2913,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getCartesianElements", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        cea = COS(ea)
        sea = SIN(ea)
@@ -2802,6 +2947,7 @@ CONTAINS
        CALL errorMessage("Orbit / getCartesianElements", &
             "Conversion from " // TRIM(this%element_type) // &
             " elements to cartesian elements has not yet been implemented.", 1)
+       error = .FALSE.
        RETURN
 
     END SELECT
@@ -2831,6 +2977,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getCCoord", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2841,7 +2988,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getCCoord", &
                "The frame string contains forbidden characters.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE IF (this%element_type == "cartesian") THEN
        frame_ = this%frame
@@ -2849,6 +2997,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getCCoord", &
             "Frame missing when using Keplerian or cometary input elements.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -2857,6 +3006,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getCCoord", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2865,6 +3015,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getCCoord", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2930,6 +3081,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getCometaryElements", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -2941,6 +3093,7 @@ CONTAINS
     CASE ("cometary")
 
        ! Return immediately if elements are cometary
+       error = .FALSE.
        RETURN
 
     CASE ("cometary_ta")
@@ -2972,7 +3125,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getCometaryElements", &
                "Conversion from ta to tp not yet available for e>=1 orbits.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(this_)
 
@@ -3053,7 +3207,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getCometaryElements", &   
                "Position and velocity almost parallel.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Renormalize k and ru
        k = k*SQRT(dot_PRODUCT(pos,pos))*SQRT(dot_PRODUCT(vel,vel))
@@ -3077,7 +3232,8 @@ CONTAINS
              ! Return (q,e,i) only
              CALL NULLIFY(this_)
              getCometaryElements = (/ q, e, i, -1.0_bp, -1.0_bp, -1.0_bp /)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        ! Notice computational abs!!
@@ -3146,7 +3302,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Orbit / getCometaryElements", &
                   "TRACE BACK (10)", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           stumpff_cs(0) = stumpff_c(0)
           stumpff_cs(1) = stumpff_c(1) * s
@@ -3186,7 +3343,8 @@ CONTAINS
                   e < 1.0_bp .AND. ABS(r-q) > tol4 .AND. ABS(r-q/(1.0_bp-e)*(1.0_bp+e)) > tol4, &
                   "(", ABS(r-q), " > ", tol4, " and ", ABS(r-q/(1.0_bp-e)*(1.0_bp+e)), " > ", tol4, ")"
           END IF
-          RETURN          
+          error = .FALSE.
+       RETURN          
        END IF
        dt = r0 * stumpff_cs(1) + xv * stumpff_cs(2) + &
             planetary_mu(this_%center)*stumpff_cs(3)
@@ -3257,6 +3415,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getDelaunayElements", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3265,6 +3424,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getDelaunayElements", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
     getDelaunayElements(1) = kep(6)
@@ -3296,6 +3456,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getElements", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3303,6 +3464,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getElements", &
             "Element type indicator too long.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -3313,6 +3475,7 @@ CONTAINS
        CALL errorMessage("Orbit / getElements", &
             "The element type string ('" // TRIM(element_type_) &
             // "') contains forbidden characters.", 1)
+       error = .FALSE.
        RETURN
     END IF
     SELECT CASE (element_type_)
@@ -3332,7 +3495,8 @@ CONTAINS
           CALL errorMessage("Orbit / getElements", &
                "Frame must be given explicitly if Keplerian " // &
                "elements are to be converted to Cartesian elements.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     CASE ("delaunay")
        getElements = getDelaunayElements(this)
@@ -3351,12 +3515,14 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getElements", &
             "Unkown option: " // TRIM(element_type_) // ".", 1)
+       error = .FALSE.
        RETURN       
     END SELECT
     IF (error) THEN
        error = .FALSE.
        CALL errorMessage("Orbit / getElements", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -3375,6 +3541,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getElementType", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3422,6 +3589,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getEphemerides (single)", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -3448,7 +3616,8 @@ CONTAINS
           DEALLOCATE(partials_arr_, stat=err)
           DEALLOCATE(ephemerides_arr, stat=err)
           DEALLOCATE(this_lt_corr_arr_, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ALLOCATE(partials_arr(6,6,nobsy), stat=err)
        IF (err /= 0) THEN
@@ -3459,7 +3628,8 @@ CONTAINS
           DEALLOCATE(ephemerides_arr, stat=err)
           DEALLOCATE(partials_arr, stat=err)
           DEALLOCATE(this_lt_corr_arr_, stat=err)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        partials_arr = partials_arr_(1,:,:,:)
        DEALLOCATE(partials_arr_, stat=err)
@@ -3470,7 +3640,8 @@ CONTAINS
           DEALLOCATE(ephemerides_arr, stat=err)
           DEALLOCATE(partials_arr, stat=err)
           DEALLOCATE(this_lt_corr_arr_, stat=err)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
     ELSE
        IF (PRESENT(this_lt_corr_arr)) THEN
@@ -3487,7 +3658,8 @@ CONTAINS
                "TRACE BACK (10)", 1)
           DEALLOCATE(ephemerides_arr, stat=err)
           DEALLOCATE(this_lt_corr_arr_, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(this_lt_corr_arr)) THEN
@@ -3502,7 +3674,8 @@ CONTAINS
           END IF
           DEALLOCATE(this_lt_corr_arr_, stat=err)
           DEALLOCATE(this_lt_corr_arr, stat=err)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        DO i=1,nobsy
           this_lt_corr_arr(i) = copy(this_lt_corr_arr_(1,i))
@@ -3517,7 +3690,8 @@ CONTAINS
              DEALLOCATE(partials_arr, stat=err)
           END IF
           DEALLOCATE(this_lt_corr_arr, stat=err)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
     END IF
     IF (ASSOCIATED(ephemerides)) THEN
@@ -3533,7 +3707,8 @@ CONTAINS
           IF (PRESENT(this_lt_corr_arr)) THEN
              DEALLOCATE(this_lt_corr_arr, stat=err)
           END IF
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
     END IF
     ALLOCATE(ephemerides(nobsy), stat=err)
@@ -3549,6 +3724,7 @@ CONTAINS
        IF (PRESENT(this_lt_corr_arr)) THEN
           DEALLOCATE(this_lt_corr_arr, stat=err)
        END IF
+       error = .FALSE.
        RETURN       
     END IF
     DO i=1,nobsy
@@ -3566,6 +3742,7 @@ CONTAINS
        IF (PRESENT(this_lt_corr_arr)) THEN
           DEALLOCATE(this_lt_corr_arr, stat=err)
        END IF
+       error = .FALSE.
        RETURN       
     END IF
     CALL NULLIFY(this_arr(1))
@@ -3624,6 +3801,7 @@ CONTAINS
        CALL errorMessage("Orbit / getEphemerides (multiple)", &
             "Could not allocate memory (5).", 1)
        DEALLOCATE(this_prop_arr_current, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,nthis
@@ -3632,7 +3810,8 @@ CONTAINS
           DEALLOCATE(this_prop_arr_current, stat=err)
           CALL errorMessage("Orbit / getEphemerides (multiple)", &
                "All objects have not yet been initialized.", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        this_prop_arr_current(i) = copy(this_arr(i))
     END DO
@@ -3644,6 +3823,7 @@ CONTAINS
        DEALLOCATE(this_prop_arr_current, stat=err)
        DEALLOCATE(ephemerides, stat=err)
        DEALLOCATE(frames, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (PRESENT(lt_corr)) THEN
@@ -3661,7 +3841,8 @@ CONTAINS
           DEALLOCATE(ephemerides, stat=err)
           DEALLOCATE(frames, stat=err)
           DEALLOCATE(partials_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ALLOCATE(jacobian_arr(nthis,6,6), stat=err)
        IF (err /= 0) THEN
@@ -3673,7 +3854,8 @@ CONTAINS
           DEALLOCATE(frames, stat=err)
           DEALLOCATE(partials_arr, stat=err)
           DEALLOCATE(jacobian_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,nthis
           jacobian_arr(i,:,:) = identity_matrix(6)
@@ -3693,7 +3875,8 @@ CONTAINS
           END IF
           DEALLOCATE(jacobian_arr, stat=err)
           DEALLOCATE(this_lt_corr_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -3718,6 +3901,7 @@ CONTAINS
        END IF
        DEALLOCATE(mjd_tt_arr, stat=err)
        DEALLOCATE(indx_arr, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,nobsy
@@ -3730,6 +3914,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getEphemerides (multiple)", &
             TRIM(errstr), 1)
+       error = .FALSE.
        RETURN
     END IF
     indx = findLocation(mjd_tt_orb, mjd_tt_arr, indx_arr)
@@ -3756,6 +3941,7 @@ CONTAINS
        DEALLOCATE(indx_arr, stat=err)
        DEALLOCATE(indx_smaller, stat=err)
        DEALLOCATE(indx_larger, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     indx_smaller(1:indx-1) = indx_arr(1:indx-1)
@@ -3779,6 +3965,7 @@ CONTAINS
        DEALLOCATE(indx_arr, stat=err)
        DEALLOCATE(indx_smaller, stat=err)
        DEALLOCATE(indx_larger, stat=err)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -3832,7 +4019,8 @@ CONTAINS
                 DEALLOCATE(jacobian_prop_arr, stat=err)
                 DEALLOCATE(this_lt_corr_arr_, stat=err)
                 DEALLOCATE(this_prop_arr_next, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              DO k=1,nthis
                 this_lt_corr_arr(k,j) = copy(this_lt_corr_arr_(k))
@@ -3856,7 +4044,8 @@ CONTAINS
                 DEALLOCATE(jacobian_prop_arr, stat=err)
                 DEALLOCATE(this_lt_corr_arr_, stat=err)
                 DEALLOCATE(this_prop_arr_next, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           ELSE
              CALL getEphemeris(this_prop_arr_current, &
@@ -3884,7 +4073,8 @@ CONTAINS
                 DEALLOCATE(jacobian_prop_arr, stat=err)
                 DEALLOCATE(this_lt_corr_arr_, stat=err)
                 DEALLOCATE(this_prop_arr_next, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END IF
           DO k=1,nthis
@@ -3911,7 +4101,8 @@ CONTAINS
              DEALLOCATE(jacobian_prop_arr, stat=err)
              DEALLOCATE(this_lt_corr_arr_, stat=err)
              DEALLOCATE(this_prop_arr_next, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        ELSE
           IF (PRESENT(this_lt_corr_arr)) THEN
@@ -3935,7 +4126,8 @@ CONTAINS
                 DEALLOCATE(jacobian_prop_arr, stat=err)
                 DEALLOCATE(this_lt_corr_arr_, stat=err)
                 DEALLOCATE(this_prop_arr_next, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              DO k=1,nthis
                 this_lt_corr_arr(k,j) = copy(this_lt_corr_arr_(k))
@@ -3957,7 +4149,8 @@ CONTAINS
                 DEALLOCATE(jacobian_prop_arr, stat=err)
                 DEALLOCATE(this_lt_corr_arr_, stat=err)
                 DEALLOCATE(this_prop_arr_next, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           ELSE
              CALL getEphemeris(this_prop_arr_current, &
@@ -3981,7 +4174,8 @@ CONTAINS
                 DEALLOCATE(jacobian_prop_arr, stat=err)
                 DEALLOCATE(this_lt_corr_arr_, stat=err)
                 DEALLOCATE(this_prop_arr_next, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END IF
        END IF
@@ -4014,7 +4208,8 @@ CONTAINS
           DEALLOCATE(jacobian_prop_arr, stat=err)
           DEALLOCATE(this_lt_corr_arr_, stat=err)
           DEALLOCATE(this_prop_arr_next, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     DO i=1,nthis
@@ -4055,6 +4250,7 @@ CONTAINS
        DEALLOCATE(jacobian_prop_arr, stat=err)
        DEALLOCATE(this_lt_corr_arr_, stat=err)
        DEALLOCATE(this_prop_arr_next, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (ALLOCATED(jacobian_arr)) THEN
@@ -4067,7 +4263,8 @@ CONTAINS
           IF (PRESENT(partials_arr)) THEN
              DEALLOCATE(partials_arr, stat=err)
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -4121,6 +4318,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getEphemeris (single)", &
             "This object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4128,6 +4326,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getEphemeris (single)", &
             "'observer' has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -4385,6 +4584,7 @@ CONTAINS
        DEALLOCATE(jacobian_prop_arr, stat=err)
        DEALLOCATE(jacobian_lt_corr_arr, stat=err)
        DEALLOCATE(ephemeris_arr, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (PRESENT(partials)) THEN 
@@ -4399,7 +4599,8 @@ CONTAINS
           DEALLOCATE(jacobian_prop_arr, stat=err)
           DEALLOCATE(jacobian_lt_corr_arr, stat=err)
           DEALLOCATE(ephemeris_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(this_lt_corr)) THEN
@@ -4486,6 +4687,7 @@ CONTAINS
        CALL errorMessage("Orbit / getEphemeris (multiple)", &
             "Could not allocate memory (5).", 1)
        DEALLOCATE(this_arr_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,nthis
@@ -4494,7 +4696,8 @@ CONTAINS
           CALL errorMessage("Orbit / getEphemeris (multiple)", &
                "All objects have not yet been initialized.", 1)
           DEALLOCATE(this_arr_, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(this_arr_(i))
        this_arr_(i) = copy(this_arr(i))
@@ -4508,6 +4711,7 @@ CONTAINS
        CALL errorMessage("Orbit / getEphemeris (multiple)", &
             "'observer' has not been initialized.", 1)
        DEALLOCATE(this_arr_, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     observer_ = copy(observer)
@@ -4520,6 +4724,7 @@ CONTAINS
        DEALLOCATE(this_arr_, stat=err)
        DEALLOCATE(ephemeris, stat=err)
        CALL NULLIFY(observer_)
+       error = .FALSE.
        RETURN
     END IF
     IF (PRESENT(lt_corr)) THEN
@@ -4537,7 +4742,8 @@ CONTAINS
           DEALLOCATE(ephemeris, stat=err)
           DEALLOCATE(partials_arr, stat=err)
           CALL NULLIFY(observer_)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(this_prop_arr)) THEN
@@ -4553,7 +4759,8 @@ CONTAINS
                 DEALLOCATE(partials_arr, stat=err)
              END IF
              CALL NULLIFY(observer_)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        ALLOCATE(this_prop_arr(nthis), stat=err)
@@ -4568,7 +4775,8 @@ CONTAINS
           END IF
           DEALLOCATE(this_prop_arr, stat=err)
           CALL NULLIFY(observer_)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(jacobian_prop_arr)) THEN
@@ -4587,7 +4795,8 @@ CONTAINS
           END IF
           DEALLOCATE(jacobian_prop_arr, stat=err)
           CALL NULLIFY(observer_)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(this_lt_corr_arr)) THEN
@@ -4609,7 +4818,8 @@ CONTAINS
              DEALLOCATE(jacobian_prop_arr, stat=err)
           END IF
           CALL NULLIFY(observer_)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     IF (PRESENT(jacobian_lt_corr_arr)) THEN
@@ -4634,7 +4844,8 @@ CONTAINS
              DEALLOCATE(jacobian_prop_arr, stat=err)
           END IF
           CALL NULLIFY(observer_)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (.NOT.lt_corr_) THEN
           DO i=1,nthis
@@ -4681,6 +4892,7 @@ CONTAINS
        END IF
        CALL NULLIFY(observer_)
        CALL NULLIFY(t_observer)
+       error = .FALSE.
        RETURN
     END IF
     IF (PRESENT(jacobian_prop_arr)) THEN
@@ -4751,7 +4963,8 @@ CONTAINS
              CALL NULLIFY(t_observer)
              CALL NULLIFY(this_1)
              CALL NULLIFY(t_emit)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (info_verb >= 5) THEN
              WRITE(stdout,"(1X,2(1X,A),1X,I0,A,I0,1X,A)") &
@@ -4790,7 +5003,8 @@ CONTAINS
              CALL NULLIFY(t_observer)
              CALL NULLIFY(this_1)
              CALL NULLIFY(t_emit)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (PRESENT(jacobian_lt_corr_arr)) THEN
              jacobian_lt_corr_arr(i,:,:) = jacobian_lt_corr
@@ -4832,7 +5046,8 @@ CONTAINS
              CALL NULLIFY(this_1)
              CALL NULLIFY(t_emit)
              CALL NULLIFY(this_2)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        IF (info_verb >= 4) THEN
@@ -4892,7 +5107,8 @@ CONTAINS
           CALL NULLIFY(this_1)
           CALL NULLIFY(t_emit)
           CALL NULLIFY(this_2)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
 
@@ -4961,7 +5177,8 @@ CONTAINS
                 CALL NULLIFY(this_1)
                 CALL NULLIFY(t_emit)
                 CALL NULLIFY(this_2)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
 
           CASE ("cometary")
@@ -4995,7 +5212,8 @@ CONTAINS
                 CALL NULLIFY(this_1)
                 CALL NULLIFY(t_emit)
                 CALL NULLIFY(this_2)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
 
           CASE ("keplerian")
@@ -5029,7 +5247,8 @@ CONTAINS
                 CALL NULLIFY(this_1)
                 CALL NULLIFY(t_emit)
                 CALL NULLIFY(this_2)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
 
           CASE default
@@ -5039,7 +5258,8 @@ CONTAINS
                   "Could not choose between element types" // &
                   "('cartesian', 'cometary', or 'keplerian'): " // &
                   TRIM(this_arr_(i)%element_type), 1)
-             RETURN
+             error = .FALSE.
+       RETURN
 
           END SELECT
 
@@ -5080,7 +5300,8 @@ CONTAINS
           IF (PRESENT(jacobian_prop_arr)) THEN
              DEALLOCATE(jacobian_prop_arr, stat=err)
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     DO i=1,SIZE(this_arr_)
@@ -5107,6 +5328,7 @@ CONTAINS
        IF (PRESENT(jacobian_prop_arr)) THEN
           DEALLOCATE(jacobian_prop_arr, stat=err)
        END IF
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5131,6 +5353,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getFrame", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5173,6 +5396,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getKeplerianElements", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5183,6 +5407,7 @@ CONTAINS
 
     CASE ("keplerian")
 
+       error = .FALSE.
        RETURN
 
     CASE ("cartesian")
@@ -5204,7 +5429,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getKeplerianElements", &   
                "Position and velocity almost parallel.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! Renormalize k and ru
        k = k*SQRT(dot_PRODUCT(pos,pos))*SQRT(dot_PRODUCT(vel,vel))
@@ -5220,7 +5446,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getKeplerianElements", &
                "a is approaching infinity.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        a = r / (2.0_bp - alpha)
        ! gamma = sqrt(mu*a) 
@@ -5231,7 +5458,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getKeplerianElements", &
                "Gamma is computationally too small.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (a > 0.0_bp) THEN ! elliptic motion
 
@@ -5246,13 +5474,15 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Orbit / getKeplerianElements", &
                   "Orbit is parabolic.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           ELSE IF (e < EPSILON(e)) THEN
              error = .TRUE.
              CALL errorMessage("Orbit / getKeplerianElements", &
                   "Orbit is (almost) circular.", 1)
              WRITE(stderr,*) e
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           cos_ea = e_cos_ea/e
           sin_ea = e_sin_ea/e
@@ -5270,7 +5500,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getKeplerianElements", &
                "Orbit is hyperbolic.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
 
        END IF
 
@@ -5325,7 +5556,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getKeplerianElements", &
                "Hyperbolic orbit; cannot return Keplerian elements.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Semimajor axis:
@@ -5349,21 +5581,24 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getKeplerianElements", &
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL toCometary(this_)
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Orbit / getKeplerianElements", &
                "TRACE BACK (10)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        getKeplerianElements = getElements(this_, "keplerian")
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Orbit / getKeplerianElements", &
                "TRACE BACK (15)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(this_)
 
@@ -5373,6 +5608,7 @@ CONTAINS
        CALL errorMessage("Orbit / getKeplerianElements", &
             "Conversion from " // TRIM(this%element_type) // &
             " elements to keplerian elements has not yet been implemented.", 1)
+       error = .FALSE.
        RETURN
 
     END SELECT
@@ -5400,6 +5636,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getKVector", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5408,6 +5645,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getKVector", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5444,6 +5682,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getLightTimeCorrectedTime", &
             "Object object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5451,6 +5690,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getLightTimeCorrectedTime", &
             "Observer object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5470,6 +5710,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getLightTimeCorrectedTime", &
             "Object is moving faster than light.", 1)
+       error = .FALSE.
        RETURN
     END IF
     lt = (SQRT(rv**2.0_bp+rr*(sol**2.0_bp-vv))-rv) / (sol**2.0_bp-vv)
@@ -5480,6 +5721,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getLightTimeCorrectedTime", &
             "TRACE BACK 1", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5504,7 +5746,8 @@ CONTAINS
        error = .FALSE.
 !!$          CALL errorMessage("Orbit / getLightTimeCorrectedTime", &
 !!$               "TRACE BACK 1", 1)
-!!$          RETURN
+!!$          error = .FALSE.
+       RETURN
 !!$       END IF
 !!$       CALL propagate(this_, getLightTimeCorrectedTime)
 !!$    END DO
@@ -5547,6 +5790,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getMOID", &
             "Object object has not yet been initialized (1).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5554,6 +5798,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getMOID", &
             "Object object has not yet been initialized (2).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5569,7 +5814,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getMOID", &
                "TRACE TRACK (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -5580,6 +5826,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getMOID", &
             "TRACE TRACK (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -5599,6 +5846,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getMOID", &
             "TRACE TRACK (15).", 1)
+       error = .FALSE.
        RETURN
     END IF
     elem2 = getElements(that_, "keplerian")
@@ -5606,6 +5854,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getMOID", &
             "TRACE TRACK (20).", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (info_verb >= 3) THEN
@@ -5636,7 +5885,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getMOID", &
                "Could not allocate memory.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        dta = two_pi/N
@@ -5754,7 +6004,8 @@ CONTAINS
                       error = .TRUE.
                       CALL errorMessage("Orbit / getMOID", &
                            "More than 10 minima in the MOID function.", 1)
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
 
                    ! Compute distance in local minimum:
@@ -5795,7 +6046,8 @@ CONTAINS
                "Could not deallocate memory.", 1)
           DEALLOCATE(ta1, stat=err)
           DEALLOCATE(ta2, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        ! Increase the true anomaly sampling in case no minimum was found:
@@ -5993,6 +6245,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getSemimajorAxis", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6022,7 +6275,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getSemimajorAxis", &
                "a is approaching infinity.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        getSemimajorAxis = r / (2.0_bp - alpha)
 
@@ -6058,6 +6312,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getParameters", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6091,7 +6346,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Orbit / getParameters", &
                   "Could not allocate memory.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           additional_perturbers = this%additional_perturbers
        ELSE
@@ -6130,6 +6386,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPeriapsisDistance", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6169,7 +6426,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Orbit / getPeriapsisDistance", &
                   "a is approaching infinity.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           a_ = r / (2.0_bp - alpha)
        END IF
@@ -6179,7 +6437,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getPeriapsisDistance", &
                "Gamma is computationally too small.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ! r(1+e*cos(f))=a|1-e^2|, r*cos(f)=a*cos(E)-ae, and for elliptical 
        ! orbits a=r/(2-rv^2/mu) (see above) and |1-e^2|=1-e^2
@@ -6193,14 +6452,16 @@ CONTAINS
           CALL errorMessage("Orbit / getPeriapsisDistance", &
                "Orbit is almost circular (1).", 1)
           WRITE(stderr,*) e
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(this_)
        IF ((1.0_bp-e)*a_ < 0.0_bp) THEN
           error = .TRUE.
           CALL errorMessage("Orbit / getPeriapsisDistance", &
                "Signs of semimajor axis and eccentricity are incompatible.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        q = a_*(1.0_bp - e)
 
@@ -6247,6 +6508,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPeriapsisTime", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6255,6 +6517,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getPeriapsisTime", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     t_ = copy(this%t)
@@ -6263,6 +6526,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getPeriapsisTime", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(t_)
@@ -6274,7 +6538,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getPeriapsisTime", &
                "Date not initialized.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        t_ = copy(t)
        tt_mjd = getMJD(t_, "TT")
@@ -6282,7 +6547,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getPeriapsisTime", &
                "TRACE BACK (15)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(t_)
        period = two_pi/mean_motion
@@ -6312,6 +6578,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getPeriapsisTime", &
             "TRACE BACK (20)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6349,6 +6616,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPhaseAngle", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6356,6 +6624,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPhaseAngle", &
             "Observer object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6374,6 +6643,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getPhaseAngle", &
             "TRACE BACK 5", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL NEW(ephemeris_ccoord, ephemeris_scoord)
@@ -6381,6 +6651,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getPhaseAngle", &
             "TRACE BACK 10", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6394,6 +6665,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPhaseAngle", &
             "Unknown frame.", 1)
+       error = .FALSE.
        RETURN       
     END IF
     ephemeris_pos = getPosition(ephemeris_ccoord)
@@ -6481,6 +6753,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPhaseAngles", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6489,7 +6762,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getPhaseAngles", &
                "Observer object has not been initialized.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -6509,6 +6783,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getPhaseAngles", &
             "TRACE BACK 5", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6519,7 +6794,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getPhaseAngles", &
                "TRACE BACK 10", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
        IF (getFrame(this) == "equatorial") THEN
@@ -6532,7 +6808,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getPhaseAngles", &
                "Unknown frame.", 1)
-          RETURN       
+          error = .FALSE.
+       RETURN       
        END IF
        ephemeris_pos = getPosition(ephemeris_ccoord)
        heliocentric_pos = getPosition(this_lt_corr_arr(i))
@@ -6627,6 +6904,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPlaneCrossingTime", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6635,6 +6913,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getPlaneCrossingTime", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6644,6 +6923,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getPlaneCrossingTime", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(t_)
@@ -6655,7 +6935,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / getPlaneCrossingTime", &
                "Date not initialized.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        t_ = copy(t)
        tt_mjd = getMJD(t_, "TT")
@@ -6663,7 +6944,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getPlaneCrossingTime", &
                "TRACE BACK (15)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        CALL NULLIFY(t_)
        period = two_pi/mean_motion
@@ -6693,6 +6975,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getPlaneCrossingTime", &
             "TRACE BACK (20)", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6729,6 +7012,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPoincareElements", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6737,6 +7021,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getPoincareElements", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6772,6 +7057,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getPosition", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6780,6 +7066,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getPosition", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
     getPosition_Orb(1:3) = celements(1:3)
@@ -6809,6 +7096,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getSCoord", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6819,7 +7107,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / getSCoord", &
                "The frame string contains forbidden characters.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE IF (this%element_type == "cartesian") THEN
        frame_ = this%frame
@@ -6829,6 +7118,7 @@ CONTAINS
        CALL errorMessage("Orbit / getSCoord", &
             "Frame must be given explicitly if the " // &
             "input is Keplerian or cometary elements.", 1)
+       error = .FALSE.
        RETURN
     END IF
     ! orbit -> cartesian coordinates
@@ -6837,6 +7127,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getSCoord", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     ! cartesian coordinates -> spherical coordinates
@@ -6846,6 +7137,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getSCoord", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(ccoord)
@@ -6877,6 +7169,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getSolarElongation", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6884,6 +7177,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getSolarElongation", &
             "Observer object has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6895,6 +7189,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getSolarElongation", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -6906,6 +7201,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getSolarElongation", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -6947,6 +7243,7 @@ CONTAINS
        CALL errorMessage("Orbit / getStumpffFunctions", &
             "x < xc", 1)
        WRITE(stderr,*) x
+       error = .FALSE.
        RETURN
     END IF
 
@@ -6992,6 +7289,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getTime", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7027,6 +7325,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getTisserandsParameters", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7077,6 +7376,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getJacobiConstants", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7090,7 +7390,8 @@ CONTAINS
        CALL NEW(orb, planeph(i,1:6), "cartesian", "equatorial", t) 
        IF (error) THEN
        error = .FALSE.
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        !elements_ = getElements(orb, "keplerian")
        coordinates_ = getElements(orb,"cartesian","ecliptic")
@@ -7140,6 +7441,7 @@ CONTAINS
        CALL errorMessage("Orbit / getTopocentricSCoords", &
             "Could not allocate pointer (1).", 1)
        DEALLOCATE(scoords_tc, stat=err)
+       error = .FALSE.
        RETURN
     END IF
     IF (PRESENT(partials)) THEN
@@ -7150,7 +7452,8 @@ CONTAINS
                "Could not allocate pointer (2).", 1)
           DEALLOCATE(scoords_tc, stat=err)
           DEALLOCATE(partials, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -7169,7 +7472,8 @@ CONTAINS
           IF (PRESENT(partials)) THEN
              DEALLOCATE(partials, stat=err)
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -7212,6 +7516,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getTopocentricSCoord", &
             "This object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7219,6 +7524,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getTopocentricSCoord", &
             "'topocenter' has not been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7234,6 +7540,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getTopocentricSCoord", &
             "TRACE BACK 1", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7249,6 +7556,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getTopocentricSCoord", &
             "TRACE BACK 6", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7269,7 +7577,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Orbit / getTopocentricSCoord", &
                   "TRACE BACK 8", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
 
        CASE ("keplerian")
@@ -7280,7 +7589,8 @@ CONTAINS
        error = .FALSE.
              CALL errorMessage("Orbit / getTopocentricSCoord", &
                   "TRACE BACK 10", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
 
        CASE default
@@ -7290,7 +7600,8 @@ CONTAINS
                "Could not choose between element types" // &
                "('cartesian' or 'keplerian'): " // &
                TRIM(this%element_type), 1)
-          RETURN
+          error = .FALSE.
+       RETURN
 
        END SELECT
 
@@ -7325,6 +7636,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getTransformationMatrix", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7377,6 +7689,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / getVelocity", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7385,6 +7698,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / getVelocity", &
             "TRACE BACK", 1)
+       error = .FALSE.
        RETURN
     END IF
     getVelocity_Orb(1:3) = celements(4:6)
@@ -7456,6 +7770,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsCartesianWrtCometary", &
             "TRACE BACK 5", 1)
+       error = .FALSE.
        RETURN
     END IF
     errstr = ""
@@ -7464,6 +7779,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsCartesianWrtCometary", &
             "From matinv in linal: " // TRIM(errstr), 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7513,6 +7829,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsCartesianWrtKeplerian", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7521,6 +7838,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsCartesianWrtKeplerian", &
             "TRACE BACK 1", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7544,6 +7862,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsCartesianWrtKeplerian", &
             "TRACE BACK 10", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7555,7 +7874,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / partialsCartesianWrtKeplerian", &
                "TRACE BACK 20", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        vector3(1:2) = ppolar(1:2,i)
        pecl(1:3,i) = MATMUL(RM,vector3)
@@ -7620,7 +7940,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / partialsCartesianWrtKeplerian", &
                "The frame string contains forbidden characters.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE IF (this%element_type == "cartesian") THEN
        frame_ = this%frame
@@ -7628,6 +7949,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsCartesianWrtKeplerian", &
             "Coordinate frame undefined.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7642,6 +7964,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsCartesianWrtKeplerian", &
             "Unknown frame:" // TRIM(frame_) // ".", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -7683,6 +8006,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsCometaryWrtKeplerian", &
             "TRACE BACK 5", 1)
+       error = .FALSE.
        RETURN
     END IF
     partials = identity_matrix(6)
@@ -7727,6 +8051,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsCometaryWrtCartesian", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7737,7 +8062,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / partialsCometaryWrtCartesian", &
                "The frame string contains forbidden characters.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE IF (this%element_type == "cartesian") THEN
        frame_ = this%frame
@@ -7745,12 +8071,14 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsCometaryWrtCartesian", &
             "Coordinate frame undefined.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (frame_ /= "ecliptic" .AND. frame_ /= "equatorial") THEN
        error = .TRUE.
        CALL errorMessage("Orbit / partialsCometaryWrtCartesian", &
             "Unknown frame:" // TRIM(frame_) // ".", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -7759,6 +8087,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsCometaryWrtCartesian", &
             "TRACE BACK (5)", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL partialsCometaryWrtKeplerian(this, com_kep)
@@ -7766,6 +8095,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsCometaryWrtCartesian", &
             "TRACE BACK (10)", 1)
+       error = .FALSE.
        RETURN
     END IF
     partials = MATMUL(com_kep,kep_car)
@@ -7808,6 +8138,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsKeplerianWrtCartesian", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7818,7 +8149,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / partialsKeplerianWrtCartesian", &
                "The frame string contains forbidden characters.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     ELSE IF (this%element_type == "cartesian") THEN
        frame_ = this%frame
@@ -7826,12 +8158,14 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsKeplerianWrtCartesian", &
             "Coordinate frame undefined.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (frame_ /= "ecliptic" .AND. frame_ /= "equatorial") THEN
        error = .TRUE.
        CALL errorMessage("Orbit / partialsKeplerianWrtCartesian", &
             "Unknown frame:" // TRIM(frame_) // ".", 1)
+       error = .FALSE.
        RETURN       
     END IF
 
@@ -7841,6 +8175,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsKeplerianWrtCartesian", &
             "TRACE BACK 5", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7850,6 +8185,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsKeplerianWrtCartesian", &
             "TRACE BACK 10", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -7871,6 +8207,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsKeplerianWrtCartesian", &
             "TRACE BACK 15", 1)
+       error = .FALSE.
        RETURN
     END IF
     cea = COS(ea)
@@ -7989,6 +8326,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsKeplerianWrtCometary", &
             "TRACE BACK 5", 1)
+       error = .FALSE.
        RETURN
     END IF
     errstr = ""
@@ -7997,6 +8335,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsKeplerianWrtCometary", &
             "From matinv in linal: " // TRIM(errstr), 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8042,6 +8381,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsPolarCoordWrtKeplerian", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8050,6 +8390,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsPolarCoordWrtKeplerian", &
             "TRACE BACK 5", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8063,6 +8404,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsPolarCoordWrtKeplerian", &
             "TRACE BACK 15", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8156,6 +8498,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsSCoordWrtCartesian", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8163,6 +8506,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsSCoordWrtCartesian", &
             "Observer has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8171,6 +8515,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsSCoordWrtCartesian", &
             "TRACE BACK (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8180,6 +8525,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsSCoordWrtCartesian", &
             "TRACE BACK (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
     partials = MATMUL(scoord_kep,kep_car)
@@ -8331,6 +8677,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsSCoordWrtCometary", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8338,6 +8685,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsSCoordWrtCometary", &
             "Observer has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8346,6 +8694,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsSCoordWrtCometary", &
             "TRACE BACK (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8355,6 +8704,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsSCoordWrtCometary", &
             "TRACE BACK (10).", 1)
+       error = .FALSE.
        RETURN
     END IF
     partials = MATMUL(scoord_kep,kep_com)
@@ -8404,6 +8754,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsSCoordWrtKeplerian", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8411,6 +8762,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsSCoordWrtKeplerian", &
             "Observer has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8420,6 +8772,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / partialsSCoordWrtKeplerian", &
             "TRACE BACK (30).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8428,6 +8781,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsSCoordWrtKeplerian", &
             "TRACE BACK (20).", 1)
+       error = .FALSE.
        RETURN
     END IF
     xequ = elements(1:3)
@@ -8438,6 +8792,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / partialsSCoordWrtKeplerian", &
             "TRACE BACK (25).", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8558,6 +8913,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / propagate (single)", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8584,7 +8940,8 @@ CONTAINS
              CALL errorMessage("Orbit / propagate (single)", &
                   "Could not deallocate memory.", 1)
              CALL NULLIFY(this_(1))
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
     ELSE
@@ -8611,6 +8968,7 @@ CONTAINS
           DEALLOCATE(jacobian_, stat=err)
        END IF
        CALL NULLIFY(this_(1))
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(this)
@@ -8722,6 +9080,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / propagate (multiple)", &
             "Orbit array is of zero length.", 1)
+       error = .FALSE.
        RETURN
     END IF
     DO i=1,nthis
@@ -8730,7 +9089,8 @@ CONTAINS
           CALL errorMessage("Orbit / propagate (multiple)", &
                "All objects have not yet been initialized.", 1)
           WRITE(stderr,*) i
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -8740,14 +9100,16 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / propagate (multiple)",&
                "All orbits do not have an equal starting epoch.", 1)          
-          RETURN
+          error = .FALSE.
+       RETURN
           multiple_t0 = .TRUE.
        END IF
        IF (error) THEN
        error = .FALSE.
           CALL errorMessage("Orbit / propagate (multiple)",&
                "TRACE BACK (5)", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -8757,7 +9119,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / propagate (multiple)", &
                "Could not allocate memory (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -8767,7 +9130,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / propagate (multiple)", &
                "Could not allocate memory (10).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
 
@@ -8779,6 +9143,7 @@ CONTAINS
           END DO
        END IF
        CALL NULLIFY(t_)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8790,6 +9155,7 @@ CONTAINS
        IF (PRESENT(jacobian)) THEN
           DEALLOCATE(jacobian, stat=err)
        END IF
+       error = .FALSE.
        RETURN
     END IF
     DO i=2,nthis
@@ -8800,7 +9166,8 @@ CONTAINS
           IF (PRESENT(jacobian)) THEN
              DEALLOCATE(jacobian, stat=err)
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -8812,6 +9179,7 @@ CONTAINS
        IF (PRESENT(jacobian)) THEN
           DEALLOCATE(jacobian, stat=err)
        END IF
+       error = .FALSE.
        RETURN
     END IF
     mjd_tt = getMJD(t_, "TT")
@@ -8822,6 +9190,7 @@ CONTAINS
        IF (PRESENT(jacobian)) THEN
           DEALLOCATE(jacobian, stat=err)
        END IF
+       error = .FALSE.
        RETURN
     END IF
 
@@ -8834,7 +9203,8 @@ CONTAINS
           IF (PRESENT(jacobian)) THEN
              DEALLOCATE(jacobian, stat=err)
           END IF
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
     ! Define mu parameter
@@ -8860,7 +9230,8 @@ CONTAINS
                   "Could not allocate memory (15).", 1)
              DEALLOCATE(jacobian, stat=err)
              DEALLOCATE(elm_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
 
@@ -8890,7 +9261,8 @@ CONTAINS
                       DEALLOCATE(jacobian, stat=err)
                    END IF
                    DEALLOCATE(elm_arr, stat=err)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 f   = 1.0_bp - (mu_/r0) * stumpff_cs(2)
                 g   = dt - mu_*stumpff_cs(3)
@@ -8906,7 +9278,8 @@ CONTAINS
                         "TRACE BACK (25)", 1)
                    DEALLOCATE(jacobian, stat=err)
                    DEALLOCATE(elm_arr, stat=err)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 !this_arr(i)%elements(1:3) = pos(1:3)
                 !this_arr(i)%elements(4:6) = vel(1:3)
@@ -8926,7 +9299,8 @@ CONTAINS
                 error = .TRUE.
                 CALL errorMessage("Orbit / propagate (multiple)",&
                      "Jacobians not available for cometary elements.", 1)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              p = two_pi * SQRT((this_arr(i)%elements(1) / &
                   (1.0_bp-this_arr(i)%elements(2)))**3.0_bp / &
@@ -8973,7 +9347,8 @@ CONTAINS
                 DEALLOCATE(jacobian, stat=err)
              END IF
              DEALLOCATE(elm_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
 
           END SELECT
 
@@ -8990,7 +9365,8 @@ CONTAINS
              IF (PRESENT(jacobian)) THEN
                 DEALLOCATE(jacobian, stat=err)
              END IF
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
 
@@ -9005,7 +9381,8 @@ CONTAINS
              IF (PRESENT(jacobian)) THEN
                 DEALLOCATE(jacobian, stat=err)
              END IF
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
        integrator = this_arr(1)%integrator_prm
@@ -9018,7 +9395,8 @@ CONTAINS
              IF (PRESENT(jacobian)) THEN
                 DEALLOCATE(jacobian, stat=err)
              END IF
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF ((ALL(this_arr(1)%finite_diff_prm > 0.0_bp) .AND. &
                .NOT.ALL(this_arr(i)%finite_diff_prm > 0.0_bp)) .OR. &
@@ -9030,7 +9408,8 @@ CONTAINS
              IF (PRESENT(jacobian)) THEN
                 DEALLOCATE(jacobian, stat=err)
              END IF
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           IF (ABS(step-this_arr(i)%integration_step_prm) > &
                100.0_bp*EPSILON(step)) THEN
@@ -9040,7 +9419,8 @@ CONTAINS
              IF (PRESENT(jacobian)) THEN
                 DEALLOCATE(jacobian, stat=err)
              END IF
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END DO
 
@@ -9061,7 +9441,8 @@ CONTAINS
           DEALLOCATE(element_type_arr, stat=err)
           DEALLOCATE(frame_arr, stat=err)
           DEALLOCATE(elm_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,nthis
           elm_arr(1:6,i) = this_arr(i)%elements
@@ -9081,7 +9462,8 @@ CONTAINS
              DEALLOCATE(element_type_arr, stat=err)
              DEALLOCATE(frame_arr, stat=err)
              DEALLOCATE(elm_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           elm_arr_copy(1:SIZE(elm_arr,dim=1),1:SIZE(elm_arr,dim=2)) = elm_arr
           DEALLOCATE(elm_arr, stat=err)
@@ -9095,7 +9477,8 @@ CONTAINS
              DEALLOCATE(element_type_arr, stat=err)
              DEALLOCATE(frame_arr, stat=err)
              DEALLOCATE(elm_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           ALLOCATE(elm_arr(6,13*(nthis+naddit)), stat=err)
           IF (err /= 0) THEN
@@ -9108,7 +9491,8 @@ CONTAINS
              DEALLOCATE(element_type_arr, stat=err)
              DEALLOCATE(frame_arr, stat=err)
              DEALLOCATE(elm_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
           elm_arr(1:SIZE(elm_arr_copy,dim=1),1:SIZE(elm_arr_copy,dim=2)) = elm_arr_copy
           ! Initialize for finite difference technique:
@@ -9145,7 +9529,8 @@ CONTAINS
                 DEALLOCATE(element_type_arr, stat=err)
                 DEALLOCATE(frame_arr, stat=err)
                 DEALLOCATE(elm_arr, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              IF (PRESENT(jacobian) .AND. ALL(this_arr(i)%finite_diff_prm > 0.0_bp)) THEN
                 DO j=1,12
@@ -9159,7 +9544,8 @@ CONTAINS
                       DEALLOCATE(element_type_arr, stat=err)
                       DEALLOCATE(frame_arr, stat=err)
                       DEALLOCATE(elm_arr, stat=err)
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                 END DO
              END IF
@@ -9176,7 +9562,8 @@ CONTAINS
                       DEALLOCATE(frame_arr, stat=err)
                       DEALLOCATE(elm_arr, stat=err)
                       DEALLOCATE(partials0, stat=err)
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                 END IF
                 IF (this_arr(i)%element_type == "keplerian") THEN
@@ -9193,7 +9580,8 @@ CONTAINS
                    DEALLOCATE(frame_arr, stat=err)
                    DEALLOCATE(elm_arr, stat=err)
                    DEALLOCATE(partials0, stat=err)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
              END IF
           ELSE
@@ -9222,7 +9610,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / propagate (multiple)",&
                "Could not allocate memory (35).", 1)          
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        DO i=1,nthis
           masses(i) = this_arr(i)%mass_prm
@@ -9248,7 +9637,8 @@ CONTAINS
                       error = .TRUE.
                       CALL errorMessage("Orbit / propagate (multiple)",&
                            "Additional perturbers do not have a common epoch.", 1)          
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                 END DO
              END IF
@@ -9448,7 +9838,8 @@ CONTAINS
                 DEALLOCATE(frame_arr, stat=err)
                 DEALLOCATE(elm_arr, stat=err)
                 DEALLOCATE(partials0, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END DO
           DEALLOCATE(elm_arr_copy, masses_, jacobian_, encounters_, stat=err) 
@@ -9468,7 +9859,8 @@ CONTAINS
                       error = .TRUE.
                       CALL errorMessage("Orbit / propagate (multiple)",&
                            "Additional perturbers do not have a common epoch.", 1)          
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                 END DO
              END IF
@@ -9516,7 +9908,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Orbit / propagate (multiple)",&
                   "Variational equations technique not available for Gauss-Radau.", 1)          
-             RETURN             
+             error = .FALSE.
+       RETURN             
 !!$             DO i=1,nthis+naddit
 !!$                jacobian_(:,:,i) = identity_matrix(6)
 !!$             END DO
@@ -9567,7 +9960,8 @@ CONTAINS
              DEALLOCATE(elm_arr, stat=err)
              DEALLOCATE(jacobian_, stat=err)
              DEALLOCATE(partials0, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
 
        CASE default
@@ -9583,7 +9977,8 @@ CONTAINS
           DEALLOCATE(elm_arr, stat=err)
           DEALLOCATE(jacobian_, stat=err)
           DEALLOCATE(partials0, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
 
        END SELECT
 
@@ -9624,7 +10019,8 @@ CONTAINS
                 DEALLOCATE(elm_arr, stat=err)
                 DEALLOCATE(jacobian_, stat=err)
                 DEALLOCATE(partials0, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              CALL toKeplerian(this_copy)
              IF (error) THEN
@@ -9639,7 +10035,8 @@ CONTAINS
                 DEALLOCATE(elm_arr, stat=err)
                 DEALLOCATE(jacobian_, stat=err)
                 DEALLOCATE(partials0, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              this_arr(i)%elements = this_copy%elements
              CALL NULLIFY(this_copy)
@@ -9656,7 +10053,8 @@ CONTAINS
                       DEALLOCATE(elm_arr, stat=err)
                       DEALLOCATE(jacobian_, stat=err)
                       DEALLOCATE(partials0, stat=err)
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                    elm_arr(1:6,nthis+naddit+(i-1)*12+j) = getElements(this_copy, "keplerian")
                    IF (error) THEN
@@ -9669,7 +10067,8 @@ CONTAINS
                       DEALLOCATE(elm_arr, stat=err)
                       DEALLOCATE(jacobian_, stat=err)
                       DEALLOCATE(partials0, stat=err)
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                    CALL NULLIFY(this_copy)
                 END DO
@@ -9688,7 +10087,8 @@ CONTAINS
                 DEALLOCATE(elm_arr, stat=err)
                 DEALLOCATE(jacobian_, stat=err)
                 DEALLOCATE(partials0, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              CALL toCometary(this_copy)
              IF (error) THEN
@@ -9703,7 +10103,8 @@ CONTAINS
                 DEALLOCATE(elm_arr, stat=err)
                 DEALLOCATE(jacobian_, stat=err)
                 DEALLOCATE(partials0, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
              this_arr(i)%elements = this_copy%elements
              CALL NULLIFY(this_copy)
@@ -9720,7 +10121,8 @@ CONTAINS
                       DEALLOCATE(elm_arr, stat=err)
                       DEALLOCATE(jacobian_, stat=err)
                       DEALLOCATE(partials0, stat=err)
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                    elm_arr(1:6,nthis+naddit+(i-1)*12+j) = getElements(this_copy, "cometary")
                    IF (error) THEN
@@ -9733,7 +10135,8 @@ CONTAINS
                       DEALLOCATE(elm_arr, stat=err)
                       DEALLOCATE(jacobian_, stat=err)
                       DEALLOCATE(partials0, stat=err)
-                      RETURN
+                      error = .FALSE.
+       RETURN
                    END IF
                    CALL NULLIFY(this_copy)
                 END DO
@@ -9751,7 +10154,8 @@ CONTAINS
              DEALLOCATE(elm_arr, stat=err)
              DEALLOCATE(jacobian_, stat=err)
              DEALLOCATE(partials0, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
 
           IF (PRESENT(jacobian)) THEN
@@ -9784,7 +10188,8 @@ CONTAINS
                    DEALLOCATE(elm_arr, stat=err)
                    DEALLOCATE(jacobian_, stat=err)
                    DEALLOCATE(partials0, stat=err)
-                   RETURN
+                   error = .FALSE.
+       RETURN
                 END IF
                 jacobian(i,:,:) = MATMUL(MATMUL(partials1,jacobian(i,:,:)),partials0(i,:,:))
              ELSE IF (element_type_arr(i) == "cartesian" .AND. frame_arr(i) == "ecliptic" .AND. &
@@ -9809,7 +10214,8 @@ CONTAINS
                 DEALLOCATE(jacobian, stat=err)
                 DEALLOCATE(jacobian_, stat=err)
                 DEALLOCATE(partials0, stat=err)
-                RETURN
+                error = .FALSE.
+       RETURN
              END IF
           END IF
           ! Update additional perturbers' orbital elements and epochs
@@ -9832,7 +10238,8 @@ CONTAINS
              DEALLOCATE(frame_arr, stat=err)
              DEALLOCATE(elm_arr, stat=err)
              DEALLOCATE(jacobian_, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        IF (ALLOCATED(jacobian_)) THEN
@@ -9847,7 +10254,8 @@ CONTAINS
              DEALLOCATE(element_type_arr, stat=err)
              DEALLOCATE(frame_arr, stat=err)
              DEALLOCATE(elm_arr, stat=err)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        DEALLOCATE(elm_arr, element_type_arr, frame_arr, stat=err)
@@ -9861,7 +10269,8 @@ CONTAINS
           DEALLOCATE(element_type_arr, stat=err)
           DEALLOCATE(frame_arr, stat=err)
           DEALLOCATE(elm_arr, stat=err)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
 
     CASE default
@@ -9878,6 +10287,7 @@ CONTAINS
        DEALLOCATE(elm_arr, stat=err)
        DEALLOCATE(jacobian_, stat=err)
        DEALLOCATE(partials0, stat=err)
+       error = .FALSE.
        RETURN
 
     END SELECT
@@ -9915,9 +10325,11 @@ CONTAINS
        CALL errorMessage("Orbit / reallocate", &
             "Could not allocate memory.", 1)
        reallocate_Orb_1 => NULL()
+       error = .FALSE.
        RETURN
     END IF
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array)
     DO i=1, MIN(n,nold)
        CALL NULLIFY(reallocate_Orb_1(i))
@@ -9931,6 +10343,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / reallocate", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -9964,9 +10377,11 @@ CONTAINS
        CALL errorMessage("Orbit / reallocate", &
             "Could not allocate memory.", 1)
        reallocate_Orb_2 => NULL()
+       error = .FALSE.
        RETURN
     END IF
-    IF (.NOT. ASSOCIATED(array)) RETURN
+    IF (.NOT. ASSOCIATED(array)) error = .FALSE.
+       RETURN
     nold = SIZE(array,dim=1)
     mold = SIZE(array,dim=2)
     DO i=1, MIN(n,nold)
@@ -9985,6 +10400,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / reallocate", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -10016,6 +10432,7 @@ CONTAINS
        CALL errorMessage("Orbit / reallocate", &
             "Parameter pointer is not associated.", 1)
        reallocate_Orb => NULL()
+       error = .FALSE.
        RETURN
     END IF
 
@@ -10025,6 +10442,7 @@ CONTAINS
        CALL errorMessage("Orbit / reallocate", &
             "Could not allocate memory.", 1)
        reallocate_Orb => NULL()
+       error = .FALSE.
        RETURN
     END IF
     j = 0
@@ -10042,6 +10460,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / reallocate", &
             "Could not deallocate memory.", 1)
+       error = .FALSE.
        RETURN
     END IF
     reallocate_Orb => reallocate(reallocate_Orb,j)
@@ -10133,6 +10552,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / setParameters", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -10144,7 +10564,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / setParameters", &
                "Parameter 'propagation' too long.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        str = dyn_model
        CALL locase(str, error)
@@ -10152,14 +10573,16 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / setParameters", &
                "The dynamical model string contains forbidden characters.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (str /= "2-body" .AND. &
             str /= "n-body") THEN
           error = .TRUE.
           CALL errorMessage("Orbit / setParameters", &
                "Option " // TRIM(dyn_model) // " not available.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%dyn_model_prm = TRIM(str)
     END IF
@@ -10173,7 +10596,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / setParameters", &
                "The integrator string contains forbidden characters.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%integrator_prm = TRIM(str)
     END IF
@@ -10198,7 +10622,8 @@ CONTAINS
           CALL errorMessage("Orbit / setParameters", &
                "Too few parameters provided for additional perturbers. " // &
                "Minimum information includes orbital elements, epoch, and perturber mass.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        IF (.NOT.ASSOCIATED(this%additional_perturbers)) THEN
           ALLOCATE(this%additional_perturbers(SIZE(additional_perturbers,dim=1), &
@@ -10207,7 +10632,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Orbit / setParameters", &
                   "Could not allocate memory.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           END IF
        END IF
        this%additional_perturbers = additional_perturbers
@@ -10253,6 +10679,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / solveKeplerEquation", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -10265,7 +10692,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "TRACE BACK 5", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     t_ = copy(this%t)
@@ -10275,6 +10703,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / solveKeplerEquation", &
             "TRACE BACK 10", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(t_)
@@ -10285,6 +10714,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / solveKeplerEquation", &
             "TRACE BACK 15", 1)
+       error = .FALSE.
        RETURN
     END IF
     CALL NULLIFY(t_)
@@ -10304,7 +10734,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "Uncertain convergence.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        ecosx = elements(2)*COS(x)
        fp    = 1.0_bp - ecosx
@@ -10369,7 +10800,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "r0**3 equal to zero.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           s = dt/r0 - dt**2.0_bp * 0.5_bp*u/(r0**3.0_bp) ! r0 can be small !!!
        END IF
@@ -10379,7 +10811,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "a**3 equal to zero.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           ! If alpha < 0, then mu < 0, and vice versa:
           en = SQRT(SIGN(mu_,alpha)/(a**3.0_bp))
@@ -10394,7 +10827,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Orbit / solveKeplerEquation", &
                   "1-r0/a equal to zero (5).", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           ELSE
              es = u/tmp
           END IF
@@ -10416,7 +10850,8 @@ CONTAINS
              error = .TRUE.
              CALL errorMessage("Orbit / solveKeplerEquation", &
                   "ech**2.0_bp - esh**2.0_bp negative.", 1)
-             RETURN
+             error = .FALSE.
+       RETURN
           ELSE
              e = SQRT(tmp)
           END IF
@@ -10432,7 +10867,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "Large ds and alpha ~0 -> no initial guess for s...", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END IF
     s_ = s
@@ -10448,7 +10884,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "TRACE BACK 5", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        stumpff_cs(0) = stumpff_c(0)
        stumpff_cs(1) = stumpff_c(1) * s
@@ -10462,7 +10899,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "Division by zero (40).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           ds = -ffs(0) / ffs(1)
        END IF
@@ -10471,7 +10909,8 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "Division by zero (45).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           ds = -ffs(0) / tmp
        END IF
@@ -10480,14 +10919,16 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "Division by zero (50).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           ds = -ffs(0) / tmp
        END IF
        s = s + ds
        ! Return if/when solution is found:
        IF (ABS(ds) < tols) THEN
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -10505,7 +10946,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "TRACE BACK 10", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        stumpff_cs(0) = stumpff_c(0)
        stumpff_cs(1) = stumpff_c(1) * s
@@ -10521,19 +10963,22 @@ CONTAINS
           error = .TRUE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "Division by zero (55).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE IF (ABS(ffs(1)) > toll) THEN
           error = .TRUE.
           CALL errorMessage("Orbit / solveKeplerEquation", &
                "tmp blew up.", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        ELSE
           ds = -ln*ffs(0) / tmp
        END IF
        s = s + ds
        ! Return if/when solution is found:
        IF (ABS(ds) < tols) THEN
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
     END DO
 
@@ -10566,10 +11011,12 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / switchCenter", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
     IF (center == this%center) THEN
+       error = .FALSE.
        RETURN
     END IF
 
@@ -10577,6 +11024,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / switchCenter", &
             "An input new center is not specified.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -10652,6 +11100,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / checkCapture", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
     this_ = copy(this)
@@ -10660,6 +11109,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / checkCapture", &
             "An input center for which the check is performed is not specified.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -10705,6 +11155,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / toCartesian", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -10714,6 +11165,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / toCartesian", &
             "The frame string contains forbidden characters.", 1)
+       error = .FALSE.
        RETURN
     END IF
     IF (frame_ /= "equatorial" .AND. &
@@ -10746,7 +11198,8 @@ CONTAINS
        error = .FALSE.
           CALL errorMessage("Orbit / toCartesian", &
                "TRACE BACK (5).", 1)
-          RETURN
+          error = .FALSE.
+       RETURN
        END IF
        this%elements = elements
        this%element_type = "cartesian"
@@ -10783,6 +11236,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / toCometary", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -10791,6 +11245,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / toCometary", &
             "TRACE BACK (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%elements = elements
@@ -10813,6 +11268,7 @@ CONTAINS
        error = .TRUE.
        CALL errorMessage("Orbit / toKeplerian", &
             "Object has not yet been initialized.", 1)
+       error = .FALSE.
        RETURN
     END IF
 
@@ -10821,6 +11277,7 @@ CONTAINS
        error = .FALSE.
        CALL errorMessage("Orbit / toKeplerian", &
             "TRACE BACK (5).", 1)
+       error = .FALSE.
        RETURN
     END IF
     this%elements = elements
