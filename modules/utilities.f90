@@ -741,7 +741,6 @@ CONTAINS
     ALLOCATE(reallocate_ch_2(n,m))
     reallocate_ch_2 = " "
     IF (.NOT. ASSOCIATED(array)) THEN
-       error = .FALSE.
        RETURN
     END IF
     nold = SIZE(array, dim=1)
@@ -1682,7 +1681,6 @@ CONTAINS
     ! If overriden by an environmental variable, prefer that
     CALL getenv(envvar, s2)
     IF (LEN_TRIM(s2) /= 0) THEN
-       error = .FALSE.
        RETURN
     END IF
 
