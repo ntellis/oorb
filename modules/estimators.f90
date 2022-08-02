@@ -90,7 +90,6 @@ CONTAINS
          nparam /= SIZE(cov_mat_param,dim=2)) THEN
        error = " -> estimators : leastSquares : Shapes of arrays do not conform." // &
             TRIM(error)
-       error = .FALSE.
        RETURN
     END IF
 
@@ -134,7 +133,6 @@ CONTAINS
     cov_mat_param(:,:) = matinv(inform_mat_param(:,:), error, method="Cholesky")
     IF (LEN_TRIM(error) /= 0) THEN
        WRITE(0,*) "Could not find inverse of inverse covariance matrix."
-       error = .FALSE.
        RETURN
     END IF
     !CALL matrix_print(MATMUL(cov_mat_param(:,:),inform_mat_param(:,:)),0)
@@ -169,8 +167,6 @@ CONTAINS
 !!$       error = .TRUE.
 !!$       WRITE(0,*) 'Error: Identity criterion not fulfilled:'
 !!$       call matrix_print(test,0)
-!!$       error = .FALSE.
-       RETURN
 !!$    END IF
 
     ! (2) Compute parameter corrections and make the scaled
@@ -248,7 +244,6 @@ CONTAINS
          nparam /= SIZE(cov_mat_param,dim=2)) THEN
        error = " -> estimators : leastSquares : Shapes of arrays do not conform." // &
             TRIM(error)
-       error = .FALSE.
        RETURN
     END IF
 
@@ -266,7 +261,6 @@ CONTAINS
        DEALLOCATE(param_corrections, stat=err)
        DEALLOCATE(tmp, stat=err)
        DEALLOCATE(d, stat=err)
-       error = .FALSE.
        RETURN
     END IF
 
@@ -315,7 +309,6 @@ CONTAINS
        DEALLOCATE(param_corrections, stat=err)
        DEALLOCATE(tmp, stat=err)
        DEALLOCATE(d, stat=err)
-       error = .FALSE.
        RETURN
     END IF
 
@@ -350,7 +343,6 @@ CONTAINS
 !!$       WRITE(0,*) 'Error: Identity criterion not fulfilled:'
 !!$       call matrix_print(test,0)
 !!$       error = .FALSE.
-       RETURN
 !!$    END IF
 
     ! (2) Compute parameter corrections and make the scaled
@@ -391,7 +383,6 @@ CONTAINS
        DEALLOCATE(param_corrections, stat=err)
        DEALLOCATE(tmp, stat=err)
        DEALLOCATE(d, stat=err)
-       error = .FALSE.
        RETURN
     END IF
 
@@ -480,7 +471,6 @@ CONTAINS
       IF (LEN_TRIM(errstr) /= 0) THEN
          errstr = " -> estimators : LevenbergMarquardt : LevenbergMarquardt_private : ." // &
               TRIM(errstr)
-         error = .FALSE.
        RETURN
       END IF
       param_corrections(:,1) = beta
@@ -488,12 +478,10 @@ CONTAINS
       IF (LEN_TRIM(errstr) /= 0) THEN
          errstr = " -> estimators : LevenbergMarquardt : LevenbergMarquardt_private : ." // &
               TRIM(errstr)
-         error = .FALSE.
        RETURN         
       END IF
       IF (lambda == 0.0_rprec8) THEN
          DEALLOCATE(params_, beta, param_corrections)
-         error = .FALSE.
        RETURN
       END IF
       params_ = params + param_corrections(:,1)
@@ -527,7 +515,6 @@ CONTAINS
       IF (LEN_TRIM(errstr) /= 0) THEN
          errstr = " -> estimators : LevenbergMarquardt : coefficients : ." // &
               TRIM(errstr)
-         error = .FALSE.
        RETURN
       END IF
       ! Approximate Hessian by multiplying Jacobians
@@ -595,16 +582,14 @@ CONTAINS
     error = .FALSE.
     CALL toString(ndim-1, str, error)
     IF (error) THEN
-       error = .FALSE.
        errstr = " -> estimators : simplex : Could not convert integer to character string." // &
             TRIM(errstr)
-       error = .FALSE.
+      error = .FALSE.
        RETURN       
     END IF
     IF (ndim /= SIZE(p_matrix,dim=1) - 1 .OR. ndim /= SIZE(y_vector) - 1) THEN
        errstr = " -> estimators : simplex : Input vectors are not compatible." // &
             TRIM(errstr)
-       error = .FALSE.
        RETURN
     END IF
     iter_max = iter
@@ -637,13 +622,11 @@ CONTAINS
           ! If returning, put best point and value in slot 1. 
           CALL swap(y_vector(1),y_vector(ilo))
           CALL swap(p_matrix(1,:),p_matrix(ilo,:)) 
-          error = .FALSE.
        RETURN 
        END IF
        IF (iter > iter_max) THEN
           errstr = " -> estimators : simplex_try : Maximum number of iterations exceeded." // &
                TRIM(errstr)
-          error = .FALSE.
        RETURN
        END IF
        ! Begin a new iteration. First extrapolate by a factor -1
@@ -653,7 +636,6 @@ CONTAINS
        IF (LEN_TRIM(errstr) /= 0) THEN
           errstr = " -> estimators : simplex : ." // &
                TRIM(errstr)
-          error = .FALSE.
        RETURN
        END IF
        iter = iter + 1 
@@ -664,7 +646,6 @@ CONTAINS
           IF (LEN_TRIM(errstr) /= 0) THEN
              errstr = " -> estimators : simplex : ." // &
                   TRIM(errstr)
-             error = .FALSE.
        RETURN
           END IF
           iter = iter + 1 
@@ -677,7 +658,6 @@ CONTAINS
           IF (LEN_TRIM(errstr) /= 0) THEN
              errstr = " -> estimators : simplex : ." // &
                   TRIM(errstr)
-             error = .FALSE.
        RETURN
           END IF
           iter = iter + 1
@@ -691,7 +671,6 @@ CONTAINS
                    IF (LEN_TRIM(errstr) /= 0) THEN
                       errstr = " -> estimators : simplex : ." // &
                            TRIM(errstr)
-                      error = .FALSE.
        RETURN
                    END IF
                 END IF
@@ -741,7 +720,6 @@ CONTAINS
     IF (LEN_TRIM(errstr) /= 0) THEN
        errstr = " -> estimators : simplex_try : ." // &
             TRIM(errstr)
-       error = .FALSE.
        RETURN
     END IF
     IF (ytry < y_vector(ihi)) THEN 
