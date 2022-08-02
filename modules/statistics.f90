@@ -93,7 +93,6 @@ CONTAINS
          SIZE(information_matrix,dim=3) /= nmulti) THEN
        errstr = " -> statistics : chi_square : Shape of input matrices do not conform." // &
             TRIM(errstr)
-       error = .FALSE.
        RETURN
     END IF
 
@@ -101,7 +100,6 @@ CONTAINS
     IF (err /= 0) THEN
        errstr = " -> statistics : chi_square : Could not allocate memory." // &
             TRIM(errstr)
-       error = .FALSE.
        RETURN
     END IF
     residuals_ = residuals
@@ -121,7 +119,6 @@ CONTAINS
     IF (err /= 0) THEN
        WRITE(0,*) "chi_square" // &
             "Could not deallocate memory."
-       error = .FALSE.
        RETURN
     END IF
 
@@ -221,7 +218,6 @@ CONTAINS
     ndata = SIZE(indata)
     ALLOCATE(mask_(ndata), pdf_(ndata), stat=err)
     IF (err /= 0) THEN
-       error = .FALSE.
        RETURN
     END IF
     mask_ = .TRUE.
@@ -288,7 +284,6 @@ CONTAINS
     IF (err /= 0) THEN
        DEALLOCATE(pdf_, stat=err)
        DEALLOCATE(mask_, stat=err)
-       error = .FALSE.
        RETURN
     END IF
 
@@ -330,7 +325,6 @@ CONTAINS
             TRIM(errstr)
        DEALLOCATE(histo, stat=err)
        DEALLOCATE(mask_, stat=err)
-       error = .FALSE.
        RETURN
     END IF
     mask_ = .TRUE.
@@ -345,7 +339,6 @@ CONTAINS
             TRIM(errstr)
        DEALLOCATE(histo, stat=err)
        DEALLOCATE(mask_, stat=err)
-       error = .FALSE.
        RETURN
     END IF
 
@@ -391,7 +384,6 @@ CONTAINS
        DEALLOCATE(histo, stat=err)
        DEALLOCATE(histo_, stat=err)
        DEALLOCATE(mask_, stat=err)
-       error = .FALSE.
        RETURN
     END IF
 
@@ -430,7 +422,6 @@ CONTAINS
     IF (ndata /= SIZE(pdf)) THEN
        errstr = " -> statistics : confidence_limits : Size of vectors does not conform." // &
             TRIM(errstr)
-       error = .FALSE.
        RETURN
     END IF
     ALLOCATE(pdf_(ndata), mask_(ndata), stat=err)
@@ -439,7 +430,6 @@ CONTAINS
             TRIM(errstr)
        DEALLOCATE(pdf_, stat=err)
        DEALLOCATE(mask_, stat=err)
-       error = .FALSE.
        RETURN
     END IF
     mask_ = .TRUE.
@@ -449,7 +439,6 @@ CONTAINS
                TRIM(errstr)
           DEALLOCATE(pdf_, stat=err)
           DEALLOCATE(mask_, stat=err)
-          error = .FALSE.
        RETURN
        END IF
        mask_ = mask
@@ -467,7 +456,6 @@ CONTAINS
             TRIM(errstr)
        DEALLOCATE(pdf_, stat=err)
        DEALLOCATE(mask_, stat=err)
-       error = .FALSE.
        RETURN
     END IF
 
@@ -484,7 +472,6 @@ CONTAINS
           DEALLOCATE(pdf_, stat=err)
           DEALLOCATE(mask_, stat=err)
           DEALLOCATE(indx_arr, stat=err)
-          error = .FALSE.
        RETURN
        END IF
        CALL quicksort(pdf_, indx_arr, errstr)
@@ -494,7 +481,6 @@ CONTAINS
           DEALLOCATE(pdf_, stat=err)
           DEALLOCATE(mask_, stat=err)
           DEALLOCATE(indx_arr, stat=err)
-          error = .FALSE.
        RETURN
        END IF
        pdf_ = pdf_/SUM(pdf_)
@@ -522,7 +508,6 @@ CONTAINS
           DEALLOCATE(pdf_, stat=err)
           DEALLOCATE(mask_, stat=err)
           DEALLOCATE(indx_arr, stat=err)
-          error = .FALSE.
        RETURN
        END IF
     END IF
@@ -533,7 +518,6 @@ CONTAINS
             TRIM(errstr)
        DEALLOCATE(pdf_, stat=err)
        DEALLOCATE(mask_, stat=err)
-       error = .FALSE.
        RETURN
     END IF
 
@@ -561,7 +545,6 @@ CONTAINS
     IF (LEN_TRIM(errstr) /= 0) THEN
        errstr = " -> statistics : credible_region : TRACE BACK." // &
             TRIM(errstr)
-       error = .FALSE.
        RETURN
     END IF
     ! Start from the largest pdf value
@@ -659,7 +642,6 @@ CONTAINS
     IF (LEN_TRIM(errstr) /= 0) THEN
        errstr = " -> statistics : mahalanobis_distance : TRACE BACK." // &
             TRIM(errstr)
-       error = .FALSE.
        RETURN
     END IF
 
