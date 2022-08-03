@@ -944,6 +944,12 @@ CONTAINS
 
           ! calculate true anomaly
           elements = getElements(orb_arr(1), "cometary")
+          IF (error) THEN
+                  error = .FALSE.
+                  CALL errorMessage('oorb / ephemeris', &
+                          'TRACE BACK (95)',1)
+                RETURN
+          END IF
           IF (elements(2) < 1.0_bp) THEN
              t = getTime(observers(j))
              ! Compute eccentric and true anomalies if orbit is elliptic:
