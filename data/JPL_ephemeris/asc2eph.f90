@@ -93,6 +93,8 @@ PROGRAM asc2eph
   INTEGER :: n, ncon, nrout, ncoeff, nrw, numde
 
   LOGICAL :: first = .TRUE.
+ 
+  LOGICAL :: error
 
 
   !By default, the output ephemeris will span the same interval as the
